@@ -1,0 +1,294 @@
+# TOOLS.md
+
+# Tool Policy
+
+Use the simplest tool that provides reliable, reproducible evidence.
+
+Prefer existing runtime functionality over new implementation.
+
+---
+
+## llama.cpp / ggml
+
+`llama.cpp` / `ggml` is the presumptive implementation base for this
+project.
+
+Use it for:
+
+- Kimi Linear model execution;
+- GGUF loading and tensor handling;
+- MoE routing and expert execution;
+- quantized tensor operations;
+- inference and generation;
+- Apple Silicon execution through Metal.
+
+Before modifying runtime behavior, inspect the existing implementation
+and identify the smallest integration point that satisfies the current
+roadmap phase.
+
+Prefer localized, upstream-compatible changes over parallel
+implementations.
+
+Do not rewrite functionality already provided by `llama.cpp` or `ggml`
+without measured evidence that it prevents the required behavior.
+
+Record the exact upstream commit used for significant experiments.
+
+---
+
+## Metal
+
+Use the existing `llama.cpp` / `ggml` Metal backend for Apple Silicon
+acceleration.
+
+Do not write custom Metal kernels during the initial streaming
+experiment.
+
+Custom Metal work is appropriate only when:
+
+1. the roadmap authorizes it;
+2. profiling identifies a specific bottleneck;
+3. existing ggml/Metal operations cannot adequately address it.
+
+---
+
+## kimi-k3-in-c
+
+Use:
+
+    FareedKhan-dev/kimi-k3-in-c
+
+as the architectural reference for expert paging and memory management.
+
+Relevant areas include:
+
+- expert storage and lookup;
+- bounded expert caching;
+- cache eviction;
+- batch prefetch;
+- trunk streaming;
+- explicit memory budgeting;
+- inference-loop integration;
+- correctness testing;
+- memory/performance benchmarking.
+
+Do not treat `kimi-k3-in-c` as the implementation base.
+
+Do not port its model kernels, tokenizer, or complete runtime when
+equivalent functionality already exists in `llama.cpp` / `ggml`.
+
+Use it to understand the memory architecture we are adapting.
+
+Record the exact repository commit when implementation details from it
+influence project decisions.
+
+---
+
+## Python
+
+Use Python for supporting analysis and tooling, including:
+
+- checkpoint inspection;
+- tensor inventories;
+- GGUF/model analysis where appropriate;
+- benchmark analysis;
+- correctness comparisons;
+- experiment orchestration;
+- structured result generation.
+
+Prefer reproducible scripts committed under `tools/` or `benchmarks/`
+over one-off interactive commands when results matter to later phases.
+
+Do not implement the primary inference or expert-streaming runtime in
+Python unless a roadmap phase explicitly calls for an isolated prototype.
+
+---
+
+## MLX
+
+MLX is a reference tool, not the presumptive implementation runtime.
+
+Use MLX where useful for:
+
+- establishing known-working Kimi Linear behavior;
+- correctness comparisons;
+- inspecting Apple Silicon model behavior;
+- validating outputs independently of the modified runtime.
+
+Do not build a parallel MLX streaming implementation unless the roadmap
+changes the selected implementation strategy.
+
+Record the exact MLX version and model revision when used for reference
+results.
+
+---
+
+## Hugging Face
+
+Use the official Kimi Linear model repository as the authoritative source
+for:
+
+- checkpoint files;
+- model configuration;
+- tokenizer/configuration metadata;
+- architecture metadata supplied with the model.
+
+Target model:
+
+    moonshotai/Kimi-Linear-48B-A3B-Instruct
+
+Record exact model/checkpoint revisions used in significant experiments.
+
+Do not silently substitute:
+
+- another checkpoint;
+- another model revision;
+- another quantization;
+- another conversion.
+
+Any substitution must be documented in the relevant phase report.
+
+---
+
+## C / C++
+
+C and C++ are normal implementation languages for this project because
+the primary runtime is native.
+
+Use them for modifications within the selected `llama.cpp` / `ggml`
+integration surface.
+
+Prefer:
+
+    existing runtime abstraction
+        ↓
+    minimal modification
+        ↓
+    tests
+        ↓
+    measurement
+
+over creating new subsystems unnecessarily.
+
+Do not build a standalone inference runtime merely because native code
+might theoretically be faster.
+
+---
+
+## Shell
+
+Use shell commands for:
+
+- repository inspection;
+- builds;
+- file operations;
+- environment inspection;
+- running inference;
+- running tests;
+- running benchmarks;
+- profiling and measurement.
+
+Long-running operations should write logs and results to durable files.
+
+Do not repeatedly poll long-running processes when they can run
+independently and leave artifacts for later inspection.
+
+Preserve commands needed to reproduce important results.
+
+---
+
+## Git
+
+Use Git to preserve experimental state and make changes auditable.
+
+Record upstream commits for:
+
+- `llama.cpp`;
+- `kimi-k3-in-c`;
+- other implementation dependencies when relevant.
+
+Commit at meaningful phase boundaries.
+
+Recommended commit format:
+
+    phase-01: validate runtime architecture
+    phase-02: inventory model memory
+    phase-03: implement expert addressability
+    phase-04: implement uncached expert streaming
+
+Do not combine unrelated roadmap phases in one commit.
+
+Avoid large unrelated refactors that make comparison with upstream
+difficult.
+
+---
+
+## Benchmarking and Profiling
+
+Performance and memory claims require recorded measurements.
+
+Store machine-readable benchmark results under:
+
+    benchmarks/results/
+
+Prefer JSON or CSV for data used in comparisons.
+
+Record enough environment information to reproduce significant results,
+including where relevant:
+
+- hardware;
+- total unified memory;
+- macOS version;
+- `llama.cpp` commit;
+- compiler and build configuration;
+- Metal/backend configuration;
+- model/checkpoint revision;
+- GGUF/quantization;
+- context size;
+- cache/memory budget;
+- relevant runtime arguments.
+
+Measure before optimizing.
+
+Use profiling to identify bottlenecks rather than assuming where they
+occur.
+
+---
+
+## Deferred Unless Authorized by the Roadmap
+
+Do not introduce during the initial streaming experiment:
+
+- new quantization formats;
+- MXFP4 conversion;
+- custom Metal kernels;
+- specialized MXFP4 kernels;
+- direct I/O;
+- major ggml architectural changes;
+- a standalone inference runtime;
+- an alternative primary inference framework.
+
+These are not prohibited permanently.
+
+They are deferred until earlier phases establish correctness and
+measurements demonstrate whether they are necessary.
+
+---
+
+## Tool Selection Principle
+
+Use each component for the problem it already solves:
+
+    Kimi model/checkpoint     → Hugging Face
+    native inference          → llama.cpp / ggml
+    Apple GPU execution       → existing Metal backend
+    paging architecture       → study kimi-k3-in-c
+    reference validation      → MLX where useful
+    analysis/tooling          → Python
+    implementation            → C/C++ within llama.cpp
+    experiments/builds        → Shell
+    history/reproducibility   → Git
+    decisions                 → progress/phase-XX-report.md
+
+Do not introduce another layer unless the existing stack cannot satisfy
+a measured requirement.
