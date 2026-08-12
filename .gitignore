@@ -1,0 +1,6 @@
+# Upstream clones — source-code reference only, never committed
+/llama.cpp/
+/kimi-k3-in-c/
+
+# macOS
+.DS_Store

@@ -127,6 +127,20 @@ Measure:
 
 Distinguish checkpoint size from actual runtime memory consumption.
 
+Establish the memory equation explicitly:
+
+    trunk + runtime/state + context/KV + expert working set + safety margin <= 24 GB
+
+where:
+
+- `trunk` is the non-routed resident component (embeddings, attention, dense weights);
+- `runtime/state` is unavoidable runtime memory (graph buffers, Metal buffers, tokenizer, etc.);
+- `context/KV` is the KV/state cache at a chosen context size;
+- `expert working set` is the resident routed-expert portion (cache);
+- `safety margin` covers the OS and other processes.
+
+Measure the equation at representative context sizes: start with 8K, 32K, and 128K, subject to what Kimi Linear/llama.cpp actually allocates. A cache budget that only works at an impractically small coding context does not count as feasible.
+
 ### Acceptance
 
 We can answer:
@@ -134,7 +148,7 @@ We can answer:
 1. How much of the model consists of routed experts?
 2. How large is the unavoidable resident component?
 3. How large are individual experts?
-4. What memory remains available for an expert cache?
+4. What memory remains available for an expert cache at each representative context size (8K/32K/128K, subject to actual allocations)?
 5. Is an approximately 8GB model-related resident target feasible?
 
 ### Report

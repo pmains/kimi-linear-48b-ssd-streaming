@@ -1,0 +1,16 @@
+baseline
+  proc_rss=5718016 proc_virt=445746200576
+  sys_free=69694 active=577148 inactive=574972 wired=159847 speculative=1634
+  sys_internal=488094 external=665660 purgeable=6527 compressor=136854
+after mmap, before touch
+  proc_rss=5734400 proc_virt=445880418304
+  sys_free=69695 active=577149 inactive=574972 wired=159846 speculative=1634
+  sys_internal=488095 external=665660 purgeable=6527 compressor=136854
+after touching file-backed mmap
+  proc_rss=139952128 proc_virt=445880418304
+  sys_free=61535 active=581363 inactive=578991 wired=159854 speculative=1651
+  sys_internal=488141 external=673864 purgeable=6529 compressor=136852
+after allocating/touching Metal shared buffer
+  proc_rss=279658496 proc_virt=446101143552
+  sys_free=53576 active=587484 inactive=580896 wired=159865 speculative=1668
+  sys_internal=496167 external=673881 purgeable=6529 compressor=136851
