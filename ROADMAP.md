@@ -141,6 +141,39 @@ where:
 
 Measure the equation at representative context sizes: start with 8K, 32K, and 128K, subject to what Kimi Linear/llama.cpp actually allocates. A cache budget that only works at an impractically small coding context does not count as feasible.
 
+### Execution Plan
+
+Keep two kinds of accounting separate and do not confuse them:
+
+- **model-file accounting** — bytes on disk / in the GGUF (static, computable from metadata);
+- **Metal resident-memory accounting** — what is actually resident in unified memory at runtime (must be measured).
+
+An 8 GB theoretical resident set does not imply an 8 GB process RSS or Metal footprint.
+
+The empirical equation is the one that ultimately matters:
+
+    resident trunk + resident shared experts + runtime/Metal overhead
+    + context state + active routed experts + cache/buffering
+    + safety margin <= 24 GB
+
+The especially interesting output of this phase is not merely "does it fit?"
+It is **how much of the 24 GB can be converted into an expert cache at each
+context size** — that determines whether SSD-backed expert streaming has any
+realistic chance of performing well.
+
+Sequencing:
+
+1. **Static inventory first** — from the two tiny official metadata files
+   (`config.json` + `model.safetensors.index.json`), with no full checkpoint
+   download. This answers the architectural questions: routed/shared/trunk
+   split, tensor dimensions, parameter counts, approximate quantized sizes,
+   per-layer expert footprint, and the theoretical resident floor.
+2. **GGUF is a separate runtime-validation dependency** — uncertainty about
+   community GGUF compatibility must not block the static analysis. Once the
+   inventory exists, it defines what characteristics the GGUF must have and
+   which measurements actually matter. The GGUF is required only for the
+   runtime-resident half of this phase (acceptance questions 4 and 5).
+
 ### Acceptance
 
 We can answer:

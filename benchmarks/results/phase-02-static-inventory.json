@@ -1,0 +1,344 @@
+{
+  "meta": {
+    "model": "moonshotai/Kimi-Linear-48B-A3B-Instruct",
+    "repo_sha": "e1df551a447157d4658b573f9a695d57658590e9",
+    "source": "config.json + model.safetensors.index.json + llama.cpp src/models/kimi-linear.cpp @ 2606220d9",
+    "note": "Static accounting only; runtime/Metal residency must be measured separately."
+  },
+  "config_dims": {
+    "hidden_size": 2304,
+    "n_layers": 27,
+    "n_head": 32,
+    "n_vocab": 163840,
+    "n_expert": 256,
+    "n_expert_used": 8,
+    "moe_intermediate_size": 1024,
+    "dense_intermediate_size": 9216,
+    "n_shared_experts": 1,
+    "kv_lora_rank": 512,
+    "qk_nope_head_dim": 128,
+    "qk_rope_head_dim": 64,
+    "v_head_dim": 128,
+    "kda_head_dim": 128,
+    "short_conv_kernel_size": 4,
+    "full_attn_layers_1idx": [
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      27
+    ],
+    "kda_layers_1idx": [
+      1,
+      2,
+      3,
+      5,
+      6,
+      7,
+      9,
+      10,
+      11,
+      13,
+      14,
+      15,
+      17,
+      18,
+      19,
+      21,
+      22,
+      23,
+      25,
+      26
+    ],
+    "model_max_length": 1048576,
+    "tie_word_embeddings": false
+  },
+  "layer_classification": {
+    "layer_0": {
+      "attention": "kda",
+      "ffn": "dense"
+    },
+    "layer_1": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_2": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_3": {
+      "attention": "mla",
+      "ffn": "moe"
+    },
+    "layer_4": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_5": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_6": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_7": {
+      "attention": "mla",
+      "ffn": "moe"
+    },
+    "layer_8": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_9": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_10": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_11": {
+      "attention": "mla",
+      "ffn": "moe"
+    },
+    "layer_12": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_13": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_14": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_15": {
+      "attention": "mla",
+      "ffn": "moe"
+    },
+    "layer_16": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_17": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_18": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_19": {
+      "attention": "mla",
+      "ffn": "moe"
+    },
+    "layer_20": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_21": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_22": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_23": {
+      "attention": "mla",
+      "ffn": "moe"
+    },
+    "layer_24": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_25": {
+      "attention": "kda",
+      "ffn": "moe"
+    },
+    "layer_26": {
+      "attention": "mla",
+      "ffn": "moe"
+    }
+  },
+  "n_tensors": 20493,
+  "params_by_category": {
+    "embedding": 377487360,
+    "lm_head": 377487360,
+    "norms": 126720,
+    "attention_kda": 790285440,
+    "attention_mla": 203804160,
+    "dense_mlp": 63700992,
+    "router": 15342080,
+    "shared_experts": 184025088,
+    "routed_experts": 47110422528,
+    "total": 49122681728
+  },
+  "per_expert_params": 7077888,
+  "per_moe_layer_expert_params": 1811939328,
+  "quantized_bytes_by_category": {
+    "f16": {
+      "embedding": 754974720.0,
+      "lm_head": 754974720.0,
+      "norms": 253440.0,
+      "attention_kda": 1580570880.0,
+      "attention_mla": 407608320.0,
+      "dense_mlp": 127401984.0,
+      "router": 30684160.0,
+      "shared_experts": 368050176.0,
+      "routed_experts": 94220845056.0,
+      "total": 98245363456.0
+    },
+    "q8_0": {
+      "embedding": 401080320.0,
+      "lm_head": 401080320.0,
+      "norms": 134640.0,
+      "attention_kda": 839678280.0,
+      "attention_mla": 216541920.0,
+      "dense_mlp": 67682304.0,
+      "router": 16300960.0,
+      "shared_experts": 195526656.0,
+      "routed_experts": 50054823936.0,
+      "total": 52192849336.0
+    },
+    "q4_k_m": {
+      "embedding": 228379852.79999998,
+      "lm_head": 228379852.79999998,
+      "norms": 76665.59999999999,
+      "attention_kda": 478122691.2,
+      "attention_mla": 123301516.8,
+      "dense_mlp": 38539100.16,
+      "router": 9281958.4,
+      "shared_experts": 111335178.24,
+      "routed_experts": 28501805629.44,
+      "total": 29719222445.44
+    },
+    "q4_k_s": {
+      "embedding": 214412820.48,
+      "lm_head": 214412820.48,
+      "norms": 71976.95999999999,
+      "attention_kda": 448882129.91999996,
+      "attention_mla": 115760762.88,
+      "dense_mlp": 36182163.456,
+      "router": 8714301.44,
+      "shared_experts": 104526249.984,
+      "routed_experts": 26758719995.904,
+      "total": 27901683221.503998
+    },
+    "q2_k": {
+      "embedding": 138160373.76,
+      "lm_head": 138160373.76,
+      "norms": 46379.52,
+      "attention_kda": 289244471.04,
+      "attention_mla": 74592322.56,
+      "dense_mlp": 23314563.072,
+      "router": 5615201.28,
+      "shared_experts": 67353182.208,
+      "routed_experts": 17242414645.248,
+      "total": 17978901512.447998
+    }
+  },
+  "state_and_kv": {
+    "kda_fixed_state_f16_bytes": 22446080.0,
+    "kda_fixed_state_f16_mb": 22.44608,
+    "mla_kv_elems_per_token": 7616,
+    "mla_kv_f16_bytes_per_token": 15232.0,
+    "mla_kv_q8_bytes_per_token": 7616.0,
+    "n_kda_layers": 20,
+    "n_mla_layers": 7,
+    "n_moe_layers": 26,
+    "n_experts_total": 6656
+  },
+  "memory_equation_24gb": {
+    "8192_ctx_f16_kv": {
+      "kv_bytes": 124780544.0,
+      "kv_gb": 0.125,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 18.158,
+      "experts_fit_q4_k_m": 4240,
+      "experts_total": 6656
+    },
+    "8192_ctx_q8_0_kv": {
+      "kv_bytes": 62390272.0,
+      "kv_gb": 0.062,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 18.22,
+      "experts_fit_q4_k_m": 4254,
+      "experts_total": 6656
+    },
+    "32768_ctx_f16_kv": {
+      "kv_bytes": 499122176.0,
+      "kv_gb": 0.499,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 17.783,
+      "experts_fit_q4_k_m": 4152,
+      "experts_total": 6656
+    },
+    "32768_ctx_q8_0_kv": {
+      "kv_bytes": 249561088.0,
+      "kv_gb": 0.25,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 18.033,
+      "experts_fit_q4_k_m": 4211,
+      "experts_total": 6656
+    },
+    "131072_ctx_f16_kv": {
+      "kv_bytes": 1996488704.0,
+      "kv_gb": 1.996,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 16.286,
+      "experts_fit_q4_k_m": 3803,
+      "experts_total": 6656
+    },
+    "131072_ctx_q8_0_kv": {
+      "kv_bytes": 998244352.0,
+      "kv_gb": 0.998,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 17.284,
+      "experts_fit_q4_k_m": 4036,
+      "experts_total": 6656
+    },
+    "1048576_ctx_f16_kv": {
+      "kv_bytes": 15971909632.0,
+      "kv_gb": 15.972,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 2.311,
+      "experts_fit_q4_k_m": 539,
+      "experts_total": 6656
+    },
+    "1048576_ctx_q8_0_kv": {
+      "kv_bytes": 7985954816.0,
+      "kv_gb": 7.986,
+      "trunk_q4_gb": 1.217,
+      "runtime_est_gb": 2.5,
+      "safety_margin_gb": 2.0,
+      "headroom_for_expert_cache_gb": 10.297,
+      "experts_fit_q4_k_m": 2404,
+      "experts_total": 6656
+    }
+  },
+  "assumptions": {
+    "runtime_estimate_gb": 2.5,
+    "safety_margin_gb": 2.0,
+    "total_budget_gb": 24.0,
+    "runtime_is_unmeasured_placeholder": true
+  }
+}
