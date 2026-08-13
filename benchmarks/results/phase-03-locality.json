@@ -1,0 +1,771 @@
+{
+  "trace": "benchmarks/results/traces/phase-03-coding-lru.csv",
+  "summary": {
+    "n_tokens": 494,
+    "n_prefill_tokens": 229,
+    "n_decode_tokens": 255,
+    "n_accesses": 100856
+  },
+  "overall": {
+    "n_accesses": 100856,
+    "n_tokens": 494,
+    "n_distinct_experts": 5554,
+    "distinct_per_token": {
+      "mean": 204.16,
+      "max": 208
+    },
+    "working_set_final": 5554,
+    "accesses_top_1pct_experts_share": 0.1538,
+    "accesses_top_10pct_experts_share": 0.4735,
+    "reuse_distance_tokens": {
+      "mean": 17.7,
+      "median": 4,
+      "p90": 46
+    },
+    "reuse_distance_accesses": {
+      "mean": 3079.6,
+      "median": 209,
+      "p90": 7904
+    },
+    "per_layer": {
+      "1": {
+        "accesses": 3952,
+        "distinct_experts": 246
+      },
+      "2": {
+        "accesses": 3952,
+        "distinct_experts": 242
+      },
+      "3": {
+        "accesses": 3952,
+        "distinct_experts": 228
+      },
+      "4": {
+        "accesses": 3952,
+        "distinct_experts": 221
+      },
+      "5": {
+        "accesses": 3952,
+        "distinct_experts": 197
+      },
+      "6": {
+        "accesses": 3952,
+        "distinct_experts": 193
+      },
+      "7": {
+        "accesses": 3952,
+        "distinct_experts": 192
+      },
+      "8": {
+        "accesses": 3952,
+        "distinct_experts": 209
+      },
+      "9": {
+        "accesses": 3952,
+        "distinct_experts": 203
+      },
+      "10": {
+        "accesses": 3952,
+        "distinct_experts": 212
+      },
+      "11": {
+        "accesses": 3952,
+        "distinct_experts": 212
+      },
+      "12": {
+        "accesses": 3952,
+        "distinct_experts": 216
+      },
+      "13": {
+        "accesses": 3952,
+        "distinct_experts": 214
+      },
+      "14": {
+        "accesses": 3952,
+        "distinct_experts": 212
+      },
+      "15": {
+        "accesses": 3952,
+        "distinct_experts": 217
+      },
+      "16": {
+        "accesses": 3952,
+        "distinct_experts": 219
+      },
+      "17": {
+        "accesses": 3952,
+        "distinct_experts": 218
+      },
+      "18": {
+        "accesses": 3952,
+        "distinct_experts": 213
+      },
+      "19": {
+        "accesses": 3952,
+        "distinct_experts": 217
+      },
+      "20": {
+        "accesses": 3952,
+        "distinct_experts": 218
+      },
+      "21": {
+        "accesses": 3952,
+        "distinct_experts": 208
+      },
+      "22": {
+        "accesses": 3952,
+        "distinct_experts": 212
+      },
+      "23": {
+        "accesses": 3952,
+        "distinct_experts": 214
+      },
+      "24": {
+        "accesses": 3952,
+        "distinct_experts": 218
+      },
+      "25": {
+        "accesses": 3952,
+        "distinct_experts": 214
+      },
+      "26": {
+        "accesses": 2056,
+        "distinct_experts": 189
+      }
+    }
+  },
+  "prefill": {
+    "n_accesses": 47816,
+    "n_tokens": 494,
+    "n_distinct_experts": 4775,
+    "distinct_per_token": {
+      "mean": 200.07,
+      "max": 208
+    },
+    "working_set_final": 4775,
+    "accesses_top_1pct_experts_share": 0.1414,
+    "accesses_top_10pct_experts_share": 0.473,
+    "reuse_distance_tokens": {
+      "mean": 13.3,
+      "median": 3,
+      "p90": 37
+    },
+    "reuse_distance_accesses": {
+      "mean": 549.9,
+      "median": 26,
+      "p90": 335
+    },
+    "per_layer": {
+      "1": {
+        "accesses": 1912,
+        "distinct_experts": 221
+      },
+      "2": {
+        "accesses": 1912,
+        "distinct_experts": 227
+      },
+      "3": {
+        "accesses": 1912,
+        "distinct_experts": 203
+      },
+      "4": {
+        "accesses": 1912,
+        "distinct_experts": 193
+      },
+      "5": {
+        "accesses": 1912,
+        "distinct_experts": 169
+      },
+      "6": {
+        "accesses": 1912,
+        "distinct_experts": 173
+      },
+      "7": {
+        "accesses": 1912,
+        "distinct_experts": 172
+      },
+      "8": {
+        "accesses": 1912,
+        "distinct_experts": 183
+      },
+      "9": {
+        "accesses": 1912,
+        "distinct_experts": 176
+      },
+      "10": {
+        "accesses": 1912,
+        "distinct_experts": 192
+      },
+      "11": {
+        "accesses": 1912,
+        "distinct_experts": 189
+      },
+      "12": {
+        "accesses": 1912,
+        "distinct_experts": 185
+      },
+      "13": {
+        "accesses": 1912,
+        "distinct_experts": 188
+      },
+      "14": {
+        "accesses": 1912,
+        "distinct_experts": 183
+      },
+      "15": {
+        "accesses": 1912,
+        "distinct_experts": 191
+      },
+      "16": {
+        "accesses": 1912,
+        "distinct_experts": 193
+      },
+      "17": {
+        "accesses": 1912,
+        "distinct_experts": 190
+      },
+      "18": {
+        "accesses": 1912,
+        "distinct_experts": 195
+      },
+      "19": {
+        "accesses": 1912,
+        "distinct_experts": 199
+      },
+      "20": {
+        "accesses": 1912,
+        "distinct_experts": 196
+      },
+      "21": {
+        "accesses": 1912,
+        "distinct_experts": 182
+      },
+      "22": {
+        "accesses": 1912,
+        "distinct_experts": 197
+      },
+      "23": {
+        "accesses": 1912,
+        "distinct_experts": 187
+      },
+      "24": {
+        "accesses": 1912,
+        "distinct_experts": 197
+      },
+      "25": {
+        "accesses": 1912,
+        "distinct_experts": 181
+      },
+      "26": {
+        "accesses": 16,
+        "distinct_experts": 13
+      }
+    }
+  },
+  "decode": {
+    "n_accesses": 53040,
+    "n_tokens": 494,
+    "n_distinct_experts": 4872,
+    "distinct_per_token": {
+      "mean": 208.0,
+      "max": 208
+    },
+    "working_set_final": 4872,
+    "accesses_top_1pct_experts_share": 0.1414,
+    "accesses_top_10pct_experts_share": 0.4701,
+    "reuse_distance_tokens": {
+      "mean": 13.7,
+      "median": 4,
+      "p90": 40
+    },
+    "reuse_distance_accesses": {
+      "mean": 2859.3,
+      "median": 829,
+      "p90": 8321
+    },
+    "per_layer": {
+      "1": {
+        "accesses": 2040,
+        "distinct_experts": 233
+      },
+      "2": {
+        "accesses": 2040,
+        "distinct_experts": 224
+      },
+      "3": {
+        "accesses": 2040,
+        "distinct_experts": 209
+      },
+      "4": {
+        "accesses": 2040,
+        "distinct_experts": 189
+      },
+      "5": {
+        "accesses": 2040,
+        "distinct_experts": 163
+      },
+      "6": {
+        "accesses": 2040,
+        "distinct_experts": 160
+      },
+      "7": {
+        "accesses": 2040,
+        "distinct_experts": 163
+      },
+      "8": {
+        "accesses": 2040,
+        "distinct_experts": 177
+      },
+      "9": {
+        "accesses": 2040,
+        "distinct_experts": 173
+      },
+      "10": {
+        "accesses": 2040,
+        "distinct_experts": 175
+      },
+      "11": {
+        "accesses": 2040,
+        "distinct_experts": 181
+      },
+      "12": {
+        "accesses": 2040,
+        "distinct_experts": 189
+      },
+      "13": {
+        "accesses": 2040,
+        "distinct_experts": 175
+      },
+      "14": {
+        "accesses": 2040,
+        "distinct_experts": 189
+      },
+      "15": {
+        "accesses": 2040,
+        "distinct_experts": 196
+      },
+      "16": {
+        "accesses": 2040,
+        "distinct_experts": 191
+      },
+      "17": {
+        "accesses": 2040,
+        "distinct_experts": 190
+      },
+      "18": {
+        "accesses": 2040,
+        "distinct_experts": 182
+      },
+      "19": {
+        "accesses": 2040,
+        "distinct_experts": 191
+      },
+      "20": {
+        "accesses": 2040,
+        "distinct_experts": 190
+      },
+      "21": {
+        "accesses": 2040,
+        "distinct_experts": 186
+      },
+      "22": {
+        "accesses": 2040,
+        "distinct_experts": 179
+      },
+      "23": {
+        "accesses": 2040,
+        "distinct_experts": 185
+      },
+      "24": {
+        "accesses": 2040,
+        "distinct_experts": 200
+      },
+      "25": {
+        "accesses": 2040,
+        "distinct_experts": 193
+      },
+      "26": {
+        "accesses": 2040,
+        "distinct_experts": 189
+      }
+    }
+  },
+  "cold_first_64_tokens": {
+    "n_accesses": 12808,
+    "n_tokens": 494,
+    "n_distinct_experts": 3229,
+    "distinct_per_token": {
+      "mean": 200.12,
+      "max": 208
+    },
+    "working_set_final": 3229,
+    "accesses_top_1pct_experts_share": 0.1116,
+    "accesses_top_10pct_experts_share": 0.4465,
+    "reuse_distance_tokens": {
+      "mean": 6.5,
+      "median": 2,
+      "p90": 20
+    },
+    "reuse_distance_accesses": {
+      "mean": 234.3,
+      "median": 16,
+      "p90": 178
+    },
+    "per_layer": {
+      "1": {
+        "accesses": 512,
+        "distinct_experts": 151
+      },
+      "2": {
+        "accesses": 512,
+        "distinct_experts": 150
+      },
+      "3": {
+        "accesses": 512,
+        "distinct_experts": 138
+      },
+      "4": {
+        "accesses": 512,
+        "distinct_experts": 123
+      },
+      "5": {
+        "accesses": 512,
+        "distinct_experts": 113
+      },
+      "6": {
+        "accesses": 512,
+        "distinct_experts": 116
+      },
+      "7": {
+        "accesses": 512,
+        "distinct_experts": 111
+      },
+      "8": {
+        "accesses": 512,
+        "distinct_experts": 122
+      },
+      "9": {
+        "accesses": 512,
+        "distinct_experts": 122
+      },
+      "10": {
+        "accesses": 512,
+        "distinct_experts": 129
+      },
+      "11": {
+        "accesses": 512,
+        "distinct_experts": 124
+      },
+      "12": {
+        "accesses": 512,
+        "distinct_experts": 128
+      },
+      "13": {
+        "accesses": 512,
+        "distinct_experts": 124
+      },
+      "14": {
+        "accesses": 512,
+        "distinct_experts": 134
+      },
+      "15": {
+        "accesses": 512,
+        "distinct_experts": 130
+      },
+      "16": {
+        "accesses": 512,
+        "distinct_experts": 145
+      },
+      "17": {
+        "accesses": 512,
+        "distinct_experts": 130
+      },
+      "18": {
+        "accesses": 512,
+        "distinct_experts": 135
+      },
+      "19": {
+        "accesses": 512,
+        "distinct_experts": 136
+      },
+      "20": {
+        "accesses": 512,
+        "distinct_experts": 125
+      },
+      "21": {
+        "accesses": 512,
+        "distinct_experts": 114
+      },
+      "22": {
+        "accesses": 512,
+        "distinct_experts": 143
+      },
+      "23": {
+        "accesses": 512,
+        "distinct_experts": 116
+      },
+      "24": {
+        "accesses": 512,
+        "distinct_experts": 134
+      },
+      "25": {
+        "accesses": 512,
+        "distinct_experts": 128
+      },
+      "26": {
+        "accesses": 8,
+        "distinct_experts": 8
+      }
+    }
+  },
+  "steady_from_token_256": {
+    "n_accesses": 49504,
+    "n_tokens": 494,
+    "n_distinct_experts": 4778,
+    "distinct_per_token": {
+      "mean": 208.0,
+      "max": 208
+    },
+    "working_set_final": 4778,
+    "accesses_top_1pct_experts_share": 0.1414,
+    "accesses_top_10pct_experts_share": 0.4707,
+    "reuse_distance_tokens": {
+      "mean": 13.5,
+      "median": 4,
+      "p90": 40
+    },
+    "reuse_distance_accesses": {
+      "mean": 2799.5,
+      "median": 828,
+      "p90": 8318
+    },
+    "per_layer": {
+      "1": {
+        "accesses": 1904,
+        "distinct_experts": 230
+      },
+      "2": {
+        "accesses": 1904,
+        "distinct_experts": 222
+      },
+      "3": {
+        "accesses": 1904,
+        "distinct_experts": 208
+      },
+      "4": {
+        "accesses": 1904,
+        "distinct_experts": 185
+      },
+      "5": {
+        "accesses": 1904,
+        "distinct_experts": 159
+      },
+      "6": {
+        "accesses": 1904,
+        "distinct_experts": 155
+      },
+      "7": {
+        "accesses": 1904,
+        "distinct_experts": 161
+      },
+      "8": {
+        "accesses": 1904,
+        "distinct_experts": 174
+      },
+      "9": {
+        "accesses": 1904,
+        "distinct_experts": 162
+      },
+      "10": {
+        "accesses": 1904,
+        "distinct_experts": 168
+      },
+      "11": {
+        "accesses": 1904,
+        "distinct_experts": 177
+      },
+      "12": {
+        "accesses": 1904,
+        "distinct_experts": 184
+      },
+      "13": {
+        "accesses": 1904,
+        "distinct_experts": 172
+      },
+      "14": {
+        "accesses": 1904,
+        "distinct_experts": 186
+      },
+      "15": {
+        "accesses": 1904,
+        "distinct_experts": 194
+      },
+      "16": {
+        "accesses": 1904,
+        "distinct_experts": 185
+      },
+      "17": {
+        "accesses": 1904,
+        "distinct_experts": 188
+      },
+      "18": {
+        "accesses": 1904,
+        "distinct_experts": 179
+      },
+      "19": {
+        "accesses": 1904,
+        "distinct_experts": 190
+      },
+      "20": {
+        "accesses": 1904,
+        "distinct_experts": 187
+      },
+      "21": {
+        "accesses": 1904,
+        "distinct_experts": 181
+      },
+      "22": {
+        "accesses": 1904,
+        "distinct_experts": 174
+      },
+      "23": {
+        "accesses": 1904,
+        "distinct_experts": 183
+      },
+      "24": {
+        "accesses": 1904,
+        "distinct_experts": 198
+      },
+      "25": {
+        "accesses": 1904,
+        "distinct_experts": 187
+      },
+      "26": {
+        "accesses": 1904,
+        "distinct_experts": 189
+      }
+    }
+  },
+  "simulations": [
+    {
+      "capacity_gb": 1,
+      "capacity_experts": 250,
+      "global_lru_overall": 0.5903,
+      "global_lru_cold": 0.7268,
+      "global_lru_steady": 0.3269,
+      "per_layer_lru_overall": 0.2699,
+      "per_layer_lru_steady": 0.267,
+      "opt_overall": 0.7043,
+      "opt_steady": 0.5343
+    },
+    {
+      "capacity_gb": 2,
+      "capacity_experts": 501,
+      "global_lru_overall": 0.6519,
+      "global_lru_cold": 0.7276,
+      "global_lru_steady": 0.4426,
+      "per_layer_lru_overall": 0.446,
+      "per_layer_lru_steady": 0.4389,
+      "opt_overall": 0.7723,
+      "opt_steady": 0.6532
+    },
+    {
+      "capacity_gb": 4,
+      "capacity_experts": 1002,
+      "global_lru_overall": 0.7297,
+      "global_lru_cold": 0.7314,
+      "global_lru_steady": 0.5817,
+      "per_layer_lru_overall": 0.589,
+      "per_layer_lru_steady": 0.579,
+      "opt_overall": 0.838,
+      "opt_steady": 0.7635
+    },
+    {
+      "capacity_gb": 6,
+      "capacity_experts": 1503,
+      "global_lru_overall": 0.7796,
+      "global_lru_cold": 0.7348,
+      "global_lru_steady": 0.6746,
+      "per_layer_lru_overall": 0.6791,
+      "per_layer_lru_steady": 0.6657,
+      "opt_overall": 0.8742,
+      "opt_steady": 0.8212
+    },
+    {
+      "capacity_gb": 8,
+      "capacity_experts": 2004,
+      "global_lru_overall": 0.8192,
+      "global_lru_cold": 0.7389,
+      "global_lru_steady": 0.7423,
+      "per_layer_lru_overall": 0.7597,
+      "per_layer_lru_steady": 0.7396,
+      "opt_overall": 0.8998,
+      "opt_steady": 0.8592
+    },
+    {
+      "capacity_gb": 10,
+      "capacity_experts": 2505,
+      "global_lru_overall": 0.849,
+      "global_lru_cold": 0.7428,
+      "global_lru_steady": 0.7915,
+      "per_layer_lru_overall": 0.8144,
+      "per_layer_lru_steady": 0.7926,
+      "opt_overall": 0.9165,
+      "opt_steady": 0.8828
+    },
+    {
+      "capacity_gb": 12,
+      "capacity_experts": 3006,
+      "global_lru_overall": 0.8828,
+      "global_lru_cold": 0.747,
+      "global_lru_steady": 0.8479,
+      "per_layer_lru_overall": 0.8601,
+      "per_layer_lru_steady": 0.8405,
+      "opt_overall": 0.9303,
+      "opt_steady": 0.8976
+    },
+    {
+      "capacity_gb": 14.6,
+      "capacity_experts": 3658,
+      "global_lru_overall": 0.9092,
+      "global_lru_cold": 0.7479,
+      "global_lru_steady": 0.8843,
+      "per_layer_lru_overall": 0.9013,
+      "per_layer_lru_steady": 0.8804,
+      "opt_overall": 0.9402,
+      "opt_steady": 0.9035
+    }
+  ],
+  "threshold_capacities_gb": {
+    "global_lru_overall": {
+      "90": 14.6,
+      "95": null,
+      "99": null
+    },
+    "global_lru_steady": {
+      "90": null,
+      "95": null,
+      "99": null
+    },
+    "per_layer_lru_overall": {
+      "90": 14.6,
+      "95": null,
+      "99": null
+    },
+    "per_layer_lru_steady": {
+      "90": null,
+      "95": null,
+      "99": null
+    },
+    "opt_overall": {
+      "90": 10,
+      "95": null,
+      "99": null
+    },
+    "opt_steady": {
+      "90": 14.6,
+      "95": null,
+      "99": null
+    }
+  }
+}

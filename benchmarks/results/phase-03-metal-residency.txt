@@ -1,0 +1,19 @@
+device: Apple M5
+recommendedMaxWorkingSetSize: 17.8 GiB
+currentAllocatedSize baseline: 0.06 MiB
+rss baseline: 10.8 MiB
+
+slice    offset         length     alloc_delta  rss_delta    roundtrip 
+expert   1121734784     1327104    1.27         2.58         OK        
+expert   1460146304     1327104    1.27         3.88         OK        
+expert   1466348672     1327104    1.27         5.14         OK        
+expert   623775872      1935360    1.86         7.59         OK        
+expert   1117292672     1935360    1.86         9.45         OK        
+expert   4254951808     1327104    1.27         12.00        OK        
+expert   29362808320    1935360    1.86         14.45        OK        
+expert   29705661952    1327104    1.27         15.72        OK        
+
+PARENT   1121734784     339738624  324.00                              
+
+per-expert total bytes requested: 11.87 MiB
+observed: 8 per-expert buffers, each at expert scale; parent tensor extent allocated separately only for contrast

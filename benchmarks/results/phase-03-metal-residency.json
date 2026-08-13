@@ -1,0 +1,39 @@
+{
+  "artifact": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+  "probe_source": "tools/metal_expert_probe.m",
+  "raw_output": "benchmarks/results/phase-03-metal-residency.txt",
+  "device": {
+    "name": "Apple M5",
+    "recommended_max_working_set_gib": 17.8
+  },
+  "baseline": {
+    "current_allocated_size_mib": 0.06,
+    "rss_mib": 10.8
+  },
+  "slices": [
+    {"label": "L1 gate e0 (Q4_K)",      "offset": 1121734784,   "bytes": 1327104, "alloc_delta_mib": 1.27, "roundtrip": "OK"},
+    {"label": "L1 gate e255 (Q4_K)",    "offset": 1460146304,   "bytes": 1327104, "alloc_delta_mib": 1.27, "roundtrip": "OK"},
+    {"label": "L1 up e0 (Q4_K)",        "offset": 1466348672,   "bytes": 1327104, "alloc_delta_mib": 1.27, "roundtrip": "OK"},
+    {"label": "L1 down e0 (Q6_K)",      "offset": 623775872,    "bytes": 1935360, "alloc_delta_mib": 1.86, "roundtrip": "OK"},
+    {"label": "L1 down e255 (Q6_K)",    "offset": 1117292672,   "bytes": 1935360, "alloc_delta_mib": 1.86, "roundtrip": "OK"},
+    {"label": "L4 down e0 (Q4_K mix)",  "offset": 4254951808,   "bytes": 1327104, "alloc_delta_mib": 1.27, "roundtrip": "OK"},
+    {"label": "L26 down e255 (Q6_K)",   "offset": 29362808320,  "bytes": 1935360, "alloc_delta_mib": 1.86, "roundtrip": "OK"},
+    {"label": "L26 gate e255 (Q4_K)",   "offset": 29705661952,  "bytes": 1327104, "alloc_delta_mib": 1.27, "roundtrip": "OK"}
+  ],
+  "parent_contrast": {
+    "tensor": "L1 ffn_gate_exps full 3D extent",
+    "offset": 1121734784,
+    "bytes": 339738624,
+    "alloc_delta_mib": 324.0
+  },
+  "summary": {
+    "n_slices": 8,
+    "all_roundtrips_ok": true,
+    "per_expert_alloc_scale": "exact per-expert byte count (Q4_K 1.27 MiB, Q6_K 1.86 MiB)",
+    "parent_extent_alloc_mib": 324.0,
+    "per_expert_total_requested_mib": 11.87,
+    "rss_final_delta_mib": 15.72,
+    "finding": "per-expert shared MTLBuffers allocate at expert scale; no buffer covers or materializes the parent 3D expert tensor; parent extent allocated separately only as contrast"
+  },
+  "mechanism": "independent MTLResourceStorageModeShared buffers, one per expert slice, populated via pread + memcpy"
+}

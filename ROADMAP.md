@@ -196,45 +196,194 @@ We can answer:
 
 ### Goal
 
-Make individual routed experts independently addressable from backing
-storage.
+Characterize routed-expert locality and make individual routed experts
+independently addressable from backing storage through the CPU → Metal
+boundary, without materializing the complete routed-expert collection.
+
+Keep the two workstreams separable:
+
+- routing characterization (3A) informs Phase 6 cache design;
+- expert addressability (3B) is a prerequisite for Phase 4 streaming.
 
 ### Work
 
-Measure routing-trace locality before expert-addressability work:
+#### 1. Measure routing-trace locality
 
-- distinct experts touched per token / per window;
-- routing skew across the 6,656 experts;
-- reuse before eviction at realistic cache budgets.
+Instrument unmodified Kimi Linear inference at the existing MoE routing
+point.
 
-This determines whether the Phase 2 theoretical cache budget translates
-into SSD-traffic reduction, and informs the expert indexing design.
+In the current `llama.cpp` tree, `build_moe_ffn` in
+`src/llama-graph.cpp` computes:
 
-Then make individual routed experts independently addressable from
-backing storage:
+    selected_experts = ggml_argsort_top_k(
+        ctx0,
+        selection_probs,
+        n_expert_used
+    )
 
-Use the existing runtime/model format where practical.
+The resulting I32 tensor has shape `[8, n_tokens]` and is emitted as
+`ffn_moe_topk`. Kimi Linear invokes this path for its 26 MoE layers.
 
-Create only the additional indexing or storage machinery required to map:
+Implement an environment-gated trace readback after graph execution, not
+during graph construction. The patch must be inert when tracing is
+disabled and must not alter routing mathematics.
+
+Collect traces using CPU execution (`-ngl 0`). Metal execution is not
+required for routing characterization because conventional Metal
+execution OOMs and routing semantics are backend-independent.
+
+Collect enough real inference to distinguish cold-start from
+steady-state behavior, including:
+
+- a representative coding/reasoning workload;
+- a sufficiently long autoregressive decode;
+- prefill and decode identified separately where practical.
+
+For every token and MoE layer, record the eight selected routed expert
+IDs.
+
+Measure:
+
+- distinct experts touched per token and over sliding windows;
+- cumulative working-set growth;
+- routing frequency and skew across all 6,656 routed experts;
+- per-layer routing distributions;
+- reuse distance in tokens and intervening expert accesses;
+- cold-start versus steady-state locality;
+- prefill versus decode locality.
+
+Simulate cache capacities spanning the Phase 8 ladder, approximately:
+
+    1 GB → ~218 experts
+    2 GB → ~436
+    4 GB → ~871
+    6 GB → ~1,307
+    8 GB → ~1,743
+    10 GB → ~2,179
+    12 GB → ~2,614
+
+Also include the maximum practical capacities implied by the Phase 2
+Metal budget where useful.
+
+At each capacity, calculate:
+
+- global LRU hit rate;
+- per-layer LRU hit rate;
+- offline Belady/OPT hit rate as an upper bound;
+- cold-start and steady-state results separately.
+
+Determine the cache capacities required to reach 90%, 95%, and 99% hit
+rates where those thresholds are attainable.
+
+The LRU-versus-OPT gap should inform whether Phase 6 needs cache policy
+more sophisticated than LRU.
+
+Do not optimize the production cache policy in this phase.
+
+#### 2. Make routed experts independently addressable
+
+Reuse the Phase 2 GGUF header analysis and its existing per-layer offset
+table.
+
+Do not duplicate GGUF parsing or recompute information already
+established there.
+
+Map:
 
     (layer, expert_id, tensor)
-              ↓
-        backing storage
+             ↓
+    GGUF byte offset + length
+             ↓
+            pread()
+             ↓
+    independently managed expert bytes
+             ↓
+    standalone/shared Metal buffer region
 
-Do not duplicate GGUF functionality unnecessarily.
+Use direct byte-range retrieval with `pread`, based on the Phase 2
+relationship:
 
-Do not change quantization.
+    offset = tensor.offset + expert_id * per_expert_bytes
 
-Do not change model mathematics.
+Preserve the existing GGUF quantization:
+
+- Q4_K gate;
+- Q4_K up;
+- Q6_K down.
+
+Validate retrieval by comparing `pread` results byte-for-byte against
+the corresponding mmap view for multiple experts, layers, and tensor
+types, including both Q4_K and Q6_K boundaries.
+
+#### 3. Prove independent Metal residency
+
+Build a minimal standalone Metal probe and reusable per-expert buffer
+utility.
+
+Evaluate the minimum mechanism necessary for later streaming, such as:
+
+- independently allocated per-expert `MTLBuffer`s; or
+- subranges of a bounded shared-mode Metal arena.
+
+Measure rather than infer residency behavior.
+
+Demonstrate that:
+
+- one expert's retrieved quantized bytes can be placed into
+  Metal-accessible shared memory;
+- allocation occurs at approximately per-expert scale rather than
+  parent-tensor scale;
+- no Metal buffer covers or materializes the complete parent 3D expert
+  tensor extent;
+- loading additional experts increases managed residency according to
+  expert-scale allocations.
+
+Record the chosen mechanism and evidence supporting it.
+
+Do not integrate these buffers into the Kimi Linear compute graph in
+this phase. Graph surgery and streamed execution belong to Phase 4.
 
 ### Acceptance
 
-An arbitrary routed expert can be located and retrieved without requiring
-the complete routed-expert collection to become resident.
+Phase 3 passes when:
+
+1. A reproducible routing trace has been collected from real Kimi Linear
+   inference at the existing `ffn_moe_topk` routing point.
+2. Routing locality has been quantified across realistic cache
+   capacities, including global LRU, per-layer LRU, and offline OPT
+   curves, with cold-start and steady-state behavior distinguished.
+3. Cache capacities required for 90%, 95%, and 99% hit rates have been
+   identified where attainable.
+4. An arbitrary routed expert can be located directly from
+   `(layer, expert_id, tensor)` using the Phase 2 GGUF offset metadata.
+5. Q4_K and Q6_K expert slices retrieved through `pread` have been
+   verified byte-for-byte against their corresponding mmap ranges.
+6. An individual expert can be placed in independently managed
+   Metal-accessible memory at expert-scale allocation granularity.
+7. Measured Metal behavior confirms that doing so does not allocate,
+   upload, or make resident the complete parent 3D expert tensor.
+8. Existing quantization and model mathematics remain unchanged.
+
+Routing locality is a characterization result, not a pass/fail
+threshold. Poor locality does not fail Phase 3; it informs the
+feasibility and cache-policy decisions of subsequent phases.
 
 ### Report
 
     progress/phase-03-report.md
+
+Keep routing-characterization and expert-addressability results as
+distinct report sections.
+
+### Next Phase
+
+Phase 4 consumes the independently addressable expert-buffer mechanism
+to implement streamed execution.
+
+Preserve the Phase 3 routing tracer as a reusable diagnostic. Its
+recorded router decisions can later serve as an oracle for Phase 5
+correctness comparisons, while its locality results inform Phase 6 cache
+design.
 
 ---
 
