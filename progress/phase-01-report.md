@@ -13,6 +13,7 @@ Validate whether current upstream `llama.cpp` is a suitable base for Kimi Linear
 - Added this report as the Phase 1 deliverable.
 - Ran local reconnaissance only; no implementation code was changed.
 - Updated after review: corrected the Metal-residency conclusion wording, recorded the local clone state (`kimi-k3-in-c` pinned at `ff11dce`, `llama.cpp` clone in progress), and added the Phase 2 memory equation and representative context sizes (8K/32K/128K).
+- Updated after the `llama.cpp` clone completed: recorded the verified upstream commit, working-tree state, and re-confirmed Kimi Linear architecture support directly in the checked-out tree.
 
 ## Results
 
@@ -37,14 +38,14 @@ Validate whether current upstream `llama.cpp` is a suitable base for Kimi Linear
   - TRIM: yes
   - protocol: Apple Fabric
 - Local clones:
-  - `llama.cpp`: clone in progress at `llama.cpp/` at the time of writing (working tree not yet checked out); the upstream commit will be recorded once the clone completes.
+  - `llama.cpp`: clone complete at `llama.cpp/`, working tree clean, on upstream `master` at commit `2606220d9f2705dab8260633e9f85ce5b081319e` (`git describe`: `b10411-6-g2606220d9`), dated 2026-08-13, "chat : fix LFM2 tool call arg name prefix ambiguity (#26960)". Kimi Linear architecture support re-confirmed directly in this checked-out tree: `LLM_ARCH_KIMI_LINEAR` in `src/llama-arch.h`, SSM tensor kinds (`LLM_TENSOR_SSM_CONV1D_Q` etc.), `MODEL_ARCH.KIMI_LINEAR` in `gguf-py/gguf/constants.py`, and tensor mappings in `gguf-py/gguf/tensor_mapping.py` including `block_sparse_moe.shared_experts.*` and `gate.e_score_correction` (relevant to Phase 2's shared-expert classification).
   - `kimi-k3-in-c`: local pinned checkout at `kimi-k3-in-c/`, commit `ff11dce` (Release v1.0.0), matching the release pin verified from public source. Source-code reference only; no Kimi K3 model weights are being downloaded. The docs set currently points at commit `b4a7b3f`.
 - Checkpoint search:
   - No local `moonshotai/Kimi-Linear-48B-A3B-Instruct` checkpoint or obvious Kimi Linear GGUF was found in the common Hugging Face cache paths or nearby local model directories.
 
 ## Problems
 
-- The initial reconnaissance could not clone GitHub repositories (DNS resolution failed from the shell). This was later resolved: `kimi-k3-in-c` is cloned and pinned at `ff11dce`; the `llama.cpp` clone was still in progress when this report was updated and must be verified once complete.
+- The initial reconnaissance could not clone GitHub repositories (DNS resolution failed from the shell). This was later resolved: `kimi-k3-in-c` is cloned and pinned at `ff11dce`; the `llama.cpp` clone is now complete and verified at commit `2606220d9` with a clean working tree. No outstanding clone issue remains.
 - The Kimi Linear checkpoint is not present locally, so the next phase still needs an actual supported Q4 GGUF or another locally available model artifact before model-size inventory can be measured.
 
 ## Decisions
