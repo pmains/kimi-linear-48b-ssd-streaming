@@ -391,13 +391,21 @@ design.
 
 ### Goal
 
-Execute Kimi Linear while routed experts remain primarily on SSD.
+Execute Kimi Linear while routed experts remain primarily on SSD, and
+deliberately expose the worst-case miss path so its components can be
+measured and decomposed.
+
+Phase 3 showed that a ~90% expert-cache hit rate requires ~14.6 GB, and
+that OPT improves the large-cache result by only ~3 pp. Policy is not the
+escape hatch; miss-path latency is. Phase 4 therefore measures the cost
+of a cache miss in the proposed architecture BEFORE any caching exists.
 
 ### Work
 
 Change the expert-weight access path so that the existing router selects
 experts normally, but required expert weights are obtained from backing
-storage on demand.
+storage on demand, uncached: every routed expert access is a deliberate
+miss.
 
 Conceptually:
 
@@ -405,18 +413,37 @@ Conceptually:
           ↓
     selected experts
           ↓
-    expert storage layer
+    expert storage layer (uncached)
           ↓
       ggml / Metal
 
-Do not optimize yet.
+Discipline: do not build caching in this phase. No cache, no prefetch
+policy, no eviction. Each expert access exercises the full storage →
+Metal path so the worst case is measured directly.
+
+Instrument and decompose the per-expert-access miss path into:
+
+- storage read (`pread`);
+- buffer preparation / copy if any (RAM → Metal-accessible buffer);
+- Metal synchronization;
+- kernel execution;
+- total expert-access latency.
 
 ### Acceptance
 
-The model generates correctly while routed experts are loaded on demand,
-and resident memory is measurably lower than conventional execution.
+1. The model generates correctly while routed experts are loaded on
+demand from backing storage (uncached).
+2. Resident memory is measurably lower than conventional execution.
+3. A latency decomposition of the miss path is produced, covering the
+components above, from real inference on the target model.
+4. The decomposition is combined with the Phase 3 routing trace to
+project expected tok/s across the 1–12 GB cache ladder (and the Phase 2
+Metal budget), BEFORE Phase 6 cache implementation.
+5. No cache, eviction, or prefetch policy is implemented or measured as
+an optimization in this phase.
 
-Performance is not yet an acceptance criterion.
+End-to-end tok/s is not the primary acceptance criterion; the
+component-level decomposition and the resulting tok/s projection are.
 
 ### Report
 
