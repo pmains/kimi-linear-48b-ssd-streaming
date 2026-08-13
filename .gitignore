@@ -1,10 +1,13 @@
-# Upstream clones — source-code reference only, never committed
-/llama.cpp/
-/kimi-k3-in-c/
+# Phase 3 intermediate artifacts (raw tracer dumps, smoke-test logs).
+# Superseded by processed traces in benchmarks/results/traces/ and by
+# benchmarks/results/phase-03-*.json. See progress/phase-03-report.md.
+/trace_*.csv
+/trace_t.err
+/smoke*.log
+/smoke*.err
+/perf.out
+/perf.err
 
-# Large model artifacts — downloaded locally, never committed
-/models/
-/refs/kimi-linear/*.bin
-
-# macOS
-.DS_Store
+# Python
+__pycache__/
+*.pyc
