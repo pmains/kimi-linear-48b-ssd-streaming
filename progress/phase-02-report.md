@@ -171,6 +171,60 @@ all comfortably feasible.
 - Then answer acceptance questions 4–5 with measured values and update
   this report to PASS.
 
+## Addendum: GGUF selection and header validation (2026-08-13)
+
+### Artifact decision
+
+- The upstream llama.cpp CI does not host a canonical Kimi Linear GGUF:
+  `ggml-org/models` contains no Kimi files (verified via HF API), and no
+  in-tree CI reference exists (grep of `ci/`, `.github/`, `scripts/`,
+  `models/` at commit `2606220d9`). The phase-01 "CI activity" reference
+  was PR-level, not a stable artifact. Criteria 1–2 of the plan are
+  therefore closed as not obtainable.
+- Selected: **`bartowski/moonshotai_Kimi-Linear-48B-A3B-Instruct-GGUF`**,
+  `moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf` — the most
+  downloaded Kimi Linear GGUF (12.7K), produced with upstream llama.cpp
+  (b7966) using imatrix per the repo README. Alternatives documented:
+  `mradermacher/...-i1-GGUF` (imatrix, 29.70 GB) and `AaryanK/...`
+  (provenance unverified). `cturan/...` carries a public warning that it
+  does not work with standard llama.cpp and was rejected.
+- Artifact facts: 30,061,058,720 bytes; LFS sha256
+  `a1a7d865370652221f937163f7e94c99e1f114861335ba4f8666606843f1620f`;
+  HF scanner flags PAIT-GGUF-100 (heuristic, common on K-quant GGUFs;
+  independently verified below). Download in progress to
+  `models/kimi-linear/` (gitignored).
+
+### Header validation (8 MB range download, no weight data)
+
+`tools/gguf_header_check.py` parses the GGUF v3 header directly:
+
+- `general.architecture = kimi-linear`, name "Kimi Linear 48B A3B Instruct";
+  610 tensors (experts merged into 3D per-layer tensors — the safetensors
+  index has 20,493 because each expert is a separate HF tensor).
+- Hyperparameters match `config.json`: 27 blocks, 256 experts, 8 used,
+  1024 expert FFN, 1 shared, 1 leading dense block, 2304 embedding,
+  head_count_kv per-layer mask (0 = KDA, 1 = MLA), key_length_mla 192,
+  kv_lora_rank 512, ssm conv kernel 4, kda head_dim 128, rope 64.
+- **Element count matches the static inventory exactly: 49.12 B params,
+  diff 0.** Tensor data totals 30.05 GB, matching the actual file size
+  (30.06 GB); the earlier 29.72 GB calibration was a uniform-Q4_K
+  approximation — the real quant mix is: expert gate/up = Q4_K
+  (1,327,104 B each), expert down = Q6_K (1,935,360 B), router gate_inp
+  = F32, shared experts = Q6_K/Q8_0, KDA = Q4_K/Q5_0 mix.
+- **Per-expert footprint in this artifact: 4.59 MB** (gate+up+down).
+  Per MoE layer: 1.17 GB. (Corrects the earlier uniform-calibration
+  figure of 4.28 MB; the true value depends on the quant mix.)
+- **Phase 3 groundwork confirmed**: expert tensors are
+  `[2304, 1024, 256]` / `[1024, 2304, 256]` with the expert dimension
+  last; per-expert slices are contiguous, whole blocks, 16-byte aligned.
+  Expert addressability reduces to
+  `offset = tensor.offset + expert_id * per_expert_bytes`, computable
+  from the header alone. Full per-layer offset table in
+  `benchmarks/results/phase-02-gguf-header-analysis.json`.
+- Remaining Phase 2 work (acceptance 4–5): build llama.cpp at
+  `2606220d9`, load the full model, measure resident/Metal footprint at
+  8K/32K/128K, and replace the 2.5 GB runtime placeholder.
+
 ## Reproduction
 
 Static inventory (no weights downloaded):

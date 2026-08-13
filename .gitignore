@@ -2,5 +2,9 @@
 /llama.cpp/
 /kimi-k3-in-c/
 
+# Large model artifacts — downloaded locally, never committed
+/models/
+/refs/kimi-linear/*.bin
+
 # macOS
 .DS_Store

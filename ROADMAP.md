@@ -15,7 +15,9 @@ The strategy is:
 4. Keep routed experts primarily on SSD.
 5. Load selected experts on demand.
 6. Maintain a bounded in-memory expert cache.
-7. Target approximately 8GB or less of model-related resident memory.
+7. Minimize the resident non-expert footprint; allocate the remaining
+   memory budget between expert cache and operating headroom to maximize
+   throughput.
 8. Preserve enough throughput for productive interactive coding.
 
 The implementation should preferentially build on `llama.cpp` / `ggml`
@@ -198,6 +200,18 @@ Make individual routed experts independently addressable from backing
 storage.
 
 ### Work
+
+Measure routing-trace locality before expert-addressability work:
+
+- distinct experts touched per token / per window;
+- routing skew across the 6,656 experts;
+- reuse before eviction at realistic cache budgets.
+
+This determines whether the Phase 2 theoretical cache budget translates
+into SSD-traffic reduction, and informs the expert indexing design.
+
+Then make individual routed experts independently addressable from
+backing storage:
 
 Use the existing runtime/model format where practical.
 
@@ -541,8 +555,9 @@ The experiment succeeds if `Kimi-Linear-48B-A3B-Instruct` can:
 - execute correctly using SSD-backed routed experts;
 - preserve reference model behavior;
 - operate within a bounded resident-memory footprint;
-- approach approximately 8GB or less of model-related resident memory,
-  if permitted by the measured unavoidable resident state;
+- keep the resident non-expert footprint as small as measured reality
+  allows, and convert the remaining budget into expert cache and
+  operating headroom to maximize throughput;
 - maintain throughput and latency sufficient for productive coding.
 
 The central question is:
