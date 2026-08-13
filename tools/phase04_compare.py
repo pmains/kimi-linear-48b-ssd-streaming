@@ -2,29 +2,33 @@
 """Phase 4 checkpoint: compare conventional-CPU vs streamed-CPU inference.
 
 Reads:
-  - activation/logits binary traces (TCAT records, token-0 column) from
+  - activation/logits binary traces (TCAT v2 records, token-0 column) from
     both runs (KIMI_TRACE_ACT=1);
   - MoE routing traces (KIMI_TRACE_MOE=1) from both runs;
 
-and reports, per execution (prefill batch = exec 0, decode tokens = exec 1+):
+and reports, per execution, three increasingly strong claims:
 
-  - router ID equality at every MoE layer, every token (bit-exact);
-  - per-layer l_out activation error (max abs, mean abs) at token 0;
-  - logits error: max abs, mean abs, top-1 agreement, top-5 agreement.
+  A. Retrieval equivalence (streamed side only): the expert byte ranges the
+     executor requested match the GGUF slices (checked against the mmap view
+     at runtime by the loader; reported in the streamed retrieval log).
+  B. Layer equivalence: router IDs bit-identical at every MoE layer, and
+     per-layer l_out activation max|d| <= 1e-5 at token 0, with the first
+     divergent layer reported automatically.
+  C. Model equivalence: final logits max|d| <= 1e-5, mean|d| <= 1e-6,
+     top-1 and top-5 agreement 100%.
 
-Criterion is PREDETERMINED and strict (both paths run identical quantized
-kernels on identical expert bytes; weights pass an exact f32 readback on
-CPU):
+Executions are aligned SEMANTICALLY by (phase, start_pos, n_tokens) rather
+than by exec index, so a later scheduling change cannot silently misalign
+the two paths. If the ordered semantic-key sequences differ, the comparator
+fails loudly instead of comparing mismatched executions.
 
-  - router IDs: bit-identical everywhere;
-  - per-layer activation max|d| <= 1e-5;
-  - logits max|d| <= 1e-5, mean|d| <= 1e-6, top-1 == 100%, top-5 == 100%.
-
-If the criterion fails, investigate the numerical mechanism BEFORE loosening
-anything. The per-layer errors localize the first divergent layer.
+TCAT v2 record: u32 magic "TCAT" | u32 exec_id | i32 il | u32 n_embd |
+u32 n_tokens | u32 start_pos | u32 phase | u32 name_len | name |
+f32[n_embd]   (il = -1 for logits; phase: 0=prefill, 1=decode)
 
 Usage:
-    python3 tools/phase04_compare.py CONV_ACT CONV_MOE STREAM_ACT STREAM_MOE
+    python3 tools/phase04_compare.py CONV_ACT CONV_MOE STREAM_ACT STREAM_MOE \
+        [STREAM_RETRIEVAL_LOG]
 """
 
 import struct
@@ -38,52 +42,67 @@ CRIT_LOGITS_MEAN = 1e-6
 CRIT_TOP1 = 1.0
 CRIT_TOP5 = 1.0
 
+PHASE_NAME = {0: "prefill", 1: "decode"}
+
 
 def read_act_trace(path):
-    """Return {exec_id: {il: (name, n_tokens, f32[n_embd])}}."""
-    recs = defaultdict(dict)
+    """Return {exec_id: (semkey, {il: (name, n_tokens, start_pos, phase, data)})}."""
+    execs = {}
+    cur = None
     with open(path, "rb") as f:
         while True:
-            head = f.read(4 + 4 + 4 + 4 + 4 + 4)
+            head = f.read(4 + 4 + 4 + 4 + 4 + 4 + 4 + 4)
             if len(head) == 0:
                 break
-            if len(head) != 24:
+            if len(head) != 32:
                 raise SystemExit(f"{path}: truncated header ({len(head)} bytes)")
-            magic, exec_id, il, n_embd, n_tokens, name_len = struct.unpack("<IIiIII", head)
+            magic, exec_id, il, n_embd, n_tokens, start_pos, phase, name_len = struct.unpack("<IIiIIIII", head)
             if magic != MAGIC:
                 raise SystemExit(f"{path}: bad magic 0x{magic:08x}")
             name = f.read(name_len).decode("utf-8", "replace")
             data = struct.unpack(f"<{n_embd}f", f.read(4 * n_embd))
-            recs[exec_id][il] = (name, n_tokens, data)
-    return recs
+            if exec_id not in execs:
+                execs[exec_id] = ((phase, start_pos, n_tokens), {})
+            execs[exec_id][1][il] = (name, n_tokens, start_pos, phase, data)
+    return execs
 
 
 def read_moe_trace(path):
-    """Return {exec_id: {layer: {token_idx: [8 ids]}}}."""
-    execs = defaultdict(lambda: defaultdict(dict))
-    cur_exec = 0
+    """Return (semkey_seq, rows). semkey_seq: per-execution (phase, n_tokens,
+    start_pos) run-lengths; rows: raw CSV rows (ids parsed)."""
+    runs = []
+    rows = []
+    cur_key = None
+    cur_count = 0
     with open(path) as f:
         for line in f:
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
             parts = line.split(",")
-            phase, n_tokens, layer, tok = parts[0], int(parts[1]), int(parts[2]), int(parts[3])
-            ids = [int(x) for x in parts[4:]]
-            execs[cur_exec][layer][tok] = ids
-    # exec boundaries are not marked in the CSV; the caller treats each
-    # contiguous run of identical (phase, n_tokens) as one execution.
-    # For the checkpoint both runs use identical prompts, so grouping by
-    # phase transitions is done in the caller if needed.
-    return execs
+            phase = parts[0]
+            n_tokens = int(parts[1])
+            start_pos = int(parts[12]) if len(parts) > 12 else None
+            ids = [int(x) for x in parts[4:12]]
+            rows.append((phase, n_tokens, start_pos, ids))
+            key = (phase, n_tokens, start_pos)
+            if key != cur_key:
+                if cur_key is not None:
+                    runs.append((cur_key, cur_count))
+                cur_key = key
+                cur_count = 0
+            cur_count += 1
+    if cur_key is not None:
+        runs.append((cur_key, cur_count))
+    return runs, rows
 
 
 def topk_indices(v, k):
     return sorted(range(len(v)), key=lambda i: v[i], reverse=True)[:k]
 
 
-def compare_exec(conv, stream, exec_id, label):
-    """Compare one execution. Returns (ok, report_lines)."""
+def compare_exec(conv, stream, label):
+    """Compare one semantically-aligned execution. Returns (ok, lines)."""
     lines = []
     ok = True
 
@@ -93,13 +112,12 @@ def compare_exec(conv, stream, exec_id, label):
         ok = False
         lines.append(f"  layer set mismatch: conv={sorted(conv_layers)} stream={sorted(strm_layers)}")
 
-    # per-layer activations (token-0 column)
     first_bad = None
     for il in sorted(conv_layers):
         if il not in stream:
             continue
-        _, nt_c, a = conv[il]
-        _, nt_s, b = stream[il]
+        _, nt_c, _, _, a = conv[il]
+        _, nt_s, _, _, b = stream[il]
         if nt_c != nt_s:
             lines.append(f"  layer {il}: n_tokens mismatch {nt_c} vs {nt_s}")
             ok = False
@@ -111,10 +129,9 @@ def compare_exec(conv, stream, exec_id, label):
             first_bad = first_bad or il
         lines.append(f"  l_out[{il:>2}] {flag} max|d|={mx:.3e} mean|d|={mean:.3e}")
 
-    # logits
     if -1 in conv and -1 in stream:
-        _, nt_c, lg_c = conv[-1]
-        _, nt_s, lg_s = stream[-1]
+        _, nt_c, _, _, lg_c = conv[-1]
+        _, nt_s, _, _, lg_s = stream[-1]
         d = [abs(x - y) for x, y in zip(lg_c, lg_s)]
         mx, mean = max(d), sum(d) / len(d)
         t1c, t1s = topk_indices(lg_c, 1)[0], topk_indices(lg_s, 1)[0]
@@ -137,46 +154,86 @@ def compare_exec(conv, stream, exec_id, label):
         lines.append(f"  first divergent layer: {first_bad}")
 
     verdict = "PASS" if ok else "FAIL"
-    lines.insert(0, f"[{label}] exec {exec_id}: {verdict}")
+    lines.insert(0, f"[{label}] {verdict}")
     return ok, lines
 
 
 def main():
-    if len(sys.argv) != 5:
+    if len(sys.argv) not in (5, 6):
         raise SystemExit(__doc__)
     conv_act, conv_moe, strm_act, strm_moe = sys.argv[1:5]
+    strm_retr = sys.argv[5] if len(sys.argv) == 6 else None
 
     conv = read_act_trace(conv_act)
     strm = read_act_trace(strm_act)
-    # (moe traces parsed for completeness; router equality checked via csv diff below)
 
-    execs = sorted(set(conv) & set(strm))
-    if not execs:
-        raise SystemExit("no common executions between the two traces")
-    if len(execs) != max(execs) + 1:
-        print(f"note: non-contiguous exec ids: {execs}")
+    # semantic alignment: ordered list of (semkey, n_l_out_records) per exec
+    def sem_seq(execs):
+        return [(v[0], len([il for il in v[1] if il >= 0])) for _, v in sorted(execs.items())]
+
+    seq_c, seq_s = sem_seq(conv), sem_seq(strm)
+    if seq_c != seq_s:
+        print("SEMANTIC ALIGNMENT: FAIL")
+        print(f"  conv:   {seq_c}")
+        print(f"  stream: {seq_s}")
+        print("The two paths produced different ubatch segmentations; "
+              "refusing to compare mismatched executions.")
+        return 1
+    print(f"SEMANTIC ALIGNMENT: PASS ({len(seq_c)} executions)")
 
     all_ok = True
-    for e in execs:
-        ok, lines = compare_exec(conv[e], strm[e], e, "conv-vs-stream")
+    for e in sorted(set(conv) & set(strm)):
+        key_c = conv[e][0]
+        key_s = strm[e][0]
+        if key_c != key_s:
+            print(f"[conv-vs-stream] exec {e}: semantic key mismatch "
+                  f"{key_c} vs {key_s} — alignment broken")
+            all_ok = False
+            continue
+        ph, sp, nt = key_c
+        ok, lines = compare_exec(conv[e][1], strm[e][1], e)
         all_ok = all_ok and ok
-        print("\n".join(lines))
+        print("\n".join(f"  {l}" if not l.startswith("[") else l for l in lines))
 
-    # router equality: compare moe CSVs row-for-row (both runs deterministic,
-    # same prompt, same order of executions)
-    conv_rows = [l for l in open(conv_moe) if l.strip() and not l.startswith("#")]
-    strm_rows = [l for l in open(strm_moe) if l.strip() and not l.startswith("#")]
-    if conv_rows != strm_rows:
-        n = min(len(conv_rows), len(strm_rows))
-        first = next((i for i in range(n) if conv_rows[i] != strm_rows[i]), None)
-        print(f"\nrouter IDs: FAIL ({len(conv_rows)} vs {len(strm_rows)} rows; "
+    # router IDs: verify run-sequence then row-for-row equality
+    runs_c, rows_c = read_moe_trace(conv_moe)
+    runs_s, rows_s = read_moe_trace(strm_moe)
+    if runs_c != runs_s:
+        print("\nrouter run-sequence: FAIL")
+        print(f"  conv:   {runs_c}")
+        print(f"  stream: {runs_s}")
+        all_ok = False
+    elif rows_c != rows_s:
+        n = min(len(rows_c), len(rows_s))
+        first = next((i for i in range(n) if rows_c[i] != rows_s[i]), None)
+        print(f"\nrouter IDs: FAIL ({len(rows_c)} vs {len(rows_s)} rows; "
               f"first diff at row {first})")
         if first is not None:
-            print(f"  conv:   {conv_rows[first].strip()}")
-            print(f"  stream: {strm_rows[first].strip()}")
+            print(f"  conv:   {rows_c[first]}")
+            print(f"  stream: {rows_s[first]}")
         all_ok = False
     else:
-        print(f"\nrouter IDs: PASS ({len(conv_rows)} rows bit-identical)")
+        print(f"\nrouter IDs: PASS ({len(rows_c)} rows bit-identical)")
+
+    # A: retrieval equivalence (streamed side)
+    if strm_retr:
+        n_req = n_bad = 0
+        first_bad = None
+        with open(strm_retr) as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                p = line.split(",")
+                n_req += 1
+                if p[-1] != "ok":
+                    n_bad += 1
+                    first_bad = first_bad or p
+        if n_bad == 0:
+            print(f"\nretrieval equivalence: PASS ({n_req} expert ranges verified byte-exact vs mmap)")
+        else:
+            print(f"\nretrieval equivalence: FAIL ({n_bad}/{n_req} mismatches; first: {first_bad})")
+            all_ok = False
 
     print(f"\nOVERALL: {'PASS' if all_ok else 'FAIL'}")
     return 0 if all_ok else 1

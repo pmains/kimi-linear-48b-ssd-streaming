@@ -108,6 +108,47 @@ Totals per step + per-phase (prefill/decode) to JSON:
 `benchmarks/results/phase-04-streaming-*.json`. Resident memory via
 `currentAllocatedSize` + task RSS at step boundaries.
 
+## Correctness checkpoint (4A gate) — three claims
+
+The conventional CPU path is a permanent regression oracle: TCAT
+(activation/logits) + router CSV, both now carrying semantic identity
+(phase, start_pos, n_tokens) per record so executions align by semantics,
+not exec index. The streamed path must satisfy, on the same deterministic
+prompt, in order:
+
+**A. Retrieval equivalence** — the expert byte ranges the streamed
+executor requests for every `(layer, expert_id, tensor)` match the GGUF
+slices (loader memcmps pread bytes against the mmap view at runtime; also
+verifies requested ids == route-graph ids).
+
+**B. Layer equivalence** — router IDs bit-identical at every MoE layer;
+per-layer l_out activation max|d| <= 1e-5 at token 0; first divergent
+layer reported automatically.
+
+**C. Model equivalence** — final logits max|d| <= 1e-5, mean|d| <= 1e-6,
+top-1 and top-5 agreement 100% (predetermined, mechanism-justified:
+identical kernels on identical bytes; f32 weight readback is exact on
+CPU).
+
+Diagnostic value: A-fail ⇒ loader/index wiring; A-pass + B-fail ⇒ graph
+split. Comparator: `tools/phase04_compare.py`.
+
+Metal then becomes a clean fourth question: does the SAME streamed expert
+representation (per-expert buffers + loaded ggml tensors) that passes
+A/B/C execute through Metal while retaining expert-scale residency?
+
+## Backend-agnostic expert representation
+
+The CPU gate and the eventual Metal path must share the same expert
+representation, so 4A does not validate a structure that gets replaced in
+4B/Metal. The loader therefore: preads slices → fills per-expert buffers
+allocated via `ggml_backend_alloc_ctx_tensors_from_buft` with the buft of
+the CURRENT backend (CPU buft for the gate, Metal buft later) → creates
+one `[n_embd, n_ff, n_selected]` ggml tensor per (layer, tensor-kind) with
+data in that buffer, consumed directly by `ggml_mul_mat_id` (ids 0..n-1).
+No CPU-only structures enter the compute path; only the buffer type
+changes between the gate and Metal.
+
 ## Work order
 
 - **4A** streamer core: split `build_moe_ffn`; per-layer executor in
