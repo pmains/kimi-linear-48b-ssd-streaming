@@ -2,9 +2,14 @@
 
 ## Status
 
-PARTIAL — static model inventory complete; runtime-resident measurement pending a validated llama.cpp-compatible GGUF.
+PASS — static inventory and empirical runtime measurements complete.
 
-Per the Phase 2 execution plan (recorded in `ROADMAP.md`), the GGUF is a separate runtime-validation dependency and does not block the static analysis. Acceptance questions 1–3 are answerable from the static inventory; questions 4–5 (remaining cache budget per context size, ~8 GB resident feasibility) are answered provisionally with an explicit unmeasured runtime term that the GGUF phase must replace with a measurement.
+Conventional (full-residency) Metal execution **fails** on this hardware
+(`kIOGPUCommandBufferCallbackErrorOutOfMemory`), which is itself the
+decisive measured result: SSD-backed expert streaming is required, not
+optional. CPU-only execution works and measures the active working set
+at ≈ 2.7 GB RSS. All five acceptance questions are answered with
+measured/validated values (see Addendum 2).
 
 ## Objective
 
@@ -224,6 +229,84 @@ all comfortably feasible.
 - Remaining Phase 2 work (acceptance 4–5): build llama.cpp at
   `2606220d9`, load the full model, measure resident/Metal footprint at
   8K/32K/128K, and replace the 2.5 GB runtime placeholder.
+
+## Addendum 2: Empirical runtime measurements (2026-08-13) — closes Phase 2
+
+Build: llama.cpp `2606220d9`, cmake 4.4.2, Apple clang 21, Release,
+Metal, `build-metal/`. Artifact: bartowski Q4_K_M, SHA-256 verified.
+
+### Device facts (measured)
+
+- MTL0 (Apple M5) max working set: **18,186 MiB** — the GPU-side budget
+  is NOT 24 GB; unified memory is 24 GB but Metal reports 18.2 GB.
+- Model file: 28,040 MiB mmap'd (`CPU_Mapped model buffer`); measured
+  RSS during CPU decode ≈ **2.7 GB** — only touched pages become
+  resident (trunk + active experts).
+- Compute buffers (measured): MTL0 202.5 MiB + CPU 113.5 MiB.
+- KDA recurrent-state buffer (`llama_memory_recurrent`): **42.81 MiB,
+  constant** across context sizes.
+
+### KV cache scaling (measured, linear)
+
+| Context | KV buffer | B/token |
+|---:|---:|---:|
+| 8K | 63.00 MiB | 8,064 |
+| 32K | 252.00 MiB | 8,064 |
+| 128K | 1,008.00 MiB | 8,064 |
+
+Measured KV is ~half the f16 static estimate (15,232 B/token): the
+actual cache format is more compact than the naive f16 assumption.
+
+### Conventional Metal execution: OOM
+
+`llama-cli` with default settings (and again at `-b 16 -ub 16`): 23
+`kIOGPUCommandBufferCallbackErrorOutOfMemory` errors; decode fails with
+ret -3. Cause: Metal uploads full weight tensors on first use; MoE
+experts are per-layer 3D tensors (~26 GB of expert weights total), so
+**all 256 experts per layer are uploaded regardless of routing**;
+30 GB > 18.2 GB working set. Graph buffers are not the problem (202 MB).
+
+### CPU-only execution: works
+
+`-ngl 0`: loads, generates correctly ("The capital of France is
+Paris."), RSS ≈ 2.7 GB. Confirms the model artifact and our build are
+sound, and that the active working set is small.
+
+### Conclusions (measured)
+
+1. Conventional execution is impossible on this hardware. **Expert
+   streaming is required, not optional.**
+2. The active working set is small and now measured: trunk + 8 active
+   experts/layer ≈ 2.7 GB. The project premise is validated.
+3. **Design constraint for Phases 3–4**: expert weights must be
+   materialized at per-expert granularity (separate tensors/buffers).
+   View-slicing the 3D per-layer expert tensor forces whole-tensor Metal
+   upload and defeats streaming.
+4. Memory equation budget side: GPU-resident components must fit the
+   **18.2 GB Metal working set**; CPU RAM (24 GB) holds page cache.
+
+### Updated memory equation (measured, streamed-design target)
+
+    trunk 1.24 + buffers ~0.3 + RS 0.04 + KV + cache + margin <= 18.2 GB (GPU)
+
+| Context | KV | Cache headroom (18.2 GB, margin 2) | Experts fit (4.59 MB) |
+|---:|---:|---:|---:|
+| 8K | 0.06 GB | ~14.6 GB | ~3,180 |
+| 32K | 0.25 GB | ~14.4 GB | ~3,130 |
+| 128K | 1.00 GB | ~13.6 GB | ~2,960 |
+
+All roadmap cache budgets (1–12 GB) fit comfortably at 128K context.
+
+### Acceptance (all answered)
+
+1. Routed experts = 95.9 % of params (47.11 B of 49.12 B).
+2. Unavoidable resident component ≈ 1.6 GB before KV (trunk 1.24 +
+   buffers 0.3 + RS 0.04).
+3. Individual expert = 4.59 MB (Q4_K_M: gate/up Q4_K, down Q6_K).
+4. Cache budget per context: 13.6–14.6 GB GPU-side at 8K–128K
+   (≈ 2,960–3,180 experts).
+5. ~8 GB resident: yes — measured active working set is only ≈ 2.7 GB;
+   conventional execution does not even fit (OOM).
 
 ## Reproduction
 
