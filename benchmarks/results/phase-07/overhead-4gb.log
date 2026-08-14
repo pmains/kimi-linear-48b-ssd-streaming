@@ -1,0 +1,5 @@
+config,run_a_tok_s,run_b_tok_s,min_tok_s
+base(no-instr),4.536,4.527,4.527
+instr(full),4.148,3.759,3.759
+overhead_pct,na,na,-16.96487740225315
+cache: 4096 MiB zerocopy mode, ctx 4096, 64 tokens, min-of-2 decode (steps >= 6)

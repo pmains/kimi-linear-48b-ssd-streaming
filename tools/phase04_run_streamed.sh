@@ -31,6 +31,13 @@ PROMPT_TEXT="$(cat "$PROMPT")"
 # the library default.
 CTX_ARGS=()
 if [ -n "${CTX:-}" ] && [ "$CTX" != "0" ]; then CTX_ARGS=(--ctx-size "$CTX"); fi
+# Phase 7: optional full instrumentation (KIMI_PHASE7_INSTR=1). Adds the
+# per-step memory log and the per-layer cache dump; the stats/retr files are
+# always written (pre-existing Phase 4 behavior).
+if [ "${KIMI_PHASE7_INSTR:-0}" = "1" ]; then
+    export KIMI_STREAM_MEM_FILE="$OUTDIR/mem.csv"
+    export KIMI_STREAM_CACHE_LAYERS_FILE="$OUTDIR/cache_layers.csv"
+fi
 KIMI_STREAM_EXPERTS="$MODE" \
 KIMI_STREAM_RETR_FILE="$OUTDIR/retr.csv" \
 KIMI_STREAM_STATS_FILE="$OUTDIR/stats.csv" \
@@ -54,6 +61,7 @@ cat > "$OUTDIR/manifest.json" <<EOF
   "stream_mode": "$MODE",
   "llama_commit": "$(git -C /Users/pmains/Code/openclaw/kimi/llama.cpp rev-parse HEAD)",
   "llama_worktree_dirty": $WORKTREE_DIRTY,
+  "phase7_instrumentation": ${KIMI_PHASE7_INSTR:-0},
   "captured_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF

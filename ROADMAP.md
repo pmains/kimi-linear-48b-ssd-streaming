@@ -855,6 +855,31 @@ behavior). CPU-only, as Phase 6.
 
 ## Phase 7 — Instrumentation
 
+### Status (2026-08-14)
+
+**PASS** — see `progress/phase-07-report.md`. Instrumentation and
+observability phase on the frozen Phase 6B baseline (llama.cpp
+`eca7742b8`, project `51fff51`); no repack fixes, no cache-policy
+changes, no Metal work. Key additions: (1) hit-class decomposition —
+zero-copy hits (0 bytes moved) vs placement hits (memcpy only) vs
+misses (pread + repack + placement) are counted separately, never
+collapsed into a single hit rate; (2) repack/placement byte+time split
+(`copy_us = repack_us + placement_us`, both byte-counted); (3) per-layer
+cache observability (`cache_layers.csv`: cap slots, live entries,
+per-kind bytes per MoE layer); (4) measured build time vs the legacy
+residual (`build_us_measured`, `other_us`); (5) stats.csv extended 20 →
+30 columns (appended; all Phase 4–6B tooling stays valid). Validation:
+oracle bit-identical with full instrumentation (33,648/33,648 retrieval
+ranges, 1,512 router rows, max|Δ| = 0; 78/78 selfchecks); ladder hit
+rates EXACTLY reproduce Phase 6B (0.305/0.585/0.756 at 1/4/8 GB) and
+track the per-layer-LRU sim to the same 1–4 pp tolerance; 4 GB remains
+the peak (4.73 tok/s vs 2.52 in-session uncached, 1.88×); instrumentation
+overhead quantified at ~0–3% (uncached A/B −0.6%; 10-run alternating
+drift fit +3.0%; direct attribution < 0.5%), i.e. not distinguishable
+from the fanless Air's ~17% thermal drift. Phase 6B baselines (4 GB
+sweet spot, ≥10 GB memory-pressure degradation, ~1.1–1.6 ms per-slice
+miss repack) are preserved as baselines, not touched.
+
 ### Goal
 
 Measure the system rather than infer its behavior.
@@ -887,6 +912,14 @@ Benchmark output can explain the relationship between:
 ### Report
 
     progress/phase-07-report.md
+
+### Next Phase
+
+Phase 8 (Memory Ladder) consumes `ladder-summary.csv` directly: cache,
+residency, hit rate (with hit classes), decode tok/s, and SSD MB/token
+columns map 1:1 onto the Phase 8 acceptance table. Protocol:
+`KIMI_PHASE7_INSTR=1 tools/phase07_run_ladder.sh <root> 1 2 4 6 8 12`
+then `tools/phase07_summarize.py --ladder <root>`.
 
 ---
 

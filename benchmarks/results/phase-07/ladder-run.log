@@ -1,0 +1,6 @@
+  uncached done
+  cap 8GB done
+  cap 4GB done
+  cap 1GB done
+ladder complete: benchmarks/results/phase-07/ladder
+merge with: python3 tools/phase07_summarize.py --ladder benchmarks/results/phase-07/ladder

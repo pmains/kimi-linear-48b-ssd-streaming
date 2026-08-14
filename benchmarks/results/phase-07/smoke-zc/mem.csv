@@ -1,0 +1,11 @@
+step,point,phase,n_tokens,phys_footprint_mb,resident_mb,malloc_in_use_mb,malloc_max_mb,sched_cpu_mb
+0,start,prefill,2,9398.4,12145.2,529.7,0.0,0.0
+0,end,prefill,2,11041.6,10614.1,532.2,0.0,4.5
+1,start,prefill,2,11064.8,9378.1,532.2,0.0,4.5
+1,end,prefill,2,11505.1,10184.6,532.2,0.0,4.5
+2,start,prefill,43,11505.5,8205.7,532.4,0.0,4.5
+2,end,prefill,43,12057.5,4096.8,534.7,0.0,81.3
+3,start,prefill,4,12100.4,4139.8,577.5,0.0,81.3
+3,end,prefill,4,12083.7,4791.9,577.5,0.0,81.3
+4,start,decode,1,12083.7,4792.6,579.4,0.0,81.3
+4,end,decode,1,11577.6,4980.1,579.4,0.0,81.3
