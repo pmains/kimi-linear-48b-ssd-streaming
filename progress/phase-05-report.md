@@ -5,7 +5,10 @@
 > measurably lower) is **not met** (see `phase-04-report.md`), so per the
 > owner's decision tree Phase 5 should not have started. The evidence below is
 > correct but is **provisional** — treat it as validation data pending a real
-> Phase 4 close, not as a completed Phase 5.
+> Phase 4 close, not as a completed Phase 5. Phase 4D (pageable model loading,
+> see `ROADMAP.md`) is that close: once its oracle passes with resident memory
+> reduced, Phase 5 is re-validated on the low-residency streamer and becomes
+> authoritative.
 
 ## Status
 

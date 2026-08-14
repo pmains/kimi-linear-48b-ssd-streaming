@@ -465,7 +465,7 @@ completed work.
 | 4B latency decomposition | PASS | `stats.csv` per-step deltas valid; `build_us` small positive. See `phase-04-miss-path.json`. |
 | 4C cache-ladder projection | PASS | `phase-04-projection.csv`: 1.42 → 2.12 tok/s across 1→14.6 GB. |
 | Acceptance 1 (correct generation, uncached) | PASS | generates; numerically bit-identical to conventional. |
-| Acceptance 2 (resident memory measurably lower) | NOT MET | streamed executor reuses the unchanged model load, so the full 256-expert collection (repacked ~28 GB) stays resident; only the compute path changed. Requires skipping/paging expert tensors at load. |
+| Acceptance 2 (resident memory measurably lower) | NOT MET | streamed executor reuses the unchanged model load, so the full 256-expert collection (repacked ~28 GB) stays resident; only the compute path changed. Requires skipping/paging expert tensors at load → Phase 4D. |
 | Acceptance 3 (miss-path latency decomposition) | PASS | pread 417 ms / copy 242 ms / sync 0 / kernel 42 ms / trunk 110 ms / build 29 ms = 841 ms (1.19 tok/s). |
 | Acceptance 4 (tok/s projection from decomposition + phase 3 trace) | PASS | conservative lower bound; floor 1.42 tok/s @1 GB → 2.12 tok/s @14.6 GB. |
 | Acceptance 5 (no cache/eviction/prefetch implemented) | PASS | by construction: single-use expert buffers, no reuse |
@@ -483,6 +483,89 @@ Canonical failure statement (one paragraph):
 > the first router difference. Phase 4 therefore remains PARTIAL. The
 > next diagnostic question is whether the row-13 routing mismatch is
 > causal or symptomatic of the earlier activation drift.
+
+---
+
+## Phase 4D — Pageable Model Loading
+
+### Goal
+
+Close Phase 4 acceptance item 2: make routed-expert weights **non-resident at
+load** while retaining enough metadata and backing-file information for the
+streamer to retrieve them on demand.
+
+This is not Phase 6 groundwork. It is the final missing proof of the original
+streaming premise: that inference can run correctly while the ~28 GB repacked
+expert collection is *not* materialized in unified memory. Phase 6 must begin
+with a genuinely low-residency streamer.
+
+### Work
+
+Modify model loading (streamed mode only, env-gated, inert by default) so the
+routed-expert parent tensors are not materialized into resident buffers:
+
+    GGUF
+      ↓
+    load trunk/shared weights normally (resident)
+      ↓
+    skip resident routed experts (virtual parents: metadata only, no data)
+      ↓
+    pread selected experts from backing storage
+      ↓
+    repack into the correct CPU buffer type (same layout the conventional
+    path computes over)
+      ↓
+    compute
+      ↓
+    bit-identical output
+
+Code-reading basis (llama.cpp at `60dc29e64` + streamer):
+
+- Routed experts are the 3-D `blk.*.ffn_{gate,up,down}_exps.weight` tensors
+  consumed by `GGML_OP_MUL_MAT_ID`; on ARM they are assigned to the CPU repack
+  buffer type, so the repack-buft context contains exactly the routed-expert
+  tensors.
+- Authoritative GGUF offsets are already recorded per tensor at load
+  (`llama_model_base::create_tensor` → `tensor_offsets`), and the streamer
+  already preads from those offsets — the retrieval half is independent of
+  parent residency.
+- The streamed compute path reads parent tensors for **metadata only**
+  (`ne`/`nb`/`type`/`name`/`buffer`); the only `parent->data` dereferences are
+  in env-gated `KIMI_DX_VERIFY` diagnostics (off by default).
+- Integration point: the backend-buffer allocation loop in
+  `llama_model::load` (`src/llama-model.cpp`). In streamed mode, skip real
+  buffer allocation and data load for the expert-only repack-buft context
+  (dummy buffer, excluded from `load_all_data`), so no bytes are copied or
+  repacked at load.
+- Caveat: `load_layer` derives the loaded-experts' buffer type from
+  `t_up->buffer`. Virtualization must preserve the repack buft identity
+  (e.g. dummy buffer allocated from the same repack buft), or the ~1e-8
+  repack-layout seed returns and bit-identity is lost.
+- Guard Metal offload so virtual expert tensors are skipped there too
+  (defensive; the CPU oracle is the validation target).
+
+Then rerun the Phase 5 oracle. The target pipeline is the diagram above, and
+the expected result is bit-identical output with resident memory measurably
+lower than conventional load.
+
+### Acceptance
+
+1. Streamed generation remains bit-identical to the conventional oracle with
+   the expert parents virtualized (same A/B/C comparator, same prompts).
+2. Resident memory is measurably lower than conventional execution (RSS
+   measurement, streamed-vs-conventional, same workload).
+3. The conventional path is byte-unchanged when streamed mode is disabled.
+4. No cache, eviction, or prefetch policy is introduced (still uncached).
+
+### Report
+
+    progress/phase-04d-report.md
+
+### Exit
+
+Phase 4D PASS closes Phase 4 (acceptance 2 satisfied). Phase 5 is then
+re-validated on the low-residency streamer and becomes authoritative (no
+longer provisional).
 
 ---
 
@@ -516,20 +599,29 @@ tolerances appropriate to the existing quantization.
 
 ---
 
-## Phase 6 — Bounded Expert Cache
+## Phase 6 — Repacked-Expert Cache
 
 ### Goal
 
-Reduce backing-storage traffic while enforcing a hard memory budget.
+Make the streamer fast, now that correctness and residency are closed by
+Phases 4/4D/5. Phase 6 solves performance only: the miss path costs ~417 ms
+SSD read + ~242 ms repack per step (Phase 4 4B decomposition), so the cache
+stores the **expensive artifact `mul_mat_id` actually wants** — the
+backend-ready repacked expert buffer.
+
+Cache value:
+
+    (layer, expert_id, tensor-kind) → backend-ready repacked expert buffer
+
+A hit elides both the SSD pread and the repack transform. Cache granularity
+and accounting are per expert (gate/up/down move and evict together).
 
 ### Work
 
-Add a bounded expert cache between routing and expert storage.
+Add a bounded, byte-configurable cache between routing and expert storage.
 
 Begin with a simple replacement policy such as LRU unless measurements
 justify something else.
-
-Cache capacity must be configurable by bytes.
 
 Conceptually:
 
@@ -537,20 +629,29 @@ Conceptually:
       ↓
     selected experts
       ↓
-    expert cache
-      ├── HIT  → resident expert
-      └── MISS → backing storage
+    expert cache (repacked, backend-ready)
+      ├── HIT  → no pread, no repack
+      └── MISS → pread + repack + insert
       ↓
     ggml / Metal
+
+Note: the repack buft exposes no `get_tensor`, so cached values are the
+repacked byte blobs the streamer already stages before `set_tensor`; a hit
+skips pread+repack and goes straight to placement. Whether a hit can feed
+`mul_mat_id` directly from the cached buffer (no per-step copy) is a
+performance question Phase 6 must answer with measurements, not assumptions.
 
 ### Acceptance
 
 The cache:
 
-- respects its configured memory limit;
+- respects its configured memory limit (bytes);
 - handles hits and misses correctly;
 - evicts safely;
-- preserves correct model execution.
+- preserves bit-identical execution against the conventional oracle;
+- measures hit-path cost (pread/repack removed) and the resulting tok/s
+  ladder — Phase 6 must beat the Phase 4 projection floor
+  (1.42 → 2.12 tok/s over the 1–14.6 GB ladder).
 
 ### Report
 
