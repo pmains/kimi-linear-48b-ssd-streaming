@@ -710,6 +710,22 @@ tolerances appropriate to the existing quantization.
 
 ## Phase 6 — Repacked-Expert Cache
 
+### Status (2026-08-14)
+
+**PARTIAL** — correctness fully closed, performance not met. The cache
+(correctness, budget, eviction, hit-rate validation vs the Phase 3 sim: all
+PASS; oracle bit-identical on the final binary) does not beat the measured
+uncached intercept (~2.6 tok/s): the hit path's ~890 MB/step placement copy
+costs ~300–480 ms/step — as much as the I/O it replaces — and large budgets
+add memory pressure on 24 GB. Measured answer to the roadmap's flagged
+question: the per-step copy matters; hits must feed `mul_mat_id` directly
+from the cached buffer (zero-copy aliasing) for the cache to win — the
+deferred advanced optimization per the STOP point. See
+`progress/phase-06-report.md`. The projection floor (1.42→2.12) is stale:
+the uncached streamer already exceeds it (measured pread ~80–150 ms/step,
+not the 417 ms the floor assumed); the honest bar is cached-vs-uncached
+on the same binary.
+
 ### Goal
 
 Make the streamer fast, now that correctness and residency are closed by

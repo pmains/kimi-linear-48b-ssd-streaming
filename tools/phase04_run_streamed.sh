@@ -23,6 +23,14 @@ CLI="/Users/pmains/Code/openclaw/kimi/llama.cpp/build-metal/bin/llama-cli"
 mkdir -p "$OUTDIR"
 
 PROMPT_TEXT="$(cat "$PROMPT")"
+# Optional KV-cache pin (Phase 4E convention): without --ctx-size, n_ctx
+# defaults to n_ctx_train (1,048,576) and Kimi Linear's 7 attention layers
+# allocate an 8 GB f16 KV cache — fine for oracle runs (both paths pay it
+# identically) but a confound for memory-pressure-sensitive benchmarks like
+# the Phase 6 ladder. Set CTX=4096 (or any >0) to pin; CTX=0/unset keeps
+# the library default.
+CTX_ARGS=()
+if [ -n "${CTX:-}" ] && [ "$CTX" != "0" ]; then CTX_ARGS=(--ctx-size "$CTX"); fi
 KIMI_STREAM_EXPERTS="$MODE" \
 KIMI_STREAM_RETR_FILE="$OUTDIR/retr.csv" \
 KIMI_STREAM_STATS_FILE="$OUTDIR/stats.csv" \
@@ -30,7 +38,7 @@ KIMI_TRACE_ACT=1 \
 KIMI_TRACE_ACT_FILE="$OUTDIR/act.bin" \
 KIMI_TRACE_MOE=1 \
 KIMI_TRACE_MOE_FILE="$OUTDIR/moe.csv" \
-"$CLI" -m "$MODEL" -ngl 0 -p "$PROMPT_TEXT" -n "$N" --temp 0 --seed "$SEED" \
+"$CLI" -m "$MODEL" -ngl 0 ${CTX_ARGS[@]+"${CTX_ARGS[@]}"} -p "$PROMPT_TEXT" -n "$N" --temp 0 --seed "$SEED" \
     --no-display-prompt --no-conversation --single-turn < /dev/null > "$OUTDIR/run.log" 2>&1
 
 WORKTREE_DIRTY="false"
