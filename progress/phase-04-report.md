@@ -92,10 +92,13 @@ accumulation order, not data.
 loaded experts in the parent's buffer type (so `set_tensor` repacks them
 identically), the A/B/C oracle became **bit-identical (max|d| = 0)**. This is
 the trustworthy instrumented check: if the mechanism were wrong, the fix would
-not have produced exact equality. (The earlier `KIMI_DX_VERIFY` log was
-consistent with this — parent data outside mmap, `first_byte=2` matching the
-interleaved `d[0]`/`d[1]` header — but it was malformed and is not the basis
-for the conclusion.)
+not have produced exact equality. A clean direct observation from the fixed
+code confirms the premise: the loader's debug line prints
+`[load] il=1 alloc (buft=CPU_REPACK)`, i.e. `ggml_backend_buffer_get_type` of
+the parent `ffn_up_exps` buffer is the repack buffer type. (The earlier
+`KIMI_DX_VERIFY` log was consistent with this — parent data outside mmap,
+`first_byte=2` matching the interleaved `d[0]`/`d[1]` header — but it was
+malformed and is not the basis for the conclusion.)
 
 ### Fix (M2)
 
