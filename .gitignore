@@ -11,3 +11,20 @@
 # Python
 __pycache__/
 *.pyc
+
+# Nested git repos — tracked only via recorded commit hashes in
+# progress/phase-XX-report.md. Never commit these trees.
+/llama.cpp/
+/kimi-k3-in-c/
+
+# The 28 GB model file and anything under models/.
+/models/
+
+# Default-output artifacts when KIMI_STREAM_* env vars are not set.
+# Intentional captures go to benchmarks/results/traces/.
+/kimi_retrieval.csv
+/kimi_stream_stats.csv
+
+# Superseded pre-occurrence-aware streamed capture (canonical oracle is
+# benchmarks/results/traces/phase-04-stream-cpu-occ/).
+/benchmarks/results/traces/phase-04-stream-cpu/

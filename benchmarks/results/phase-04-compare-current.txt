@@ -1,0 +1,55 @@
+SEMANTIC ALIGNMENT: PASS (13 executions)
+[0] FAIL
+    l_out[ 0] OK  max|d|=0.000e+00 mean|d|=0.000e+00
+    l_out[ 1] OK  max|d|=1.490e-08 mean|d|=3.706e-10
+    l_out[ 2] OK  max|d|=1.252e-06 mean|d|=2.804e-07
+    l_out[ 3] BAD max|d|=4.340e-03 mean|d|=2.349e-04
+    l_out[ 4] BAD max|d|=9.016e-03 mean|d|=5.712e-04
+    l_out[ 5] BAD max|d|=1.940e-02 mean|d|=3.874e-03
+    l_out[ 6] BAD max|d|=3.087e-02 mean|d|=4.314e-03
+    l_out[ 7] BAD max|d|=2.388e-02 mean|d|=4.556e-03
+    l_out[ 8] BAD max|d|=2.061e-02 mean|d|=4.734e-03
+    l_out[ 9] BAD max|d|=2.227e-02 mean|d|=4.825e-03
+    l_out[10] BAD max|d|=3.278e-02 mean|d|=5.264e-03
+    l_out[11] BAD max|d|=6.911e-02 mean|d|=1.130e-02
+    l_out[12] BAD max|d|=6.585e-02 mean|d|=1.141e-02
+    l_out[13] BAD max|d|=1.166e-01 mean|d|=1.179e-02
+    l_out[14] BAD max|d|=6.372e-02 mean|d|=1.460e-02
+    l_out[15] BAD max|d|=6.262e-02 mean|d|=1.481e-02
+    l_out[16] BAD max|d|=6.281e-02 mean|d|=1.488e-02
+    l_out[17] BAD max|d|=6.329e-02 mean|d|=1.520e-02
+    l_out[18] BAD max|d|=2.048e-01 mean|d|=1.587e-02
+    l_out[19] BAD max|d|=2.230e-01 mean|d|=1.805e-02
+    l_out[20] BAD max|d|=1.794e-01 mean|d|=1.923e-02
+    l_out[21] BAD max|d|=2.791e-01 mean|d|=2.060e-02
+    l_out[22] BAD max|d|=2.374e-01 mean|d|=2.853e-02
+    l_out[23] BAD max|d|=2.447e-01 mean|d|=2.935e-02
+    l_out[24] BAD max|d|=2.701e-01 mean|d|=3.209e-02
+    l_out[25] BAD max|d|=2.019e-01 mean|d|=4.058e-02
+    l_out[26] BAD max|d|=2.501e+00 mean|d|=2.403e-01
+    logits   BAD max|d|=1.412e+00 mean|d|=2.343e-01 top1=True top5=True
+    first divergent layer: 3
+[conv-vs-stream] exec 2: semantic key mismatch (0, 0, 2) vs (0, 0, 43) — alignment broken
+[conv-vs-stream] exec 4: semantic key mismatch (0, 0, 43) vs (1, 47, 1) — alignment broken
+[conv-vs-stream] exec 6: semantic key mismatch (0, 43, 4) vs (1, 49, 1) — alignment broken
+[conv-vs-stream] exec 8: semantic key mismatch (1, 47, 1) vs (1, 51, 1) — alignment broken
+[conv-vs-stream] exec 10: semantic key mismatch (1, 48, 1) vs (1, 53, 1) — alignment broken
+[conv-vs-stream] exec 12: semantic key mismatch (1, 49, 1) vs (1, 55, 1) — alignment broken
+
+router IDs: FAIL (1512 vs 1512 rows; first diff at row 13)
+  conv:   ('prefill', 2, 0, [7, 113, 138, 215, 163, 74, 52, 137])
+  stream: ('prefill', 2, 0, [7, 113, 215, 138, 163, 74, 52, 137])
+
+retrieval equivalence: PASS (36288 expert ranges verified byte-exact vs mmap)
+
+OVERALL: FAIL
+
+=== VERDICT ===
+A Retrieval:      PASS  (36288/36288 byte ranges exact)
+B Routing:        FAIL
+   first mismatch: row 13
+   same expert set: yes   ordering differs: [7, 113, 138, 215, 163, 74, 52, 137] vs [7, 113, 215, 138, 163, 74, 52, 137]
+B Activations:    FAIL
+   first divergence: layer 3
+C Logits:         FAIL  (max|d|=1.412e+00 mean|d|=2.343e-01 top1=True top5=True)
+OVERALL:          FAIL

@@ -1,0 +1,2492 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-[stream] layer 0 route
+\|/-\[stream] layer 1 route
+|[stream] layer 1 load (ids=16)
+[stream] layer 1 loaded (slots=16 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+/[stream] layer 2 load (ids=16)
+[stream] layer 2 loaded (slots=16 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=16)
+[stream] layer 3 loaded (slots=15 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+-[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=16)
+[stream] layer 4 loaded (slots=16 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=16)
+\[stream] layer 5 loaded (slots=16 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=16)
+[stream] layer 6 loaded (slots=16 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+|[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=16)
+[stream] layer 7 loaded (slots=15 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+/[stream] layer 8 load (ids=16)
+[stream] layer 8 loaded (slots=16 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+-[stream] layer 9 load (ids=16)
+[stream] layer 9 loaded (slots=15 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=16)
+\[stream] layer 10 loaded (slots=16 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=16)
+|[stream] layer 11 loaded (slots=15 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=16)
+/[stream] layer 12 loaded (slots=16 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+-[stream] layer 13 load (ids=16)
+[stream] layer 13 loaded (slots=16 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=16)
+\[stream] layer 14 loaded (slots=16 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=16)
+|[stream] layer 15 loaded (slots=15 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+/[stream] layer 16 load (ids=16)
+[stream] layer 16 loaded (slots=16 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+-[stream] layer 17 load (ids=16)
+[stream] layer 17 loaded (slots=16 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=16)
+\[stream] layer 18 loaded (slots=15 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=16)
+[stream] layer 19 loaded (slots=16 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=16)
+|[stream] layer 20 loaded (slots=16 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=16)
+[stream] layer 21 loaded (slots=16 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+/[stream] layer 22 load (ids=16)
+[stream] layer 22 loaded (slots=16 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=16)
+[stream] layer 23 loaded (slots=15 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+-[stream] layer 24 load (ids=16)
+[stream] layer 24 loaded (slots=16 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=16)
+[stream] layer 25 loaded (slots=16 up=0x11a838020)
+[stream] layer 25 compute
+\[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+|/-\[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+|/-\|/-\|/-\|/-\|/-\|/-\[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=16)
+|[stream] layer 1 loaded (slots=12 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=16)
+[stream] layer 2 loaded (slots=13 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=16)
+[stream] layer 3 loaded (slots=14 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=16)
+/[stream] layer 4 loaded (slots=15 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=16)
+[stream] layer 5 loaded (slots=14 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=16)
+[stream] layer 6 loaded (slots=14 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=16)
+-[stream] layer 7 loaded (slots=16 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=16)
+[stream] layer 8 loaded (slots=13 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=16)
+[stream] layer 9 loaded (slots=15 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=16)
+\[stream] layer 10 loaded (slots=15 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=16)
+[stream] layer 11 loaded (slots=15 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=16)
+[stream] layer 12 loaded (slots=16 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=16)
+|[stream] layer 13 loaded (slots=14 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=16)
+[stream] layer 14 loaded (slots=16 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=16)
+[stream] layer 15 loaded (slots=15 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=16)
+/[stream] layer 16 loaded (slots=16 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=16)
+[stream] layer 17 loaded (slots=14 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=16)
+[stream] layer 18 loaded (slots=15 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=16)
+-[stream] layer 19 loaded (slots=15 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=16)
+[stream] layer 20 loaded (slots=15 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=16)
+[stream] layer 21 loaded (slots=15 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=16)
+\[stream] layer 22 loaded (slots=15 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=16)
+[stream] layer 23 loaded (slots=16 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=16)
+[stream] layer 24 loaded (slots=14 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=16)
+|[stream] layer 25 loaded (slots=16 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+/-\|/-\|/-\|/-\ [stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=344)
+[stream] layer 1 loaded (slots=112 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=344)
+[stream] layer 2 loaded (slots=132 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=344)
+[stream] layer 3 loaded (slots=123 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=344)
+[stream] layer 4 loaded (slots=86 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=344)
+[stream] layer 5 loaded (slots=103 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=344)
+[stream] layer 6 loaded (slots=99 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=344)
+[stream] layer 7 loaded (slots=88 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=344)
+[stream] layer 8 loaded (slots=90 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=344)
+[stream] layer 9 loaded (slots=90 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=344)
+[stream] layer 10 loaded (slots=90 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=344)
+[stream] layer 11 loaded (slots=96 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=344)
+[stream] layer 12 loaded (slots=110 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=344)
+[stream] layer 13 loaded (slots=101 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=344)
+[stream] layer 14 loaded (slots=102 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=344)
+[stream] layer 15 loaded (slots=105 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=344)
+[stream] layer 16 loaded (slots=111 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=344)
+[stream] layer 17 loaded (slots=104 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=344)
+[stream] layer 18 loaded (slots=107 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=344)
+[stream] layer 19 loaded (slots=109 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=344)
+[stream] layer 20 loaded (slots=107 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=344)
+[stream] layer 21 loaded (slots=98 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=344)
+[stream] layer 22 loaded (slots=106 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=344)
+[stream] layer 23 loaded (slots=94 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=344)
+[stream] layer 24 loaded (slots=105 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=344)
+[stream] layer 25 loaded (slots=103 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=0)
+llama_expert_streamer: failed to allocate loaded expert buffers
+[stream] layer 26 loaded (slots=0 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=32)
+[stream] layer 1 loaded (slots=25 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=32)
+[stream] layer 2 loaded (slots=22 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=32)
+[stream] layer 3 loaded (slots=26 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=32)
+[stream] layer 4 loaded (slots=20 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=32)
+[stream] layer 5 loaded (slots=21 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=32)
+[stream] layer 6 loaded (slots=23 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=32)
+[stream] layer 7 loaded (slots=19 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=32)
+[stream] layer 8 loaded (slots=22 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=32)
+[stream] layer 9 loaded (slots=19 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=32)
+[stream] layer 10 loaded (slots=21 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=32)
+[stream] layer 11 loaded (slots=20 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=32)
+[stream] layer 12 loaded (slots=21 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=32)
+[stream] layer 13 loaded (slots=19 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=32)
+[stream] layer 14 loaded (slots=20 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=32)
+[stream] layer 15 loaded (slots=19 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=32)
+[stream] layer 16 loaded (slots=21 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=32)
+[stream] layer 17 loaded (slots=23 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=32)
+[stream] layer 18 loaded (slots=24 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=32)
+[stream] layer 19 loaded (slots=22 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=32)
+[stream] layer 20 loaded (slots=22 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=32)
+[stream] layer 21 loaded (slots=27 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=32)
+[stream] layer 22 loaded (slots=23 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=32)
+[stream] layer 23 loaded (slots=25 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=32)
+[stream] layer 24 loaded (slots=25 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=32)
+[stream] layer 25 loaded (slots=23 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+[stream] layer 0 route
+
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10422-646723879
+model      : /Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Write a Python function that takes a list of integers and returns the sum of all even numbers in the list, preserving the original order of the input. Include a brief docstring and one example usage.
+```[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+[stream] layer 0 route
+python[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+[stream] layer 0 route
+
+[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+[stream] layer 0 route
+def[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+ sum[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+_even[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+_p[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+[stream] layer 0 route
+reserve[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+_order[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=8)
+[stream] layer 1 loaded (slots=8 up=0x11a838020)
+[stream] layer 1 compute
+[stream] layer 1 compute built
+[stream] layer 1 compute alloc'd
+[stream] layer 1 compute done
+[stream] layer 2 route
+[stream] layer 2 load (ids=8)
+[stream] layer 2 loaded (slots=8 up=0x11a838020)
+[stream] layer 2 compute
+[stream] layer 2 compute built
+[stream] layer 2 compute alloc'd
+[stream] layer 2 compute done
+[stream] layer 3 route
+[stream] layer 3 load (ids=8)
+[stream] layer 3 loaded (slots=8 up=0x11a838020)
+[stream] layer 3 compute
+[stream] layer 3 compute built
+[stream] layer 3 compute alloc'd
+[stream] layer 3 compute done
+[stream] layer 4 route
+[stream] layer 4 load (ids=8)
+[stream] layer 4 loaded (slots=8 up=0x11a838020)
+[stream] layer 4 compute
+[stream] layer 4 compute built
+[stream] layer 4 compute alloc'd
+[stream] layer 4 compute done
+[stream] layer 5 route
+[stream] layer 5 load (ids=8)
+[stream] layer 5 loaded (slots=8 up=0x11a838020)
+[stream] layer 5 compute
+[stream] layer 5 compute built
+[stream] layer 5 compute alloc'd
+[stream] layer 5 compute done
+[stream] layer 6 route
+[stream] layer 6 load (ids=8)
+[stream] layer 6 loaded (slots=8 up=0x11a838020)
+[stream] layer 6 compute
+[stream] layer 6 compute built
+[stream] layer 6 compute alloc'd
+[stream] layer 6 compute done
+[stream] layer 7 route
+[stream] layer 7 load (ids=8)
+[stream] layer 7 loaded (slots=8 up=0x11a838020)
+[stream] layer 7 compute
+[stream] layer 7 compute built
+[stream] layer 7 compute alloc'd
+[stream] layer 7 compute done
+[stream] layer 8 route
+[stream] layer 8 load (ids=8)
+[stream] layer 8 loaded (slots=8 up=0x11a838020)
+[stream] layer 8 compute
+[stream] layer 8 compute built
+[stream] layer 8 compute alloc'd
+[stream] layer 8 compute done
+[stream] layer 9 route
+[stream] layer 9 load (ids=8)
+[stream] layer 9 loaded (slots=8 up=0x11a838020)
+[stream] layer 9 compute
+[stream] layer 9 compute built
+[stream] layer 9 compute alloc'd
+[stream] layer 9 compute done
+[stream] layer 10 route
+[stream] layer 10 load (ids=8)
+[stream] layer 10 loaded (slots=8 up=0x11a838020)
+[stream] layer 10 compute
+[stream] layer 10 compute built
+[stream] layer 10 compute alloc'd
+[stream] layer 10 compute done
+[stream] layer 11 route
+[stream] layer 11 load (ids=8)
+[stream] layer 11 loaded (slots=8 up=0x11a838020)
+[stream] layer 11 compute
+[stream] layer 11 compute built
+[stream] layer 11 compute alloc'd
+[stream] layer 11 compute done
+[stream] layer 12 route
+[stream] layer 12 load (ids=8)
+[stream] layer 12 loaded (slots=8 up=0x11a838020)
+[stream] layer 12 compute
+[stream] layer 12 compute built
+[stream] layer 12 compute alloc'd
+[stream] layer 12 compute done
+[stream] layer 13 route
+[stream] layer 13 load (ids=8)
+[stream] layer 13 loaded (slots=8 up=0x11a838020)
+[stream] layer 13 compute
+[stream] layer 13 compute built
+[stream] layer 13 compute alloc'd
+[stream] layer 13 compute done
+[stream] layer 14 route
+[stream] layer 14 load (ids=8)
+[stream] layer 14 loaded (slots=8 up=0x11a838020)
+[stream] layer 14 compute
+[stream] layer 14 compute built
+[stream] layer 14 compute alloc'd
+[stream] layer 14 compute done
+[stream] layer 15 route
+[stream] layer 15 load (ids=8)
+[stream] layer 15 loaded (slots=8 up=0x11a838020)
+[stream] layer 15 compute
+[stream] layer 15 compute built
+[stream] layer 15 compute alloc'd
+[stream] layer 15 compute done
+[stream] layer 16 route
+[stream] layer 16 load (ids=8)
+[stream] layer 16 loaded (slots=8 up=0x11a838020)
+[stream] layer 16 compute
+[stream] layer 16 compute built
+[stream] layer 16 compute alloc'd
+[stream] layer 16 compute done
+[stream] layer 17 route
+[stream] layer 17 load (ids=8)
+[stream] layer 17 loaded (slots=8 up=0x11a838020)
+[stream] layer 17 compute
+[stream] layer 17 compute built
+[stream] layer 17 compute alloc'd
+[stream] layer 17 compute done
+[stream] layer 18 route
+[stream] layer 18 load (ids=8)
+[stream] layer 18 loaded (slots=8 up=0x11a838020)
+[stream] layer 18 compute
+[stream] layer 18 compute built
+[stream] layer 18 compute alloc'd
+[stream] layer 18 compute done
+[stream] layer 19 route
+[stream] layer 19 load (ids=8)
+[stream] layer 19 loaded (slots=8 up=0x11a838020)
+[stream] layer 19 compute
+[stream] layer 19 compute built
+[stream] layer 19 compute alloc'd
+[stream] layer 19 compute done
+[stream] layer 20 route
+[stream] layer 20 load (ids=8)
+[stream] layer 20 loaded (slots=8 up=0x11a838020)
+[stream] layer 20 compute
+[stream] layer 20 compute built
+[stream] layer 20 compute alloc'd
+[stream] layer 20 compute done
+[stream] layer 21 route
+[stream] layer 21 load (ids=8)
+[stream] layer 21 loaded (slots=8 up=0x11a838020)
+[stream] layer 21 compute
+[stream] layer 21 compute built
+[stream] layer 21 compute alloc'd
+[stream] layer 21 compute done
+[stream] layer 22 route
+[stream] layer 22 load (ids=8)
+[stream] layer 22 loaded (slots=8 up=0x11a838020)
+[stream] layer 22 compute
+[stream] layer 22 compute built
+[stream] layer 22 compute alloc'd
+[stream] layer 22 compute done
+[stream] layer 23 route
+[stream] layer 23 load (ids=8)
+[stream] layer 23 loaded (slots=8 up=0x11a838020)
+[stream] layer 23 compute
+[stream] layer 23 compute built
+[stream] layer 23 compute alloc'd
+[stream] layer 23 compute done
+[stream] layer 24 route
+[stream] layer 24 load (ids=8)
+[stream] layer 24 loaded (slots=8 up=0x11a838020)
+[stream] layer 24 compute
+[stream] layer 24 compute built
+[stream] layer 24 compute alloc'd
+[stream] layer 24 compute done
+[stream] layer 25 route
+[stream] layer 25 load (ids=8)
+[stream] layer 25 loaded (slots=8 up=0x11a838020)
+[stream] layer 25 compute
+[stream] layer 25 compute built
+[stream] layer 25 compute alloc'd
+[stream] layer 25 compute done
+[stream] layer 26 route
+[stream] layer 26 load (ids=8)
+[stream] layer 26 loaded (slots=8 up=0x11a838020)
+[stream] layer 26 compute
+[stream] layer 26 compute built
+[stream] layer 26 compute alloc'd
+[stream] layer 26 compute done
+[stream] epilogue begin
+[stream] epilogue built
+[stream] epilogue alloc'd
+[stream] epilogue computed
+[stream] epilogue closed
+[stream] step ctx freed
+(num
+
+[ Prompt: 4.0 t/s | Generation: 1.3 t/s ]
+
+
+Exiting...

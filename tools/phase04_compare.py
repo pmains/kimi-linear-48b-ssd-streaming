@@ -10,7 +10,8 @@ and reports, per execution, three increasingly strong claims:
 
   A. Retrieval equivalence (streamed side only): the expert byte ranges the
      executor requested match the GGUF slices (checked against the mmap view
-     at runtime by the loader; reported in the streamed retrieval log).
+     at runtime by the loader; reported in the streamed retrieval log as
+     occurrence-aware `(expert_id -> slot)` rows.
   B. Layer equivalence: router IDs bit-identical at every MoE layer, and
      per-layer l_out activation max|d| <= 1e-5 at token 0, with the first
      divergent layer reported automatically.
@@ -102,9 +103,14 @@ def topk_indices(v, k):
 
 
 def compare_exec(conv, stream, label):
-    """Compare one semantically-aligned execution. Returns (ok, lines)."""
+    """Compare one semantically-aligned execution.
+
+    Returns (ok, lines, metrics) where metrics carries the summary
+    numbers used by the final VERDICT block.
+    """
     lines = []
     ok = True
+    metrics = {"first_bad_layer": None, "logits": None}
 
     conv_layers = {il for il in conv if il >= 0}
     strm_layers = {il for il in stream if il >= 0}
@@ -145,6 +151,7 @@ def compare_exec(conv, stream, label):
                      f"top1={agree1} top5={agree5}")
         if not agree1:
             lines.append(f"    top1 conv={t1c} stream={t1s}")
+        metrics["logits"] = (mx, mean, agree1, agree5)
     elif (-1 in conv) != (-1 in stream):
         ok = False
         lines.append("  logits record missing on one side only (conv=%d stream=%d)" % (-1 in conv, -1 in stream))
@@ -152,10 +159,11 @@ def compare_exec(conv, stream, label):
 
     if first_bad is not None:
         lines.append(f"  first divergent layer: {first_bad}")
+        metrics["first_bad_layer"] = first_bad
 
     verdict = "PASS" if ok else "FAIL"
     lines.insert(0, f"[{label}] {verdict}")
-    return ok, lines
+    return ok, lines, metrics
 
 
 def main():
@@ -182,6 +190,8 @@ def main():
     print(f"SEMANTIC ALIGNMENT: PASS ({len(seq_c)} executions)")
 
     all_ok = True
+    g_first_layer = None
+    g_logits = None
     for e in sorted(set(conv) & set(strm)):
         key_c = conv[e][0]
         key_s = strm[e][0]
@@ -191,8 +201,13 @@ def main():
             all_ok = False
             continue
         ph, sp, nt = key_c
-        ok, lines = compare_exec(conv[e][1], strm[e][1], e)
+        ok, lines, metrics = compare_exec(conv[e][1], strm[e][1], e)
         all_ok = all_ok and ok
+        if g_first_layer is None or (metrics["first_bad_layer"] is not None
+                                     and metrics["first_bad_layer"] < g_first_layer):
+            g_first_layer = metrics["first_bad_layer"]
+        if metrics["logits"] is not None:
+            g_logits = metrics["logits"]
         print("\n".join(f"  {l}" if not l.startswith("[") else l for l in lines))
 
     # router IDs: verify run-sequence then row-for-row equality
@@ -216,9 +231,9 @@ def main():
         print(f"\nrouter IDs: PASS ({len(rows_c)} rows bit-identical)")
 
     # A: retrieval equivalence (streamed side)
+    n_req = n_bad = 0
+    first_bad = None
     if strm_retr:
-        n_req = n_bad = 0
-        first_bad = None
         with open(strm_retr) as f:
             for line in f:
                 line = line.strip()
@@ -226,7 +241,10 @@ def main():
                     continue
                 p = line.split(",")
                 n_req += 1
-                if p[-1] != "ok":
+                # Retrieval logs may carry extra columns (e.g. occurrence
+                # indices). The status is always the penultimate field.
+                status = p[-2] if len(p) >= 2 else ""
+                if status != "ok":
                     n_bad += 1
                     first_bad = first_bad or p
         if n_bad == 0:
@@ -236,6 +254,30 @@ def main():
             all_ok = False
 
     print(f"\nOVERALL: {'PASS' if all_ok else 'FAIL'}")
+
+    # ---- compact verdict (project-health format) ----
+    print("\n=== VERDICT ===")
+    if strm_retr:
+        print(f"A Retrieval:      {'PASS' if n_bad == 0 else 'FAIL'}"
+              f"  ({n_req - n_bad}/{n_req} byte ranges exact)")
+    r_state = "PASS" if rows_c == rows_s else "FAIL"
+    print(f"B Routing:        {r_state}")
+    if rows_c != rows_s:
+        n = min(len(rows_c), len(rows_s))
+        first = next((i for i in range(n) if rows_c[i] != rows_s[i]), None)
+        same_set = first is not None and sorted(rows_c[first][3]) == sorted(rows_s[first][3])
+        print(f"   first mismatch: row {first}")
+        print(f"   same expert set: {'yes' if same_set else 'no'}"
+              + (f"   ordering differs: {rows_c[first][3]} vs {rows_s[first][3]}" if same_set else ""))
+    a_state = "PASS" if g_first_layer is None else "FAIL"
+    print(f"B Activations:    {a_state}")
+    if g_first_layer is not None:
+        print(f"   first divergence: layer {g_first_layer}")
+    if g_logits is not None:
+        mx, mean, agree1, agree5 = g_logits
+        l_state = "PASS" if (mx <= CRIT_LOGITS_MAX and mean <= CRIT_LOGITS_MEAN and agree1 and agree5) else "FAIL"
+        print(f"C Logits:         {l_state}  (max|d|={mx:.3e} mean|d|={mean:.3e} top1={agree1} top5={agree5})")
+    print(f"OVERALL:          {'PASS' if all_ok else 'FAIL'}")
     return 0 if all_ok else 1
 
 

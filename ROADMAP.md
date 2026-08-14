@@ -449,6 +449,41 @@ component-level decomposition and the resulting tok/s projection are.
 
     progress/phase-04-report.md
 
+### Status vs Plan (2026-08-13 project-health audit)
+
+Phase 4 is **PARTIAL**. The streamed executor runs and retrieves
+correct bytes, but does not yet reproduce conventional inference.
+Every acceptance item below is annotated with its true state and the
+evidence location. Do not read the Phase 4 prose above as describing
+completed work.
+
+| Item | State | Evidence |
+|---|---|---|
+| 4A.1 refactor equivalence (route/compute split bit-identical) | PASS | conventional oracle re-captured post-refactor at llama.cpp `646723879`; identical to pre-refactor traces |
+| 4A.2 retrieval equivalence | PASS | 36,288/36,288 expert ranges byte-exact vs mmap (occurrence-aware) |
+| 4A.2 numerical equivalence | OPEN/FAIL | first router diff at row 13 (same expert set, order differs); first activation divergence layer 3; logits differ |
+| 4B latency decomposition | PARTIAL | `stats.csv` collected but counters mix cumulative + per-step; `build_us` residual negative — not yet a trustworthy budget |
+| 4C cache-ladder projection | PENDING | requires 4B to be valid first |
+| Acceptance 1 (correct generation, uncached) | PARTIAL | runs, generates, but not numerically equivalent to conventional |
+| Acceptance 2 (resident memory measurably lower) | NOT YET MEASURED | streamed path exercised only with `-ngl 0` CPU so far |
+| Acceptance 3 (miss-path latency decomposition) | PARTIAL | components collected, accounting invalid (see 4B) |
+| Acceptance 4 (tok/s projection from decomposition + phase 3 trace) | PENDING | |
+| Acceptance 5 (no cache/eviction/prefetch implemented) | PASS | by construction: single-use expert buffers, no reuse |
+
+Canonical failure statement (one paragraph):
+
+> The streamed path executes Kimi Linear with routed experts retrieved
+> individually from the GGUF via pread instead of a resident expert
+> collection. Retrieval and compact-slot mapping are independently
+> verified (36,288 byte-exact ranges). Inference completes at roughly
+> 4.0 t/s prefill / 1.3 t/s decode (provisional — correctness fails),
+> but it does not yet reproduce conventional inference: the router
+> trace first differs at row 13 (layer 7, token 1 — same expert set,
+> ordering swapped) and activations first diverge at layer 3, before
+> the first router difference. Phase 4 therefore remains PARTIAL. The
+> next diagnostic question is whether the row-13 routing mismatch is
+> causal or symptomatic of the earlier activation drift.
+
 ---
 
 ## Phase 5 — Correctness Validation

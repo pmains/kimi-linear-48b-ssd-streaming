@@ -3,6 +3,7 @@
   "n_tokens": 10,
   "seed": 1,
   "backend": "cpu",
+  "stream_mode": "naive",
   "llama_commit": "64672387927af4df64d5708a729bae188314ee97",
-  "captured_at": "2026-08-14T01:41:49Z"
+  "captured_at": "2026-08-14T01:58:11Z"
 }
