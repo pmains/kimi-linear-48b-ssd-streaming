@@ -118,13 +118,34 @@ Other hygiene:
    counter (even ids 0,2,4,...,24) while the streamed path uses its
    own sequential counter (0..12), and the comparator aligned by exec
    id. `phase04_compare.py` now aligns by key-sequence occurrence in
-   file order — 13/13 executions compare cleanly. Residual open
-   questions: (a) why a duplicated `(0,0,2)`-keyed exec exists on both
-   sides (streamed stats.csv shows two `prefill,2` steps while the moe
-   trace shows one — the two copies diverge at different magnitudes,
-   4.3e-3 vs 3.0e-5 at layer 3), and (b) why the conv counter emits
-   even ids. Both are llama.cpp decode/process_ubatch questions, not
-   streaming-architecture questions.
+   file order — 13/13 executions compare cleanly.
+4. **The duplicated 2-token execution — understood (2026-08-13).**
+   The model receives ubatch sequence `[A: 2@0, B: 2@0, 43@0, 4@43,
+   decode x9]` on BOTH paths (verified via streamed `[step]` lines and
+   moe/act/stats traces; stats.csv step 0/1 both `prefill,2`). A and B
+   are genuinely different executions of the same two token positions:
+   routing differs completely (layer 1 token 0: A selects
+   {8,157,16,12,112,177,120,146}, B selects {92,8,51,25,87,91,20,164}),
+   slot counts differ (401 vs 376), and both carry an output token
+   (layer-26 FFN runs in both — the server marks output flags on the
+   second token of each). The cause lives in llama-server's prompt-batch
+   construction (two early output-bearing decodes of tokens 0-1 before
+   the full 47-token prompt; candidate mechanisms: the n_batch-halving
+   retry cascade in `server_context::update_slots`/`decode`, or an
+   explicit first-tokens prefill). NOT a streaming bug, NOT a llama.cpp
+   graph bug, and NOT an oracle-invalidating artifact: both paths see
+   the identical sequence, conv-A == stream-A and conv-B == stream-B
+   are the same underlying executions, and the comparator pairs them by
+   occurrence. The exact server code line was not pinned (server debug
+   logs are suppressed by its log-level init); the even conv exec ids
+   (0,2,...,24) also remain cosmetic-unexplained.
+5. **Diagnostic bonus:** the same 2-token window diverges at different
+   magnitudes — A (first pass over fresh KDA state / MLA KV) diverges
+   ~4.3e-3 at layer 3, B (second pass, state already advanced) only
+   ~3.0e-5. Decode diverges at layer 2; the 43-token prefill at
+   layer 9. First-write paths diverge more than rewrites — consistent
+   with a state-initialization or first-write subtlety in the streamed
+   route graph.
 4. The row-13 router diff is an **ordering swap of an identical expert
    set** (215↔138), consistent with a top-k near-tie reordering rather
    than wrong expert selection.
@@ -175,20 +196,26 @@ Other hygiene:
 - Canonical failing oracle: `benchmarks/results/traces/phase-04-stream-cpu-occ/`.
 - Frozen verdict: `benchmarks/results/phase-04-compare-current.txt`.
 
-## Next steps (fix-1 completed; remaining work)
+## Next steps (item 1 done; item 2 is the critical path)
 
-1. **DONE — fix-1 (semantic-key alignment):** comparator now aligns by
-   key-sequence occurrence; 13/13 executions compare. Remaining
-   sub-question: explain the duplicated 2-token prefill exec (two
-   `prefill,2` steps in streamed stats.csv vs one in moe trace; the two
-   copies diverge at different magnitudes). This is a llama.cpp
-   decode/process_ubatch question — read the ubatch-splitting code
-   before touching anything.
-2. **OPEN — fix-2 (timing-counter semantics):** emit per-step deltas in
-   `stats.csv` (storage counters currently cumulative). 4B prerequisite.
-3. **Then the diagnostic:** on the first aligned diverging execution,
-   compare conventional vs streamed layer-2/3 input → router input →
-   selected experts/weights → MoE output → layer output, to locate the
-   causal boundary (gate-logits capture on both paths from layer 0).
+1. **DONE — duplicated 2-token execution understood** (see finding 4):
+   deterministic server-side prompt-batching artifact, identical on
+   both paths, does not invalidate the oracle. Residual: the exact
+   server code line (candidates: n_batch-halving retry cascade in
+   `server_context::update_slots`/`decode`; an explicit first-tokens
+   prefill) — worth one focused grep in the server's prompt-batch
+   construction, NOT a blocker.
+2. **IN PROGRESS (critical path) — diagnose the first numerical
+   divergence.** On the first aligned diverging execution (A: 2-token
+   prefill, first divergence layer 3; decode: layer 2), compare
+   conventional vs streamed per layer from 0: layer input → attention/
+   state output → FFN/router input → router scores/selection → expert
+   output → layer output. Objective: name the first tensor that
+   differs. Requires a small env-gated gate-logits capture on both
+   paths. Note the A-vs-B magnitude asymmetry (finding 5) as a
+   candidate clue for state-first-write effects.
+3. **HOUSEKEEPING — fix-2 (timing-counter semantics):** emit per-step
+   deltas in `stats.csv` (storage counters currently cumulative). 4B
+   prerequisite; do not let it distract from item 2.
 4. Re-capture oracles only when trace formats change; update manifests
    (worktree-dirty flag now guards provenance).

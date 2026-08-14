@@ -148,10 +148,16 @@ Observations (not yet explained):
    0..12). The comparator previously aligned by exec id, pairing 6 of
    13 executions wrongly. Fixed 2026-08-13: alignment is now by
    semantic-key occurrence in file order — 13/13 executions compare.
-   Residual: a duplicated `(0,0,2)`-keyed exec exists on both sides
-   (streamed stats.csv shows two `prefill,2` steps vs one in the moe
-   trace; the two copies diverge at different magnitudes, 4.3e-3 vs
-   3.0e-5 at layer 3) — a llama.cpp decode/process_ubatch question.
+9. The duplicated `(0,0,2)`-keyed exec is now understood: the model
+   receives `[2@0, 2@0, 43@0, 4@43, decode x9]` on both paths. The
+   two 2-token ubatches are different executions of the same positions
+   (routing differs completely; both carry output tokens — the server
+   marks output flags on their second token), produced by llama-server
+   prompt-batch construction before the full prefill. Deterministic
+   and identical on both paths — does not invalidate the oracle.
+   Notably, the first pass (A) diverges ~4.3e-3 at layer 3 while the
+   second pass (B) over the same tokens diverges only ~3.0e-5 — the
+   first-write path diverges more than the rewrite.
 
 Provisional performance (NOT validated results — correctness fails,
 so these are floor observations only):
@@ -239,11 +245,16 @@ conventional oracle must be re-captured whenever trace formats change.
 
 - Is the row-13 router swap causal or symptomatic? (primary; evidence
   now favors symptomatic — see Hypothesis)
-- Why does a duplicated 2-token prefill exec exist on both sides (two
-  `prefill,2` steps in streamed stats.csv vs one moe group), and why
-does the conv act counter emit even exec ids?
+- Why does llama-server emit two output-bearing 2-token decodes of
+  positions 0-1 before the full prompt (candidates: n_batch-halving
+  retry cascade in `update_slots`/`decode`, or an explicit
+  first-tokens prefill)? Cosmetic for the oracle; not a blocker.
+- Why does the conv act counter emit even exec ids? (cosmetic)
 - What exactly drifts at layer 2–3 in the streamed route graph, given
   layers 0–2 match to ≤1.25e-6 on the first exec?
+- Why does the first pass over tokens 0-1 (A) diverge ~100x more than
+  the second pass (B) over the same tokens? (first-write/state-init
+  hypothesis)
 - How should `stats.csv` be restructured to be a trustworthy latency
   budget (deltas + per-component overlap accounting)?
 
