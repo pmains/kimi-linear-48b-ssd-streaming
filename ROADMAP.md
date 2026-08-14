@@ -465,7 +465,7 @@ completed work.
 | 4B latency decomposition | PASS | `stats.csv` per-step deltas valid; `build_us` small positive. See `phase-04-miss-path.json`. |
 | 4C cache-ladder projection | PASS | `phase-04-projection.csv`: 1.42 → 2.12 tok/s across 1→14.6 GB. |
 | Acceptance 1 (correct generation, uncached) | PASS | generates; numerically bit-identical to conventional. |
-| Acceptance 2 (resident memory measurably lower) | NOT YET MEASURED | only `-ngl 0` CPU so far; mmap dominates resident RSS. |
+| Acceptance 2 (resident memory measurably lower) | NOT MET | streamed executor reuses the unchanged model load, so the full 256-expert collection (repacked ~28 GB) stays resident; only the compute path changed. Requires skipping/paging expert tensors at load. |
 | Acceptance 3 (miss-path latency decomposition) | PASS | pread 417 ms / copy 242 ms / sync 0 / kernel 42 ms / trunk 110 ms / build 29 ms = 841 ms (1.19 tok/s). |
 | Acceptance 4 (tok/s projection from decomposition + phase 3 trace) | PASS | conservative lower bound; floor 1.42 tok/s @1 GB → 2.12 tok/s @14.6 GB. |
 | Acceptance 5 (no cache/eviction/prefetch implemented) | PASS | by construction: single-use expert buffers, no reuse |

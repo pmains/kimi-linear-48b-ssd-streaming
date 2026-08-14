@@ -1,0 +1,9 @@
+{
+  "prompt": "benchmarks/prompts/phase-03-reasoning-pumps.md",
+  "n_tokens": 32,
+  "seed": 1,
+  "backend": "cpu",
+  "llama_commit": "c111f595f6aca25f3a907ad198e99a27df59794a",
+  "llama_worktree_dirty": false,
+  "captured_at": "2026-08-14T06:00:24Z"
+}

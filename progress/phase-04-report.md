@@ -4,7 +4,7 @@
 
 **PASS** on the critical path (numerical equivalence + miss-path decomposition
 + cache-ladder projection). Acceptance item 2 (resident memory measurably
-lower) remains **unmeasured** — see Problems.
+lower) is **not met by the current implementation** — see Problems.
 
 The layer-1 `moe_out` seed that blocked Phase 4 is resolved: the streamed
 executor now reproduces conventional inference **bit-for-bit** on the A/B/C
@@ -35,6 +35,9 @@ the seed mechanism, fixed it, re-verified, and produced the 4B/4C latency work
   where a 0-size expert context makes `alloc_ctx_tensors_from_buft` return
   `nullptr` benignly — previously this aborted at the layer-26 dense-branch
   assert.
+- `src/llama-expert-stream-exec.cpp` (commit `60dc29e64`) — free the per-layer
+  loaded-expert backend buffers (deferred to the next layer's scheduler reset)
+  to stop a ~1 GB/step leak that OOM'd beyond ~10-20 tokens.
 - `src/models/kimi-linear.cpp` — the `router_weights_v` trace capture now views
   `[n_used, cols]` instead of `[n_used, 1]` so its `n_tokens` field matches the
   conventional `router_weights` capture (diagnostic-only; the readback still
@@ -132,13 +135,15 @@ experts so a hit elides both the pread and the re-repack.
 
 ## Problems
 
-1. **Acceptance 2 (resident memory measurably lower) is unmeasured.** Both
-   captures used `-ngl 0` (CPU, mmap-backed weights), so "resident memory" is
-   dominated by the mmap page cache rather than a resident expert collection.
-   The streamed design is structurally single-use with `n_slots`-bounded expert
-   buffers (guaranteeing lower expert residency than the conventional 256-expert
-   tensors), but no RSS/allocated-size measurement has been taken. This is the
-   only acceptance item still open.
+1. **Acceptance 2 (resident memory measurably lower) is not met.** The streamed
+   executor reuses the unchanged model load, so the full 256-expert collection
+   (repacked, ~28 GB) is still resident in both paths. Streaming changes only
+   the compute path (which experts are read into the small per-step buffer),
+   not model residency. Lowering resident memory requires a future change: skip
+   loading the full expert tensors at model load (or page them), so experts are
+   materialized only on demand. (Note: a per-layer buffer leak — ~1 GB/step,
+   which OOM'd generations beyond ~10-20 tokens — *was* found and fixed in
+   `60dc29e64`; that is a leak fix, not a residency reduction.)
 2. **`KIMI_DX_VERIFY` is now moot and would crash if re-enabled.** It read back
    the loaded tensor via `ggml_backend_tensor_get`, which the repack buffer type
    does not support (`get_tensor = nullptr`). Its original purpose (compare
@@ -161,11 +166,12 @@ experts so a hit elides both the pread and the re-repack.
 
 ## Next Phase
 
-Phase 5 (correctness validation) can begin: CPU equivalence is stable and
-bit-identical. Phase 5 needs (a) a decision on whether acceptance 2 (memory)
-must close before Phase 4 is declared complete, and (b) the note that a Phase 6
-cache must store repacked expert bytes to avoid re-paying the 241 ms repack on
-every hit.
+Phase 5 (correctness validation) is now complete — see
+`progress/phase-05-report.md` (bit-identical over 10/32/64 tokens and two
+prompts). Remaining for a full Phase 4 close: acceptance 2 (resident memory)
+needs a model-load change to skip/page the full expert tensors. For Phase 6, a
+cache must store already-repacked expert bytes so a hit elides both the SSD
+pread and the ~241 ms re-repack.
 
 ## Reproduction
 
