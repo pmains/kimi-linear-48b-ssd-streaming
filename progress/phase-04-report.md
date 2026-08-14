@@ -192,6 +192,92 @@ match through layer 6 and only the layer-7 top-k output reorders, the
 swap is a near-tie artifact and the layer-2/3 activation drift is the
 primary bug.
 
+## First-Divergence Diagnosis (4A.2 milestone, 2026-08-13)
+
+Status: LOCALIZED (no fix attempted). Instrumentation + evidence below.
+
+### Instrumentation
+
+Env-gated boundary captures (`KIMI_TRACE_ACT=1`, warmup excluded) added
+in the shared layer builders so BOTH paths emit them from one site:
+
+| Role | Tensor | Where |
+|---|---|---|
+| `l_in` | layer input (pre-attention) | `build_layer_attn` entry |
+| `attn_out` | attention/state output (post-selection, pre-residual) | `build_layer_attn` |
+| `ffn_inp` | FFN/router input (post-residual) | `build_layer_attn` |
+| `router_logits` | pre-activation router logits [n_expert] | `build_moe_ffn_route` |
+| `router_weights` | normalized+scaled weights [n_expert_used] | `build_moe_ffn_route` |
+| `moe_out` | FFN/MoE output (pre-residual) | `build_layer_ffn_compute` |
+| `l_out` / `logits` | layer output / final logits | (existing TCAT) |
+
+Selected expert IDs remain in the moe.csv router trace. `stats.csv`
+storage counters are now per-step deltas (step-start snapshot; `build_us`
+residual positive again). Comparator (`phase04_compare.py`) compares
+boundaries in true pipeline order and stops at the first boundary whose
+max|d| exceeds 1e-5.
+
+Traces: `benchmarks/results/traces/phase-04-dx-conv/` and
+`phase-04-dx-stream/` (same prompt/seed/model as the oracles; llama.cpp
+`c5b8bf47`).
+
+### Result — the first divergence, localized
+
+Across ALL 13 executions the pattern is identical:
+
+1. **Seed (layer 1):** `moe_out[1]` is the ONLY boundary whose output
+differs while every captured input is bit-identical (`l_in`, `attn_out`,
+`ffn_inp`, `router_logits`, `router_weights`; ids identical per moe.csv).
+Magnitude 7.5e-9 (exec 0), 3.0e-8 (exec 1), 2.2e-8 (decode).
+2. **Amplification:** the noise grows through layers — ~2e-8 → ~1e-6
+(layer 2) → crosses 1e-5 at the attention output.
+3. **First criterion-crossing (>1e-5):** always `attn_out` except one
+case — see table.
+
+| Exec | Kind | First >1e-5 boundary | max\|d\| |
+|---|---|---|---|
+| 0 | 2@0 prefill (A, fresh state) | layer 3 `attn_out` | 3.09e-4 |
+| 1 | 2@0 prefill (B, state after A) | layer 3 `moe_out` (attn_out bit-identical) | 3.05e-5 |
+| 2 | 43@0 prefill | layer 9 `attn_out` | 5.23e-5 |
+| 3 | 4@43 prefill | layer 2 `attn_out` | 4.11e-5 |
+| 4-12 | decode (pos 47-55) | layer 2 `attn_out` | 5.9e-5 .. 1.2e-4 |
+
+Full per-boundary listing: `benchmarks/results/phase-04-compare-current.txt`.
+
+### Interpretation (hypothesis for the fix milestone, NOT yet verified)
+
+The seed is the **layer-1 MoE computation itself**: identical inputs
+(including router logits/weights and byte-exact expert slices) produce a
+~1e-8 output difference. The only structural difference in that
+computation is the expert tensor the matmul runs over: conventional uses
+the resident full `[n_embd, n_ff, 256]` tensor; streamed uses the compact
+loaded `[n_embd, n_ff, n_slots]` tensor (same bytes, remapped ids).
+Leading hypothesis: the ggml CPU `mul_mat_id` path produces different
+accumulation for the compact shape. Alternative (uncaptured): the
+normed FFN input differs (argued bit-identical given bit-identical
+`ffn_inp`, but not directly captured).
+
+The attention block is an **amplifier, not the source**: exec 1's
+`attn_out[3]` is bit-identical while its MoE output diverges, and the
+decode executions (state no longer fresh) show the same layer-1 seed.
+This REFUTES the earlier fresh-state-initialization hypothesis (4A.2
+milestone directive item 4). The layer-7 router ordering swap (row 13)
+is confirmed downstream of the amplified seed.
+
+Amplification is large through the stateful blocks (~250x layer-3
+attention in exec 0; ~5000x layer-2 attention on decode: 2.2e-8 →
+1.1e-4) — a characterization, not itself a bug.
+
+### Next step for the fix milestone (NOT started, per directive)
+
+Determine the seed mechanism: (a) capture the normed FFN input as a
+boundary role to close the uncaptured-input gap, and/or (b) run a
+direct `mul_mat_id` determinism check (same Q4_K slice bytes in a
+[.., 256] vs [.., n_slots] tensor). Do not attempt fixes until the
+seed op is named.
+
+---
+
 ## Problems
 
 1. **Numerical equivalence not achieved** — the phase's core open
