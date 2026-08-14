@@ -1,0 +1,19 @@
+llama_expert_streamer: failed to allocate loaded ids buffers
+       66.24 real        18.90 user        19.19 sys
+         17978441728  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             5890468  page reclaims
+             3642463  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                 529  messages sent
+                 526  messages received
+                   0  signals received
+               31781  voluntary context switches
+              873980  involuntary context switches
+        469938284194  instructions retired
+        156529393186  cycles elapsed
+         40157726184  peak memory footprint
