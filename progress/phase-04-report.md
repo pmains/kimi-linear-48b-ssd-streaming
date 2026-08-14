@@ -137,14 +137,21 @@ Observations (not yet explained):
 6. First router difference at layer 7 (row 13) is an ordering swap of
    an identical expert set — consistent with a top-k tie-break /
    ordering divergence rather than wrong expert selection.
-7. Activation divergence begins at layer 3 — four layers *before* the
-   first router difference in the same execution. If layer-3 drift is
-   upstream of the router, the row-13 mismatch is **symptomatic**, not
-   causal (see Hypothesis).
-8. 6 of 13 executions fail semantic-key alignment between paths (e.g.
-   conventional emits a duplicate `(0,0,2)`-keyed exec), flagged by the
-   comparator as alignment breakage. Suspected warmup double-trace on
-   the conventional path; not yet root-caused.
+7. Activation divergence precedes the first router difference in
+   **every** execution (with alignment fixed): decode steps diverge at
+   layer 2, the 2-token prefill execs at layer 3, the 43-token prefill
+   at layer 9; the layer-7 router swap is downstream of all of them.
+   The row-13 mismatch is therefore **symptomatic**, not causal (see
+   Hypothesis).
+8. Exec-id numbering differs between paths (conventional: static
+   counter, even ids 0,2,...,24; streamed: own sequential counter
+   0..12). The comparator previously aligned by exec id, pairing 6 of
+   13 executions wrongly. Fixed 2026-08-13: alignment is now by
+   semantic-key occurrence in file order — 13/13 executions compare.
+   Residual: a duplicated `(0,0,2)`-keyed exec exists on both sides
+   (streamed stats.csv shows two `prefill,2` steps vs one in the moe
+   trace; the two copies diverge at different magnitudes, 4.3e-3 vs
+   3.0e-5 at layer 3) — a llama.cpp decode/process_ubatch question.
 
 Provisional performance (NOT validated results — correctness fails,
 so these are floor observations only):
@@ -157,25 +164,27 @@ so these are floor observations only):
 
 ## Hypothesis (current)
 
-The first activation divergence (layer 3) precedes the first router
-difference (layer 7) in the same execution. Working hypothesis: the
-streamed route graph produces a tiny activation drift from layer 3
-onward (same kernels, same bytes — so likely a graph-structure
-difference: e.g. an input that is set differently, a missing/extra
-copy, or a masked-position subtlety in the per-layer subgraph), and
-the layer-7 router ordering swap is a downstream consequence (top-k
-near-ties reorder under small input drift), not the root cause.
+The first activation divergence precedes the first router difference
+in every aligned execution (layer 2 on decode, layer 3 on the 2-token
+prefills, layer 9 on the 43-token prefill; router swap at layer 7).
+Working hypothesis: the streamed route graph produces a tiny activation
+drift from layer 2–3 onward (same kernels, same bytes — so likely a
+graph-structure difference: e.g. an input that is set differently, a
+missing/extra copy, or a masked-position subtlety in the per-layer
+subgraph), and the layer-7 router ordering swap is a downstream
+consequence (top-k near-ties reorder under small input drift), not the
+root cause.
 
 Alternative hypothesis: routing is causal — a subtle difference in the
-route graph's router inputs (e.g. norm input or gate logits) changes
-top-k ordering at layer 7, and layer-3 activation drift is a separate,
-earlier phenomenon.
+route graph's router inputs changes top-k ordering at layer 7, and the
+layer-2/3 activation drift is a separate, earlier phenomenon.
 
 Distinguishing diagnostic: compare per-layer `gate_inp` logits
 (router input) between paths from layer 0 — if they diverge before
-layer 3, the fault is in the route graph itself; if they match through
-layer 6 and only the layer-7 top-k output reorders, the swap is a
-near-tie artifact and the layer-3 activation drift is the primary bug.
+the activation drift, the fault is in the route graph itself; if they
+match through layer 6 and only the layer-7 top-k output reorders, the
+swap is a near-tie artifact and the layer-2/3 activation drift is the
+primary bug.
 
 ## Problems
 
@@ -187,10 +196,12 @@ near-tie artifact and the layer-3 activation drift is the primary bug.
    `expert_compute_us` are per-step. The `build_us` residual is
    therefore meaningless and goes increasingly negative. Fix: snapshot
    counters at step start and emit deltas. Blocking 4B.
-3. **Semantic-key misalignment on 6/13 execs** (observation 8 above).
-   The comparator refuses to compare those execs — they contribute to
-   OVERALL FAIL but the activation table is only shown for exec 0.
-   Suspected: warmup double-trace on the conventional path.
+3. **Semantic-key misalignment on 6/13 execs — FIXED (2026-08-13).**
+   Root cause: exec-id pairing artifact (conv even ids vs stream
+   sequential ids). Comparator now aligns by key-sequence occurrence
+   in file order; 13/13 executions compare. Residual open question:
+   the duplicated `(0,0,2)`-keyed exec present on both sides (see
+   observation 8).
 4. Parser bug fixed this phase: `phase04_compare.py` assumed the
    retrieval status was the last CSV field; the occurrence-aware log
    put it penultimate. Fixed and re-verified (A passes).
@@ -226,19 +237,21 @@ conventional oracle must be re-captured whenever trace formats change.
 
 ## Open Questions
 
-- Is the row-13 router swap causal or symptomatic? (primary)
-- Why does the conventional act trace emit duplicate early-exec
-  records, breaking semantic-key alignment at execs 2,4,6,8,10,12?
-- What exactly drifts at layer 3 in the streamed route graph, given
-  layers 0–2 match to ≤1.25e-6?
+- Is the row-13 router swap causal or symptomatic? (primary; evidence
+  now favors symptomatic — see Hypothesis)
+- Why does a duplicated 2-token prefill exec exist on both sides (two
+  `prefill,2` steps in streamed stats.csv vs one moe group), and why
+does the conv act counter emit even exec ids?
+- What exactly drifts at layer 2–3 in the streamed route graph, given
+  layers 0–2 match to ≤1.25e-6 on the first exec?
 - How should `stats.csv` be restructured to be a trustworthy latency
   budget (deltas + per-component overlap accounting)?
 
 ## Next Phase
 
-- Diagnose row-13 (see Hypothesis): capture per-layer `gate_inp`
-  logits on both paths from layer 0; determine whether routing is
-  causal or symptomatic.
+- Diagnose the layer-2/3 boundary (see Hypothesis): capture per-layer
+  router-input (gate logits) on both paths from layer 0; determine
+  whether routing is causal or symptomatic.
 - Fix the stats accounting (deltas) before treating 4B/4C numbers as
   valid.
 - Re-run the A/B/C oracle after any fix and preserve the result as the

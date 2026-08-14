@@ -18,10 +18,15 @@ and reports, per execution, three increasingly strong claims:
   C. Model equivalence: final logits max|d| <= 1e-5, mean|d| <= 1e-6,
      top-1 and top-5 agreement 100%.
 
-Executions are aligned SEMANTICALLY by (phase, start_pos, n_tokens) rather
-than by exec index, so a later scheduling change cannot silently misalign
-the two paths. If the ordered semantic-key sequences differ, the comparator
-fails loudly instead of comparing mismatched executions.
+Executions are aligned SEMANTICALLY by (phase, start_pos, n_tokens) in
+FILE ORDER (occurrence index within the key sequence), not by exec id:
+the conventional path numbers execs with a static counter (even ids
+0,2,4,... after the warmup-dump quirk) while the streamed path uses its
+own sequential counter (0,1,2,...), so exec ids are not comparable
+between runs. Both traces contain the same executions with the same
+semantic keys; the key sequence is the only trustworthy alignment.
+If the ordered semantic-key sequences differ, the comparator fails
+loudly instead of comparing mismatched executions.
 
 TCAT v2 record: u32 magic "TCAT" | u32 exec_id | i32 il | u32 n_embd |
 u32 n_tokens | u32 start_pos | u32 phase | u32 name_len | name |
@@ -47,8 +52,10 @@ PHASE_NAME = {0: "prefill", 1: "decode"}
 
 
 def read_act_trace(path):
-    """Return {exec_id: (semkey, {il: (name, n_tokens, start_pos, phase, data)})}."""
+    """Return (execs, order). execs: {exec_id: (semkey, {il: ...})};
+    order: exec ids in first-seen file order (chronological dump order)."""
     execs = {}
+    order = []
     cur = None
     with open(path, "rb") as f:
         while True:
@@ -64,8 +71,9 @@ def read_act_trace(path):
             data = struct.unpack(f"<{n_embd}f", f.read(4 * n_embd))
             if exec_id not in execs:
                 execs[exec_id] = ((phase, start_pos, n_tokens), {})
+                order.append(exec_id)
             execs[exec_id][1][il] = (name, n_tokens, start_pos, phase, data)
-    return execs
+    return execs, order
 
 
 def read_moe_trace(path):
@@ -172,19 +180,20 @@ def main():
     conv_act, conv_moe, strm_act, strm_moe = sys.argv[1:5]
     strm_retr = sys.argv[5] if len(sys.argv) == 6 else None
 
-    conv = read_act_trace(conv_act)
-    strm = read_act_trace(strm_act)
+    conv, conv_order = read_act_trace(conv_act)
+    strm, strm_order = read_act_trace(strm_act)
 
-    # semantic alignment: ordered list of (semkey, n_l_out_records) per exec
-    def sem_seq(execs):
-        return [(v[0], len([il for il in v[1] if il >= 0])) for _, v in sorted(execs.items())]
+    # semantic alignment: ordered (semkey, n_l_out_records) per execution,
+    # in file (chronological) order
+    def sem_seq(execs, order):
+        return [(execs[e][0], len([il for il in execs[e][1] if il >= 0])) for e in order]
 
-    seq_c, seq_s = sem_seq(conv), sem_seq(strm)
+    seq_c, seq_s = sem_seq(conv, conv_order), sem_seq(strm, strm_order)
     if seq_c != seq_s:
         print("SEMANTIC ALIGNMENT: FAIL")
         print(f"  conv:   {seq_c}")
         print(f"  stream: {seq_s}")
-        print("The two paths produced different ubatch segmentations; "
+        print("The two paths produced different execution sequences; "
               "refusing to compare mismatched executions.")
         return 1
     print(f"SEMANTIC ALIGNMENT: PASS ({len(seq_c)} executions)")
@@ -192,16 +201,17 @@ def main():
     all_ok = True
     g_first_layer = None
     g_logits = None
-    for e in sorted(set(conv) & set(strm)):
-        key_c = conv[e][0]
-        key_s = strm[e][0]
+    # align by key-sequence occurrence index, NOT exec id (see module docstring)
+    for i, (ec, es) in enumerate(zip(conv_order, strm_order)):
+        key_c = conv[ec][0]
+        key_s = strm[es][0]
         if key_c != key_s:
-            print(f"[conv-vs-stream] exec {e}: semantic key mismatch "
+            print(f"[conv-vs-stream] exec {i}: semantic key mismatch "
                   f"{key_c} vs {key_s} — alignment broken")
             all_ok = False
             continue
         ph, sp, nt = key_c
-        ok, lines, metrics = compare_exec(conv[e][1], strm[e][1], e)
+        ok, lines, metrics = compare_exec(conv[ec][1], strm[es][1], i)
         all_ok = all_ok and ok
         if g_first_layer is None or (metrics["first_bad_layer"] is not None
                                      and metrics["first_bad_layer"] < g_first_layer):

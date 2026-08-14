@@ -111,13 +111,29 @@ Other hygiene:
    layer 7 (row 13). The router swap is therefore plausibly
    **symptomatic**, not causal — this sharpens the row-13 question from
    "why does routing differ" to "what drifts at layer 3".
-3. **Semantic-key misalignment on 6 of 13 execs**: the conventional
-   act trace emits duplicate early-exec records (two `(0,0,2)`-keyed
-   execs), so the comparator flags those execs as alignment-broken.
-   Suspected warmup double-trace on the conventional path; open.
+3. **Semantic-key misalignment on 6 of 13 execs — root-caused and
+   fixed (comparator-side).** Both act traces contain the same 13
+   executions with identical key sequences; the misalignment was a
+   pairing artifact: the conventional path numbers execs with a static
+   counter (even ids 0,2,4,...,24) while the streamed path uses its
+   own sequential counter (0..12), and the comparator aligned by exec
+   id. `phase04_compare.py` now aligns by key-sequence occurrence in
+   file order — 13/13 executions compare cleanly. Residual open
+   questions: (a) why a duplicated `(0,0,2)`-keyed exec exists on both
+   sides (streamed stats.csv shows two `prefill,2` steps while the moe
+   trace shows one — the two copies diverge at different magnitudes,
+   4.3e-3 vs 3.0e-5 at layer 3), and (b) why the conv counter emits
+   even ids. Both are llama.cpp decode/process_ubatch questions, not
+   streaming-architecture questions.
 4. The row-13 router diff is an **ordering swap of an identical expert
    set** (215↔138), consistent with a top-k near-tie reordering rather
    than wrong expert selection.
+5. **With alignment fixed, the first-divergence picture sharpens**:
+   decode steps diverge at layer 2, the 2-token prefill execs at
+   layer 3, the 43-token prefill at layer 9 — and the router swap
+   (layer 7) is downstream of activation divergence in every
+   execution. The "symptomatic, not causal" conclusion now holds
+   across all 13 executions.
 
 ## Decisions
 
@@ -159,11 +175,20 @@ Other hygiene:
 - Canonical failing oracle: `benchmarks/results/traces/phase-04-stream-cpu-occ/`.
 - Frozen verdict: `benchmarks/results/phase-04-compare-current.txt`.
 
-## Next steps (when row-13 debugging resumes)
+## Next steps (fix-1 completed; remaining work)
 
-1. Fix `stats.csv` counter deltas (4B prerequisite).
-2. Diagnose layer-3 activation drift via per-layer gate-logits capture
-   on both paths (determines causal vs symptomatic).
-3. Root-cause the conventional-path duplicate early-exec trace records.
+1. **DONE — fix-1 (semantic-key alignment):** comparator now aligns by
+   key-sequence occurrence; 13/13 executions compare. Remaining
+   sub-question: explain the duplicated 2-token prefill exec (two
+   `prefill,2` steps in streamed stats.csv vs one in moe trace; the two
+   copies diverge at different magnitudes). This is a llama.cpp
+   decode/process_ubatch question — read the ubatch-splitting code
+   before touching anything.
+2. **OPEN — fix-2 (timing-counter semantics):** emit per-step deltas in
+   `stats.csv` (storage counters currently cumulative). 4B prerequisite.
+3. **Then the diagnostic:** on the first aligned diverging execution,
+   compare conventional vs streamed layer-2/3 input → router input →
+   selected experts/weights → MoE output → layer output, to locate the
+   causal boundary (gate-logits capture on both paths from layer 0).
 4. Re-capture oracles only when trace formats change; update manifests
    (worktree-dirty flag now guards provenance).
