@@ -915,11 +915,37 @@ Benchmark output can explain the relationship between:
 
 ### Next Phase
 
-Phase 8 (Memory Ladder) consumes `ladder-summary.csv` directly: cache,
-residency, hit rate (with hit classes), decode tok/s, and SSD MB/token
-columns map 1:1 onto the Phase 8 acceptance table. Protocol:
-`KIMI_PHASE7_INSTR=1 tools/phase07_run_ladder.sh <root> 1 2 4 6 8 12`
-then `tools/phase07_summarize.py --ladder <root>`.
+Phase 7B (see below) supersedes this ladder as the authoritative
+performance baseline. Phase 8 consumes the Phase 7B summaries directly:
+`benchmarks/results/phase-07b/baseline/baseline-summary.csv` (plus
+`baseline-runs.csv`, `baseline-ratios.csv`).
+
+---
+
+## Phase 7B — Controlled Performance Baseline
+
+### Status (2026-08-14)
+
+**PASS** — see `progress/phase-07b-report.md`. Re-measured the Phase 7
+performance ladder under a controlled protocol (3 reps/rung, interleaved
+uncached controls, rotated cap order, 15 s settle, ambient-load
+sampling) to separate structural results from thermal noise. 24 runs,
+24/24 invariant PASS, zero dispersion on deterministic columns, Phase
+6B hit rates reproduced bit-identically (0.305/0.461/0.585/0.682/
+0.756/0.810/0.877). Findings: (1) every cache rung beats its in-session
+uncached control (1.38–2.06×); (2) 4 GB is the median peak (4.913 tok/s)
+but 4–10 GB is a statistically flat plateau (4.36–4.91); (3) SSD
+traffic monotonic 850 → 106 MB/token; (4) the Phase 6B "≥10 GB
+throughput cliff" does NOT reproduce as a collapse — 10/12 GB stay above
+uncached — only the component-level compute degradation reproduces
+(expert 15.5 → 91.2 ms at 12 GB). Absolute tok/s remain cross-session
+incomparable (thermal); use in-session controls. Phase 7B is the
+authoritative pre-Phase-8 performance baseline.
+
+### Protocol
+
+    tools/phase07b_run_baseline.sh OUTDIR_ROOT [CAPS_GB...] [--reps N]
+    python3 tools/phase07b_summarize.py --root OUTDIR_ROOT
 
 ---
 
@@ -931,6 +957,14 @@ Determine whether expert streaming is practically useful on the target
 24GB Apple Silicon Mac.
 
 ### Work
+
+Start from the authoritative Phase 7B baseline
+(`benchmarks/results/phase-07b/baseline/baseline-summary.csv`, protocol
+`tools/phase07b_run_baseline.sh`) — its cache/residency/hit-rate/tok/s/
+SSD-traffic columns map 1:1 onto the acceptance table below. Extend it
+with realistic coding workloads (the 7B ladder used only the 64-token
+ref prompt). Compare every budget against an in-session uncached
+control; cross-session absolute tok/s are not comparable (thermal).
 
 Run identical workloads across multiple expert-cache budgets.
 
