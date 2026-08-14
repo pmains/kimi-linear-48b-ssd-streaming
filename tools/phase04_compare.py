@@ -163,7 +163,11 @@ def compare_exec(conv_recs, strm_recs, label):
     def norm_keys(recs):
         out = set()
         for (il, r) in recs:
-            disp = next((d for d, (cr, sr) in ROLE_TARGETS.items() if cr == r or sr == r), r)
+            disp = r
+            for d, (cr, sr) in ROLE_TARGETS.items():
+                if r == sr:
+                    disp = cr  # stream-only virtual role folds onto its conv counterpart
+                    break
             out.add((il, disp))
         return out
     kc = norm_keys(conv_recs)

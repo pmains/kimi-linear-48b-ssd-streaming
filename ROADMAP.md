@@ -461,13 +461,13 @@ completed work.
 |---|---|---|
 | 4A.1 refactor equivalence (route/compute split bit-identical) | PASS | conventional oracle re-captured post-refactor at llama.cpp `646723879`; identical to pre-refactor traces |
 | 4A.2 retrieval equivalence | PASS | 36,288/36,288 expert ranges byte-exact vs mmap (occurrence-aware) |
-| 4A.2 numerical equivalence | OPEN/FAIL | first router diff at row 13 (same expert set, order differs); first activation divergence layer 3; logits differ |
-| 4B latency decomposition | PARTIAL | `stats.csv` collected but counters mix cumulative + per-step; `build_us` residual negative — not yet a trustworthy budget |
-| 4C cache-ladder projection | PENDING | requires 4B to be valid first |
-| Acceptance 1 (correct generation, uncached) | PARTIAL | runs, generates, but not numerically equivalent to conventional |
-| Acceptance 2 (resident memory measurably lower) | NOT YET MEASURED | streamed path exercised only with `-ngl 0` CPU so far |
-| Acceptance 3 (miss-path latency decomposition) | PARTIAL | components collected, accounting invalid (see 4B) |
-| Acceptance 4 (tok/s projection from decomposition + phase 3 trace) | PENDING | |
+| 4A.2 numerical equivalence | PASS (bit-identical) | A/B/C oracle post-fix: 36,288/36,288 retrieval exact, 1,512 router rows bit-identical, all activations + logits bit-identical. Root cause: CPU "repack" buffer type (see report). |
+| 4B latency decomposition | PASS | `stats.csv` per-step deltas valid; `build_us` small positive. See `phase-04-miss-path.json`. |
+| 4C cache-ladder projection | PASS | `phase-04-projection.csv`: 1.42 → 2.12 tok/s across 1→14.6 GB. |
+| Acceptance 1 (correct generation, uncached) | PASS | generates; numerically bit-identical to conventional. |
+| Acceptance 2 (resident memory measurably lower) | NOT YET MEASURED | only `-ngl 0` CPU so far; mmap dominates resident RSS. |
+| Acceptance 3 (miss-path latency decomposition) | PASS | pread 417 ms / copy 242 ms / sync 0 / kernel 42 ms / trunk 110 ms / build 29 ms = 841 ms (1.19 tok/s). |
+| Acceptance 4 (tok/s projection from decomposition + phase 3 trace) | PASS | conservative lower bound; floor 1.42 tok/s @1 GB → 2.12 tok/s @14.6 GB. |
 | Acceptance 5 (no cache/eviction/prefetch implemented) | PASS | by construction: single-use expert buffers, no reuse |
 
 Canonical failure statement (one paragraph):

@@ -1,0 +1,104 @@
+{
+  "stats_csv": "benchmarks/results/traces/phase-04-fix-stream/stats.csv",
+  "locality_json": "benchmarks/results/phase-03-locality.json",
+  "model": "conservative lower bound: t_step(C) = total - pread*h(C); hit removes SSD pread only",
+  "phase2_metal_working_set_gib": 17.8,
+  "phase2_metal_cache_headroom_gb": 14.6,
+  "decode_step_means_us": {
+    "n_steps": 9,
+    "pread_calls": 624.0,
+    "pread_bytes": 891371520.0,
+    "pread_us": 417286.2,
+    "copy_us": 241799.4,
+    "sync_us": 2.2,
+    "route_compute_us": 110405.1,
+    "expert_compute_us": 42326.4,
+    "build_us": 29454.2,
+    "total_us": 841273.7,
+    "n_slots": 208.0
+  },
+  "prefill_step_means_us": {
+    "n_steps": 4,
+    "pread_calls": 2924.2,
+    "pread_bytes": 4176092160.0,
+    "pread_us": 1945496.0,
+    "copy_us": 1162848.0,
+    "sync_us": 7.0,
+    "route_compute_us": 617687.8,
+    "expert_compute_us": 275329.2,
+    "build_us": 464707.8,
+    "total_us": 4466075.8,
+    "n_slots": 974.8
+  },
+  "miss_path_decomposition_us": {
+    "storage_pread_us": 417286.2,
+    "storage_pread_mib_s": 2037.2,
+    "buffer_prep_copy_us": 241799.4,
+    "sync_us": 2.2,
+    "kernel_expert_compute_us": 42326.4,
+    "trunk_route_compute_us": 110405.1,
+    "build_residual_us": 29454.2,
+    "total_us": 841273.7,
+    "effective_GB_per_step": 0.9,
+    "n_slots": 208.0
+  },
+  "projection": [
+    {
+      "capacity_gb": 1,
+      "global_lru_steady_hit_rate": 0.3269,
+      "t_step_us": 704862.8006,
+      "decode_tok_per_s": 1.4187
+    },
+    {
+      "capacity_gb": 2,
+      "global_lru_steady_hit_rate": 0.4426,
+      "t_step_us": 656582.7847,
+      "decode_tok_per_s": 1.523
+    },
+    {
+      "capacity_gb": 4,
+      "global_lru_steady_hit_rate": 0.5817,
+      "t_step_us": 598538.2712,
+      "decode_tok_per_s": 1.6707
+    },
+    {
+      "capacity_gb": 6,
+      "global_lru_steady_hit_rate": 0.6746,
+      "t_step_us": 559772.3812,
+      "decode_tok_per_s": 1.7864
+    },
+    {
+      "capacity_gb": 8,
+      "global_lru_steady_hit_rate": 0.7423,
+      "t_step_us": 531522.1039,
+      "decode_tok_per_s": 1.8814
+    },
+    {
+      "capacity_gb": 10,
+      "global_lru_steady_hit_rate": 0.7915,
+      "t_step_us": 510991.6218,
+      "decode_tok_per_s": 1.957
+    },
+    {
+      "capacity_gb": 12,
+      "global_lru_steady_hit_rate": 0.8479,
+      "t_step_us": 487456.6788,
+      "decode_tok_per_s": 2.0515
+    },
+    {
+      "capacity_gb": 14.6,
+      "global_lru_steady_hit_rate": 0.8843,
+      "t_step_us": 472267.4604,
+      "decode_tok_per_s": 2.1174
+    }
+  ],
+  "threshold_capacities_gb": {
+    "2_tok_s": 12,
+    "3_tok_s": null,
+    "4_tok_s": null,
+    "5_tok_s": null,
+    "6_tok_s": null,
+    "8_tok_s": null,
+    "10_tok_s": null
+  }
+}

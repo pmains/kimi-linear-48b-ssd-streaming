@@ -34,7 +34,7 @@ Legend for **Env gate**:
 |---|---|---|---|---|---|
 | `src/CMakeLists.txt` | Adds `llama-expert-stream.cpp`, `llama-expert-stream-exec.cpp`, `llama-expert-stream.h` to the `llama` library | — (build) | Compile the streamer | 4 | permanent |
 | `src/llama-expert-stream.h` | New: `llama_stream_persist` (persistent backend tensors: act, ffn_inp, normed, weights, logits, embd) + `llama_expert_streamer` (pread retrieval, slot dedupe, occurrence-aware log, timing stats) | — | Shared contract between executor and loader | 4 | permanent |
-| `src/llama-expert-stream.cpp` | New: streamer implementation. `pread()` of expert byte ranges from the backing GGUF at loader-recorded offsets; dedupe occurrences → compact slots (first-occurrence order); naive and coalesced read modes; retrieval log rows `il,kind,occ,expert_id,slot,offset,bytes,ok,mode`; pread/copy/sync µs counters | `KIMI_STREAM_EXPERTS` (constructed only on streamed path) | Retrieval half of streaming; the object of claim A | 4 | permanent |
+| `src/llama-expert-stream.cpp` | New: streamer implementation. `pread()` of expert byte ranges from the backing GGUF at loader-recorded offsets; dedupe occurrences → compact slots (first-occurrence order); naive and coalesced read modes; retrieval log rows `il,kind,occ,expert_id,slot,offset,bytes,ok,mode`; pread/copy/sync µs counters. **4A.2 fix (`c111f595f`): `load_layer` allocates the loaded expert tensors in the SAME buffer type as the resident parent tensors (CPU "repack" buft on ARM) so `ggml_backend_tensor_set` repacks the pread raw bytes into the identical in-memory layout — the bit-identity fix. ids tensors (I32) stay in the default buft; `n_slots==0` (last layer prefill) guarded** | `KIMI_STREAM_EXPERTS` (constructed only on streamed path) | Retrieval half of streaming; the object of claim A | 4 | permanent |
 | `src/llama-expert-stream-exec.cpp` | New: `llama_context::process_ubatch_streamed` — per-ubatch, per-layer loop: route subgraph → readback ids → `load_layer` → compute subgraph → epilogue. All stateful trunk work (attention, KDA/SSM, MLA KV writes) in route subgraphs; compute subgraphs stateless. **4A.2: stats.csv storage counters are per-step deltas (step-start snapshot); `build_us` residual = total − (pread+copy+sync+route+expert)** | `KIMI_STREAM_EXPERTS`; debug probes additionally gated by `KIMI_STREAM_DEBUG` | Execution half of streaming | 4 | permanent |
 | `src/llama-context.cpp` | `process_ubatch` dispatch: streamed path taken when `KIMI_STREAM_EXPERTS` set AND not warmup AND `LLM_GRAPH_TYPE_DEFAULT` AND arch == KIMI_LINEAR AND `n_tokens > 0`. Conventional path untouched otherwise (incl. warmup) | `KIMI_STREAM_EXPERTS` | Route the ubatch to the streamed executor | 4 | permanent |
 | `src/llama-context.cpp` | Conventional-path act-dump call site now stamps the LIVE `(start_pos, phase)` at dump time (graphs reused across decode steps would otherwise carry stale build-time positions) | `KIMI_TRACE_ACT` | Semantic identity of oracle records (format v2) | 4 | permanent |
@@ -61,17 +61,15 @@ Legend for **Env gate**:
 | `src/llama-expert-stream.cpp` | `DBGOFF` block (writes `/tmp/dump_resident.bin`, `/tmp/dump_mmap.bin`, `/tmp/dump_file.bin`) | `KIMI_STREAM_DEBUG` | 3-way resident/mmap/file byte comparison for offset validation | debug-only, delete when row-13 work closes |
 | `src/llama-expert-stream.cpp` | `[RVF]` block (writes `/tmp/resvfile_*.bin`) | `KIMI_STREAM_DEBUG` | Resident-vs-file first-16-byte dumps at layer 1 | debug-only, delete when row-13 work closes |
 
-## Known instrumentation bug (documented, not fixed)
+## Known instrumentation bug — RESOLVED (2026-08-14)
 
-`stats.csv` (written by `process_ubatch_streamed`) mixes **cumulative**
-storage counters (`n_pread_calls`, `n_pread_bytes`, `pread_us`, `copy_us`,
-`sync_us` — they accumulate across steps inside `llama_expert_streamer`)
-with **per-step** compute timers (`route_compute_us`,
-`expert_compute_us`). The `build_us` residual
-(`total − pread − copy − sync − route − expert`) is therefore
-meaningless and goes increasingly negative. Fix before treating the
-latency decomposition (4B) as valid: snapshot the storage counters at
-step start and emit deltas.
+`stats.csv` originally mixed **cumulative** storage counters with
+**per-step** compute timers, making `build_us` go negative. The step-start
+snapshot + per-step delta approach is now in place in
+`process_ubatch_streamed` (snapshot `streamer_->stats()` at step start, emit
+`end − start` deltas) and is **verified** by the post-fix capture
+(`benchmarks/results/traces/phase-04-fix-stream/stats.csv`): `pread_calls`
+constant at 624/step, `build_us` a small positive residual (19–59 ms).
 
 ## Environment variable quick reference
 

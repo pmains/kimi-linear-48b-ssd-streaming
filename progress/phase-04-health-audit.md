@@ -3,6 +3,12 @@
 Status: COMPLETE (2026-08-13). Companion to `phase-04-report.md` and
 `phase-04-modifications.md`.
 
+> **UPDATE 2026-08-14**: the row-13 / first-divergence blocker documented
+> below is RESOLVED. Root cause was the CPU "repack" buffer type (see the
+> `phase-04-report.md` Results §Seed mechanism). The A/B/C oracle now passes
+> bit-identically; 4B decomposition and 4C projection are produced. See
+> `phase-04-report.md` (commit `c111f595f` in llama.cpp).
+
 Trigger: before further row-13 debugging, verify the repository still
 documents exactly what was built, which code produced which trace, and
 how to reproduce the current failure.

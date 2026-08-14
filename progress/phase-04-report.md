@@ -1,417 +1,201 @@
-# Phase 04 Report — Uncached Expert Streaming
+# Phase 04 Report
 
 ## Status
 
-`PARTIAL`
+**PASS** on the critical path (numerical equivalence + miss-path decomposition
++ cache-ladder projection). Acceptance item 2 (resident memory measurably
+lower) remains **unmeasured** — see Problems.
 
-The streamed executor is implemented, runs end-to-end, and its
-retrieval path is independently verified byte-exact — but streamed
-inference does not yet reproduce conventional inference numerically.
-Phase 4 remains open pending the routing/activation investigation
-below.
-
-Phase-4 sub-item states (also recorded in `ROADMAP.md`):
-
-| Item | State |
-|---|---|
-| 4A.1 refactor equivalence (route/compute split bit-identical) | PASS |
-| 4A.2 retrieval equivalence | PASS |
-| 4A.2 numerical equivalence | OPEN/FAIL |
-| 4B latency decomposition | PARTIAL (accounting bug, see Problems) |
-| 4C cache-ladder projection | PENDING |
-| Acceptance 5 (no caching) | PASS by construction |
+The layer-1 `moe_out` seed that blocked Phase 4 is resolved: the streamed
+executor now reproduces conventional inference **bit-for-bit** on the A/B/C
+oracle.
 
 ## Objective
 
-Execute Kimi Linear while routed experts stay on SSD: the existing
-router selects experts normally, but expert weights are retrieved from
-the backing GGUF on demand, uncached — deliberately exposing the
-worst-case miss path so it can be measured and decomposed.
+Phase 4 (uncached expert streaming) was PARTIAL: the streamed executor ran
+end-to-end and retrieved every routed expert byte-exact from the GGUF, but did
+not reproduce conventional inference. Every captured input to layer 1's MoE
+was bit-identical while `moe_out` differed (~1e-8), with attention amplifying
+the seed ~250x–5000x past the 1e-5 comparator threshold. This session named
+the seed mechanism, fixed it, re-verified, and produced the 4B/4C latency work
+(decomposition + tok/s projection) that Phase 4 exists to deliver.
 
-Baseline (established Phase 1–3): llama.cpp at `2606220d9` supports
-Kimi Linear; conventional Metal execution OOMs on 24 GB (30 GB model);
-individual experts are addressable via `(layer, expert_id, tensor)` →
-GGUF offset → `pread`; routing locality is poor (~90% LRU hit needs
-~14.6 GB cache), so miss-path latency is the load-bearing number.
+## Changes
 
-## Environment
+### llama.cpp (commit `c111f595f`, on top of `9f72fc0aa`)
 
-- Host: Apple Silicon MacBook Air, 24 GB unified memory
-- Project repo: `/Users/pmains/Code/openclaw/kimi`, branch `main`
-- `llama.cpp` tree: `llama.cpp/`, branch `master`
-  - upstream base: `2606220d9` (recorded `progress/phase-01-report.md`)
-  - phase-04a refactor commits: `48092e67e`, `10dae8341`, `646723879`
-  - streaming executor commit: `911055efd` (this phase; previously
-    uncommitted working-tree changes — see `progress/phase-04-health-audit.md`)
-- Model: `models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf`
-  (bartowski Q4_K_M; sha256 pinned in `refs/kimi-linear/gguf-q4-k-m.sha256`)
-- Config facts: 27 layers, 256 experts/layer, 8 experts/token,
-  `n_layer_dense_lead` layers route-free; per-expert Q4_K/Q6_K slices
-  ≈ 4.36 MB (Phase 2)
-- Prompt: `benchmarks/prompts/phase-04-ref.md` (49 tokens, coding task)
-- Generation: 10 tokens, `--temp 0 --seed 1`
-- Streamed capture: `KIMI_STREAM_EXPERTS=naive`, `-ngl 0` (CPU backend
-  gate; Metal integration is the later 4B question)
-- Oracle traces (both paths, same prompt/seed):
-  `benchmarks/results/traces/phase-04-conv-ref/` (conventional) and
-  `benchmarks/results/traces/phase-04-stream-cpu-occ/` (streamed,
-  occurrence-aware; `phase-04-stream-cpu/` is the superseded
-  pre-fix run and is no longer referenced)
+- `src/llama-expert-stream.cpp` — `load_layer` now allocates the loaded expert
+  tensors (`up`/`gate`/`down`) in the **same buffer type as the resident parent
+  tensors** (`ggml_backend_buffer_get_type(t_up->buffer)`), instead of the
+  default CPU buffer. `ggml_backend_tensor_set` then repacks the pread raw
+  bytes into the identical in-memory layout. The `ids` tensors (I32) remain in
+  the default buffer (the repack buffer only repacks quantized MUL_MAT_ID
+  weights and has `get_tensor = nullptr`). Also guarded the `n_slots == 0`
+  case (last MoE layer during prefill, before any output token is selected)
+  where a 0-size expert context makes `alloc_ctx_tensors_from_buft` return
+  `nullptr` benignly — previously this aborted at the layer-26 dense-branch
+  assert.
+- `src/models/kimi-linear.cpp` — the `router_weights_v` trace capture now views
+  `[n_used, cols]` instead of `[n_used, 1]` so its `n_tokens` field matches the
+  conventional `router_weights` capture (diagnostic-only; the readback still
+  compares the token-0 column).
 
-## Architecture
+### project repo
 
-The streamed path replaces the single `build_graph` + one-shot compute
-in `llama_context::process_ubatch` when
-`KIMI_STREAM_EXPERTS` is set (Kimi Linear, non-warmup, default graph
-type). Per ubatch, per layer:
+- `tools/phase04_compare.py` — `norm_keys` folds stream-only virtual roles onto
+  their conventional counterparts so the structural record-set check passes.
+- `tools/phase04_project.py` (new) — miss-path decomposition + ladder projection.
+- `benchmarks/results/phase-04-miss-path.json`, `phase-04-projection.csv` (new).
+- `benchmarks/results/traces/phase-04-fix-conv/` and `phase-04-fix-stream/` —
+  the post-fix oracle captures (conventional + streamed).
+- `benchmarks/results/phase-04-compare-current.txt` is now the post-fix PASS
+  comparator output; the pre-fix failing output was renamed to
+  `phase-04-compare-pre-fix.txt`.
 
-    route subgraph  (attention + KDA/SSM/MLA KV + residual + ffn_norm
-                     + routing logits/probs/topk/weights)
-          ↓  ids[8, n_tokens] read back to host (only data crossing)
-    load_layer      (dedupe occurrences → compact slots; pread each
-                     unique (layer, expert, {gate,up,down}) slice from
-                     GGUF at loader-recorded offsets; byte-verify vs
-                     mmap; host → backend copy)
-          ↓
-    compute subgraph (mul_mat_id over loaded [.., .., n_slots] expert
-                     tensors with slot ids; weighted sum; residual)
+## Results
 
-Activations (`act`), FFN input, normed inputs, router weights, logits
-and embeddings persist on the backend between subgraphs
-(`llama_stream_persist`); only routing ids and final logits cross to
-host. Every expert access is a deliberate miss: single-use buffers, no
-reuse across steps. No cache, no prefetch, no eviction.
+### Seed mechanism (M1)
 
-Conventional inference is untouched: the refactor of
-`src/models/kimi-linear.cpp` into `build_layer_attn` /
-`build_layer_ffn_route` / `build_layer_ffn_compute` is behavior-
-preserving for the conventional path (4A.1 PASS — the conventional
-oracle re-captured at the refactored commit reproduces the pre-refactor
-traces).
+The conventional path stores routed expert weights in the CPU backend's
+**"repack" buffer type** (`GGML_USE_CPU_REPACK`, interleaved K-quant layout
+`block_q4_Kx8` / `block_q6_Kx8`, selected because `weight_buft_supported` lets
+the repack buft claim 3-D MUL_MAT_ID weights and it precedes the plain CPU buft
+in `make_cpu_buft_list`). The streamed loader allocated its compact
+`[n_embd, n_ff, n_slots]` experts in the **default** CPU buffer (raw file
+layout). The `mul_mat_id` kernels for the two layouts accumulate in different
+fp32 order, so identical inputs + identical (value-wise, byte-reordered)
+weights produced ~1e-8 differences — the seed. Evidence: the `KIMI_DX_VERIFY`
+diagnostic showed the parent tensor's `data` outside the mmap region with
+`first_byte=2` for Q4_K (interleaved `d[0]` at bytes 0-1, `d[1]` at byte 2,
+exactly the `block_q4_Kx8` header) and the `/tmp/dx_l1_up_parent.bin` dump
+`c90b b20a 190b 950b …` vs the file-layout `c90b b018 fcf6 e6ec …`. The repack
+is value-lossless; the divergence is accumulation order, not data.
 
-## Tests
+### Fix (M2)
 
-Build:
+Allocate the loaded experts in the parent's buffer type. Minimal, preserves the
+conventional path bit-for-bit (untouched).
 
-    cmake --build llama.cpp/build-metal --target llama-cli -j4   → PASS
+### A/B/C re-verification (M3)
 
-Correctness oracle (A/B/C), conventional-CPU vs streamed-CPU, same
-prompt/seed/temperature, `tools/phase04_compare.py`:
+```
+A Retrieval:  PASS  (36,288/36,288 byte ranges exact vs mmap)
+B Routing:    PASS  (1,512 rows bit-identical)
+B First divergence: none within criterion
+C Logits:     PASS  max|d|=0.0  mean|d|=0.0  top-1/top-5 agree
+OVERALL:      PASS
+```
 
-- **A. Retrieval equivalence** — PASS:
-  36,288/36,288 requested expert ranges byte-exact vs the GGUF mmap
-  view (occurrence-aware rows; duplicates preserved, not collapsed).
-- **B. Router IDs** — FAIL: 1,512 vs 1,512 rows, structurally
-  identical; first content difference at row 13 (0-indexed):
-  layer 7, token 1, prefill. Same expert set
-  `{7,113,138,215,163,74,52,137}`, ordering differs
-  (positions 2–3 swapped: `138,215` → `215,138`).
-- **B. Layer activations** — FAIL: first divergence at layer 3
-  (max|d| = 4.34e-3; layers 0–2 within 1.25e-6). Divergence grows
-  monotonically to layer 26 (max|d| = 2.50) and logits
-  (max|d| = 1.41, mean|d| = 2.34e-1), yet top-1/top-5 still agree.
-- **C. Logits** — FAIL within phase-4 tolerances (see above).
-- Duplicate-selection sanity: 78/78 `(layer, kind)` groups contain
-  duplicate router selections, preserved by the occurrence-aware log.
+Every captured activation (`l_in`, `attn_out`, `ffn_inp`, `ffn_normed`,
+`router_logits`, `router_weights`, `moe_up/gate/down`, `moe_out`, `l_out`) and
+the logits are **bit-identical** (`max|d|=0.0`), not merely within the 1e-5
+tolerance.
 
-Full current verdict preserved at
-`benchmarks/results/phase-04-compare-current.txt`.
+### 4B miss-path decomposition (M4+M5, decode, per step)
 
-## Results (what passes / what fails)
-
-Demonstrated facts:
-
-1. The streamed executor runs complete inference (prefill + decode)
-   with every routed expert retrieved from the GGUF by pread.
-2. Retrieval equivalence holds: 36,288/36,288 ranges byte-exact, using
-   loader-recorded authoritative offsets (not recomputed guesses).
-3. The route/compute refactor is bit-identical for conventional
-   inference (4A.1).
-4. The router CSV and activation trace are structurally identical
-   between paths (same ubatch segmentation, same layer/token grid);
-   the differences are content-level, not structural.
-5. No caching exists (acceptance 5, by construction).
-
-Observations (not yet explained):
-
-6. First router difference at layer 7 (row 13) is an ordering swap of
-   an identical expert set — consistent with a top-k tie-break /
-   ordering divergence rather than wrong expert selection.
-7. Activation divergence precedes the first router difference in
-   **every** execution (with alignment fixed): decode steps diverge at
-   layer 2, the 2-token prefill execs at layer 3, the 43-token prefill
-   at layer 9; the layer-7 router swap is downstream of all of them.
-   The row-13 mismatch is therefore **symptomatic**, not causal (see
-   Hypothesis).
-8. Exec-id numbering differs between paths (conventional: static
-   counter, even ids 0,2,...,24; streamed: own sequential counter
-   0..12). The comparator previously aligned by exec id, pairing 6 of
-   13 executions wrongly. Fixed 2026-08-13: alignment is now by
-   semantic-key occurrence in file order — 13/13 executions compare.
-9. The duplicated `(0,0,2)`-keyed exec is now understood: the model
-   receives `[2@0, 2@0, 43@0, 4@43, decode x9]` on both paths. The
-   two 2-token ubatches are different executions of the same positions
-   (routing differs completely; both carry output tokens — the server
-   marks output flags on their second token), produced by llama-server
-   prompt-batch construction before the full prefill. Deterministic
-   and identical on both paths — does not invalidate the oracle.
-   Notably, the first pass (A) diverges ~4.3e-3 at layer 3 while the
-   second pass (B) over the same tokens diverges only ~3.0e-5 — the
-   first-write path diverges more than the rewrite.
-
-Provisional performance (NOT validated results — correctness fails,
-so these are floor observations only):
-
-- ~4.0 t/s prefill, ~1.3 t/s decode (reported by llama-cli from the
-  streamed run; ~0.83 s/decode step in `stats.csv`).
-- ~891 MB SSD per decode step (26 layers × 8 experts × 3 tensors ×
-  ≈4.36 MB), ≈0.43 s storage time → ≈2.1 GB/s effective — consistent
-  with the Phase 4 design estimate (~900 MB/step).
-
-## Hypothesis (current)
-
-The first activation divergence precedes the first router difference
-in every aligned execution (layer 2 on decode, layer 3 on the 2-token
-prefills, layer 9 on the 43-token prefill; router swap at layer 7).
-Working hypothesis: the streamed route graph produces a tiny activation
-drift from layer 2–3 onward (same kernels, same bytes — so likely a
-graph-structure difference: e.g. an input that is set differently, a
-missing/extra copy, or a masked-position subtlety in the per-layer
-subgraph), and the layer-7 router ordering swap is a downstream
-consequence (top-k near-ties reorder under small input drift), not the
-root cause.
-
-Alternative hypothesis: routing is causal — a subtle difference in the
-route graph's router inputs changes top-k ordering at layer 7, and the
-layer-2/3 activation drift is a separate, earlier phenomenon.
-
-Distinguishing diagnostic: compare per-layer `gate_inp` logits
-(router input) between paths from layer 0 — if they diverge before
-the activation drift, the fault is in the route graph itself; if they
-match through layer 6 and only the layer-7 top-k output reorders, the
-swap is a near-tie artifact and the layer-2/3 activation drift is the
-primary bug.
-
-## First-Divergence Diagnosis (4A.2 milestone, 2026-08-13)
-
-Status: LOCALIZED (no fix attempted). Instrumentation + evidence below.
-
-### Instrumentation
-
-Env-gated boundary captures (`KIMI_TRACE_ACT=1`, warmup excluded) added
-in the shared layer builders so BOTH paths emit them from one site:
-
-| Role | Tensor | Where |
+| component | µs/step | share |
 |---|---|---|
-| `l_in` | layer input (pre-attention) | `build_layer_attn` entry |
-| `attn_out` | attention/state output (post-selection, pre-residual) | `build_layer_attn` |
-| `ffn_inp` | FFN/router input (post-residual) | `build_layer_attn` |
-| `ffn_normed` | normalized FFN input (pre-router, shared capture site) | `build_layer_ffn_route` |
-| `router_logits` | pre-activation router logits [n_expert] | `build_moe_ffn_route` |
-| `router_weights` | normalized+scaled weights [n_expert_used] | `build_moe_ffn_route` |
-| `moe_out` | FFN/MoE output (pre-residual) | `build_layer_ffn_compute` |
-| `l_out` / `logits` | layer output / final logits | (existing TCAT) |
+| storage pread | 417,286 | 49.6% |
+| buffer prep / repack copy | 241,799 | 28.7% |
+| sync | 2 | ~0% |
+| kernel (MoE expert compute) | 42,326 | 5.0% |
+| trunk (attention + route) | 110,405 | 13.1% |
+| build residual | 29,454 | 3.5% |
+| **TOTAL** | **841,274** | **1.19 tok/s (uncached)** |
 
-Selected expert IDs remain in the moe.csv router trace. `stats.csv`
-storage counters are now per-step deltas (step-start snapshot; `build_us`
-residual positive again). Comparator (`phase04_compare.py`) compares
-boundaries in true pipeline order and stops at the first boundary whose
-max|d| exceeds 1e-5.
+Storage pread sustains ~2.0 GiB/s over 0.89 GB/step (208 distinct experts ×
+~4.3 MB avg). `build_us` is now a small positive residual (the M4 accounting
+fix — step-start snapshot + per-step deltas — is confirmed by the stats.csv:
+`pread_calls` constant at 624/step, `build_us` 19–59 ms).
 
-Traces: `benchmarks/results/traces/phase-04-dx-conv/` and
-`phase-04-dx-stream/` (same prompt/seed/model as the oracles; llama.cpp
-`c5b8bf47`).
+### 4C cache-ladder projection (M5)
 
-### Result — the first divergence, localized
+Conservative lower bound (`t_step(C) = total − pread·h(C)`; a hit removes only
+the SSD pread, no prefetch/overlap/copy-elision assumed), global-LRU steady
+hit rates from `phase-03-locality.json`:
 
-Across ALL 13 executions the pattern is identical:
+| cache GB | steady hit % | tok/s |
+|---|---|---|
+| 1 | 32.7 | 1.42 |
+| 2 | 44.3 | 1.52 |
+| 4 | 58.2 | 1.67 |
+| 6 | 67.5 | 1.79 |
+| 8 | 74.2 | 1.88 |
+| 10 | 79.1 | 1.96 |
+| 12 | 84.8 | 2.05 |
+| 14.6 (Phase 2 headroom) | 88.4 | 2.12 |
 
-1. **Seed (layer 1):** `moe_out[1]` is the ONLY boundary whose output
-differs while every captured input is bit-identical (`l_in`, `attn_out`,
-`ffn_inp`, `ffn_normed`, `router_logits`, `router_weights`; ids identical
-per moe.csv). Magnitude 7.5e-9 (exec 0), 3.0e-8 (exec 1), 2.2e-8 (decode).
-2. **Amplification:** the noise grows through layers — ~2e-8 → ~1e-6
-(layer 2) → crosses 1e-5 at the attention output.
-3. **First criterion-crossing (>1e-5):** always `attn_out` except one
-case — see table.
-
-| Exec | Kind | First >1e-5 boundary | max\|d\| |
-|---|---|---|---|
-| 0 | 2@0 prefill (A, fresh state) | layer 3 `attn_out` | 3.09e-4 |
-| 1 | 2@0 prefill (B, state after A) | layer 3 `moe_out` (attn_out bit-identical) | 3.05e-5 |
-| 2 | 43@0 prefill | layer 9 `attn_out` | 5.23e-5 |
-| 3 | 4@43 prefill | layer 2 `attn_out` | 4.11e-5 |
-| 4-12 | decode (pos 47-55) | layer 2 `attn_out` | 5.9e-5 .. 1.2e-4 |
-
-Full per-boundary listing: `benchmarks/results/phase-04-compare-current.txt`.
-
-### Interpretation (hypothesis for the fix milestone, NOT yet verified)
-
-The seed is the **layer-1 MoE computation itself**: identical inputs
-(`ffn_normed` is now explicitly captured and bit-identical, alongside the
-router logits/weights and byte-exact expert slices) produce a ~1e-8 output
-difference. The only structural difference in that computation is the
-expert tensor the matmul runs over: conventional uses the resident full
-`[n_embd, n_ff, 256]` tensor; streamed uses the compact loaded
-`[n_embd, n_ff, n_slots]` tensor (same bytes, remapped ids). Leading
-hypothesis: the ggml CPU `mul_mat_id` path produces different accumulation
-for the compact shape. The normalized input question is now closed.
-
-The attention block is an **amplifier, not the source**: exec 1's
-`attn_out[3]` is bit-identical while its MoE output diverges, and the
-decode executions (state no longer fresh) show the same layer-1 seed.
-This REFUTES the earlier fresh-state-initialization hypothesis (4A.2
-milestone directive item 4). The layer-7 router ordering swap (row 13)
-is confirmed downstream of the amplified seed.
-
-Amplification is large through the stateful blocks (~250x layer-3
-attention in exec 0; ~5000x layer-2 attention on decode: 2.2e-8 →
-1.1e-4) — a characterization, not itself a bug.
-
-### Next step for the fix milestone (NOT started, per directive)
-
-Determine the seed mechanism by running a direct `mul_mat_id`
-determinism check (same Q4_K slice bytes in a `[.., 256]` vs
-`[.., n_slots]` tensor). Do not attempt fixes until the seed op is
-named. If that experiment fails to explain the seed, return to the
-attention/KDA boundary.
-
----
+Key insight: the miss path (pread + repack copy ≈ 659 ms) dominates, so the
+ceiling even at ~88% hit is only ~2.1 tok/s. The copy is now a **repack**
+(241 ms), not a plain memcpy — a Phase 6 cache should store already-repacked
+experts so a hit elides both the pread and the re-repack.
 
 ## Problems
 
-1. **Numerical equivalence not achieved** — the phase's core open
-   item (see Hypothesis / Next Diagnostic).
-2. **`stats.csv` accounting is invalid.** Storage counters
-   (`pread_calls/bytes/us`, `copy_us`, `sync_us`) accumulate across
-   steps inside `llama_expert_streamer`, while `route_compute_us` /
-   `expert_compute_us` are per-step. The `build_us` residual is
-   therefore meaningless and goes increasingly negative. Fix: snapshot
-   counters at step start and emit deltas. Blocking 4B.
-3. **Semantic-key misalignment on 6/13 execs — FIXED (2026-08-13).**
-   Root cause: exec-id pairing artifact (conv even ids vs stream
-   sequential ids). Comparator now aligns by key-sequence occurrence
-   in file order; 13/13 executions compare. Residual open question:
-   the duplicated `(0,0,2)`-keyed exec present on both sides (see
-   observation 8).
-4. Parser bug fixed this phase: `phase04_compare.py` assumed the
-   retrieval status was the last CSV field; the occurrence-aware log
-   put it penultimate. Fixed and re-verified (A passes).
-5. Debug-noise hygiene fixed this phase: unconditional `[stream]`
-   progress prints (2,457 of 2,492 run.log lines) are now gated
-   behind `KIMI_STREAM_DEBUG=1`.
+1. **Acceptance 2 (resident memory measurably lower) is unmeasured.** Both
+   captures used `-ngl 0` (CPU, mmap-backed weights), so "resident memory" is
+   dominated by the mmap page cache rather than a resident expert collection.
+   The streamed design is structurally single-use with `n_slots`-bounded expert
+   buffers (guaranteeing lower expert residency than the conventional 256-expert
+   tensors), but no RSS/allocated-size measurement has been taken. This is the
+   only acceptance item still open.
+2. **`KIMI_DX_VERIFY` is now moot and would crash if re-enabled.** It read back
+   the loaded tensor via `ggml_backend_tensor_get`, which the repack buffer type
+   does not support (`get_tensor = nullptr`). Its original purpose (compare
+   parent vs file bytes) is answered: the difference was the repack layout.
+3. **The repack copy is a real cost.** Making the streamed path bit-identical to
+   conventional means each loaded expert is repacked on every access (241 ms of
+   the 841 ms step). This is correct (it mirrors what the conventional loader
+   pays once at load), but it is now on the miss path every step.
 
 ## Decisions
 
-Decision: keep the persisted FFN boundary representation unchanged and
-move only the routing decision across the host boundary.
-Reason: preserve conventional graph semantics; avoid activation
-round-trips (user 4A.2 constraint).
-Evidence: streamed path persists activations/weights on the backend;
-only `ids_host` / `load.slot_ids` cross.
-Consequence: smaller debugging surface; carries into the Metal path.
-
-Decision: explicit router-expert-id → compact-slot remap in the
-retrieval trace.
-Reason: the compute graph operates on the compact loaded set, not the
-0..255 expert space.
-Evidence: trace rows carry both expert id and slot; duplicates are
-separate occurrence rows.
-Consequence: routing/loading/compute errors are separable in Metal
-debugging.
-
-Decision: commit the streaming implementation into the `llama.cpp`
-local tree (`911055efd`) and record it in manifests.
-Reason: the work previously existed only as uncommitted working-tree
-changes (project-health audit finding).
-Consequence: manifests now identify an auditable tree state; the
-conventional oracle must be re-captured whenever trace formats change.
-
-## Open Questions
-
-- Is the row-13 router swap causal or symptomatic? (answered:
-  symptomatic, downstream of the earlier seed)
-- Why does llama-server emit two output-bearing 2-token decodes of
-  positions 0-1 before the full prompt (candidates: n_batch-halving
-  retry cascade in `update_slots`/`decode`, or an explicit
-  first-tokens prefill)? Cosmetic for the oracle; not a blocker.
-- Why does the conv act counter emit even exec ids? (cosmetic)
-- Does the compact `mul_mat_id` path over the loaded expert slots
-  explain the layer-1 `moe_out` seed, given `ffn_normed` is now
-  bit-identical?
-- Why does the first pass over tokens 0-1 (A) diverge ~100x more than
-  the second pass (B) over the same tokens? (first-write/state-init
-  hypothesis)
-- How should `stats.csv` be restructured to be a trustworthy latency
-  budget (deltas + per-component overlap accounting)?
+- Loaded experts use the **parent tensor's buffer type** rather than the default
+  backend buffer. This is the single source of truth for "the same layout the
+  conventional path computes over" and guarantees bit-identity without
+  hard-coding the repack buft.
+- Projection uses a **conservative lower bound** (hit removes only the pread).
+  It deliberately does not assume prefetch/overlap, so the numbers are a floor
+  that Phase 6 must beat.
+- The conventional path is byte-unchanged; it remains the permanent oracle.
 
 ## Next Phase
 
-- Close the layer-1 MoE question first: compare the conventional
-  resident `[n_embd, n_ff, 256]` `mul_mat_id` path with the streamed
-  compact `[n_embd, n_ff, n_slots]` path using the same `ffn_normed`
-  inputs and byte-identical expert slices.
-- If that does not explain the seed, return to the later attention/KDA
-  amplification boundary with the same tracing harness.
-- Fix the stats accounting (deltas) before treating 4B/4C numbers as
-  valid.
-- Re-run the A/B/C oracle after any fix and preserve the result as the
-  regression oracle (`phase-04-stream-cpu-occ/` is currently the
-  canonical failing oracle — do not overwrite without a manifest note).
-- Only after router/activation equivalence is stable: move to the
-  Metal-specific streaming question with the same slot-mapped expert
-  representation.
-- If the seed is in `mul_mat_id`, the Metal path inherits the same
-  compact-expert requirement but not the CPU-specific accumulation bug.
+Phase 5 (correctness validation) can begin: CPU equivalence is stable and
+bit-identical. Phase 5 needs (a) a decision on whether acceptance 2 (memory)
+must close before Phase 4 is declared complete, and (b) the note that a Phase 6
+cache must store repacked expert bytes to avoid re-paying the 241 ms repack on
+every hit.
 
 ## Reproduction
 
-All commands from the repository root. The 28 GB GGUF must be present
-at `models/kimi-linear/` (sha256 pinned).
-
-Capture the conventional oracle (A-side baseline):
-
-```bash
-tools/phase04_run_capture.sh \
-  benchmarks/results/traces/phase-04-conv-ref \
-  benchmarks/prompts/phase-04-ref.md 10 1
-```
-
-Capture the streamed oracle (B/C side, uncached):
+Environment: Apple M5, 24 GB unified memory, macOS 26.5.2. Model:
+`models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf`
+(Q4_K_M, 30,061,058,720 B). llama.cpp at `c111f595f` (the manifest records
+`9f72fc0aa` + dirty because the captures ran before the commit).
 
 ```bash
-tools/phase04_run_streamed.sh \
-  benchmarks/results/traces/phase-04-stream-cpu-occ \
-  benchmarks/prompts/phase-04-ref.md 10 1 naive
-```
+# build
+cmake --build llama.cpp/build-metal --target llama-cli -j6
 
-Compare:
+# conventional oracle
+tools/phase04_run_capture.sh benchmarks/results/traces/phase-04-fix-conv \
+    benchmarks/prompts/phase-04-ref.md 10 1
 
-```bash
+# streamed oracle
+tools/phase04_run_streamed.sh benchmarks/results/traces/phase-04-fix-stream \
+    benchmarks/prompts/phase-04-ref.md 10 1 naive
+
+# compare (A/B/C)
 python3 tools/phase04_compare.py \
-  benchmarks/results/traces/phase-04-conv-ref/act.bin \
-  benchmarks/results/traces/phase-04-conv-ref/moe.csv \
-  benchmarks/results/traces/phase-04-stream-cpu-occ/act.bin \
-  benchmarks/results/traces/phase-04-stream-cpu-occ/moe.csv \
-  benchmarks/results/traces/phase-04-stream-cpu-occ/retr.csv
+    benchmarks/results/traces/phase-04-fix-conv/act.bin \
+    benchmarks/results/traces/phase-04-fix-conv/moe.csv \
+    benchmarks/results/traces/phase-04-fix-stream/act.bin \
+    benchmarks/results/traces/phase-04-fix-stream/moe.csv \
+    benchmarks/results/traces/phase-04-fix-stream/retr.csv
+
+# 4B/4C decomposition + projection
+python3 tools/phase04_project.py \
+    benchmarks/results/traces/phase-04-fix-stream/stats.csv \
+    benchmarks/results/phase-03-locality.json
 ```
-
-Expected: retrieval PASS; router/activation/logits FAIL with the
-row-13 / layer-3 specifics above; exit code 1. Full verdict is echoed
-and also written to `benchmarks/results/phase-04-compare-current.txt`.
-
-## Artifacts
-
-- `benchmarks/results/traces/phase-04-conv-ref/` — conventional oracle
-  (act.bin, moe.csv, run.log, manifest.json; manifest records
-  llama.cpp commit + capture time + worktree state)
-- `benchmarks/results/traces/phase-04-stream-cpu-occ/` — streamed
-  oracle (act.bin, moe.csv, retr.csv [36,288 rows], stats.csv,
-  run.log, manifest.json)
-- `benchmarks/results/phase-04-compare-current.txt` — frozen current
-  A/B/C verdict
-- `progress/phase-04-modifications.md` — inventory of every llama.cpp
-  change (env gates, permanent vs debug-only)
-- `progress/phase-04-health-audit.md` — project-health audit findings
-- `tools/phase04_run_capture.sh`, `tools/phase04_run_streamed.sh`,
-  `tools/phase04_compare.py` — reproduction tooling
