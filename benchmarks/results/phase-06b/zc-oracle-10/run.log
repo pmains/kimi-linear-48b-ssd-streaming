@@ -1,0 +1,116 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-llama_expert_streamer: expert cache enabled: 2048 MiB (selfcheck on)
+llama_expert_streamer: expert cache enabled: 2048 MiB zero-copy mode (per-layer capacity 19..20 slots, selfcheck on)
+\llama_expert_streamer: expert cache armed (2048 MiB, zero-copy mode, selfcheck on)
+|/-\|/-\|/-\|/-\|/-\|llama_expert_streamer: zerocopy selfcheck OK il=3 kind=up expert=138 slot=5
+llama_expert_streamer: zerocopy selfcheck OK il=3 kind=gate expert=138 slot=5
+llama_expert_streamer: zerocopy selfcheck OK il=3 kind=down expert=138 slot=5
+/llama_expert_streamer: zerocopy selfcheck OK il=4 kind=up expert=153 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=4 kind=gate expert=153 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=4 kind=down expert=153 slot=12
+-llama_expert_streamer: zerocopy selfcheck OK il=5 kind=up expert=62 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=5 kind=gate expert=62 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=5 kind=down expert=62 slot=8
+\llama_expert_streamer: zerocopy selfcheck OK il=6 kind=up expert=121 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=6 kind=gate expert=121 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=6 kind=down expert=121 slot=12
+|llama_expert_streamer: zerocopy selfcheck OK il=8 kind=up expert=218 slot=11
+llama_expert_streamer: zerocopy selfcheck OK il=8 kind=gate expert=218 slot=11
+llama_expert_streamer: zerocopy selfcheck OK il=8 kind=down expert=218 slot=11
+/-llama_expert_streamer: zerocopy selfcheck OK il=10 kind=up expert=119 slot=18
+llama_expert_streamer: zerocopy selfcheck OK il=10 kind=gate expert=119 slot=18
+llama_expert_streamer: zerocopy selfcheck OK il=10 kind=down expert=119 slot=18
+\llama_expert_streamer: zerocopy selfcheck OK il=11 kind=up expert=153 slot=4
+llama_expert_streamer: zerocopy selfcheck OK il=11 kind=gate expert=153 slot=4
+llama_expert_streamer: zerocopy selfcheck OK il=11 kind=down expert=153 slot=4
+|/llama_expert_streamer: zerocopy selfcheck OK il=13 kind=up expert=253 slot=5
+llama_expert_streamer: zerocopy selfcheck OK il=13 kind=gate expert=253 slot=5
+llama_expert_streamer: zerocopy selfcheck OK il=13 kind=down expert=253 slot=5
+-llama_expert_streamer: zerocopy selfcheck OK il=15 kind=up expert=36 slot=14
+llama_expert_streamer: zerocopy selfcheck OK il=15 kind=gate expert=36 slot=14
+llama_expert_streamer: zerocopy selfcheck OK il=15 kind=down expert=36 slot=14
+\llama_expert_streamer: zerocopy selfcheck OK il=16 kind=up expert=152 slot=4
+llama_expert_streamer: zerocopy selfcheck OK il=16 kind=gate expert=152 slot=4
+llama_expert_streamer: zerocopy selfcheck OK il=16 kind=down expert=152 slot=4
+|llama_expert_streamer: zerocopy selfcheck OK il=17 kind=up expert=18 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=17 kind=gate expert=18 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=17 kind=down expert=18 slot=12
+/llama_expert_streamer: zerocopy selfcheck OK il=19 kind=up expert=152 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=19 kind=gate expert=152 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=19 kind=down expert=152 slot=8
+-llama_expert_streamer: zerocopy selfcheck OK il=21 kind=up expert=234 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=21 kind=gate expert=234 slot=12
+llama_expert_streamer: zerocopy selfcheck OK il=21 kind=down expert=234 slot=12
+\llama_expert_streamer: zerocopy selfcheck OK il=22 kind=up expert=160 slot=13
+llama_expert_streamer: zerocopy selfcheck OK il=22 kind=gate expert=160 slot=13
+llama_expert_streamer: zerocopy selfcheck OK il=22 kind=down expert=160 slot=13
+llama_expert_streamer: zerocopy selfcheck OK il=23 kind=up expert=115 slot=18
+llama_expert_streamer: zerocopy selfcheck OK il=23 kind=gate expert=115 slot=18
+llama_expert_streamer: zerocopy selfcheck OK il=23 kind=down expert=115 slot=18
+|llama_expert_streamer: zerocopy selfcheck OK il=24 kind=up expert=123 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=24 kind=gate expert=123 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=24 kind=down expert=123 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=25 kind=up expert=4 slot=14
+llama_expert_streamer: zerocopy selfcheck OK il=25 kind=gate expert=4 slot=14
+llama_expert_streamer: zerocopy selfcheck OK il=25 kind=down expert=4 slot=14
+/- llama_expert_streamer: failed to allocate loaded ids buffers
+llama_expert_streamer: zerocopy selfcheck OK il=7 kind=up expert=185 slot=15
+llama_expert_streamer: zerocopy selfcheck OK il=7 kind=gate expert=185 slot=15
+llama_expert_streamer: zerocopy selfcheck OK il=7 kind=down expert=185 slot=15
+llama_expert_streamer: zerocopy selfcheck OK il=9 kind=up expert=37 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=9 kind=gate expert=37 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=9 kind=down expert=37 slot=8
+llama_expert_streamer: zerocopy selfcheck OK il=26 kind=up expert=87 slot=5
+llama_expert_streamer: zerocopy selfcheck OK il=26 kind=gate expert=87 slot=5
+llama_expert_streamer: zerocopy selfcheck OK il=26 kind=down expert=87 slot=5
+
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10431-243f92522
+model      : /Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Write a Python function that takes a list of integers and returns the sum of all even numbers in the list, preserving the original order of the input. Include a brief docstring and one example usage.
+```llama_expert_streamer: zerocopy selfcheck OK il=12 kind=up expert=244 slot=9
+llama_expert_streamer: zerocopy selfcheck OK il=12 kind=gate expert=244 slot=9
+llama_expert_streamer: zerocopy selfcheck OK il=12 kind=down expert=244 slot=9
+llama_expert_streamer: zerocopy selfcheck OK il=14 kind=up expert=80 slot=6
+llama_expert_streamer: zerocopy selfcheck OK il=14 kind=gate expert=80 slot=6
+llama_expert_streamer: zerocopy selfcheck OK il=14 kind=down expert=80 slot=6
+llama_expert_streamer: zerocopy selfcheck OK il=18 kind=up expert=234 slot=13
+llama_expert_streamer: zerocopy selfcheck OK il=18 kind=gate expert=234 slot=13
+llama_expert_streamer: zerocopy selfcheck OK il=18 kind=down expert=234 slot=13
+pythonllama_expert_streamer: zerocopy selfcheck OK il=1 kind=up expert=74 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=1 kind=gate expert=74 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=1 kind=down expert=74 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=2 kind=up expert=190 slot=10
+llama_expert_streamer: zerocopy selfcheck OK il=2 kind=gate expert=190 slot=10
+llama_expert_streamer: zerocopy selfcheck OK il=2 kind=down expert=190 slot=10
+llama_expert_streamer: zerocopy selfcheck OK il=20 kind=up expert=15 slot=6
+llama_expert_streamer: zerocopy selfcheck OK il=20 kind=gate expert=15 slot=6
+llama_expert_streamer: zerocopy selfcheck OK il=20 kind=down expert=15 slot=6
+
+def sum_even_preserve_order(num
+
+[ Prompt: 2.3 t/s | Generation: 2.1 t/s ]
+
+
+Exiting...

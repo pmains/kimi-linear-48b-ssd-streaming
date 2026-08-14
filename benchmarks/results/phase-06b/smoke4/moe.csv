@@ -1,0 +1,3 @@
+# phase,n_tokens,layer,token_idx,e0,e1,e2,e3,e4,e5,e6,e7,start_pos
+prefill,2,1,0,8,157,16,12,112,177,120,146,0
+prefill,2,1,1,214,167,109,245,133,246,89,142,0

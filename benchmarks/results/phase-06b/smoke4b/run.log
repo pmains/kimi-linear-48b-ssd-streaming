@@ -1,0 +1,60 @@
+
+
+Loading model... |-[4d] ctx buft=CPU stream_enabled=1 tensors=289 experts=0
+[4d] ctx buft=CPU_REPACK stream_enabled=1 tensors=321 experts=78
+\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/[4d] ctx buft=CPU stream_enabled=1 tensors=289 experts=0
+[4d] ctx buft=CPU_REPACK stream_enabled=1 tensors=321 experts=78
+[4d] virtualized 78 experts in buft=CPU_REPACK (26.56 GiB not materialized; trunk buf size=1153.63 MiB)
+-\|/-\|/-\|/-\|/-[4d] buffer CPU_Mapped size=28040.13 MiB
+[4d] buffer CPU_REPACK size=1153.63 MiB
+[4d] buffer CPU_REPACK size=0.00 MiB
+\llama_expert_streamer: expert cache enabled: 2048 MiB
+llama_expert_streamer: expert cache enabled: 2048 MiB zero-copy mode (per-layer capacity 19..20 slots)
+[CTRL] token_embd.weight loader_off=316615840 resident_vs_file=0 data=0x7012df2ca0
+[step] nt=2 n_seq_tokens=2 n_seqs=1 n_seqs_unq=1 start_pos=0 out0=0
+[stream] layer 0 route
+[stream] layer 1 route
+[stream] layer 1 load (ids=16)
+[load] il=1 n_occ=16
+[load] il=1 creating tensors n_slots=16 up_type=q4_K down_type=q6_K
+[load] il=1 alloc (buft=CPU_REPACK)
+[load] il=1 slotids set
+[load] il=1 kinds
+DBGOFF blk.1.ffn_up_exps.weight data=0x1059d4d80 mmapbase=0x0 bufbase=0x0 ptr_off=4389162368 buf_off=4389162368 loader_off=1473297696 memcmp_res_vs_mmap=-1 pread_vs_mmap=-1
+DBGOFF blk.1.ffn_gate_exps.weight data=0x1059d4d80 mmapbase=0x0 bufbase=0x0 ptr_off=4389162368 buf_off=4389162368 loader_off=1128683808 memcmp_res_vs_mmap=-1 pread_vs_mmap=-1
+DBGOFF blk.1.ffn_down_exps.weight data=0x1059d4d80 mmapbase=0x0 bufbase=0x0 ptr_off=4389162368 buf_off=4389162368 loader_off=630724896 memcmp_res_vs_mmap=-1 pread_vs_mmap=-1
+[load] il=1 kind=up slice_bytes=1327104 base_off=1473297696
+[load] il=1 kind=up slot=0 expert=8 off=1483914528 pread=1327104
+[RVF] kind=up loader_off=1483914528 resident_first16=00000000000000000000000000000000 file_first16=c90bb018fcf6e6ecbfb3a09c2fbf717a
+[load] il=1 kind=up slot=1 expert=157 off=1681653024 pread=1327104
+[load] il=1 kind=up slot=2 expert=16 off=1494531360 pread=1327104
+[load] il=1 kind=up slot=3 expert=12 off=1489222944 pread=1327104
+[load] il=1 kind=up slot=4 expert=112 off=1621933344 pread=1327104
+[load] il=1 kind=up slot=5 expert=177 off=1708195104 pread=1327104
+[load] il=1 kind=up slot=6 expert=120 off=1632550176 pread=1327104
+[load] il=1 kind=up slot=7 expert=146 off=1667054880 pread=1327104
+[load] il=1 kind=up slot=8 expert=214 off=1757297952 pread=1327104
+[load] il=1 kind=up slot=9 expert=167 off=1694924064 pread=1327104
+[load] il=1 kind=up slot=10 expert=109 off=1617952032 pread=1327104
+[load] il=1 kind=up slot=11 expert=245 off=1798438176 pread=1327104
+[load] il=1 kind=up slot=12 expert=133 off=1649802528 pread=1327104
+[load] il=1 kind=up slot=13 expert=246 off=1799765280 pread=1327104
+[load] il=1 kind=up slot=14 expert=89 off=1591409952 pread=1327104
+[load] il=1 kind=up slot=15 expert=142 off=1661746464 pread=1327104
+/Users/pmains/Code/openclaw/kimi/llama.cpp/ggml/src/ggml-backend.cpp:325: GGML_ASSERT(tensor) failed
+WARNING: Using native backtrace. Set GGML_BACKTRACE_LLDB for more info.
+WARNING: GGML_BACKTRACE_LLDB may cause native MacOS Terminal.app to crash.
+See: https://github.com/ggml-org/llama.cpp/pull/17869
+0   libggml-base.0.19.0.dylib           0x00000001054f93d0 ggml_print_backtrace + 276
+1   libggml-base.0.19.0.dylib           0x00000001055670b8 ggml_abort + 156
+2   libggml-base.0.19.0.dylib           0x000000010550ffa0 ggml_backend_tensor_set + 204
+3   libllama.0.1.0.dylib                0x0000000105809dcc _ZN21llama_expert_streamer10load_layerEiPKixxP11ggml_tensorS3_S3_P12ggml_contextP12ggml_backend + 9148
+4   libllama.0.1.0.dylib                0x000000010580ffb4 _ZN13llama_context23process_ubatch_streamedERK12llama_ubatch14llm_graph_typeP22llama_memory_context_iR11ggml_status + 5548
+5   libllama.0.1.0.dylib                0x00000001057e8468 _ZN13llama_context6decodeERK11llama_batch + 2400
+6   libllama.0.1.0.dylib                0x00000001057ed858 llama_decode + 20
+7   libllama-common.0.1.0.dylib         0x00000001068035c4 _Z23common_init_from_paramsR13common_paramsb + 1540
+8   libllama-server-impl.dylib          0x0000000105c87684 _ZN19server_context_impl10load_modelER13common_params + 3036
+9   libllama-server-impl.dylib          0x0000000105bb0b0c _Z12llama_serverR13common_paramsiPPc + 20324
+10  libllama-cli-impl.dylib             0x00000001050756f8 _ZNSt3__114__thread_proxyB9nqe210106INS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN10cli_server5startER13common_paramsEUlvE_EEEEEPvSC_ + 64
+11  libsystem_pthread.dylib             0x0000000185a25c58 _pthread_start + 136
+12  libsystem_pthread.dylib             0x0000000185a20c1c thread_start + 8

@@ -1,0 +1,4 @@
+step,phase,n_tokens,pread_calls,pread_bytes,pread_us,copy_us,sync_us,route_compute_us,expert_compute_us,build_us,total_us,n_slots,cache_lookups,cache_hits,cache_misses,cache_evictions,cache_hit_bytes,cache_bytes_used,cache_budget
+# pread_calls/bytes/us, copy_us, sync_us are PER-STEP deltas (snapshot at step start); route/expert/build/total are per-step timers; build_us = total - (pread+copy+sync+route+expert)
+0,prefill,2,1200,1711134720,631500,465706,6,302526,111186,66736,1577660,400,384,0,384,0,0,2055518208,2147483648
+1,prefill,2,1050,1497470976,525032,382397,4,47751,39047,44992,1039223,376,376,26,350,244,110813184,2147309568,2147483648

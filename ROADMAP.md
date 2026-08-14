@@ -788,14 +788,17 @@ The cache:
 
 ### Status (2026-08-14)
 
-DEFINED — design in `progress/phase-06b-design.md`; feasibility verified
-at the source (see below). Phase 6 is PARTIAL; per the operating rules,
-Phase 7 does not auto-progress. The STOP point permits further work only
-when selected from measured results — Phase 6 measured that the hit
-path's ~890 MB/step placement copy (~246–486 ms/step) costs as much as
-the SSD I/O it replaces. This phase is that selection. If zero-copy hits
-do not produce a throughput win, the caching thesis is answered
-negatively and we stop.
+**PASS** — zero-copy hits measured at 0 placement bytes, oracle still
+bit-identical (max|Δ| = 0, 33,648/33,648 retrieval ranges byte-exact), and
+the cache now beats the uncached intercept across the practical budget
+range (1–8 GB: 1.3–2.24× in-session; peak 3.30 tok/s at 4 GB vs 1.47
+uncached) — Phase 6 could not do this. The big rungs (10–14.6 GB) fall
+below uncached because the persistent cache's own footprint pushes the
+24 GB machine into memory-pressure compression (route+expert compute slow
+~10× at 14.6 GB; the placement path is not the problem there). See
+`progress/phase-06b-report.md`. Phase 6 is now effectively closed by 6B:
+the original caching thesis produces a real throughput win, bounded to
+≤ ~8 GB of cache on this hardware.
 
 ### Goal
 

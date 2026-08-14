@@ -1,0 +1,21 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|llama_expert_streamer: expert cache enabled: 2048 MiB (selfcheck on)
+llama_expert_streamer: expert cache enabled: 2048 MiB zero-copy mode (per-layer capacity 19..20 slots, selfcheck on)
+//Users/pmains/Code/openclaw/kimi/llama.cpp/ggml/src/ggml-backend.cpp:325: GGML_ASSERT(tensor) failed
+WARNING: Using native backtrace. Set GGML_BACKTRACE_LLDB for more info.
+WARNING: GGML_BACKTRACE_LLDB may cause native MacOS Terminal.app to crash.
+See: https://github.com/ggml-org/llama.cpp/pull/17869
+0   libggml-base.0.19.0.dylib           0x0000000102bfd3d0 ggml_print_backtrace + 276
+1   libggml-base.0.19.0.dylib           0x0000000102c6b0b8 ggml_abort + 156
+2   libggml-base.0.19.0.dylib           0x0000000102c13fa0 ggml_backend_tensor_set + 204
+3   libllama.0.1.0.dylib                0x000000010363ddcc _ZN21llama_expert_streamer10load_layerEiPKixxP11ggml_tensorS3_S3_P12ggml_contextP12ggml_backend + 9148
+4   libllama.0.1.0.dylib                0x0000000103643fb4 _ZN13llama_context23process_ubatch_streamedERK12llama_ubatch14llm_graph_typeP22llama_memory_context_iR11ggml_status + 5548
+5   libllama.0.1.0.dylib                0x000000010361c468 _ZN13llama_context6decodeERK11llama_batch + 2400
+6   libllama.0.1.0.dylib                0x0000000103621858 llama_decode + 20
+7   libllama-common.0.1.0.dylib         0x00000001045635c4 _Z23common_init_from_paramsR13common_paramsb + 1540
+8   libllama-server-impl.dylib          0x0000000103027684 _ZN19server_context_impl10load_modelER13common_params + 3036
+9   libllama-server-impl.dylib          0x0000000102f50b0c _Z12llama_serverR13common_paramsiPPc + 20324
+10  libllama-cli-impl.dylib             0x00000001027c16f8 _ZNSt3__114__thread_proxyB9nqe210106INS_5tupleIJNS_10unique_ptrINS_15__thread_structENS_14default_deleteIS3_EEEEZN10cli_server5startER13common_paramsEUlvE_EEEEEPvSC_ + 64
+11  libsystem_pthread.dylib             0x0000000185a25c58 _pthread_start + 136
+12  libsystem_pthread.dylib             0x0000000185a20c1c thread_start + 8

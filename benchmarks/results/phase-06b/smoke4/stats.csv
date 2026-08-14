@@ -1,0 +1,2 @@
+step,phase,n_tokens,pread_calls,pread_bytes,pread_us,copy_us,sync_us,route_compute_us,expert_compute_us,build_us,total_us,n_slots,cache_lookups,cache_hits,cache_misses,cache_evictions,cache_hit_bytes,cache_bytes_used,cache_budget
+# pread_calls/bytes/us, copy_us, sync_us are PER-STEP deltas (snapshot at step start); route/expert/build/total are per-step timers; build_us = total - (pread+copy+sync+route+expert)
