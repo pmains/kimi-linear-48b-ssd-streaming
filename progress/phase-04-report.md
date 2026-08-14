@@ -2,13 +2,15 @@
 
 ## Status
 
-**PASS** on the critical path (numerical equivalence + miss-path decomposition
-+ cache-ladder projection). Acceptance item 2 (resident memory measurably
-lower) is **not met by the current implementation** — see Problems.
+**PASS** on the numerical-equivalence problem (the primary correctness
+mission): the layer-1 `moe_out` seed is named and fixed, and the A/B/C oracle
+is now **bit-identical** (green). 4B decomposition and 4C projection are also
+produced.
 
-The layer-1 `moe_out` seed that blocked Phase 4 is resolved: the streamed
-executor now reproduces conventional inference **bit-for-bit** on the A/B/C
-oracle.
+Phase 4 as a whole is **PARTIAL**: acceptance item 2 (resident memory
+measurably lower) is **not met by the current implementation** — see Problems.
+The seed mechanism verdict stands on the load-path code reading and the green
+oracle, not on the malformed dx5-v diagnostic (see Results §Seed mechanism).
 
 ## Objective
 
@@ -59,20 +61,41 @@ the seed mechanism, fixed it, re-verified, and produced the 4B/4C latency work
 
 ### Seed mechanism (M1)
 
-The conventional path stores routed expert weights in the CPU backend's
-**"repack" buffer type** (`GGML_USE_CPU_REPACK`, interleaved K-quant layout
-`block_q4_Kx8` / `block_q6_Kx8`, selected because `weight_buft_supported` lets
-the repack buft claim 3-D MUL_MAT_ID weights and it precedes the plain CPU buft
-in `make_cpu_buft_list`). The streamed loader allocated its compact
-`[n_embd, n_ff, n_slots]` experts in the **default** CPU buffer (raw file
-layout). The `mul_mat_id` kernels for the two layouts accumulate in different
-fp32 order, so identical inputs + identical (value-wise, byte-reordered)
-weights produced ~1e-8 differences — the seed. Evidence: the `KIMI_DX_VERIFY`
-diagnostic showed the parent tensor's `data` outside the mmap region with
-`first_byte=2` for Q4_K (interleaved `d[0]` at bytes 0-1, `d[1]` at byte 2,
-exactly the `block_q4_Kx8` header) and the `/tmp/dx_l1_up_parent.bin` dump
-`c90b b20a 190b 950b …` vs the file-layout `c90b b018 fcf6 e6ec …`. The repack
-is value-lossless; the divergence is accumulation order, not data.
+The verdict below is established **by construction from the load path** (code
+reading) and confirmed by the green oracle after the fix; it does not rest on
+the malformed `KIMI_DX_VERIFY` diagnostic from the dx5-v run.
+
+**Code reading (deterministic).** On ARM the CPU backend is built with
+`GGML_USE_CPU_REPACK`, which registers a "repack" buffer type as an *extra*
+buffer type. `make_cpu_buft_list` (`src/llama-model.cpp:904`) places that extra
+buffer type **before** the plain CPU buffer type. For the Kimi Linear routed
+expert weights — 3-D tensors consumed by `GGML_OP_MUL_MAT_ID` — the repack
+buft's `supports_op` (`ggml/src/ggml-cpu/repack.cpp:4774`, the
+`GGML_OP_MUL_MAT_ID && n_dims==3` branch) returns true, so `select_weight_buft`
+(`src/llama-model-loader.cpp:1047`) assigns the expert tensors to the repack
+buffer. During load, `ggml_backend_cpu_repack_buffer_set_tensor`
+(`repack.cpp:4733`) calls `tensor_traits::repack`, which rewrites each 8-row
+block of the raw `block_q4_K`/`block_q6_K` GGUF slice into the interleaved
+`block_q4_Kx8`/`block_q6_Kx8` layout. Therefore the **resident** conventional
+expert tensor is, by construction, byte-different from the raw GGUF expert
+slice (same quantized values, reordered bytes), and it lives in a heap buffer
+outside the mmap region.
+
+The streamed loader instead allocated its compact `[n_embd, n_ff, n_slots]`
+experts in the **default** CPU buffer (raw file layout). The `mul_mat_id`
+kernels for the two layouts accumulate in different fp32 order, so identical
+inputs + identical (value-wise, byte-reordered) weights produced ~1e-8
+differences — the seed. The repack is value-lossless; the divergence is
+accumulation order, not data.
+
+**Decisive check (green oracle).** After changing the loader to allocate the
+loaded experts in the parent's buffer type (so `set_tensor` repacks them
+identically), the A/B/C oracle became **bit-identical (max|d| = 0)**. This is
+the trustworthy instrumented check: if the mechanism were wrong, the fix would
+not have produced exact equality. (The earlier `KIMI_DX_VERIFY` log was
+consistent with this — parent data outside mmap, `first_byte=2` matching the
+interleaved `d[0]`/`d[1]` header — but it was malformed and is not the basis
+for the conclusion.)
 
 ### Fix (M2)
 
@@ -166,12 +189,18 @@ experts so a hit elides both the pread and the re-repack.
 
 ## Next Phase
 
-Phase 5 (correctness validation) is now complete — see
-`progress/phase-05-report.md` (bit-identical over 10/32/64 tokens and two
-prompts). Remaining for a full Phase 4 close: acceptance 2 (resident memory)
-needs a model-load change to skip/page the full expert tensors. For Phase 6, a
-cache must store already-repacked expert bytes so a hit elides both the SSD
-pread and the ~241 ms re-repack.
+Phase 4 is not yet fully closed: acceptance 2 (resident memory) needs a
+model-load change to skip/page the full expert tensors, so the streamed
+path materializes experts on demand instead of keeping the ~28 GB repacked
+collection resident. That is the remaining Phase 4 item and the gate for
+Phase 5.
+
+Phase 5 (correctness validation) was **begun prematurely** and is therefore
+provisional — see `progress/phase-05-report.md` (bit-identical over 10/32/64
+tokens and two prompts). Per the owner's decision tree, Phase 5 is authorized
+only once Phase 4's acceptance criteria genuinely pass. For Phase 6, a cache
+must store already-repacked expert bytes so a hit elides both the SSD pread and
+the ~241 ms re-repack.
 
 ## Reproduction
 

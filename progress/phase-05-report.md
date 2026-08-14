@@ -1,9 +1,17 @@
 # Phase 05 Report
 
+> **OWNER CORRECTION (2026-08-14)**: this phase was begun before Phase 4's
+> acceptance criteria fully passed. Phase 4 acceptance 2 (resident memory
+> measurably lower) is **not met** (see `phase-04-report.md`), so per the
+> owner's decision tree Phase 5 should not have started. The evidence below is
+> correct but is **provisional** — treat it as validation data pending a real
+> Phase 4 close, not as a completed Phase 5.
+
 ## Status
 
-**PASS** — streamed execution is bit-identical to conventional execution across
-longer generations and a second prompt, well inside the documented tolerances.
+**PASS (provisional)** — streamed execution is bit-identical to conventional
+execution across longer generations and a second prompt, well inside the
+documented tolerances.
 
 ## Objective
 
