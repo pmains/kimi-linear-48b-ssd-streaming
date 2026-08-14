@@ -14,12 +14,24 @@
 > (see `phase-04d-report.md`). The correctness evidence is now authoritative;
 > the report's overall status remains provisional only because Phase 4
 > acceptance 2 (process-level RSS below conventional) is still open.
+> **CLOSE (2026-08-14)**: Phase 4 acceptance 2 is now closed by **Phase 4E
+> PASS** (see `phase-04e-report.md` + its Close addendum): decode
+> phys_footprint ~2.0 GB vs conventional 28.2 GB (ctx 4096, --no-mmap),
+> prefill peak ~2.5 GB, scheduler pools 81 MB, per-pass residue ~0 after the
+> `ggml_aligned_free` signature fix (`8b43eac45`). The Phase 5 oracle was
+> re-verified on that **final binary** (`fix-oracle` run): bit-identical to
+> the conventional oracle, max|Δ| = 0, 69,984/69,984 retrieval ranges
+> byte-exact, 2,916 router rows identical. The final missing condition is
+> satisfied; this report is no longer provisional.
 
 ## Status
 
-**PASS (provisional)** — streamed execution is bit-identical to conventional
-execution across longer generations and a second prompt, well inside the
-documented tolerances.
+**PASS (authoritative — closed 2026-08-14)** — streamed execution is
+bit-identical to conventional execution across longer generations and a
+second prompt, well inside the documented tolerances, on the final
+low-residency streamer. The provisional tag is removed: the only open
+condition (Phase 4 acceptance 2) was closed by Phase 4E, and the oracle was
+re-run on the Phase 4E-final binary (`fix-oracle`).
 
 ## Objective
 

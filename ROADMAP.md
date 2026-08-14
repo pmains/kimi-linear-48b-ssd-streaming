@@ -671,6 +671,15 @@ tokens/sec?
 
 ## Phase 5 — Correctness Validation
 
+### Status (2026-08-14)
+
+**PASS (closed)** — streamed execution is bit-identical to conventional
+across all three oracle comparisons (10/32/64 tokens, two prompts,
+max|Δ| = 0), re-verified on the final low-residency streamer (`8b43eac45`,
+`fix-oracle` run). The provisional tag from the 4D-era hold is removed:
+Phase 4 acceptance 2 was closed by Phase 4E PASS (~2.0 GB decode vs
+28.2 GB conventional phys_footprint). See `progress/phase-05-report.md`.
+
 ### Goal
 
 Prove that streaming changes storage behavior, not model behavior.
