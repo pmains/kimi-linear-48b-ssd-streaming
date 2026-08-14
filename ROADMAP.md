@@ -784,6 +784,72 @@ The cache:
 
 ---
 
+## Phase 6B — Zero-Copy Expert Cache (selected from Phase 6 measurements)
+
+### Status (2026-08-14)
+
+DEFINED — design in `progress/phase-06b-design.md`; feasibility verified
+at the source (see below). Phase 6 is PARTIAL; per the operating rules,
+Phase 7 does not auto-progress. The STOP point permits further work only
+when selected from measured results — Phase 6 measured that the hit
+path's ~890 MB/step placement copy (~246–486 ms/step) costs as much as
+the SSD I/O it replaces. This phase is that selection. If zero-copy hits
+do not produce a throughput win, the caching thesis is answered
+negatively and we stop.
+
+### Goal
+
+Determine whether `mul_mat_id` can consume repacked expert slices
+directly from persistent cache-backed storage, eliminating the per-step
+placement copy while preserving bit-identical output and bounded cache
+residency. If it works, rerun the ladder.
+
+### Feasibility (verified against llama.cpp `8b43eac45` + Phase 6)
+
+- The CPU repack kernel (`ggml/src/ggml-cpu/repack.cpp`
+  `forward_mul_mat_id`) is ids-driven: unused slots are skipped
+  (`cne1 == 0 → continue`), and each output element is one independent
+  `vec_dot` over the slice selected by the id value. Slot index values
+  never enter the numerics.
+- The mul_mat_id output's expert dimension is the ids dimension
+  (`n_used` = `ids->ne[0]`), not src0's slot capacity; downstream MoE
+  reduction touches only occurrence rows. Slots beyond the ids are
+  never read.
+- Consequence: a persistent loaded tensor `[ne0, ne1, S_layer]` whose
+  slot regions hold the correct experts' repacked bytes computes
+  bit-identically to the compact per-step layout.
+
+### Design (summary)
+
+The cache and the working tensors become the same object: persistent
+per-(layer, kind) loaded tensors in the repack buft, allocated once;
+slot regions ARE the cache entries. Hit → nothing to place (build
+slot_ids + sync only). Miss → pread + single-slice repack into the
+slot (~1.3–1.9 MB). Eviction is pure bookkeeping; the Phase 6 free-pool
+machinery disappears. Budget = the allocation, exact. `S_layer ≥ 9`
+(max measured per-step unique experts/layer) so every decode step fits;
+prefill steps exceeding capacity fall back to the legacy placement path.
+Gated by `KIMI_EXPERT_CACHE_MODE=zerocopy` (default `placement` = Phase 6
+behavior). CPU-only, as Phase 6.
+
+### Acceptance
+
+- Zero-copy hits measured at 0 MB/step placement with the oracle still
+  bit-identical (Phase 5 comparator, max|Δ| = 0).
+- Ladder (1–14.6 GB + uncached, ctx 4096, min-of-2, reversed order):
+  cached ≥ uncached intercept on the same binary where hit-rate savings
+  exceed the memory-pressure tax — the re-baselined acceptance from the
+  Phase 6 report (the stale 1.42 → 2.12 projection floor is not the
+  bar).
+- Measured hit rate matches per-layer-LRU sim predictions within the
+  Phase 6 tolerances.
+
+### Report
+
+    progress/phase-06b-report.md
+
+---
+
 ## Phase 7 — Instrumentation
 
 ### Goal
