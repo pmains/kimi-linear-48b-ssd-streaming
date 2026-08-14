@@ -503,7 +503,8 @@ Canonical failure statement (one paragraph):
   runtime's own allocations (~1 GB steady-state; ~5-6 GB prefill peak) keep
   process RSS ≥ conventional. Model-weight residency is eliminated; the
   remaining item is streamed-runtime residency (executor/scheduler pool
-  sizing and per-layer buffer churn) — see the 4D report's Next Phase.
+  sizing and per-layer buffer churn). The scoped follow-up is **Phase 4E**
+  below.
 
 ### Goal
 
@@ -586,6 +587,88 @@ longer provisional).
 
 ---
 
+## Phase 4E — Runtime Residency Cleanup
+
+### Status (2026-08-14)
+
+**PASS** — see `progress/phase-04e-report.md`. Acceptance item 2 is met at
+process level: decode phys_footprint (ctx 4096, --no-mmap) is 3.1 GB vs
+conventional 28.2 GB (9× lower); prefill peak 3.1 GB; scheduler pools
+5,368 → 81 MB; malloc-cached empty regions 1.2 GB → 305 MB; oracle
+bit-identical. Key findings: (1) the streamed executor never needs the
+5.4 GB worst-case scheduler reservation — skipped in streamed mode;
+(2) the 8 GB KV cache at default n_ctx (1,048,576) is a shared config
+artifact — memory comparisons must pin --ctx-size; (3) macOS's malloc zone
+never returns freed large regions to the OS (pressure relief = 0 bytes),
+so expert staging is vm-backed scratch (ggml_aligned_malloc) reused and
+released at the prefill→decode transition.
+
+### Goal
+
+Make the uncached streamer's runtime residency reflect the memory
+architecture already proven: the ~1.5 GB permanent model footprint (trunk
+weights + persist tensors) plus a bounded streaming workspace during
+steady-state decode. Eliminate accidental executor residency so Phase 6's
+cache is a deliberate, controllable memory cost — measurable against a
+clean zero-cache intercept — rather than being confounded with executor
+churn.
+
+### Work
+
+Measured churn sources in the streamed executor
+(`src/llama-expert-stream-exec.cpp`, `src/llama-expert-stream.cpp`):
+
+- `stream_begin` pre-allocates a fresh ggml context with a fixed 32 MiB
+  slack (`stream_ctx_size`) per subgraph; one step creates ~98 contexts
+  (preamble + 2×48 layer graphs + epilogue + per-layer load ctx), all
+  freed the same step — ~3 GB/step of ggml pool alloc/free churn.
+- `load_layer` allocates a fresh load context, three expert backend
+  buffers, and packed host staging per layer (freed one layer late).
+- The scheduler's per-backend pools grow to the largest graph ever
+  allocated (prefill) and are retained through decode
+  (`ggml_backend_sched_reset` does not shrink).
+
+Work items:
+
+1. **Right-size and reuse ggml contexts.** Measure actual per-subgraph
+   pool growth for decode vs prefill; size contexts to real decode need
+   (the 32 MiB slack is ~300× the decode-graph metadata) and reuse a
+   bounded pool of contexts instead of per-step init/free churn.
+2. **Reuse expert staging buffers.** Keep the load context, the
+   loaded-expert backend buffers, and the packed host staging across
+   layers/steps, sized to a bounded worst case, instead of per-layer
+   alloc/free (malloc retains ~1.2 GB of freed large regions).
+3. **Bound scheduler pools to the decode graph.** Give steady-state
+   decode a decode-sized scheduler path so it does not retain
+   prefill-sized pools; prefill keeps its own path.
+4. **Instrument live allocations.** Env-gated per-step report of process
+   footprint (`task_info` phys_footprint, the reliable macOS number —
+   includes compressed memory), malloc-zone in-use bytes, and scheduler
+   pool bytes (`ggml_backend_sched_get_buffer_size`) to a CSV.
+
+### Acceptance
+
+1. The Phase 5 oracle stays bit-identical (A/B/C, max|Δ| = 0).
+2. No cache, eviction, or prefetch policy is introduced (still uncached).
+3. Steady-state decode memory is materially lower than conventional on
+   the same metric. Primary metric: per-step phys_footprint during decode
+   (not ru_maxrss, which compression makes optimistic for conventional).
+4. Prefill peak RSS (--no-mmap) below ~8 GB per the 4D report target.
+
+### Report
+
+    progress/phase-04e-report.md
+
+### Exit
+
+Phase 4E PASS closes Phase 4 acceptance item 2. Phase 5 remains
+authoritative. Phase 6 then begins from the measured zero-cache
+memory/performance intercept and asks the clean question: how much RAM
+should we deliberately spend on cached, backend-ready experts to maximize
+tokens/sec?
+
+---
+
 ## Phase 5 — Correctness Validation
 
 ### Goal
@@ -621,7 +704,7 @@ tolerances appropriate to the existing quantization.
 ### Goal
 
 Make the streamer fast, now that correctness and residency are closed by
-Phases 4/4D/5. Phase 6 solves performance only: the miss path costs ~417 ms
+Phases 4/4D/4E/5. Phase 6 solves performance only: the miss path costs ~417 ms
 SSD read + ~242 ms repack per step (Phase 4 4B decomposition), so the cache
 stores the **expensive artifact `mul_mat_id` actually wants** — the
 backend-ready repacked expert buffer.
