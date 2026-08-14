@@ -1,0 +1,59 @@
+phase-07b baseline: 2026-08-14T22:17:24Z
+caps: 1 2 4 6 8 10 12  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-04-ref.md  n_tokens: 64  seed: 1  ctx: 4096
+== round 1 ==
+  [run]  uncached-r1  15:17:24
+  [done] uncached-r1  15:18:12
+   cap order: 1 2 4 6 8 10 12
+  [run]  cap-1-r1  15:18:27
+  [done] cap-1-r1  15:19:06
+  [run]  cap-2-r1  15:19:22
+  [done] cap-2-r1  15:19:57
+  [run]  cap-4-r1  15:20:13
+  [done] cap-4-r1  15:20:47
+  [run]  cap-6-r1  15:21:02
+  [done] cap-6-r1  15:21:36
+  [run]  cap-8-r1  15:21:51
+  [done] cap-8-r1  15:22:25
+  [run]  cap-10-r1  15:22:40
+  [done] cap-10-r1  15:23:15
+  [run]  cap-12-r1  15:23:30
+  [done] cap-12-r1  15:24:07
+== round 2 ==
+  [run]  uncached-r2  15:24:22
+  [done] uncached-r2  15:25:03
+   cap order: 12 10 8 6 4 2 1
+  [run]  cap-12-r2  15:25:18
+  [done] cap-12-r2  15:25:53
+  [run]  cap-10-r2  15:26:08
+  [done] cap-10-r2  15:26:39
+  [run]  cap-8-r2  15:26:54
+  [done] cap-8-r2  15:27:26
+  [run]  cap-6-r2  15:27:41
+  [done] cap-6-r2  15:28:14
+  [run]  cap-4-r2  15:28:29
+  [done] cap-4-r2  15:29:01
+  [run]  cap-2-r2  15:29:16
+  [done] cap-2-r2  15:29:51
+  [run]  cap-1-r2  15:30:06
+  [done] cap-1-r2  15:30:42
+== round 3 ==
+  [run]  uncached-r3  15:30:57
+  [done] uncached-r3  15:31:41
+   cap order: 10 12 8 1 6 2 4
+  [run]  cap-10-r3  15:31:56
+  [done] cap-10-r3  15:32:30
+  [run]  cap-12-r3  15:32:46
+  [done] cap-12-r3  15:33:19
+  [run]  cap-8-r3  15:33:34
+  [done] cap-8-r3  15:34:07
+  [run]  cap-1-r3  15:34:22
+  [done] cap-1-r3  15:34:58
+  [run]  cap-6-r3  15:35:13
+  [done] cap-6-r3  15:35:46
+  [run]  cap-2-r3  15:36:01
+  [done] cap-2-r3  15:36:35
+  [run]  cap-4-r3  15:36:50
+  [done] cap-4-r3  15:37:23
+baseline complete: benchmarks/results/phase-07b/baseline
+summarize with: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-07b/baseline

@@ -1,3 +1,16 @@
-llama.cpp/build-metal/bin/phase04e_probe
-benchmarks/results/phase-06/ladder/act.bin
-benchmarks/results/phase-06/ladder2/act.bin
+# Model weights — never commit (28 GB+)
+models/
+
+# Nested working checkouts with their own git history
+llama.cpp/
+kimi-k3-in-c/
+
+# Python
+tools/__pycache__/
+
+# Regenerable run artifacts (reproducible via tools/phase04_run_streamed.sh)
+benchmarks/results/**/act.bin
+
+# Root-level scratch telemetry (default KIMI_STREAM_*_FILE paths)
+kimi_retrieval.csv
+kimi_stream_stats.csv
