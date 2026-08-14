@@ -322,6 +322,6 @@ python3 tools/phase07_summarize.py benchmarks/results/phase-07/ladder-zc/cap-4-b
 ```
 
 Environment: Apple M5 (Mac17,3), 24 GB unified memory, macOS 26.5.2;
-llama.cpp `eca7742b8` + Phase 7 changes (`e8baeb16e`); project commit `<PROJECT-COMMIT>`;
+llama.cpp `eca7742b8` + Phase 7 changes (`e8baeb16e`); project commit `1eb9f25`;
 model `moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf`; `-ngl 0`
 CPU, `--no-mmap`, `--ctx-size 4096`, `--temp 0 --seed 1`.
