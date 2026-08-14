@@ -488,6 +488,23 @@ Canonical failure statement (one paragraph):
 
 ## Phase 4D — Pageable Model Loading
 
+### Status (2026-08-14)
+
+**PARTIAL** — correctness proven, memory half-open. See
+`progress/phase-04d-report.md`.
+
+- Virtualized load implemented (env-gated, inert when streaming disabled):
+  the repack buffer drops from 28,356 MiB to 1,153 MiB; 26.56 GiB of routed
+  experts are never copied or repacked at load. Loaded experts still allocate
+  in the CPU_REPACK buft (hard requirement).
+- All three Phase 5 oracle comparisons are bit-identical (max|Δ| = 0) under
+  the virtualized loader; conventional path byte-unchanged when disabled.
+- Acceptance 2 is **not yet met at the process level**: the streamed
+  runtime's own allocations (~1 GB steady-state; ~5-6 GB prefill peak) keep
+  process RSS ≥ conventional. Model-weight residency is eliminated; the
+  remaining item is streamed-runtime residency (executor/scheduler pool
+  sizing and per-layer buffer churn) — see the 4D report's Next Phase.
+
 ### Goal
 
 Close Phase 4 acceptance item 2: make routed-expert weights **non-resident at

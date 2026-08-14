@@ -8,7 +8,12 @@
 > Phase 4 close, not as a completed Phase 5. Phase 4D (pageable model loading,
 > see `ROADMAP.md`) is that close: once its oracle passes with resident memory
 > reduced, Phase 5 is re-validated on the low-residency streamer and becomes
-> authoritative.
+> authoritative. **UPDATE (2026-08-14)**: Phase 5 was re-validated under the
+> virtualized loader — all three comparisons (10-token, 64-token, alt prompt)
+> are bit-identical (max|Δ| = 0) with the expert parents not materialized
+> (see `phase-04d-report.md`). The correctness evidence is now authoritative;
+> the report's overall status remains provisional only because Phase 4
+> acceptance 2 (process-level RSS below conventional) is still open.
 
 ## Status
 

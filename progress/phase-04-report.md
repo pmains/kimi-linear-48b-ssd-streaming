@@ -1,5 +1,17 @@
 # Phase 04 Report
 
+> **UPDATE (2026-08-14, Phase 4D)**: correctness under a virtualized loader
+> is now proven — see `phase-04d-report.md`. The streamed executor with
+> routed-expert parents **not materialized at load** (repack buffer 28,356 →
+> 1,153 MiB; 26.56 GiB never copied/repacked) is bit-identical to the
+> conventional oracle across all three Phase 5 comparisons (max|Δ| = 0), with
+> loaded experts still allocating in the CPU_REPACK buft. Acceptance 2
+> (resident memory measurably lower) is still **NOT MET at the process level**:
+> the streamed runtime's own allocations (~1 GB steady-state, ~5-6 GB prefill
+> peak) offset the weight savings. Model-weight residency is eliminated; the
+> remaining gap is streamed-runtime residency (executor/scheduler pools),
+> scoped in the 4D report's Next Phase.
+
 ## Status
 
 **PASS** on the numerical-equivalence problem (the primary correctness
