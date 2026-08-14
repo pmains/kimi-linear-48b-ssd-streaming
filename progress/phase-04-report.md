@@ -206,6 +206,7 @@ in the shared layer builders so BOTH paths emit them from one site:
 | `l_in` | layer input (pre-attention) | `build_layer_attn` entry |
 | `attn_out` | attention/state output (post-selection, pre-residual) | `build_layer_attn` |
 | `ffn_inp` | FFN/router input (post-residual) | `build_layer_attn` |
+| `ffn_normed` | normalized FFN input (pre-router, shared capture site) | `build_layer_ffn_route` |
 | `router_logits` | pre-activation router logits [n_expert] | `build_moe_ffn_route` |
 | `router_weights` | normalized+scaled weights [n_expert_used] | `build_moe_ffn_route` |
 | `moe_out` | FFN/MoE output (pre-residual) | `build_layer_ffn_compute` |
@@ -227,8 +228,8 @@ Across ALL 13 executions the pattern is identical:
 
 1. **Seed (layer 1):** `moe_out[1]` is the ONLY boundary whose output
 differs while every captured input is bit-identical (`l_in`, `attn_out`,
-`ffn_inp`, `router_logits`, `router_weights`; ids identical per moe.csv).
-Magnitude 7.5e-9 (exec 0), 3.0e-8 (exec 1), 2.2e-8 (decode).
+`ffn_inp`, `ffn_normed`, `router_logits`, `router_weights`; ids identical
+per moe.csv). Magnitude 7.5e-9 (exec 0), 3.0e-8 (exec 1), 2.2e-8 (decode).
 2. **Amplification:** the noise grows through layers — ~2e-8 → ~1e-6
 (layer 2) → crosses 1e-5 at the attention output.
 3. **First criterion-crossing (>1e-5):** always `attn_out` except one
@@ -247,15 +248,14 @@ Full per-boundary listing: `benchmarks/results/phase-04-compare-current.txt`.
 ### Interpretation (hypothesis for the fix milestone, NOT yet verified)
 
 The seed is the **layer-1 MoE computation itself**: identical inputs
-(including router logits/weights and byte-exact expert slices) produce a
-~1e-8 output difference. The only structural difference in that
-computation is the expert tensor the matmul runs over: conventional uses
-the resident full `[n_embd, n_ff, 256]` tensor; streamed uses the compact
-loaded `[n_embd, n_ff, n_slots]` tensor (same bytes, remapped ids).
-Leading hypothesis: the ggml CPU `mul_mat_id` path produces different
-accumulation for the compact shape. Alternative (uncaptured): the
-normed FFN input differs (argued bit-identical given bit-identical
-`ffn_inp`, but not directly captured).
+(`ffn_normed` is now explicitly captured and bit-identical, alongside the
+router logits/weights and byte-exact expert slices) produce a ~1e-8 output
+difference. The only structural difference in that computation is the
+expert tensor the matmul runs over: conventional uses the resident full
+`[n_embd, n_ff, 256]` tensor; streamed uses the compact loaded
+`[n_embd, n_ff, n_slots]` tensor (same bytes, remapped ids). Leading
+hypothesis: the ggml CPU `mul_mat_id` path produces different accumulation
+for the compact shape. The normalized input question is now closed.
 
 The attention block is an **amplifier, not the source**: exec 1's
 `attn_out[3]` is bit-identical while its MoE output diverges, and the
@@ -270,11 +270,11 @@ attention in exec 0; ~5000x layer-2 attention on decode: 2.2e-8 →
 
 ### Next step for the fix milestone (NOT started, per directive)
 
-Determine the seed mechanism: (a) capture the normed FFN input as a
-boundary role to close the uncaptured-input gap, and/or (b) run a
-direct `mul_mat_id` determinism check (same Q4_K slice bytes in a
-[.., 256] vs [.., n_slots] tensor). Do not attempt fixes until the
-seed op is named.
+Determine the seed mechanism by running a direct `mul_mat_id`
+determinism check (same Q4_K slice bytes in a `[.., 256]` vs
+`[.., n_slots]` tensor). Do not attempt fixes until the seed op is
+named. If that experiment fails to explain the seed, return to the
+attention/KDA boundary.
 
 ---
 
@@ -329,15 +329,16 @@ conventional oracle must be re-captured whenever trace formats change.
 
 ## Open Questions
 
-- Is the row-13 router swap causal or symptomatic? (primary; evidence
-  now favors symptomatic — see Hypothesis)
+- Is the row-13 router swap causal or symptomatic? (answered:
+  symptomatic, downstream of the earlier seed)
 - Why does llama-server emit two output-bearing 2-token decodes of
   positions 0-1 before the full prompt (candidates: n_batch-halving
   retry cascade in `update_slots`/`decode`, or an explicit
   first-tokens prefill)? Cosmetic for the oracle; not a blocker.
 - Why does the conv act counter emit even exec ids? (cosmetic)
-- What exactly drifts at layer 2–3 in the streamed route graph, given
-  layers 0–2 match to ≤1.25e-6 on the first exec?
+- Does the compact `mul_mat_id` path over the loaded expert slots
+  explain the layer-1 `moe_out` seed, given `ffn_normed` is now
+  bit-identical?
 - Why does the first pass over tokens 0-1 (A) diverge ~100x more than
   the second pass (B) over the same tokens? (first-write/state-init
   hypothesis)
@@ -346,9 +347,12 @@ conventional oracle must be re-captured whenever trace formats change.
 
 ## Next Phase
 
-- Diagnose the layer-2/3 boundary (see Hypothesis): capture per-layer
-  router-input (gate logits) on both paths from layer 0; determine
-  whether routing is causal or symptomatic.
+- Close the layer-1 MoE question first: compare the conventional
+  resident `[n_embd, n_ff, 256]` `mul_mat_id` path with the streamed
+  compact `[n_embd, n_ff, n_slots]` path using the same `ffn_normed`
+  inputs and byte-identical expert slices.
+- If that does not explain the seed, return to the later attention/KDA
+  amplification boundary with the same tracing harness.
 - Fix the stats accounting (deltas) before treating 4B/4C numbers as
   valid.
 - Re-run the A/B/C oracle after any fix and preserve the result as the
@@ -357,9 +361,8 @@ conventional oracle must be re-captured whenever trace formats change.
 - Only after router/activation equivalence is stable: move to the
   Metal-specific streaming question with the same slot-mapped expert
   representation.
-- If layer-3 drift is a route-graph input bug, the Metal path is
-  unaffected in design; if it is a scheduler/persist-tensor issue, it
-  will reappear on Metal — fix on CPU first.
+- If the seed is in `mul_mat_id`, the Metal path inherits the same
+  compact-expert requirement but not the CPU-specific accumulation bug.
 
 ## Reproduction
 

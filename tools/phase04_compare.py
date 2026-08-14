@@ -47,8 +47,30 @@ CRIT_TOP5 = 1.0
 
 # True pipeline order within a layer. Records are compared in this order so
 # the first DIFF reported is the causal boundary (layer-major, role-minor).
-ROLE_ORDER = ["l_in", "attn_out", "ffn_inp", "router_logits",
-              "router_weights", "moe_out", "l_out", "logits"]
+# Some entries are virtual comparison roles (4A.2 mul_mat_id isolation):
+#   ffn_normed_v  - streamed persisted norm view  vs conventional route norm
+#   moe_out_full  - streamed full-parent-tensor reference vs conventional moe_out
+ROLE_TARGETS = {
+    "l_in":           ("l_in",           "l_in"),
+    "attn_out":       ("attn_out",       "attn_out"),
+    "ffn_inp":        ("ffn_inp",        "ffn_inp"),
+    "ffn_normed":     ("ffn_normed",     "ffn_normed"),
+    "ffn_normed_v":   ("ffn_normed",     "ffn_normed_v"),
+    "router_logits":  ("router_logits",  "router_logits"),
+    "router_weights": ("router_weights", "router_weights"),
+    "router_weights_v":("router_weights", "router_weights_v"),
+    "moe_up":         ("moe_up",         "moe_up"),
+    "moe_gate":       ("moe_gate",       "moe_gate"),
+    "moe_down":       ("moe_down",       "moe_down"),
+    "moe_up_full":    ("moe_up",         "moe_up_full"),
+    "moe_gate_full":  ("moe_gate",       "moe_gate_full"),
+    "moe_down_full":  ("moe_down",       "moe_down_full"),
+    "moe_out":        ("moe_out",        "moe_out"),
+    "moe_out_full":   ("moe_out",        "moe_out_full"),
+    "l_out":          ("l_out",          "l_out"),
+    "logits":         ("logits",         "logits"),
+}
+ROLE_ORDER = list(ROLE_TARGETS.keys())
 
 PHASE_NAME = {0: "prefill", 1: "decode"}
 
@@ -136,9 +158,16 @@ def compare_exec(conv_recs, strm_recs, label):
     ok = True
     first_div = None
 
-    # structural check: record key sets must match (roles present per layer)
-    kc = set(conv_recs)
-    ks = set(strm_recs)
+    # structural check: record key sets must match, canonicalized to display
+    # roles (streamed-only isolation roles fold onto their conv counterparts)
+    def norm_keys(recs):
+        out = set()
+        for (il, r) in recs:
+            disp = next((d for d, (cr, sr) in ROLE_TARGETS.items() if cr == r or sr == r), r)
+            out.add((il, disp))
+        return out
+    kc = norm_keys(conv_recs)
+    ks = norm_keys(strm_recs)
     if kc != ks:
         only_c = sorted(kc - ks)
         only_s = sorted(ks - kc)
@@ -152,11 +181,13 @@ def compare_exec(conv_recs, strm_recs, label):
     layers = sorted({il for (il, _) in kc & ks if il >= 0})
     for il in layers:
         for role in ROLE_ORDER:
-            key = (il, role)
-            if key not in kc or key not in ks:
+            c_role, s_role = ROLE_TARGETS[role]
+            ckey = (il, c_role)
+            skey = (il, s_role)
+            if ckey not in conv_recs or skey not in strm_recs:
                 continue
-            nt_c, _, _, a = conv_recs[key]
-            nt_s, _, _, b = strm_recs[key]
+            nt_c, _, _, a = conv_recs[ckey]
+            nt_s, _, _, b = strm_recs[skey]
             if nt_c != nt_s:
                 lines.append(f"  {role}[{il:>2}] n_tokens mismatch {nt_c} vs {nt_s}")
                 ok = False

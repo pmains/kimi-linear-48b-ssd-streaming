@@ -1,0 +1,47 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|[dx-exec] n_tokens=2 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|[dx-exec] n_tokens=2 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+/-\|/-\|/-\|/- [dx-exec] n_tokens=43 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+[dx-exec] n_tokens=4 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10424-c5b8bf474
+model      : /Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Write a Python function that takes a list of integers and returns the sum of all even numbers in the list, preserving the original order of the input. Include a brief docstring and one example usage.
+```[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+python[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+
+[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+def[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+ sum[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+_even[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+_p[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+reserve[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+_order[dx-exec] n_tokens=1 up_e0 first16=c20a300c 270cac0b e509760a a10a030c
+(num
+
+[ Prompt: 2.3 t/s | Generation: 2.0 t/s ]
+
+
+Exiting...
