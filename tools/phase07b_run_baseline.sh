@@ -20,9 +20,14 @@
 #     manifest.json, run.log.
 #
 # Usage:
-#   tools/phase07b_run_baseline.sh OUTDIR_ROOT [CAPS_GB...] [--reps N]
+#   tools/phase07b_run_baseline.sh OUTDIR_ROOT [CAPS_GB...] [--reps N] \
+#       [--prompt FILE] [--n-tokens N]
 #     default caps: 1 2 4 6 8 10 12  (uncached control always included)
 #     default reps: 3
+#     default prompt: benchmarks/prompts/phase-04-ref.md (Phase 7B ref)
+#     default n_tokens: 64
+#   Phase 8: pass a realistic coding workload, e.g.
+#     --prompt benchmarks/prompts/phase-03-coding-lru.md --n-tokens 128
 # Env:
 #   KIMI_EXPERT_CACHE_MODE=zerocopy (default) | placement
 #   PHASE07B_SETTLE_S=<seconds>      (default 15; 0 disables)
@@ -35,17 +40,18 @@ ROOT="${1:?outdir root}"
 shift || true
 REPS=3
 CAPS_GB=()
+N=64
+SEED=1
+PROMPT="benchmarks/prompts/phase-04-ref.md"
 while [ $# -gt 0 ]; do
     case "$1" in
         --reps) REPS="${2:?--reps needs a value}"; shift 2 ;;
+        --prompt) PROMPT="${2:?--prompt needs a value}"; shift 2 ;;
+        --n-tokens) N="${2:?--n-tokens needs a value}"; shift 2 ;;
         *) CAPS_GB+=("$1"); shift ;;
     esac
 done
 if [ ${#CAPS_GB[@]} -eq 0 ]; then CAPS_GB=(1 2 4 6 8 10 12); fi
-
-N=64
-SEED=1
-PROMPT="benchmarks/prompts/phase-04-ref.md"
 SETTLE_S="${PHASE07B_SETTLE_S:-15}"
 LOG="$ROOT/baseline-run.log"
 mkdir -p "$ROOT"
