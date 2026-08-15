@@ -4,6 +4,30 @@ The immediate objective is NOT to optimize model inference further. The objectiv
 
 Work through the following tasks sequentially. Measure before changing behavior, preserve existing working configurations, and stop if a change would require redesigning the streaming runtime.
 
+---
+
+## Relationship to ROADMAP.md (two parallel tracks)
+
+This file and `ROADMAP.md` are separate, parallel engineering tracks. Do not merge them.
+
+| Track | File | Scope |
+|---|---|---|
+| Inference-runtime development & optimization | `ROADMAP.md` | expert streaming, cache policy, quantization, kernels (Phase 9+) |
+| Productionization for persistent local-agent inference | `SERVICE-ROADMAP.md` (this file) | launchd/service lifecycle, OpenClaw integration, KV-session persistence, cold-start behavior, agent-latency decomposition |
+
+Boundaries:
+
+- Inference optimization work (repack batching, prefetching, asynchronous I/O, cache-policy changes, new kernels) belongs in `ROADMAP.md` Phase 9+, NOT in this file.
+- Service work (launchd, OpenClaw integration, KV-session persistence, cold-start behavior, agent-latency decomposition) belongs in this file, NOT in `ROADMAP.md` Phase 9.
+
+Immediate service priority (in order): **Task 3B** (stability) → **Task 4** (prefix/KV reuse) → **Task 5** (test reuse through OpenClaw sessions). Task 3B must pass before Task 4 begins; KeepAlive is containment, not success.
+
+The two tracks converge here:
+
+    OpenClaw → persistent llama-server/session → optimized streamed inference runtime
+
+---
+
 CURRENT STATE
 
 Kimi:
@@ -14,7 +38,7 @@ Kimi:
   - CPU inference
   - zero-copy expert cache
   - 4 GB expert-cache budget
-  - ctx 32768 (raised from 8192 on 2026-08-14 so the ~11.4k-token OpenClaw agent bootstrap fits)
+  - ctx 32768 (raised from 8192 on 2026-08-14 so the ~11.4k-token OpenClaw agent bootstrap fits; this proves allocation, not mathematical correctness — long-context validity is unproven, see Task 5B)
 - Model works through OpenClaw end-to-end, including tool calling (when the server stays alive).
 - Approximate observed performance:
   - prefill ~32 tok/s at scale (4,873-token prompt: 153 s)
@@ -217,6 +241,32 @@ actual OpenClaw multi-turn reuse
 
 This distinction matters. llama-server supporting prefix reuse is useless to us if OpenClaw changes the prefix every request.
 
+TASK 5B — LONG-CONTEXT CORRECTNESS: RoPE / NoPE / YaRN VALIDATION
+
+New service workstream, after the Task 3B → 4 → 5 priority chain.
+
+`--ctx-size 32768` proves allocation, not mathematical correctness. The server may allocate and run at 32k while the positional encoding silently degrades or misbehaves beyond the range that llama.cpp's Kimi Linear implementation actually validates against the reference. Establish a validated context range before treating 32k/64k/128k (or the current 32768 setting) as supported.
+
+1. Determine Kimi Linear's intended positional-encoding behavior from the authoritative reference:
+   - `moonshotai/Kimi-Linear-48B-A3B-Instruct` `config.json`: RoPE base/frequency, `rope_scaling`/YaRN or NoPE configuration, attention implementation;
+   - the reference implementation (Hugging Face / MLX / kimi-k3-in-c) of position encoding for this architecture.
+   Establish whether Kimi Linear uses RoPE, NoPE, YaRN, or a hybrid, and with what parameters. Record sources (exact model/checkpoint revision, implementation commit).
+2. Compare llama.cpp's Kimi Linear against the reference at increasing sequence positions (e.g. 1k, 4k, 8k, 16k, 24k, 32k, and beyond if the reference supports it):
+   - router decisions;
+   - hidden states / logits within documented numerical tolerances;
+   - generated tokens on identical prompts at long positions.
+3. Identify where, if anywhere, llama.cpp diverges from the reference as position grows, and whether the divergence is a scaling/config issue (YaRN parameters, RoPE base) or a hard correctness failure.
+4. Establish a VALIDATED context range: the maximum context at which streamed Kimi Linear matches the reference. Do not treat larger contexts as supported beyond the validated range.
+5. If a configuration fix exists within llama.cpp's existing RoPE/YaRN support (no new kernels, no MXFP4, no quantization changes), document and validate it. If the reference itself does not support the tested range, record that as the ceiling.
+
+Do not increase `--ctx-size` further as a substitute for validation.
+
+Acceptance:
+- Kimi Linear's positional-encoding behavior (RoPE/NoPE/YaRN and parameters) is documented from the reference, with sources recorded.
+- llama.cpp vs reference comparison at increasing positions is measured and recorded (logit/hidden-state deltas and/or token agreement).
+- A validated context range is stated with the evidence that bounds it.
+- The current 32768 server setting is either validated or explicitly flagged as unvalidated, with the actual validated ceiling stated.
+
 TASK 6 — PRODUCE AN AGENT-PERFORMANCE DECOMPOSITION
 
 For both Qwen and Kimi, report latency approximately as:
@@ -256,6 +306,7 @@ Write a concise report containing:
    - subsequent turn in same agent/session
 9. remaining bottlenecks
 10. recommendation for which OpenClaw jobs should use Qwen, Kimi, or cloud models
+11. validated Kimi long-context range and RoPE/NoPE/YaRN behavior (Task 5B)
 
 IMPORTANT CONSTRAINTS
 
@@ -272,3 +323,4 @@ IMPORTANT CONSTRAINTS
 - Commit infrastructure/config/tooling changes separately from reports/results.
 - Stop after the report. Do not automatically implement recommendations that emerge from the experiment.
 - Do not begin Task 4 (prefix/KV reuse) until Task 3B (stability gate) passes with zero launchd restarts.
+- Do not merge this roadmap with `ROADMAP.md`. They are parallel tracks: this file is service productionization; `ROADMAP.md` is inference-runtime development/optimization. Inference optimization (repack batching, prefetching, asynchronous I/O, cache-policy changes, new kernels) stays in `ROADMAP.md` Phase 9+; service work (launchd, OpenClaw integration, KV-session persistence, cold-start behavior, agent-latency decomposition) stays here.

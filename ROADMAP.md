@@ -1036,6 +1036,28 @@ additional engineering.
 
 ---
 
+## Parallel Track — SERVICE-ROADMAP.md
+
+Productionization of this runtime for persistent local-agent inference
+is a separate, parallel engineering track, maintained in
+`SERVICE-ROADMAP.md` — not merged into this file.
+
+- Service work (launchd/service lifecycle, OpenClaw integration,
+  KV-session persistence, cold-start behavior, agent-latency
+  decomposition) belongs to `SERVICE-ROADMAP.md`, NOT to Phase 9+ of
+  this file.
+- Phase 9+ in this file remains inference-runtime development and
+  optimization only (streaming optimization, MXFP4, native kernels).
+- Inference optimization work (repack batching, prefetching,
+  asynchronous I/O, cache-policy changes, new kernels) belongs here,
+  NOT in `SERVICE-ROADMAP.md`.
+
+The two tracks converge here:
+
+    OpenClaw → persistent llama-server/session → optimized streamed inference runtime
+
+---
+
 ## Potential Phase 9 — Streaming Optimization
 
 Proceed only if Phase 8 demonstrates that streaming is viable.
