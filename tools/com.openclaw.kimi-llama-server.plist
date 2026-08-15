@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.openclaw.kimi-llama-server</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/pmains/Code/openclaw/kimi/tools/serve_kimi_local.launchd.sh</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/pmains/Code/openclaw/kimi</string>
+    <key>KeepAlive</key>
+    <true/>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/kimi-llama-server.wrapper.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/kimi-llama-server.wrapper.log</string>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>
