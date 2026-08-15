@@ -1,6 +1,10 @@
 # Model weights — never commit (28 GB+)
 models/
 
+# Frozen live-serving bundle binaries (reproducible via
+# tools/freeze_live_runtime.sh; provenance tracked in runtime/live/COMMIT)
+runtime/live/bin/
+
 # Nested working checkouts with their own git history
 llama.cpp/
 kimi-k3-in-c/

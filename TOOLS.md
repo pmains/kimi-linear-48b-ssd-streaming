@@ -292,3 +292,38 @@ Use each component for the problem it already solves:
 
 Do not introduce another layer unless the existing stack cannot satisfy
 a measured requirement.
+
+---
+
+## Serving Kimi Linear to OpenClaw Agents (dev/live split)
+
+The streamed model is registered in OpenClaw as provider `kimi-local`
+(model `kimi-local/kimi-linear-48b`), assigned to agents: `kimi`,
+`poliscopic`, `aristotle` (each with cloud fallbacks).
+
+### Live runtime (frozen)
+
+    runtime/live/          self-contained bundle (binary + dylibs + backend .so,
+                           rpath rewritten to @loader_path)
+    runtime/live/COMMIT    pinned llama.cpp revision serving live
+    tools/serve_kimi_local.sh [start|stop|status]
+        KIMI_CACHE_MB=4096   expert cache budget (Phase 8 default)
+        KIMI_PORT=18080      server port
+        KIMI_CTX=8192        context size
+
+The live server runs ONLY from `runtime/live/bin/llama-server`. Dev
+rebuilds of `llama.cpp/build-metal` can never change what agents are
+served.
+
+### Dev tree
+
+    llama.cpp/             dev checkout — rebuild freely for optimization work
+
+### Promotion workflow
+
+1. Develop + validate in `llama.cpp/` (A/B against live with
+   `KIMI_BIN=llama.cpp/build-metal/bin/llama-server KIMI_PORT=18081`).
+2. Rebuild `build-metal`, run `tools/freeze_live_runtime.sh` (copies
+   binary + dylibs + .so plugins, rewrites rpath, records COMMIT).
+3. Restart the server: `tools/serve_kimi_local.sh restart`.
+4. Verify: `openclaw infer model run --model kimi-local/kimi-linear-48b`.
