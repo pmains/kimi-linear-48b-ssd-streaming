@@ -33,7 +33,7 @@ def load(root):
 
 
 def fmt(r, field, nd=3):
-    v = r.get(field, "")
+    v = r.get(field + "_median", "")
     if v == "":
         return "—"
     try:
@@ -53,7 +53,7 @@ def main():
     w1 = load(args.w1)
     w2 = load(args.w2) if args.w2 else None
 
-    rungs = ["uncached", "1", "2", "4", "6", "8", "10", "12"]
+    rungs = ["uncached", "cap-1", "cap-2", "cap-4", "cap-6", "cap-8", "cap-10", "cap-12"]
 
     def table(title, field, nd=3, rungs=rungs):
         print(f"\n### {title}\n")
