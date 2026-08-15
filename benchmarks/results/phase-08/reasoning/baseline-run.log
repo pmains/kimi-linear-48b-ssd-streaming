@@ -1,0 +1,67 @@
+phase-07b baseline: 2026-08-14T23:45:30Z
+caps: 1 2 4 6 8 10 12  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-reasoning-pumps.md  n_tokens: 128  seed: 1  ctx: 4096
+idle check at start:
+16:45  up 1 day,  4:13, 2 users, load averages: 2.28 2.46 2.57
+ 21.5 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/150.1.92.141/Helpers/Brave Browser Helper.app/Contents/MacOS/Brave Browser Helper
+ 20.6 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer
+ 19.1 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/150.1.92.141/Helpers/Brave Browser Helper (Renderer).app/Contents/MacOS/Brave Browser Helper (Renderer)
+  7.1 /Library/SystemExtensions/3D4BE74B-CA8B-488C-A258-C66E6FDD940A/com.nordvpn.macos.Shield.systemextension/Contents/MacOS/com.nordvpn.macos.Shield
+  2.5 /Applications/iTerm.app/Contents/MacOS/iTerm2
+== round 1 ==
+  [run]  uncached-r1  16:45:30
+  [done] uncached-r1  16:46:46
+   cap order: 1 2 4 6 8 10 12
+  [run]  cap-1-r1  16:47:01
+  [done] cap-1-r1  16:48:09
+  [run]  cap-2-r1  16:48:24
+  [done] cap-2-r1  16:49:26
+  [run]  cap-4-r1  16:49:41
+  [done] cap-4-r1  16:50:40
+  [run]  cap-6-r1  16:50:55
+  [done] cap-6-r1  16:51:56
+  [run]  cap-8-r1  16:52:11
+  [done] cap-8-r1  16:53:12
+  [run]  cap-10-r1  16:53:27
+  [done] cap-10-r1  16:54:36
+  [run]  cap-12-r1  16:54:51
+  [done] cap-12-r1  16:55:59
+== round 2 ==
+  [run]  uncached-r2  16:56:15
+  [done] uncached-r2  16:57:29
+   cap order: 12 10 8 6 4 2 1
+  [run]  cap-12-r2  16:57:44
+  [done] cap-12-r2  16:58:46
+  [run]  cap-10-r2  16:59:01
+  [done] cap-10-r2  16:59:57
+  [run]  cap-8-r2  17:00:12
+  [done] cap-8-r2  17:01:06
+  [run]  cap-6-r2  17:01:21
+  [done] cap-6-r2  17:02:15
+  [run]  cap-4-r2  17:02:30
+  [done] cap-4-r2  17:03:27
+  [run]  cap-2-r2  17:03:42
+  [done] cap-2-r2  17:04:41
+  [run]  cap-1-r2  17:04:56
+  [done] cap-1-r2  17:06:01
+== round 3 ==
+  [run]  uncached-r3  17:06:16
+  [done] uncached-r3  17:07:35
+   cap order: 10 12 8 1 6 2 4
+  [run]  cap-10-r3  17:07:50
+  [done] cap-10-r3  17:08:48
+  [run]  cap-12-r3  17:09:03
+  [done] cap-12-r3  17:10:03
+  [run]  cap-8-r3  17:10:18
+  [done] cap-8-r3  17:11:11
+  [run]  cap-1-r3  17:11:26
+  [done] cap-1-r3  17:12:29
+  [run]  cap-6-r3  17:12:44
+  [done] cap-6-r3  17:13:40
+  [run]  cap-2-r3  17:13:56
+  [done] cap-2-r3  17:14:55
+  [run]  cap-4-r3  17:15:10
+  [done] cap-4-r3  17:16:07
+baseline complete: benchmarks/results/phase-08/reasoning
+idle check at end:
+17:16  up 1 day,  4:44, 2 users, load averages: 2.28 2.45 2.44

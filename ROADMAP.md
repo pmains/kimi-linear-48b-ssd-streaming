@@ -951,6 +951,23 @@ authoritative pre-Phase-8 performance baseline.
 
 ## Phase 8 — Memory Ladder
 
+### Status (2026-08-14)
+
+**PASS** — see `progress/phase-08-report.md` and
+`benchmarks/STREAMING_RESULTS.md`. Three workloads (ref, coding,
+reasoning) through the full 1–12 GB ladder under the Phase 7B
+controlled protocol (72 runs, 72/72 invariant clean, zero dispersion
+on deterministic columns). Every cache rung beats its in-session
+uncached control (1.31–2.11×). Peak is workload-dependent: ref/coding
+peak at 4 GB (4.91/5.39 tok/s), reasoning at 8 GB (4.96 tok/s);
+practical range is a 4–8 GB plateau (4.5–5.4 tok/s). SSD traffic
+monotonic 850 → 106–127 MB/token; residency = baseline + cache budget
+(5.5–5.6 GB at the recommended 4 GB). ≥10 GB memory-pressure compute
+inflation reproduces in all workloads but does not collapse throughput
+below uncached. **Verdict: expert streaming is practically useful on
+the 24 GB target**; recommended operating point 4 GB (code) / 8 GB
+(reasoning).
+
 ### Goal
 
 Determine whether expert streaming is practically useful on the target

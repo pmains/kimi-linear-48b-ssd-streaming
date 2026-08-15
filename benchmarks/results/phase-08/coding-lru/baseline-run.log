@@ -1,0 +1,67 @@
+phase-07b baseline: 2026-08-14T23:15:56Z
+caps: 1 2 4 6 8 10 12  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-coding-lru.md  n_tokens: 128  seed: 1  ctx: 4096
+idle check at start:
+16:15  up 1 day,  3:43, 2 users, load averages: 2.55 2.30 1.91
+ 38.2 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/150.1.92.141/Helpers/Brave Browser Helper (Renderer).app/Contents/MacOS/Brave Browser Helper (Renderer)
+ 29.1 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/150.1.92.141/Helpers/Brave Browser Helper (Renderer).app/Contents/MacOS/Brave Browser Helper (Renderer)
+ 25.0 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer
+ 22.5 /System/Library/PrivateFrameworks/XprotectFramework.framework/Versions/A/XPCServices/XprotectService.xpc/Contents/MacOS/XprotectService
+ 12.0 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/150.1.92.141/Helpers/Brave Browser Helper.app/Contents/MacOS/Brave Browser Helper
+== round 1 ==
+  [run]  uncached-r1  16:15:56
+  [done] uncached-r1  16:17:19
+   cap order: 1 2 4 6 8 10 12
+  [run]  cap-1-r1  16:17:34
+  [done] cap-1-r1  16:18:38
+  [run]  cap-2-r1  16:18:53
+  [done] cap-2-r1  16:19:50
+  [run]  cap-4-r1  16:20:05
+  [done] cap-4-r1  16:20:59
+  [run]  cap-6-r1  16:21:14
+  [done] cap-6-r1  16:22:10
+  [run]  cap-8-r1  16:22:25
+  [done] cap-8-r1  16:23:19
+  [run]  cap-10-r1  16:23:34
+  [done] cap-10-r1  16:24:35
+  [run]  cap-12-r1  16:24:50
+  [done] cap-12-r1  16:25:53
+== round 2 ==
+  [run]  uncached-r2  16:26:08
+  [done] uncached-r2  16:27:22
+   cap order: 12 10 8 6 4 2 1
+  [run]  cap-12-r2  16:27:37
+  [done] cap-12-r2  16:28:37
+  [run]  cap-10-r2  16:28:52
+  [done] cap-10-r2  16:29:45
+  [run]  cap-8-r2  16:30:00
+  [done] cap-8-r2  16:30:53
+  [run]  cap-6-r2  16:31:08
+  [done] cap-6-r2  16:31:59
+  [run]  cap-4-r2  16:32:14
+  [done] cap-4-r2  16:33:06
+  [run]  cap-2-r2  16:33:21
+  [done] cap-2-r2  16:34:16
+  [run]  cap-1-r2  16:34:31
+  [done] cap-1-r2  16:35:32
+== round 3 ==
+  [run]  uncached-r3  16:35:47
+  [done] uncached-r3  16:37:04
+   cap order: 10 12 8 1 6 2 4
+  [run]  cap-10-r3  16:37:19
+  [done] cap-10-r3  16:38:15
+  [run]  cap-12-r3  16:38:30
+  [done] cap-12-r3  16:39:26
+  [run]  cap-8-r3  16:39:41
+  [done] cap-8-r3  16:40:32
+  [run]  cap-1-r3  16:40:47
+  [done] cap-1-r3  16:41:47
+  [run]  cap-6-r3  16:42:02
+  [done] cap-6-r3  16:42:56
+  [run]  cap-2-r3  16:43:11
+  [done] cap-2-r3  16:44:07
+  [run]  cap-4-r3  16:44:22
+  [done] cap-4-r3  16:45:15
+baseline complete: benchmarks/results/phase-08/coding-lru
+idle check at end:
+16:45  up 1 day,  4:13, 2 users, load averages: 2.28 2.46 2.57

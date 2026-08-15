@@ -1,0 +1,182 @@
+phase-08 driver start: 2026-08-14T23:15:56Z
+16:15  up 1 day,  3:43, 2 users, load averages: 2.55 2.30 1.91
+==== workload coding-lru (16:15:56) ====
+prompt: benchmarks/prompts/phase-03-coding-lru.md  n_tokens: 128
+phase-07b baseline: 2026-08-14T23:15:56Z
+caps: 1 2 4 6 8 10 12  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-coding-lru.md  n_tokens: 128  seed: 1  ctx: 4096
+== round 1 ==
+  [run]  uncached-r1  16:15:56
+  [done] uncached-r1  16:17:19
+   cap order: 1 2 4 6 8 10 12
+  [run]  cap-1-r1  16:17:34
+  [done] cap-1-r1  16:18:38
+  [run]  cap-2-r1  16:18:53
+  [done] cap-2-r1  16:19:50
+  [run]  cap-4-r1  16:20:05
+  [done] cap-4-r1  16:20:59
+  [run]  cap-6-r1  16:21:14
+  [done] cap-6-r1  16:22:10
+  [run]  cap-8-r1  16:22:25
+  [done] cap-8-r1  16:23:19
+  [run]  cap-10-r1  16:23:34
+  [done] cap-10-r1  16:24:35
+  [run]  cap-12-r1  16:24:50
+  [done] cap-12-r1  16:25:53
+== round 2 ==
+  [run]  uncached-r2  16:26:08
+  [done] uncached-r2  16:27:22
+   cap order: 12 10 8 6 4 2 1
+  [run]  cap-12-r2  16:27:37
+  [done] cap-12-r2  16:28:37
+  [run]  cap-10-r2  16:28:52
+  [done] cap-10-r2  16:29:45
+  [run]  cap-8-r2  16:30:00
+  [done] cap-8-r2  16:30:53
+  [run]  cap-6-r2  16:31:08
+  [done] cap-6-r2  16:31:59
+  [run]  cap-4-r2  16:32:14
+  [done] cap-4-r2  16:33:06
+  [run]  cap-2-r2  16:33:21
+  [done] cap-2-r2  16:34:16
+  [run]  cap-1-r2  16:34:31
+  [done] cap-1-r2  16:35:32
+== round 3 ==
+  [run]  uncached-r3  16:35:47
+  [done] uncached-r3  16:37:04
+   cap order: 10 12 8 1 6 2 4
+  [run]  cap-10-r3  16:37:19
+  [done] cap-10-r3  16:38:15
+  [run]  cap-12-r3  16:38:30
+  [done] cap-12-r3  16:39:26
+  [run]  cap-8-r3  16:39:41
+  [done] cap-8-r3  16:40:32
+  [run]  cap-1-r3  16:40:47
+  [done] cap-1-r3  16:41:47
+  [run]  cap-6-r3  16:42:02
+  [done] cap-6-r3  16:42:56
+  [run]  cap-2-r3  16:43:11
+  [done] cap-2-r3  16:44:07
+  [run]  cap-4-r3  16:44:22
+  [done] cap-4-r3  16:45:15
+baseline complete: benchmarks/results/phase-08/coding-lru
+summarize with: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-08/coding-lru
+---- workload coding-lru done (16:45:30) ----
+summarize: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-08/coding-lru
+wrote benchmarks/results/phase-08/coding-lru/baseline-summary.csv
+wrote benchmarks/results/phase-08/coding-lru/baseline-runs.csv
+wrote benchmarks/results/phase-08/coding-lru/baseline-ratios.csv
+
+     rung  n    tok/s med(min..max) ms/step med  pread repack  place  route expert   hit SSD MB/t phys MB  ratios
+ uncached  3      2.62 (2.40..2.64)         382     96    237      0     20     17 0.000   850.08    1485  —
+    cap-1  3      3.87 (3.76..4.02)         258     76    132      8     19     16 0.331   569.47    2507  1.52x
+    cap-2  3      4.76 (4.57..4.83)         210     69     96      6     19     16 0.507   420.04    3527  1.84x
+    cap-4  3      5.40 (5.15..5.52)         185     66     66      6     20     16 0.664   286.34    5588  2.11x
+    cap-6  3      5.10 (4.69..5.53)         196     70     51     17     23     21 0.746   216.95    7631  1.95x
+    cap-8  3      5.52 (5.06..5.53)         181     64     41     24     26     26 0.793   176.90    9610  2.10x
+   cap-10  3      5.04 (4.01..5.15)         198     61     36     33     28     38 0.825   149.23   11416  1.92x
+   cap-12  3      4.12 (4.05..4.90)         243     54     32     32     35     78 0.851   127.43   13029  1.69x
+
+component medians (ms/step, decode steady) per rung:
+     rung  pread repack  place   copy  sync  route expert buildM  other
+ uncached     96    237      0    237     0     20     17     11     10
+    cap-1     76    132      8    140     0     19     16      2      9
+    cap-2     69     96      6    102     0     19     16      2      9
+    cap-4     66     66      6     72     0     20     16      2      9
+    cap-6     70     51     17     69     0     23     21      2     10
+    cap-8     64     41     24     65     0     26     26      2     10
+   cap-10     61     36     33     67     0     28     38      2     10
+   cap-12     54     32     32     62     0     35     78      3     12
+
+invariant check: PASS (24 runs, 24 clean)
+==== workload reasoning (16:45:30) ====
+prompt: benchmarks/prompts/phase-03-reasoning-pumps.md  n_tokens: 128
+phase-07b baseline: 2026-08-14T23:45:30Z
+caps: 1 2 4 6 8 10 12  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-reasoning-pumps.md  n_tokens: 128  seed: 1  ctx: 4096
+== round 1 ==
+  [run]  uncached-r1  16:45:30
+  [done] uncached-r1  16:46:46
+   cap order: 1 2 4 6 8 10 12
+  [run]  cap-1-r1  16:47:01
+  [done] cap-1-r1  16:48:09
+  [run]  cap-2-r1  16:48:24
+  [done] cap-2-r1  16:49:26
+  [run]  cap-4-r1  16:49:41
+  [done] cap-4-r1  16:50:40
+  [run]  cap-6-r1  16:50:55
+  [done] cap-6-r1  16:51:56
+  [run]  cap-8-r1  16:52:11
+  [done] cap-8-r1  16:53:12
+  [run]  cap-10-r1  16:53:27
+  [done] cap-10-r1  16:54:36
+  [run]  cap-12-r1  16:54:51
+  [done] cap-12-r1  16:55:59
+== round 2 ==
+  [run]  uncached-r2  16:56:15
+  [done] uncached-r2  16:57:29
+   cap order: 12 10 8 6 4 2 1
+  [run]  cap-12-r2  16:57:44
+  [done] cap-12-r2  16:58:46
+  [run]  cap-10-r2  16:59:01
+  [done] cap-10-r2  16:59:57
+  [run]  cap-8-r2  17:00:12
+  [done] cap-8-r2  17:01:06
+  [run]  cap-6-r2  17:01:21
+  [done] cap-6-r2  17:02:15
+  [run]  cap-4-r2  17:02:30
+  [done] cap-4-r2  17:03:27
+  [run]  cap-2-r2  17:03:42
+  [done] cap-2-r2  17:04:41
+  [run]  cap-1-r2  17:04:56
+  [done] cap-1-r2  17:06:01
+== round 3 ==
+  [run]  uncached-r3  17:06:16
+  [done] uncached-r3  17:07:35
+   cap order: 10 12 8 1 6 2 4
+  [run]  cap-10-r3  17:07:50
+  [done] cap-10-r3  17:08:48
+  [run]  cap-12-r3  17:09:03
+  [done] cap-12-r3  17:10:03
+  [run]  cap-8-r3  17:10:18
+  [done] cap-8-r3  17:11:11
+  [run]  cap-1-r3  17:11:26
+  [done] cap-1-r3  17:12:29
+  [run]  cap-6-r3  17:12:44
+  [done] cap-6-r3  17:13:40
+  [run]  cap-2-r3  17:13:56
+  [done] cap-2-r3  17:14:55
+  [run]  cap-4-r3  17:15:10
+  [done] cap-4-r3  17:16:07
+baseline complete: benchmarks/results/phase-08/reasoning
+summarize with: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-08/reasoning
+---- workload reasoning done (17:16:22) ----
+summarize: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-08/reasoning
+wrote benchmarks/results/phase-08/reasoning/baseline-summary.csv
+wrote benchmarks/results/phase-08/reasoning/baseline-runs.csv
+wrote benchmarks/results/phase-08/reasoning/baseline-ratios.csv
+
+     rung  n    tok/s med(min..max) ms/step med  pread repack  place  route expert   hit SSD MB/t phys MB  ratios
+ uncached  3      2.62 (2.57..2.68)         382     96    237      0     19     16 0.000   850.08    1464  —
+    cap-1  3      3.51 (3.25..3.67)         285     85    144      9     20     16 0.264   626.98    2491  1.31x
+    cap-2  3      4.18 (4.16..4.26)         239     76    112      7     20     16 0.428   488.35    3528  1.59x
+    cap-4  3      4.66 (4.58..4.78)         215     78     85      7     20     16 0.564   372.37    5589  1.78x
+    cap-6  3      4.91 (4.23..5.28)         204     78     62     19     24     22 0.685   269.25    7636  1.91x
+    cap-8  3      5.18 (4.28..5.33)         193     69     46     23     27     25 0.769   197.38    9641  1.99x
+   cap-10  3      4.59 (3.21..4.77)         218     61     37     35     29     48 0.819   154.58   11532  1.71x
+   cap-12  3      4.10 (3.40..4.39)         244     52     31     28     35     97 0.854   124.51   13249  1.53x
+
+component medians (ms/step, decode steady) per rung:
+     rung  pread repack  place   copy  sync  route expert buildM  other
+ uncached     96    237      0    237     0     19     16      9      9
+    cap-1     85    144      9    153     0     20     16      2      9
+    cap-2     76    112      7    119     0     20     16      2      9
+    cap-4     78     85      7     92     0     20     16      2      9
+    cap-6     78     62     19     81     0     24     22      2     10
+    cap-8     69     46     23     68     0     27     25      2     10
+   cap-10     61     37     35     71     0     29     48      2     10
+   cap-12     52     31     28     59     0     35     97      3     13
+
+invariant check: PASS (24 runs, 24 clean)
+phase-08 driver complete: 2026-08-15T00:16:22Z
+17:16  up 1 day,  4:44, 2 users, load averages: 2.28 2.45 2.44
