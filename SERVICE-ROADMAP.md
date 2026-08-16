@@ -275,6 +275,27 @@ Current harness note:
 - That means the exact request shape is slow, not broken: the current remaining
   confounder is the amount of prompt evaluation needed before generation starts,
   not a permanent SSE termination bug on the direct HTTP path.
+- The canonical isolated acceptance sequence was then rerun against a fresh
+  `llama-server` PID with a warm prefill immediately before the ordinary
+  Caveman turn. After removing `models.providers.llama-cpp.timeoutSeconds`
+  from the isolated config, the local-provider watchdog exemption applied and
+  the ordinary turn ran to natural stream completion, but the agent still
+  surfaced an `incomplete_turn` with `replayInvalid: true`.
+- The warm prefill still reported `cacheRead: 0`, and the final ordinary turn
+  likewise reported `cacheRead: 0`.
+- Prefix characterization then stopped at the first token boundary:
+  - warm prefill token count: `7,757`
+  - ordinary request token count: `27,809`
+  - longest common prefix: `1`
+  - exact-prefix check: `false`
+  - first divergence index: `1`
+- The ordinary request serializes tool declarations immediately after
+  `<|im_system|>`, while the warm prefill starts with the plain system prompt.
+  That prompt-shape mismatch is the current boundary; do not inspect
+  llama-server cache matching or llama.cpp KDA/KV reuse until the tokenized
+  prefix is exact.
+- Stage 6A.4 therefore remains `PARTIAL`, and the current result is
+  diagnostic-complete rather than acceptance-complete.
 
 #### 6B. Implement the warm-state registry
 

@@ -4,6 +4,8 @@
 
 PARTIAL
 
+Diagnostic complete.
+
 ## Objective
 
 Cut prefill over to the canonical ordinary-turn boundary so the stable-bootstrap path no longer invents its own full embedded attempt shape.
@@ -79,6 +81,34 @@ Cut prefill over to the canonical ordinary-turn boundary so the stable-bootstrap
   prompt evaluation before completing normally.
 - The 90-second reduction search was under-observing prompt evaluation, so it is
   not a reliable failure boundary yet.
+- The canonical acceptance sequence was then rerun in the isolated
+  `dev-openclaw` harness with a fresh `llama-server` PID and a warm prefill
+  immediately before the brand-new ordinary Caveman turn.
+- The warm prefill completed, but its usage report still showed
+  `cacheRead: 0`, so it did not by itself prove reuse.
+- After removing `models.providers.llama-cpp.timeoutSeconds` from the isolated
+  config, the local-provider watchdog exemption applied and the ordinary turn
+  was allowed to run to natural stream completion on the fresh PID.
+- The final streamed assistant content was `ok`, but the agent still surfaced an
+  `incomplete_turn` error with `replayInvalid: true`, so the canonical ordinary
+  Caveman turn still did not complete normally from OpenClaw's perspective.
+- The final usage report for that turn remained `cacheRead: 0`.
+- Prompt construction now fails the prefix gate: the ordinary request includes
+  tool schema serialization immediately after `<|im_system|>`, while the warm
+  prefill does not. Cache matching is downstream of that mismatch.
+- The final ordinary-turn result therefore did not satisfy the acceptance gate:
+  there was no normal completion and no `cacheRead > 0` proof.
+- The tokenized warm-prefill prefix and the tokenized ordinary Caveman prefix
+  diverged immediately after the shared BOS / template opener:
+  - warm prefill token count: `7,757`
+  - ordinary request token count: `27,809`
+  - longest common prefix: `1`
+  - exact-prefix check: `false`
+  - first divergence index: `1`
+- At the first divergence, the warm prefill emits the plain system prompt
+  (`system`) while the ordinary request emits tool-schema serialization
+  (`tool_decl...`) before the same template middle marker. That is a prompt
+  construction mismatch, not a llama-server cache match failure.
 
 ## Decisions
 
@@ -87,7 +117,13 @@ Cut prefill over to the canonical ordinary-turn boundary so the stable-bootstrap
 
 ## Next Phase
 
-- Resolve the auth/config-state seam so the live same-PID Caveman acceptance sequence can run and record prefix reuse, cache read, and generation success.
+- Keep the boundary split explicit:
+  - OpenClaw context construction
+  - tokenized prefix identity
+  - llama-server cache matching
+  - llama.cpp KDA/KV state reuse
+- Do not inspect cache matching or KDA/KV reuse until tokenized prefix
+  identity is exact.
 
 ## Reproduction
 
@@ -106,9 +142,10 @@ Cut prefill over to the canonical ordinary-turn boundary so the stable-bootstrap
 - Exact-body direct replay:
   - `curl -sS -N --http1.1 --max-time 300 -D - -H 'Content-Type: application/json' -H 'Authorization: Bearer llama-cpp-local' http://127.0.0.1:18080/v1/chat/completions --data-binary @dev-openclaw/state/stage6a4-request-body.json`
 - Single-variable reduction matrix:
-  - `dev-openclaw/state/stage6a4-reduction/results.tsv`
-  - `dev-openclaw/state/stage6a4-reduction/no_include_usage_90s.body.txt`
-  - `dev-openclaw/state/stage6a4-reduction/no_include_usage_90s.meta.txt`
+- `dev-openclaw/state/stage6a4-reduction/results.tsv`
+- `dev-openclaw/state/stage6a4-reduction/no_include_usage_90s.body.txt`
+- `dev-openclaw/state/stage6a4-reduction/no_include_usage_90s.meta.txt`
+- `dev-openclaw/state/stage6a4-token-prefix-compare.json`
 - The `/tmp/openclaw-stage6a4-*` harness is no longer a valid reproduction path.
 - Warm prefill reproduction in the isolated environment:
   - `cd openclaw-src && OPENCLAW_HOME=/Users/pmains/Code/openclaw/kimi/dev-openclaw/home OPENCLAW_STATE_DIR=/Users/pmains/Code/openclaw/kimi/dev-openclaw/state OPENCLAW_CONFIG_PATH=/Users/pmains/Code/openclaw/kimi/dev-openclaw/config/openclaw.json node --import tsx --input-type=module ...`
