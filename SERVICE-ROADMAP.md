@@ -1,326 +1,515 @@
-We have successfully integrated our streamed Kimi Linear 48B model with OpenClaw through our custom llama.cpp build and llama-server.
+# SERVICE-ROADMAP.md
 
-The immediate objective is NOT to optimize model inference further. The objective is to make our local-model infrastructure behave like persistent inference services and determine whether persistent KV/prefix reuse makes Kimi practical for OpenClaw agents.
+This document is now a single-purpose plan for one problem:
 
-Work through the following tasks sequentially. Measure before changing behavior, preserve existing working configurations, and stop if a change would require redesigning the streaming runtime.
+> Prove whether `caveman`'s Kimi bootstrap state survives session boundaries, define explicit prefill and warm-state tracking for that bootstrap, isolate the separate post-prefill failure, and then expand the usable context window to a measured target.
 
----
-
-## Relationship to ROADMAP.md (two parallel tracks)
-
-This file and `ROADMAP.md` are separate, parallel engineering tracks. Do not merge them.
-
-| Track | File | Scope |
-|---|---|---|
-| Inference-runtime development & optimization | `ROADMAP.md` | expert streaming, cache policy, quantization, kernels (Phase 9+) |
-| Productionization for persistent local-agent inference | `SERVICE-ROADMAP.md` (this file) | launchd/service lifecycle, OpenClaw integration, KV-session persistence, cold-start behavior, agent-latency decomposition |
-
-Boundaries:
-
-- Inference optimization work (repack batching, prefetching, asynchronous I/O, cache-policy changes, new kernels) belongs in `ROADMAP.md` Phase 9+, NOT in this file.
-- Service work (launchd, OpenClaw integration, KV-session persistence, cold-start behavior, agent-latency decomposition) belongs in this file, NOT in `ROADMAP.md` Phase 9.
-
-Immediate service priority (in order): **Task 3B** (stability) → **Task 4** (prefix/KV reuse) → **Task 5** (test reuse through OpenClaw sessions). Task 3B must pass before Task 4 begins; KeepAlive is containment, not success.
-
-The two tracks converge here:
-
-    OpenClaw → persistent llama-server/session → optimized streamed inference runtime
+Do not use this file to plan broader model rollouts. Do not touch other agents unless this plan succeeds and the user explicitly asks for expansion.
 
 ---
 
-CURRENT STATE
+## Scope
 
-Kimi:
-- Custom llama.cpp build with SSD-streamed MoE experts
-- llama-server OpenAI-compatible endpoint
-- Provider: kimi-local/kimi-linear-48b
-- Current server configuration:
-  - CPU inference
-  - zero-copy expert cache
-  - 4 GB expert-cache budget
-  - ctx 32768 (raised from 8192 on 2026-08-14 so the ~11.4k-token OpenClaw agent bootstrap fits; this proves allocation, not mathematical correctness — long-context validity is unproven, see Task 5B)
-- Model works through OpenClaw end-to-end, including tool calling (when the server stays alive).
-- Approximate observed performance:
-  - prefill ~32 tok/s at scale (4,873-token prompt: 153 s)
-  - decode ~3 tok/s
-  - 11.4k bootstrap => ~6 min prefill per turn (no prefix reuse yet)
-- Server runs as a launchd LaunchAgent (`com.openclaw.kimi-llama-server`, KeepAlive, wrapper `tools/serve_kimi_local.launchd.sh`) — see BUGS.md BUG-001: the runtime spontaneously exits while idle; KeepAlive is containment, not a fix. Do not begin Task 4 until Task 3B passes.
+- In scope:
+  - `caveman` only
+  - local Kimi service lifecycle
+  - caveman bootstrap scope and durability
+  - cross-session state reuse for caveman
+  - explicit prefill / prewarm for caveman bootstraps
+  - warm-state registry and invalidation for caveman/model/bootstrap combinations
+  - post-prefill failure on caveman, but only after reuse is characterized
+  - context-window expansion for caveman using the verified native/reference mechanism, but only after the narrow reuse/prefill path is understood
+- Out of scope:
+  - all other agents
+  - Qwen service work
+  - model math changes
+  - unmeasured context-window expansion work
+  - cache-policy redesign
+  - timeout tuning
+  - schema cleanup
+  - tool-count changes
+  - inference optimization phases in `ROADMAP.md`
 
-Qwen:
-- qwen3:8b is served through Ollama.
-- Historical OpenClaw configuration did not specify keep_alive, meaning Ollama's normal expiration behavior could cause sporadic agent jobs to repeatedly cold-start the model.
-- Current configuration specifies keep_alive: "24h".
-- Current num_ctx is 40960, which may be unnecessarily large.
-- Do not assume that configuration alone means the model is actually resident. Verify using Ollama runtime state.
+---
 
-GOAL
+## Current Diagnosis
 
-Turn the local models into persistent inference infrastructure:
+We have already proven that:
 
-OpenClaw
-   |
-   +-- Qwen utility model
-   |      persistent Ollama service
-   |      model kept warm
-   |
-   +-- Kimi heavy model
-          persistent llama-server
-          model weights/trunk resident
-          expert cache warm
-          investigate reusable KV/prefix state
+- Kimi Linear 48B can run locally on this machine.
+- The server itself stays healthy long enough to serve real requests.
+- The cold Caveman path is expensive, but the same `llama-server` process can reuse the existing bootstrap state.
+- The warm same-process retry is dramatically cheaper than the cold pass.
+- Stage 5 showed that the same live `llama-server` process can support a warm same-PID Caveman reuse path, while restart-durable slot restore is unsupported in this configuration.
+- The next unknown is the explicit prefill contract: can OpenClaw intentionally warm the exact Caveman bootstrap outside a conversational turn, track it by fingerprint and PID, and prove that later ordinary sessions reuse it?
+- Stage 5C demonstrated runtime stability through generation and subsequent warm reuse on the same server. The known `failed to allocate loaded ids buffers` warning remains nonfatal unless later testing demonstrates otherwise.
 
-The important distinction is:
+The practical issue is now state scope, not raw model correctness:
 
-MODEL PERFORMANCE != AGENT PERFORMANCE
+    caveman bootstrap state
+      + same-process reuse
+      + explicit prefill/warm-state tracking
+      + restart invalidation boundary
+      = stable provisioning boundary to isolate
 
-Cold starts, context initialization, repeated prompt prefill, cache eviction, and service lifecycle may dominate perceived agent performance even when token-generation speed is acceptable.
+The post-prefill failure is a separate issue and must not be mixed into the reuse experiment.
 
-TASK 1 — VERIFY QWEN WARM-RESIDENCY BEHAVIOR
+Once the reuse/prefill boundary is known, the next narrow question is:
 
-Do not change configuration initially.
+    how far can caveman's usable context window be expanded
+      + with the verified native/reference mechanism
+      + without breaking the agent path
+      + within the available memory budget
 
-1. Inspect the running Ollama service and `/api/ps`.
-2. Record whether qwen3:8b is resident.
-3. Issue one representative OpenClaw inference using qwen3:8b.
-4. Measure:
-   - cold request wall time
-   - model load time if exposed
-   - prompt evaluation time
-   - decode time
-   - tokens/sec
-5. Confirm qwen3:8b appears in `/api/ps`.
-6. Repeat the same request while warm.
-7. Compare cold vs warm latency.
-8. Verify that keep_alive=24h actually prevents eviction over the observation period.
+---
 
-Do not optimize yet. Produce a cold-vs-warm table first.
+## Success Criteria
 
-Also record the memory cost of the current num_ctx=40960 configuration.
+`caveman` is considered fixed when all of the following are true:
 
-TASK 2 — EVALUATE QWEN CONTEXT SIZE
+1. A new Caveman session against the same live `llama-server` reuses only a small suffix of the bootstrap.
+2. The explicit prefill contract exists, identifies warm state by `(agent_id, model_id, bootstrap_fingerprint)`, and a later ordinary Caveman session demonstrably reuses that prefetched state.
+3. The warm-state registry correctly tracks COLD, PREFILLING, READY, STALE, and FAILED across bootstrap changes and `llama-server` PID changes.
+4. The measured prompt-processing time for reused bootstrap stays dramatically below the cold baseline.
+5. The reuse and prefill results are reproducible without shell state or one-off manual setup.
+6. The completed Stage 5C runtime-stability characterization is documented separately, and the known nonfatal warning is not mistaken for an unresolved failure.
+7. The usable context window has been expanded to a measured target, with `128k` treated as the first major milestone and `256k` only as an aspirational upper target if it proves practical.
 
-After Task 1:
+---
 
-Determine whether 40,960 context is justified for the jobs this model performs.
+## Plan
 
-Measure memory allocation at:
-- 8192
-- 16384
-- current 40960
+After each step in the plan, put a markdown report in service-progress/
 
-Do not change the permanent configuration merely because a smaller value uses less RAM.
+### 1. Freeze the target
 
-Report:
-- model residency
-- KV/cache residency
-- total process footprint
-- startup/load latency
-- practical input capacity
+Keep `caveman` pointed at Kimi Linear only.
 
-Recommend a context size for a permanently resident utility/verification agent.
+- Primary model: `kimi-local/kimi-linear-48b`
+- Fallbacks: DeepSeek and GPT-5.4 mini remain available only if Kimi fails
+- No other agent config should change
 
-TASK 3 — TURN KIMI INTO A MANAGED SERVICE
+### 2. Keep the Kimi service boring
 
-Do not modify the Kimi streaming implementation.
+The local Kimi server should behave like infrastructure, not a helper script.
 
-Convert tools/serve_kimi_local.sh from an on-demand helper into infrastructure suitable for persistent use.
+Required properties:
 
-On this Mac, create a launchd LaunchAgent or equivalent appropriate service definition that:
+- auto-start on login
+- loopback-only by default
+- no duplicate server instances
+- explicit logs for stdout, stderr, exit, and lifecycle events
+- manual start/stop remains available for debugging
+- validated 4 GB expert cache stays the default
 
-- starts llama-server automatically
-- uses our custom llama.cpp binary, NOT stock llama.cpp/Ollama
-- uses the existing streamed Kimi environment variables
-- defaults to the validated 4 GB zero-copy expert cache
-- exposes only loopback unless explicitly changed
-- uses the current model
-- restarts after unexpected failure
-- writes useful stdout/stderr logs
-- does not spawn duplicate servers
-- shuts down cleanly
-- survives reboot/login as appropriate
+This is about reliability, not speed tricks.
 
-Preserve tools/serve_kimi_local.sh as a manual debugging interface if useful.
+### 3. Measure the real failure boundary
 
-Before enabling the service:
-1. show the exact service configuration
-2. verify paths
-3. verify environment variables
-4. verify no existing llama-server process conflicts with it
+Before changing behavior, capture the caveman request shape and timing.
 
-After enabling:
-1. confirm health endpoint
-2. confirm model endpoint
-3. run an OpenClaw inference
-4. restart the service
-5. run another OpenClaw inference
+Measure:
 
-The second inference must prove that OpenClaw does not depend on some transient shell state.
-
-TASK 3B — RUNTIME STABILITY GATE (MANDATORY BEFORE TASK 4)
-
-Diagnose and eliminate spontaneous `llama-server` termination under the expert-streaming runtime (BUG-001). launchd KeepAlive may remain as operational containment, but automatic restart does NOT satisfy this gate.
-
-1. Reproduce under `llama-server`, not just `llama-cli`. Run idle-only, short-request, long-prefill, and repeated-request cases. The launchd wrapper records exact exit status/signal, uptime, and final server-log lines per termination (`/tmp/kimi-llama-server.lifecycle.log`).
-2. Determine what reaches `cleaning up before exit...`. Instrument the server shutdown path sufficiently to distinguish: signal handling (and WHO sends the signal), HTTP/server lifecycle shutdown, internal error propagation, memory/allocation failure, and external process termination.
-3. Separately investigate `failed to allocate loaded ids buffers`. Do NOT assume it causes the exits. Establish whether the warning correlates with termination, and identify exactly which allocation fails: requested dimensions/bytes, layer, batch, execution phase.
-4. Isolation test: run stock/non-streamed llama-server briefly if the machine can tolerate it (~28 GB conventional resident load). If stock also exits, we have been looking in the wrong subsystem. If stock stays alive while the streamed build dies, the regression is isolated.
-5. Supervised soak after any fix: >= 1 hour idle PLUS repeated realistic requests, including the ~4,873-token prompt that has already succeeded. launchd restart count must remain zero. Preserve bit-identical inference/oracle behavior where applicable.
-6. Only after the server survives the stability gate proceed to prefix/KV reuse testing (Task 4).
-
-TASK 4 — MEASURE KIMI PREFIX/KV REUSE
-
-This is the most important experiment. GATED on Task 3B: the server must survive a supervised soak first — there is little value measuring repeated-prefill savings if the server may disappear between turns and destroy the KV state anyway.
-
-Do NOT increase context size yet.
-
-Determine what llama-server actually reuses between requests.
-
-Construct a controlled test with approximately:
-
-    5,000–6,000 tokens identical prefix
-    +
-    short variable suffix
-
-For example:
-
-REQUEST A:
-[large identical system/tool/context prefix]
-Task: answer question A.
-
-REQUEST B:
-[exact same large prefix]
-Task: answer question B.
-
-REQUEST C:
-[modified prefix]
-Task: answer question C.
-
-Measure separately where available:
-- prompt tokens
-- prompt-evaluation time
+- prompt token count
+- prompt-eval duration
 - time to first token
-- decode time
 - total wall time
-- cache/prefix reuse statistics exposed by llama-server
-- process memory before/after
-- KV/cache behavior
+- whether the request aborts before first output
+- the corresponding `llama-server` log tail
+- the OpenClaw abort flags for the request
 
-Run at least:
+The goal here is to prove exactly where caveman dies, not to guess.
 
-A. first request after server startup
-B. identical-prefix second request
-C. identical-prefix third request
-D. deliberately changed-prefix request
+### 4. Test cross-session bootstrap reuse
 
-We are testing this hypothesis:
+The main hypothesis is simple:
 
-If OpenClaw repeatedly sends a large, mostly identical agent prefix, persistent llama-server prefix/KV reuse could eliminate much of Kimi's ~20 tok/s prefill bottleneck.
+> Caveman's stable bootstrap should remain mostly reusable when a brand-new Caveman session is created against the same live `llama-server` process.
 
-Do not assume this works. Prove or falsify it.
+Test exactly one thing:
 
-TASK 5 — TEST THROUGH OPENCLAW
+- keep the current `llama-server` process alive
+- create a new Caveman session
+- send a small request
+- measure evaluated prompt tokens, slot/LCP reuse, prompt-processing time, and first-token latency
 
-If raw llama-server demonstrates prefix reuse, determine whether OpenClaw's actual request structure preserves enough prefix identity to benefit.
+PASS condition:
 
-Capture/inspect requests without exposing secrets.
+- the new session still evaluates only a small suffix of the bootstrap
+- the server reuses the existing slot or prefix state
+- the measurement is materially cheaper than the cold baseline
 
-Run two or more turns through the SAME OpenClaw agent/session.
+If this fails, stop here and document the scope boundary. Do not branch into schema, timeout, or tool-count work unless one directly blocks the measurement.
 
-Determine:
-- how much of the system prompt is identical
-- whether tool definitions remain byte/token stable
-- whether OpenClaw reorders or regenerates content
-- whether conversation history structure allows llama-server prefix matching
-- whether prompt-evaluation time falls on later turns
+### 5. Stage 5: separate the durability and failure questions
 
-Compare:
+Stage 5 is split into three explicit substeps so each hypothesis stays narrow.
 
-raw llama-server controlled prefix reuse
-vs.
-actual OpenClaw multi-turn reuse
+#### 5A. Measure session-scoped reuse
 
-This distinction matters. llama-server supporting prefix reuse is useless to us if OpenClaw changes the prefix every request.
+The next hypothesis is:
 
-TASK 5B — LONG-CONTEXT CORRECTNESS: RoPE / NoPE / YaRN VALIDATION
+> A brand-new Caveman session against the same live `llama-server` process should reuse the stable bootstrap state.
 
-New service workstream, after the Task 3B → 4 → 5 priority chain.
+Test exactly one thing:
 
-`--ctx-size 32768` proves allocation, not mathematical correctness. The server may allocate and run at 32k while the positional encoding silently degrades or misbehaves beyond the range that llama.cpp's Kimi Linear implementation actually validates against the reference. Establish a validated context range before treating 32k/64k/128k (or the current 32768 setting) as supported.
+- keep the current `llama-server` process alive
+- create a new Caveman session
+- send a small request
+- measure evaluated prompt tokens, slot/LCP reuse, prompt-processing time, and first-token latency
 
-1. Determine Kimi Linear's intended positional-encoding behavior from the authoritative reference:
-   - `moonshotai/Kimi-Linear-48B-A3B-Instruct` `config.json`: RoPE base/frequency, `rope_scaling`/YaRN or NoPE configuration, attention implementation;
-   - the reference implementation (Hugging Face / MLX / kimi-k3-in-c) of position encoding for this architecture.
-   Establish whether Kimi Linear uses RoPE, NoPE, YaRN, or a hybrid, and with what parameters. Record sources (exact model/checkpoint revision, implementation commit).
-2. Compare llama.cpp's Kimi Linear against the reference at increasing sequence positions (e.g. 1k, 4k, 8k, 16k, 24k, 32k, and beyond if the reference supports it):
-   - router decisions;
-   - hidden states / logits within documented numerical tolerances;
-   - generated tokens on identical prompts at long positions.
-3. Identify where, if anywhere, llama.cpp diverges from the reference as position grows, and whether the divergence is a scaling/config issue (YaRN parameters, RoPE base) or a hard correctness failure.
-4. Establish a VALIDATED context range: the maximum context at which streamed Kimi Linear matches the reference. Do not treat larger contexts as supported beyond the validated range.
-5. If a configuration fix exists within llama.cpp's existing RoPE/YaRN support (no new kernels, no MXFP4, no quantization changes), document and validate it. If the reference itself does not support the tested range, record that as the ceiling.
+PASS condition:
 
-Do not increase `--ctx-size` further as a substitute for validation.
+- the new session still evaluates only a small suffix of the bootstrap
+- the server reuses the existing slot or prefix state
+- the measurement is materially cheaper than the cold baseline
 
-Acceptance:
-- Kimi Linear's positional-encoding behavior (RoPE/NoPE/YaRN and parameters) is documented from the reference, with sources recorded.
-- llama.cpp vs reference comparison at increasing positions is measured and recorded (logit/hidden-state deltas and/or token agreement).
-- A validated context range is stated with the evidence that bounds it.
-- The current 32768 server setting is either validated or explicitly flagged as unvalidated, with the actual validated ceiling stated.
+If this fails, stop here and document the scope boundary. Do not branch into schema, timeout, or tool-count work unless one directly blocks the measurement.
 
-TASK 6 — PRODUCE AN AGENT-PERFORMANCE DECOMPOSITION
+#### 5B. Measure restart durability
 
-For both Qwen and Kimi, report latency approximately as:
+The next hypothesis is separate:
 
-total agent latency
-  = cold-start/load
-  + prompt prefill
-  + inference/decode
-  + tool execution
-  + orchestration overhead
+> `llama-server` should be able to save and restore the Caveman bootstrap state across a restart.
 
-Where possible provide measured values rather than estimates.
+Test exactly one thing:
 
-For Kimi specifically distinguish:
+- persist or snapshot the state if the server supports it
+- restart `llama-server`
+- create another small Caveman request
+- measure whether the prompt stays warm or reverts to the cold baseline
 
-server cold start
-model/trunk residency
-expert-cache warmup
-KV/prefix reuse
-SSD expert misses
-decode
+PASS condition:
 
-FINAL DELIVERABLE
+- the restored session still reuses a small suffix
+- restart does not force a full cold prefill
 
-Write a concise report containing:
+If this fails, document the boundary and stop. Do not mix in the post-prefill crash yet.
 
-1. Qwen cold vs warm performance
-2. recommended Qwen context configuration
-3. Kimi persistent-service configuration
-4. Kimi first-turn vs repeated-prefix performance
-5. OpenClaw real-session prefix-reuse results
-6. memory footprints for both persistent services
-7. expected idle RAM usage if both remain resident
-8. expected latency for:
-   - first job after reboot
-   - first job after model is warm
-   - subsequent turn in same agent/session
-9. remaining bottlenecks
-10. recommendation for which OpenClaw jobs should use Qwen, Kimi, or cloud models
-11. validated Kimi long-context range and RoPE/NoPE/YaRN behavior (Task 5B)
+#### 5C. Validate post-prefill runtime stability - PASS
 
-IMPORTANT CONSTRAINTS
+The same-PID runtime-stability sequence completed successfully:
 
-- Do not modify the expert-streaming algorithm.
-- Do not change cache policy.
-- Do not begin another optimization phase.
-- Do not increase Kimi context merely to make a test fit.
-- Do not replace our custom llama-server with Ollama.
-- Do not optimize based on ru_maxrss alone on macOS.
-- Do not attribute thermal/session noise to architecture.
-- Preserve working configs before editing them.
-- Make one meaningful change at a time.
-- Keep raw measurements.
-- Commit infrastructure/config/tooling changes separately from reports/results.
-- Stop after the report. Do not automatically implement recommendations that emerge from the experiment.
-- Do not begin Task 4 (prefix/KV reuse) until Task 3B (stability gate) passes with zero launchd restarts.
-- Do not merge this roadmap with `ROADMAP.md`. They are parallel tracks: this file is service productionization; `ROADMAP.md` is inference-runtime development/optimization. Inference optimization (repack batching, prefetching, asynchronous I/O, cache-policy changes, new kernels) stays in `ROADMAP.md` Phase 9+; service work (launchd, OpenClaw integration, KV-session persistence, cold-start behavior, agent-latency decomposition) stays here.
+- cold bootstrap
+- generation
+- new-session warm reuse
+- generation
+
+The known `failed to allocate loaded ids buffers` warning remained visible in logs, but it did not produce an abort, restart, timeout, or fallback during the completed test.
+
+### 6. Explicit Agent/Model Prefill
+
+Stage 6 is the explicit prefill and warm-state tracking phase. It is split into
+small substeps so the contract, registry, interface, and proof stay separate.
+
+#### 6A. Define the prefill contract
+
+Establish one canonical operation:
+
+    prefill(agent_id, model_id)
+
+It must:
+
+- resolve the agent exactly as a normal OpenClaw turn would
+- resolve the specified model
+- compile the same stable bootstrap prefix that a normal first turn would receive
+- compute `bootstrap_fingerprint`
+- send that bootstrap through the normal provider/inference path, but without creating a conversational user turn
+- leave the resulting prefix/KV state resident in the live inference server
+- record the server PID associated with that warm state
+
+Critically, prefill is not successful merely because inference completed. It is
+successful only if a subsequent ordinary agent session demonstrably reuses the
+resulting prefix.
+
+Current implementation note:
+
+- The stable-bootstrap prep chain now accepts a narrower resolved execution
+  context instead of inventing a fake full embedded attempt object.
+- `prefillWithStableBootstrapForAgent(...)` now requires that explicit resolved
+  context, so the prefill seam no longer derives its own bootstrap context.
+- The canonical seam therefore remains:
+
+      ordinary agent resolution -> resolved execution context -> {normal turn | prefill}
+
+- Live Caveman acceptance is still pending because the current workspace
+  config/state rejects the source CLI before a full end-to-end proof can be
+  recorded, and the direct prefill harness still trips auth-profile migration
+  before llama-server evaluation.
+
+Current harness note:
+
+- Use the isolated `dev-openclaw` environment for Stage 6A.4 acceptance.
+- Canonical paths are:
+  - `OPENCLAW_HOME=/Users/pmains/Code/openclaw/kimi/dev-openclaw/home`
+  - `OPENCLAW_STATE_DIR=/Users/pmains/Code/openclaw/kimi/dev-openclaw/state`
+  - `OPENCLAW_CONFIG_PATH=/Users/pmains/Code/openclaw/kimi/dev-openclaw/config/openclaw.json`
+- Do not use the older `/tmp/openclaw-stage6a4-*` harness for further
+  acceptance probes.
+- Keep the Caveman identity/model pairing fixed at the known-good
+  `caveman` / `llama-cpp/kimi-linear-48b` configuration.
+- For the isolated dev harness, disable the memory plugin slot with
+  `plugins.slots.memory = "none"` so Caveman does not enter the optional
+  OpenAI-backed memory-sync path during acceptance probes.
+- The current isolated ordinary Caveman probe now reaches the `openai-completions`
+  transport and gets `200 text/event-stream`, but the stalled turn never
+  observes `data: [DONE]` or a provider `finish_reason` before settlement
+  interruption.
+- The exact Caveman JSON body is now captured in
+  `dev-openclaw/state/stage6a4-request-body.json` (sha256
+  `34839c6e4d22c445d313fbd1b7f62c643de995fd2aa5c5474ccdd30900be083f`), and
+  replaying that identical body directly against the same llama-server PID
+  `77135` does terminate normally when observed over a longer 300s window:
+  the first SSE chunk arrives immediately, prompt processing continues for
+  several minutes, prompt evaluation completes after roughly `211s`, and the
+  response then emits generated content, `finish_reason:"length"`, usage, and
+  `data: [DONE]`.
+- The 90-second reduction pass was under-observing prompt evaluation rather
+  than proving a hard stall:
+  - `stream_options.include_usage` removed: one streamed chunk arrived within
+    90s, but that short window was still not long enough to distinguish slow
+    prompt evaluation from completion.
+  - `tool_choice` removed, `tools` removed, and `max_completion_tokens=8`: no
+    response headers within the observation window, again too short to classify
+    the request definitively.
+- That means the exact request shape is slow, not broken: the current remaining
+  confounder is the amount of prompt evaluation needed before generation starts,
+  not a permanent SSE termination bug on the direct HTTP path.
+
+#### 6B. Implement the warm-state registry
+
+OpenClaw needs to know what it believes is warm:
+
+    (agent_id, model_id, bootstrap_fingerprint)
+      -> status
+      -> server_pid
+      -> cached_tokens
+      -> warmed_at
+
+Define the state machine precisely:
+
+    COLD
+     ↓
+    PREFILLING
+     ↓
+    READY
+
+    READY -> STALE when the bootstrap fingerprint changes
+    READY -> COLD when the inference-server PID changes
+    PREFILLING -> FAILED
+    FAILED -> PREFILLING on explicit retry
+
+That PID rule is important: Stage 5B established that restart persistence is
+unsupported in this configuration, so a server restart must invalidate the prior
+READY state.
+
+#### 6C. CLI and observability
+
+Implement:
+
+    openclaw prefill caveman kimi-linear-48b
+    openclaw prefill caveman
+    openclaw prefill status
+    openclaw prefill status caveman
+    openclaw prefill caveman kimi-linear-48b --json
+
+The command itself must not be subject to the normal agent stuck-session
+watchdog. A long prefill is legitimate work, not a stalled conversational turn.
+
+Progress should come from actual inference progress rather than an elapsed-time
+animation:
+
+    PREFILLING 7,782 / 10,240 tokens 76%
+    15.8 tok/s · ETA 2m35s · PID 11752
+
+If `llama.cpp` cannot expose exact token progress cleanly, document the best
+authoritative signal available rather than fabricating percentages.
+
+The CLI should expose the same underlying operation through a chat command if
+desired, but the first implementation only needs the core prefill path, the
+state registry, and machine-readable status.
+
+#### 6D. Prove that `/prefill` actually works
+
+Acceptance experiment:
+
+1. Restart the server so the starting state is genuinely cold.
+2. Run `openclaw prefill caveman kimi-linear-48b`.
+3. Verify the result becomes `READY`.
+4. Record the server PID.
+5. Create a brand-new Caveman session.
+6. Send one tiny ordinary request.
+
+PASS requires all of these:
+
+- prefill completes without creating a normal conversational turn
+- status becomes `READY`
+- the recorded server PID matches the live inference-server PID
+- the new Caveman session selects the warm prefix by LCP/cache reuse
+- the ordinary request evaluates only a small suffix
+- `cacheRead > 0`
+- latency is materially below the cold baseline
+- no fallback
+- no abort
+- no restart
+
+That final verification matters. OpenClaw must not report `READY` while having
+warmed something other than the exact bootstrap the agent will later use.
+
+#### 6E. Invalidation and restart behavior
+
+Test the two invalidation paths that matter:
+
+- Bootstrap mutation: change something fingerprinted and confirm the old state becomes `STALE`.
+- Server restart: PID changes and the old state becomes `COLD`, regardless of whether any slot file still exists.
+
+Then a manual prefill must return the state to `READY`.
+
+Stage 6 is complete when OpenClaw can explicitly prefill the exact bootstrap
+used by an agent/model pair outside a normal agent turn, accurately track that
+warm state against its bootstrap fingerprint and inference-server lifetime,
+expose observable CLI progress and status, and prove that a subsequent new
+agent session actually reuses the prefilled state.
+
+### 7. Verify the native position mechanism
+
+Before running any ladder, establish which positional behavior Kimi Linear actually uses in the reference implementation and in the current `llama.cpp` path.
+
+The question is not "which knobs exist in the UI."
+The question is "which knobs actually participate in Kimi Linear inference."
+
+Concrete gate:
+
+1. Inspect the reference Kimi Linear model/config path and the corresponding `llama.cpp` runtime path.
+2. Determine the native/reference positional behavior.
+3. Record which context-extension knobs actually affect this architecture.
+4. Classify each candidate mechanism as one of:
+   - `SUPPORTED`
+   - `UNAVAILABLE`
+   - `NOT APPLICABLE`
+5. If the evidence says RoPE or YaRN are not part of the inference path, record them as `UNAVAILABLE` or `NOT APPLICABLE` and do not run peer experiments on them.
+6. Treat the native/reference mechanism as the first and primary mechanism under test.
+
+Required output:
+
+- exact source of the reference behavior
+- exact `llama.cpp`/`llama-server` path that implements it
+- exact runtime knobs that are actually meaningful
+- explicit note if `NoPE` is the reference/native behavior
+- explicit note if `RoPE` or `YaRN` are unsupported or not relevant
+
+Stop this gate before the ladder if the mechanism is not clearly identified. Do not guess.
+
+### 8. Expand the usable context window
+
+The next narrow question is separate from durability:
+
+> Can caveman be given a much larger usable context window without breaking the basic agent path or blowing the memory budget?
+
+Test only the verified native/reference mechanism first. Do not make `RoPE`, `YaRN`, and `NoPE` peer experiments unless the verification gate proves they are all actually applicable.
+
+If a non-native mechanism is later shown to participate, document it as a separate follow-up, not as an equal first-round candidate.
+
+Concrete protocol:
+
+1. Capture a baseline run at the current known-good configuration.
+2. Use the verified native/reference mechanism and one exact runtime knob set.
+3. Run a fixed ladder of context sizes: `32k`, `64k`, `96k`, `128k`, `160k`, `192k`, `256k`.
+4. Use the same caveman request shape at every rung.
+5. Keep the rest of the agent configuration unchanged.
+6. Stop the ladder at the first rung that fails, times out, or pushes memory into an unusable state.
+7. Repeat the same ladder for any later, separately validated mechanism only after the native/reference result is documented.
+
+Treat two ceilings separately:
+
+- `runtime ceiling`: crashes, allocation failure, or unacceptable memory pressure
+- `useful-context ceiling`: caveman runs, but can no longer reliably retrieve or use the expanded context
+
+Measure at each rung:
+
+- prompt token count at the boundary
+- prompt-eval duration
+- first-token latency
+- resident memory
+- runtime failure mode, if any
+- useful-context result from a small needle/retrieval test
+- whether caveman still completes a normal request at that size
+
+Implementation notes:
+
+- Use the runtime's actual supported long-context knobs, not guessed CLI flags.
+- Record the exact knob names and values used for each mechanism.
+- Keep the prompt content fixed and extend only the length of the context window input.
+- If the runtime exposes a separate `ctx-size`, `rope-scale`, `yarn-*`, or equivalent parameter, record it explicitly.
+- If a mechanism is unsupported in the current `llama-server` path, mark it `UNAVAILABLE` and move on instead of inventing behavior.
+- Make `128k` the first major success milestone. Treat `256k` as the aspirational upper target if the machine and runtime make it practical.
+
+PASS condition:
+
+- caveman can sustain a measured context target that is materially larger than the current baseline
+- the agent path still works at that size
+- the chosen strategy is documented with its exact runtime knobs and measured limits
+- the useful-context test still passes at the milestone rung
+
+If `256k` is not practical on this machine, record the highest sustainable value and stop there. Do not guess a higher number without evidence.
+
+### 8A. Baseline and compare
+
+Before changing the positional strategy:
+
+- run the current caveman request at the existing context setting
+- capture prompt tokens, prefill time, first-token latency, RSS, and log tail
+- save this as the comparison baseline for the ladder
+
+### 8B. Evidence to save
+
+For each ladder run, write a short report in `service-progress/` and save the machine-readable outputs under `benchmarks/results/phase-06/` or a sibling directory named for the mechanism.
+
+Each report should include:
+
+- mechanism used
+- exact runtime knobs
+- largest successful context size
+- first failing context size
+- runtime ceiling, if reached
+- useful-context ceiling, if reached
+- memory footprint at the top successful rung
+- whether caveman remained usable
+- the command used to reproduce the run
+
+---
+
+## Working Rules
+
+- Do not change other agents.
+- Do not merge this work with `ROADMAP.md`.
+- Do not optimize inference before proving the caveman failure mode.
+- Do not rely on raw model tok/s as proof of agent usability.
+- Do not treat a single successful request as solved.
+- Do not widen scope until caveman is stable.
+
+---
+
+## Deliverables
+
+When the plan is complete, produce:
+
+1. The caveman-only service configuration.
+2. The cross-session bootstrap reuse measurement.
+3. The restart-boundary characterization, including the unsupported slot/state restore result if that remains the outcome.
+4. The explicit prefill contract, warm-state registry, and CLI/observability behavior.
+5. The completed Stage 5C runtime-stability characterization.
+6. A short note stating whether bootstrap state is session-local, restart-invalidated, or both.
+7. The mechanism-verification result, including which positional behavior is actually native/reference for Kimi Linear.
+8. The measured context-window expansion result, including which strategy was used and what size was actually sustainable.
+
+---
+
+---
+
+## Decision Rule
+
+- If Caveman bootstrap reuse is session-local only: document the boundary and stop there.
+- If restart durability works: keep the experiment narrow and move on to the post-prefill failure as its own issue.
+- If the usable context window can be expanded: document the exact strategy, the measured limit, and the memory cost before calling the experiment complete.
+- Do not expand rollout until the Caveman path is boringly reliable.
