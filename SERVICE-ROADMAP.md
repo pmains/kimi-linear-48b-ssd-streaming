@@ -297,6 +297,148 @@ Current harness note:
 - Stage 6A.4 therefore remains `PARTIAL`, and the current result is
   diagnostic-complete rather than acceptance-complete.
 
+#### 6A.5 Derive the invariant ordinary-request prefix
+
+The next boundary is the canonical tokenized prefix of an ordinary Caveman
+request.
+
+Establish it empirically, then make the prefill path reproduce that exact
+ordinary serialization prefix:
+
+- capture at least two ordinary Caveman requests with different user messages
+  and unique session keys, using the same agent/model/tool/runtime template
+- compare the final token IDs that llama-server would actually evaluate
+- identify the longest semantically safe invariant prefix
+- construct the prefill through the same ordinary request serialization path,
+  not a synthetic system-only shape
+- assert that `prefill_tokens == ordinary_tokens[:len(prefill_tokens)]`
+
+Do not inspect cache matching or llama.cpp KDA/KV reuse until the exact-prefix
+proof is in place.
+
+#### 6A.6 Invariant-prefix cache acceptance
+
+Run the canonical invariant-prefix prefill followed by a brand-new ordinary
+Caveman session against the same fresh `llama-server` PID, then determine
+whether the ordinary turn reports substantive prefix reuse.
+
+OpenClaw integration issue:
+
+- `sessions_send(sessionKey=..., timeoutSeconds: 0)` is not the right harness
+  surface for this acceptance step because it blocks in the admission path
+  before returning a `runId`.
+- The acceptance harness should submit the turn through the supported
+  lower-level `agent` dispatch with `expectFinal: false`, capture the returned
+  `runId`, and keep the existing durable completion monitor.
+- This is a harness / OpenClaw routing issue, not a model, cache, or
+  `llama-server` behavior change.
+
+Current environment note:
+
+- The Stage 6A.6 harness now forces the isolated dev config via
+  `OPENCLAW_CONFIG_PATH=/Users/pmains/Code/openclaw/kimi/dev-openclaw/config/openclaw.json`
+  and `OPENCLAW_STATE_DIR=/Users/pmains/Code/openclaw/kimi/dev-openclaw/state`.
+- Borrowing only the gateway auth secret from `~/.openclaw/openclaw.json`
+  remains acceptable for the isolated dev harness.
+- Manual trajectory inspection has now proven durable live-run observability:
+  the active session `.trajectory.jsonl` shows `session.started` and
+  `prompt.submitted` for the dispatched run before `model.completed`.
+- The automated harness monitor still returns `pending` for that same live run,
+  so the live-marker polling path remains unresolved and should not be treated
+  as evidence against cache reuse.
+- The same-server canonical replay artifact already shows substantive prompt
+  cache reuse on the ordinary Caveman prompt: `cached_tokens=24576`,
+  `prompt_n=3149`, `prompt_ms=211371.516`, versus the uncached 27,809-token
+  prefill at `prompt eval time = 1882854.65 ms`.
+- The comparison trail for that signal is anchored by
+  `dev-openclaw/state/stage6a4-reduction/baseline_300s.body.txt`,
+  `dev-openclaw/state/stage6a4-reduction/results.tsv`, and
+  `dev-openclaw/state/stage6a4-token-prefix-compare.json`.
+
+Acceptance criteria:
+
+- `cacheRead > 0` on the ordinary turn
+- llama-server telemetry corroborates prefix reuse
+- the ordinary prompt-evaluation time is materially lower than the uncached
+  ~27k-token baseline
+
+If the run cannot produce terminal evidence, stop at that boundary and record
+the request as an incomplete cache-acceptance observation. Do not patch
+`llama.cpp` yet. The next boundary after a failed acceptance run is the
+llama-server / llama.cpp prefix-state reuse characterization, including any
+hybrid-attention/KDA constraints.
+
+Current state note:
+
+- The cache-reuse signal itself is already established in the replay
+  artifacts.
+- The automated live-marker monitor gap is now closed: the Stage 6A.6
+  harness monitor reads the authoritative SQLite `trajectory_runtime_events`
+  table in the per-agent state database
+  (`<OPENCLAW_STATE_DIR>/agents/<agentId>/agent/openclaw-agent.sqlite`) via
+  `node:sqlite`, matching rows on the accepted `run_id`
+  (`session.started`/`prompt.submitted` = live marker;
+  `trace.artifacts`/`session.ended` = terminal). The `.trajectory.jsonl` scan
+  remains only as a fallback.
+- Dev-gateway gate: `dev-openclaw/config/openclaw.json` runs with
+  `diagnostics.enabled=false` (supported `DiagnosticsConfig.enabled` gate for
+  stuck-session recovery); provider `timeoutSeconds` was already removed.
+  The dev gateway must be started with the same `OPENCLAW_GATEWAY_TOKEN` the
+  harness borrows, otherwise the gateway's fresh per-startup runtime token
+  rejects the harness with `AUTH_TOKEN_MISMATCH`.
+- Stage 6A.6 preflight (2026-08-16) PASSED the integration check: dev gateway
+  -> accepted runId (`eb4e791b-8762-4014-88ec-94b74471b138`) -> llama-server
+  received the request (POST /v1/chat/completions, task 0 prompt processing
+  + generation) -> SQLite observed live runtime events for that runId while
+  the run was in flight. The smoke run was terminated after those four
+  conditions were observed (below the former ~6-minute watchdog threshold).
+  See `service-progress/step-06a6-sqlite-live-monitor-preflight.md` and
+  `dev-openclaw/state/stage6a6-preflight/2026-08-16T19-33-25-138Z/preflight-evidence.json`.
+- The Stage 6A.6 acceptance run itself was executed on 2026-08-16 (12:51–13:11
+  MST, fresh llama-server PID 58186) and FAILED / is incomplete:
+  - Prefill run `eac84423-...` auto-compacted (compactionCount 1); its second
+    model call cold-evaluated a 22,241-token prompt (1088.14 s, no
+    cached_tokens), then llama-server crashed with
+    `ggml_new_object: not enough space in the context's memory pool (needed
+    1049168, available 1048944)` -> `GGML_ASSERT(obj_new)` -> SIGABRT
+    (compute pool short by 224 bytes for the post-eval graph).
+  - Ordinary followup `856bb37c-...` errored in 3 s because no server was
+    alive (gateway localService auto-spawn of the frozen bundle fails on
+    `@rpath/libllama-server-impl.dylib`); it never reached a model call, so
+    `cacheRead` is unmeasurable. Acceptance criteria not met.
+  - The SQLite monitor itself is verified: the followup's live marker was
+    found in `trajectory_runtime_events` (seq 70, waitedMs 3204). Note:
+    SQLite rows flush at run finalization with `created_at` = event
+    timestamp, so they become visible at finalize (the preflight's "while
+    live" wording is corrected accordingly).
+  - Records: `service-progress/step-06a6-acceptance-run-2026-08-16.md`,
+    `dev-openclaw/state/stage6a6-acceptance/2026-08-16T19-48-29-562Z/`.
+  - Next boundary: the expert-streamer/ggml compute-buffer accounting crash
+    at large prompt sizes (llama.cpp NOT patched; roadmap STOP point).
+- The Stage 6A.6 acceptance rerun was executed on 2026-08-16 (fixed binary
+  `0a6b2df63`, fresh PID 63686) and PASSED:
+  - Blocker fixed in llama.cpp `0a6b2df63`: the streamer's grow-only repack
+    temp context accumulated ~15 tensor objects/step (down expert alternates
+    Q6_K/Q4_K 14x per layer pass) and overflowed any fixed pool size; the
+    crash was the 2851st object, 224 B short. Fix: recycle the pool on
+    overflow (free per-kind buffers + `ggml_reset`). No caching, KDA/KV,
+    prefix, dispatch, or acceptance-semantics changes. Characterization,
+    unit test, and regression evidence:
+    `progress/stage-06a6-temp-ctx-pool-fix-report.md`.
+  - Prefill turn `cfe69649-...` cold-evaluated a 22,409-token prompt
+    (1,348,704.81 ms / 16.62 t/s) and completed with zero aborts — the exact
+    scenario that SIGABRT'd the previous run.
+  - Ordinary followup `48aae132-...` reported `cacheRead=22410` (input 86,
+    output 2): server-side eval 86 tokens / 14.46 s vs the prefill's 22,409
+    tokens / 1,348.7 s (~93x lower; ~130x lower than the ~27k uncached
+    baseline). All three acceptance criteria met.
+  - Records: `dev-openclaw/state/stage6a6-acceptance/2026-08-16T21-41-41-660Z/`,
+    `progress/stage-06a6-report.md` (PASS).
+  - Fix promoted to live: `runtime/live/COMMIT` = `0a6b2df63`; live server
+    restarted and verified via `openclaw infer model run --model
+    kimi-local/kimi-linear-48b`. This also closes the live server's own
+    recurring SIGABRTs from the same defect (BUG-001).
+
 #### 6B. Implement the warm-state registry
 
 OpenClaw needs to know what it believes is warm:
