@@ -1,0 +1,41 @@
+{
+  "rung": {
+    "ctx": 32768,
+    "binary_note": "frozen live runtime (runtime/live)",
+    "port": 18081,
+    "timestamp": "2026-08-17T19-58-31Z",
+    "artifact_dir": "/Users/pmains/Code/openclaw/kimi/dev-openclaw/state/stage8/2026-08-17T19-58-31Z-ctx-32768",
+    "server_pid": 47800
+  },
+  "gates": {
+    "gate1_allocation_startup": "pass",
+    "gate2_prefill_correctness": "pass",
+    "gate3_generation_correctness": "pass",
+    "gate4_state_cache_after_long_ctx": "pass"
+  },
+  "classification": "PASS",
+  "probes": {
+    "b_boundary_needle": {
+      "prompt_tokens": 23149,
+      "server_prefill": "prompt eval time =  782312.45 ms / 23149 tokens",
+      "target_pct": 0.9,
+      "needle_retrieved": "yes"
+    },
+    "a_fixed_ok": {
+      "contains_ok": "yes"
+    }
+  },
+  "memory": {
+    "kv": "KV buffer size =   252.00 MiB",
+    "kv_cells": "252.00 MiB (32768 cells, 7 layers)",
+    "kda_recurrent_state": "42.81 MiB (1 cells, 27 layers, R 2.81 + S 40.00 MiB)",
+    "expert_cache": "expert cache armed (4096 MiB, zero-copy mode)",
+    "total_rss_kb": 4390720,
+    "peak_rss_kb_during_prefill": 6240688,
+    "peak_rss_at": "13:11:47"
+  },
+  "warnings": {
+    "allocator_anomalies": 0,
+    "benign_il26_loaded_ids": 47
+  }
+}

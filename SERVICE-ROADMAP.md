@@ -73,7 +73,7 @@ Once the reuse/prefill boundary is known, the next narrow question is:
 4. The measured prompt-processing time for reused bootstrap stays dramatically below the cold baseline.
 5. The reuse and prefill results are reproducible without shell state or one-off manual setup.
 6. The completed Stage 5C runtime-stability characterization is documented separately, and the known nonfatal warning is not mistaken for an unresolved failure.
-7. The usable context window has been expanded to a measured target, with `128k` treated as the first major milestone and `256k` only as an aspirational upper target if it proves practical.
+7. The usable context window has been expanded to a measured target, with `128k` treated as the first major milestone and `256k` only as an aspirational upper target if it proves practical. — **MET at 128K (2026-08-17); 256K not yet attempted.**
 
 ---
 
@@ -879,6 +879,43 @@ Each report should include:
 - memory split at the top successful rung (KV / KDA state / expert cache / RSS)
 - whether caveman remained usable
 - the command used to reproduce the run
+
+#### 8 status (2026-08-17)
+
+**MILESTONE REACHED — 32K/64K/128K all PASS (native NoPE, `--ctx-size` only).**
+The ladder was run with the frozen live runtime (COMMIT `0a6b2df63`, port
+18081, identical probes/prompt construction/memory sampling across rungs;
+only `--ctx-size` changes). Boundary prompts carry a needle at ~70% depth
+sized to ~90% of ctx; all four gates pass at every completed rung and the
+needle is retrieved exactly each time; zero allocator anomalies.
+
+| rung | actual prompt tokens | prefill (tok/s) | KV (7 MLA) | KDA recurrent | peak RSS during prefill |
+|---|---|---|---|---|---|
+| 32K (authoritative) | 23,149 | 782,312 ms (29.59) | 252.00 MiB | 42.81 MiB | 6.24 GB |
+| 64K | 46,214 | 1,741,159 ms (26.54) | 504.00 MiB | 42.81 MiB | 6.14 GB |
+| 128K (milestone) | 92,344 | 4,452,334 ms (20.74) | 1008.00 MiB | 42.81 MiB | 7.83 GB |
+
+Empirical curve: KV scales linearly (exactly 2× per doubling) from the 7 MLA
+layers only; KDA recurrent state is flat at 42.81 MiB (context-independent);
+expert cache constant 4096 MiB; steady RSS 4.3–4.4 GB (32K/64K) → 5.46 GB
+(128K); prefill throughput declines gently 29.59 → 20.74 tok/s. Peak RSS
+stays ~7.8 GB at 128K — comfortably inside the 24 GB machine. No allocation,
+correctness, or performance failure through 128K.
+
+Ladder paused at 128K per the protocol stop-and-characterize rule and the
+AGENTS.md STOP point; 256K → 512K → 1,048,576 remain aspirational and launch
+only on explicit instruction. Full detail and per-rung evidence:
+`service-progress/step-08-context-capacity-ladder.md`; machine-readable
+results committed under `benchmarks/results/no-pe-ladder/`.
+
+#### Completed outside this plan (2026-08-17)
+
+Per explicit operator task, a Qwen3-8B interactive/manager tier was wired
+through the same modified llama-server stack (port 18082), reusing the Stage 6
+warm-state/prefill machinery; completed, measured, and committed without
+changing Kimi configuration or Stage 8 artifacts. This does not expand this
+plan's scope (caveman-only). See `progress/qwen-manager-tier-report.md`
+(commit `00f07d0`).
 
 ---
 
