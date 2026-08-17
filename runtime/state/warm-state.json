@@ -1,0 +1,16 @@
+{
+  "schema": "warm-state/v1",
+  "entries": {
+    "caveman:kimi-linear-48b": {
+      "agent_id": "caveman",
+      "model_id": "kimi-linear-48b",
+      "bootstrap_fingerprint": "sha256:360e19a74470e12fc5d86367bc755b0e1fd5648c45ef1b021eb83cf6353ef6de",
+      "status": "COLD",
+      "server_pid": null,
+      "cached_tokens": null,
+      "warmed_at": null,
+      "updated_at": "2026-08-17T01:22:49+00:00",
+      "history": []
+    }
+  }
+}

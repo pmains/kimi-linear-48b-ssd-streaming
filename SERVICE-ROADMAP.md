@@ -466,6 +466,37 @@ That PID rule is important: Stage 5B established that restart persistence is
 unsupported in this configuration, so a server restart must invalidate the prior
 READY state.
 
+Current implementation note (2026-08-16):
+
+- The registry is implemented as a single JSON store at
+  `runtime/state/warm-state.json` managed by `tools/warm_state.py`.
+- Registry key: `(agent_id, model_id, bootstrap_fingerprint)`; entry fields:
+  `status`, `server_pid`, `cached_tokens`, `warmed_at`, `updated_at`, and a
+  bounded transition `history` (last 20 transitions with timestamps and
+  reasons).
+- The bootstrap fingerprint is sha256 over the canonical ordinary-request
+  bootstrap body: system prompt + tool declarations + `tool_choice` from
+  `dev-openclaw/state/stage6a4-request-body.json` (the captured exact Caveman
+  request shape). If that source changes, the fingerprint changes and any
+  READY entry is marked STALE.
+- The probe discovers the live `llama-server` PID (pidfile, then pgrep of the
+  frozen live bundle) read-only and applies the state machine:
+  - READY -> COLD when the live PID differs from the recorded `server_pid`
+    or no server is running;
+  - READY -> STALE when the current bootstrap fingerprint differs;
+  - PREFILLING -> FAILED if the prefill target server died;
+  - FAILED -> PREFILLING on explicit retry (`begin-prefill`).
+- CLI: `status`, `probe`, `begin-prefill`, `ready --pid --cached-tokens`,
+  `fail`, `reset`, `fingerprint`; `--json` for machine-readable output;
+  `--registry` to operate on an alternate store.
+- Verified on 2026-08-16 against live PID 64991 (scratch store):
+  COLD->PREFILLING->READY, READY stable on same PID/fingerprint,
+  READY->COLD on PID change (12345 -> 64991), READY->STALE on fingerprint
+  change, PREFILLING->FAILED, FAILED->PREFILLING on retry.
+- Seeded store state: `(caveman, kimi-linear-48b, <fp>)` = COLD with
+  `live_pid` 64991 observed. Nothing was restarted; the live server was not
+  touched. Acceptance of the full prefill loop remains Stage 6D.
+
 #### 6C. CLI and observability
 
 Implement:
