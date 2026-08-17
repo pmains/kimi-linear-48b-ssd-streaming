@@ -157,11 +157,42 @@ sleep 2
 } > "$OUT/startup.mem.txt" 2>&1
 cat "$OUT/startup.mem.txt" >> "$DRIVER"
 
+# --- peak RSS sampler (interpretive rule: capture transient prefill peak) ----
+# Polls the rung server every 1s during the boundary prefill; steady-state RSS
+# alone can miss transient allocation pressure that may become decisive at
+# 256K+. Writes rss-samples.tsv + rss-peak.txt into the rung artifact dir.
+start_rss_sampler() {
+  local pid="$1" out="$2"
+  nohup bash -c '
+    set -u
+    PID="$1"; OUT="$2"
+    TSV="$OUT/rss-samples.tsv"
+    : > "$TSV"
+    PEAK=0; PEAK_AT=""
+    while kill -0 "$PID" 2>/dev/null; do
+      NOW=$(date "+%H:%M:%S")
+      RSS=$(ps -o rss= -p "$PID" 2>/dev/null | tr -d " " || echo "?")
+      [ "$RSS" != "?" ] && printf "%s\t%s\n" "$NOW" "$RSS" >> "$TSV"
+      if [ "$RSS" != "?" ] && [ "$RSS" -gt "$PEAK" ] 2>/dev/null; then
+        PEAK=$RSS; PEAK_AT=$NOW
+      fi
+      sleep 1
+    done
+    echo "peak_rss_kb=$PEAK at $PEAK_AT" > "$OUT/rss-peak.txt"
+    echo "samples=$(wc -l < "$TSV")" >> "$OUT/rss-peak.txt"
+  ' _ "$pid" "$out" > /dev/null 2>&1 &
+  RSS_SAMPLER_PID=$!
+  log "rss sampler pid=$RSS_SAMPLER_PID (1s polling, prefill phase)"
+}
+
 # --- gate 2+3: boundary probe (prefill + needle retrieval in one request) ----
 log "GATE2/3: boundary probe (~90% ctx) with needle retrieval..."
 BOUNDARY_TOKENS=$(( CTX * 9 / 10 ))
 NEEDLE="7391-$(basename "$OUT" | tr -cd 0-9 | head -c 4)"
 build_boundary_payload "$BOUNDARY_TOKENS" "$NEEDLE" "$OUT/probe-b.json" "$NEEDLE_FILE"
+# start peak-RSS sampler just before the prefill so the transient allocation
+# peak during prefill is captured, not just steady state
+start_rss_sampler "$SRV_PID" "$OUT"
 probe "b" "$OUT/probe-b.json" "$OUT/probe-b.resp.json"
 
 PROMPT_TOKENS="?"
@@ -233,6 +264,14 @@ RSS_KB="?"
 if kill -0 "$SRV_PID" 2>/dev/null; then
   RSS_KB=$(ps -o rss= -p "$SRV_PID" 2>/dev/null | tr -d ' ' || echo "?")
 fi
+PEAK_RSS_KB="?"
+PEAK_RSS_AT="?"
+if [ -f "$OUT/rss-peak.txt" ]; then
+  grep -E "^peak_rss_kb=" "$OUT/rss-peak.txt" | head -1 > "$OUT/peak.line" 2>/dev/null || true
+  [ -s "$OUT/peak.line" ] && PEAK_RSS_KB=$(sed 's/^peak_rss_kb=//; s/ at .*//' "$OUT/peak.line")
+  grep -oE "at .*" "$OUT/rss-peak.txt" | head -1 | sed 's/^at //' > "$OUT/peak.at" 2>/dev/null || true
+  [ -s "$OUT/peak.at" ] && PEAK_RSS_AT=$(cat "$OUT/peak.at")
+fi
 EXPERT_LINE="?"
 grep -aoE "expert cache armed \([0-9]+ MiB, [a-z-]+ mode\)" "$LOG" | tail -1 > "$OUT/expert.line" 2>/dev/null || true
 [ -s "$OUT/expert.line" ] && EXPERT_LINE=$(cat "$OUT/expert.line")
@@ -254,11 +293,11 @@ if [ "$GATE4" != "pass" ] && [ "$CLASS" = "PASS" ]; then CLASS="performance"; fi
 if [ "$WARN_COUNT" -gt 0 ] && [ "$CLASS" = "PASS" ]; then CLASS="allocation"; fi
 
 python3 - "$RESULTS" "$CTX" "$PORT" "$TS" "$OUT" "$GATE2" "$GATE3" "$GATE4" "$CLASS" \
-  "$PROMPT_TOKENS" "$PREFILL_MS" "$KV_MIB" "$KV_CELLS" "$REC_MIB" "$RSS_KB" "$EXPERT_LINE" \
+  "$PROMPT_TOKENS" "$PREFILL_MS" "$KV_MIB" "$KV_CELLS" "$REC_MIB" "$RSS_KB" "$PEAK_RSS_KB" "$PEAK_RSS_AT" "$EXPERT_LINE" \
   "$WARN_COUNT" "$BENIGN_WARN" "$NEEDLE_HIT" "$OK_HIT" "$SRV_PID" <<'PY'
 import json, sys
 p, ctx, port, ts, out, g2, g3, g4, cls = sys.argv[1:10]
-ptok, prefill, kv, kvcells, rec, rss, expert, warn, benign, needle, okhit, pid = sys.argv[10:]
+ptok, prefill, kv, kvcells, rec, rss, peak, peak_at, expert, warn, benign, needle, okhit, pid = sys.argv[10:]
 json.dump({
   "rung": {"ctx": int(ctx), "binary_note": "frozen live runtime (runtime/live)",
            "port": int(port), "timestamp": ts, "artifact_dir": out,
@@ -276,7 +315,9 @@ json.dump({
   },
   "memory": {"kv": kv, "kv_cells": kvcells, "kda_recurrent_state": rec,
              "expert_cache": expert,
-             "total_rss_kb": int(rss) if rss.isdigit() else None},
+             "total_rss_kb": int(rss) if rss.isdigit() else None,
+             "peak_rss_kb_during_prefill": int(peak) if peak.isdigit() else None,
+             "peak_rss_at": peak_at},
   "warnings": {"allocator_anomalies": int(warn) if warn.isdigit() else None,
                "benign_il26_loaded_ids": int(benign) if benign.isdigit() else None},
 }, open(p, "w"), indent=2)
