@@ -103,10 +103,13 @@ PY
 }
 
 # probe <name> <request-json-file> <response-file>
+# curl -m is a client-side ceiling only (NOT probe semantics; request shape is
+# identical at every rung). Raised 3600 -> 7200 after the 64K rung so 128K+
+# boundary prefills (~59 min at 64K throughput) cannot be killed client-side.
 probe() {
   local name="$1" reqfile="$2" out="$3" t0 t1 rc
   t0=$(now_ms)
-  curl -s -m 3600 -o "$out" -w "%{http_code}" -H "Content-Type: application/json" \
+  curl -s -m 7200 -o "$out" -w "%{http_code}" -H "Content-Type: application/json" \
     -d @"$reqfile" "$CHAT_URL" > "$OUT/$name.http" 2>"$OUT/$name.curl.err" || true
   rc=$?
   t1=$(now_ms)
