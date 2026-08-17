@@ -441,6 +441,17 @@ Current state note:
 
 #### 6B. Implement the warm-state registry
 
+### Status (2026-08-16)
+
+**PASS** — see `service-progress/step-06b-warm-state-registry.md`. Registry
+implemented in `openclaw-src` (`c9c6ff96d93`):
+`src/agents/warm-state-registry.ts` (fingerprint computation, live-PID
+resolution, full state machine with READY→STALE on fingerprint change and
+READY→COLD on PID change, versioned JSON persistence) wired into
+`prefillWithStableBootstrapForAgent` (opt-in via `OPENCLAW_WARM_STATE_REGISTRY=1`
+or explicit `warmStateDir`; inert otherwise). 17/17 new unit tests pass;
+54/54 existing prefill-seam tests pass; `tsc` clean.
+
 OpenClaw needs to know what it believes is warm:
 
     (agent_id, model_id, bootstrap_fingerprint)
