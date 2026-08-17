@@ -18,3 +18,7 @@ benchmarks/results/**/act.bin
 # Root-level scratch telemetry (default KIMI_STREAM_*_FILE paths)
 kimi_retrieval.csv
 kimi_stream_stats.csv
+
+# Dev-harness OpenClaw runtime (gateway config with dev tokens, sqlite,
+# agent state, acceptance artifacts) — regenerable, not source
+dev-openclaw/
