@@ -255,18 +255,26 @@ KV_MIB="?"
 grep -aoE "KV buffer size *= *[0-9.]+ MiB|KV self size *= *[0-9.]+ MiB" "$LOG" | tail -1 > "$OUT/kv.mib" 2>/dev/null || true
 [ -s "$OUT/kv.mib" ] && KV_MIB=$(cat "$OUT/kv.mib")
 KV_CELLS="?"
-grep -aoE "size *= *[0-9.]+ MiB *\( *[0-9]+ cells" "$LOG" | tail -1 > "$OUT/kv.cells" 2>/dev/null || true
+# anchor to the llama_kv_cache line so we don't grab the recurrent-state line
+grep -aoE "llama_kv_cache: size *= *[0-9.]+ MiB *\( *[0-9]+ cells, *[0-9]+ layers" "$LOG" | tail -1 > "$OUT/kv.cells" 2>/dev/null || true
 [ -s "$OUT/kv.cells" ] && KV_CELLS=$(cat "$OUT/kv.cells")
 REC_MIB="?"
-grep -aoE "recurrent state size *= *[0-9.]+ MiB|recurrent size *= *[0-9.]+ MiB" "$LOG" | tail -1 > "$OUT/rec.mib" 2>/dev/null || true
+grep -aoE "llama_memory_recurrent: size *= *[0-9.]+ MiB *\( *[0-9]+ cells, *[0-9]+ layers.*R \(f32\): *[0-9.]+ MiB, S \(f32\): *[0-9.]+ MiB" "$LOG" | tail -1 > "$OUT/rec.mib" 2>/dev/null || true
 [ -s "$OUT/rec.mib" ] && REC_MIB=$(cat "$OUT/rec.mib")
 RSS_KB="?"
 if kill -0 "$SRV_PID" 2>/dev/null; then
   RSS_KB=$(ps -o rss= -p "$SRV_PID" 2>/dev/null | tr -d ' ' || echo "?")
 fi
+# peak RSS: prefer the live sampler's samples (always current), fall back to
+# rss-peak.txt (written when the sampler's poll loop sees the server exit)
 PEAK_RSS_KB="?"
 PEAK_RSS_AT="?"
-if [ -f "$OUT/rss-peak.txt" ]; then
+if [ -s "$OUT/rss-samples.tsv" ]; then
+  PEAK_LINE=$(sort -t$'\t' -k2 -n "$OUT/rss-samples.tsv" 2>/dev/null | tail -1 || true)
+  [ -n "$PEAK_LINE" ] && PEAK_RSS_AT=$(echo "$PEAK_LINE" | cut -f1)
+  [ -n "$PEAK_LINE" ] && PEAK_RSS_KB=$(echo "$PEAK_LINE" | cut -f2)
+fi
+if [ "$PEAK_RSS_KB" = "?" ] && [ -f "$OUT/rss-peak.txt" ]; then
   grep -E "^peak_rss_kb=" "$OUT/rss-peak.txt" | head -1 > "$OUT/peak.line" 2>/dev/null || true
   [ -s "$OUT/peak.line" ] && PEAK_RSS_KB=$(sed 's/^peak_rss_kb=//; s/ at .*//' "$OUT/peak.line")
   grep -oE "at .*" "$OUT/rss-peak.txt" | head -1 | sed 's/^at //' > "$OUT/peak.at" 2>/dev/null || true
