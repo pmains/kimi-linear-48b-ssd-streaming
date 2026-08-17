@@ -453,9 +453,12 @@ or explicit `warmStateDir`; inert otherwise). 17/17 new unit tests pass;
 54/54 existing prefill-seam tests pass; `tsc` clean.
 
 Caveat: the 6B follow-up seam WIP (`attempt-*.ts` family,
-`stable-bootstrap-context.ts`) is still uncommitted and type-broken (67
-pre-existing tsgo errors) — it must land before 6D acceptance is treated as
-authoritative. See the 6C status below.
+`stable-bootstrap-context.ts`) is now committed (`a2b7c96075a`, 2026-08-16),
+so the repo is self-consistent: `cf4f6bde255` imports
+`attempt-stable-bootstrap-prefill`/`stable-bootstrap-context`, which were
+previously untracked. `tsgo:core` clean; 74/74 seam-affected unit tests pass.
+The only remaining uncommitted dev-tree changes are the 6A.4 boundary-trace
+instrumentation (14 files, diagnostic only) — not part of the seam.
 
 OpenClaw needs to know what it believes is warm:
 
@@ -536,9 +539,9 @@ llama-server; the first real `prefill caveman kimi-linear-48b` was launched
 detached and reached the server (registry PREFILLING, server task 13,
 `timeoutMs=undefined`). Still in flight at last check (19:35 MST): task 13 at
 6,144/25,600 tokens (progress 0.24, ~21.8 t/s), expected READY ~19:50.
-The uncommitted 6B follow-up WIP remains uncommitted and type-broken (67
-pre-existing tsgo errors) — it must be finished and committed before 6D
-acceptance is treated as authoritative.
+The 6B follow-up seam WIP is committed (`a2b7c96075a`) and type-clean
+(`tsgo:core` passes; 74/74 seam-affected tests pass) — 6D acceptance can now
+run against the committed revision.
 
 Implement:
 
@@ -558,15 +561,62 @@ percentages; JSON mode never mixes progress into stdout).
 
 #### 6D. Prove that `/prefill` actually works
 
-#### Status (2026-08-16)
+#### Status (2026-08-16, updated after run)
 
-Not yet run. Prerequisites landed with 6C: CLI committed (`cf4f6bde255`),
-seam fixes in place (explicit-agent workspace binding, prefill
-request-timeout strip), and the first real prefill is in flight against the
-live server (task 13; expected READY ~19:50 MST). Per the 6C report,
-acceptance can run against that warm same-PID server or restart for a
-genuinely cold start per the original protocol — pick one and record it.
-The 6B follow-up WIP must be committed first (see 6C status).
+**FAIL (as constructed)** — verdict and full evidence in
+`service-progress/step-06d-prefill-acceptance.md` and
+`dev-openclaw/state/stage6d-acceptance/2026-08-17T03-26-05-078Z/`
+(`findings-surface-divergence.md` + captured request bodies).
+
+Prefill half PASSED: cold restart (64991 → 80177), CLI prefill READY in
+1,352 s (25,396 prompt tokens @ ~21 t/s, 1 output token), registry
+fingerprint `0976a1a4`, PID match, no conversational turn.
+
+Reuse half FAILED: a fresh-session ordinary turn through the dev gateway ran
+a full prompt eval (cacheRead = 0). Root cause: the ordinary turn's request
+surface diverges from the CLI prefill's in three classes, each sufficient to
+break server-side prefix reuse: (1) tool catalog 52 vs 41 (the gateway's
+owner-only `tools.deny` strips 11 tools from agent runs; the CLI ignores it);
+(2) tool metadata + system sections differ (147 diff regions); (3) the
+ordinary system prompt embeds a session/runtime metadata block (session key,
+model identity, channel, capabilities) that only the agent runtime can
+produce — a CLI prefill cannot reproduce a future session's block. The
+warm-state registry behaved correctly (fingerprints differ → honest miss).
+The 6A.6 within-session proof (cacheRead=22,410) remains valid: reuse works
+when the prefill is a turn in the same session.
+
+Also: the acceptance harness must target the dev gateway (18790, dev config
++ state) — the real gateway does not know `caveman` and hangs; the env URL
+must be set in-process after config load. Warm KV was overwritten by the
+failed probe eval; any re-run needs a fresh cold prefill (~22 min).
+
+Design decision required before re-running (see the step report's Next
+Phase): session-scoped prefill (6A.6 model) vs making the bootstrap
+agent-stable vs re-scoping 6D/6E.
+
+#### 6D.1. Agent-stable bootstrap invariant (Option B remediation)
+
+#### Status (2026-08-17)
+
+**PASS (deterministic invariant)** — the 6D FAIL is kept as authoritative and
+recorded separately. Option B was implemented as stage 6D.1: the CLI prefill
+and ordinary execution now consume the SAME canonical agent-stable bootstrap
+builder (`resolveAgentStableBootstrapContext` + the shared prepare chain in
+`attempt-stable-bootstrap-prefill.ts`); the effective tool surface is the
+canonical 41-tool Caveman surface (owner-only `tools.deny` applied, verified
+against the dev config); session-varying material (Runtime block, Assistant
+Output Directives, Silent Replies) moved below the cache boundary; the
+warm-state fingerprint now covers the canonical stable prefix only (a
+session-key change cannot change it). The deterministic invariant test
+proves `prefix_N(cli_prefill) == prefix_N(session_A) == prefix_N(session_B)`
+byte-identically, sessions differ after N, and genuine bootstrap input
+changes flip the fingerprint. `tsgo:core` clean; 102 + 228 + 29 + 3
+regression tests pass. Commit `96e31106a1b`. Full detail:
+`service-progress/step-06d1-agent-stable-bootstrap-invariant.md`.
+
+A 6D rerun (cold restart → CLI prefill → brand-new Caveman session →
+cacheRead > 0) is structurally ready but was NOT run: it costs a fresh
+~22-minute prefill and requires explicit operator go-ahead. 6E not started.
 
 Acceptance experiment:
 
@@ -601,6 +651,26 @@ Test the two invalidation paths that matter:
 - Server restart: PID changes and the old state becomes `COLD`, regardless of whether any slot file still exists.
 
 Then a manual prefill must return the state to `READY`.
+
+Concrete live protocol (operator decision 2026-08-16; full detail in
+`service-progress/step-06e-prefill-invalidation.md`):
+
+    READY(PID A, fingerprint A)
+    → mutate a fingerprinted bootstrap input
+    → `prefill status` reconciles to STALE
+    → restore intended bootstrap B + prefill
+    → READY(fingerprint B, PID A)
+    → restart llama-server
+    → `prefill status` reconciles to COLD (new PID)
+    → re-prefill
+    → READY(new PID)
+
+Each transition must be observed live via `prefill status`/the registry (the
+real system's events, not unit tests). Restore the original bootstrap
+configuration at the end so the acceptance experiment does not leave Caveman
+modified. The stashed 6A.4 boundary-trace instrumentation stays stashed
+through 6D/6E as a diagnostic fallback; after Stage 6, review it — extract
+generally useful pieces into a clean commit or discard.
 
 Stage 6 is complete when OpenClaw can explicitly prefill the exact bootstrap
 used by an agent/model pair outside a normal agent turn, accurately track that
