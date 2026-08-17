@@ -44,10 +44,10 @@ PROGRESS="$OUT/progress.json"
 CONFIG_BACKUP="$OUT/openclaw.json.pre-6e"
 PREfill_SUBSHELL=""
 
-log() { echo "[$(date '+%F %T %z')] $*" | tee -a "$DRIVER_LOG"; }
+log() { echo "[$(date '+%F %T %z')] $*" | tee -a "$DRIVER_LOG" >&2; }
 progress() {
-  # progress <phase> <key> <value>
-  python3 - "$PROGRESS" "$1" "$2" "$3" <<'PY'
+  # progress <phase> <key> [value]
+  python3 - "$PROGRESS" "$1" "$2" "${3:-}" <<'PY'
 import json, sys, os, datetime
 path, phase, key, value = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 d = {}
@@ -107,7 +107,8 @@ PY
 wait_for_ready() {
   # wait_for_ready <expected-pid> <timeout-s> <label> [watch-cli-subshell]
   # Watches the registry; fails fast if the CLI subshell exits without READY.
-  local pid="$1" tmo="$2" label="$3" watch="${4:-}" deadline=$(( $(date +%s) + tmo ))
+  local pid="$1" tmo="$2" label="$3" watch="${4:-}"
+  local deadline=$(( $(date +%s) + tmo ))
   while [ "$(date +%s)" -lt "$deadline" ]; do
     local fp
     fp="$(find_ready_on_pid "$pid" "$REGISTRY")"
@@ -170,6 +171,8 @@ snapshot_registry() {
     "$REGISTRY" "$OUT/$1.json" 2>/dev/null || log "registry read failed ($1)"
 }
 
+RESUME_FROM="${STAGE6E_RESUME_FROM:-0}"
+if [ "$RESUME_FROM" -le 0 ]; then
 # --- phase 0: baseline -----------------------------------------------------
 log "=== Stage 6E driver start ($TS) ==="
 log "live pidfile: $(cat "$PIDFILE" 2>/dev/null || echo '<missing>')"
@@ -261,6 +264,14 @@ else
   exit 6
 fi
 progress 4 restarted pidB "$PID_B"
+
+else
+  log "=== resuming from phase $RESUME_FROM (run dir $OUT) ==="
+  FP_A="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["facts"].get("fingerprintA",""))' "$PROGRESS")"
+  PID_B="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["facts"].get("pidB",""))' "$PROGRESS")"
+  ORIG_SHA="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["facts"].get("configSha",""))' "$PROGRESS")"
+  log "resumed facts: FP_A=$FP_A PID_B=$PID_B ORIG_SHA=$ORIG_SHA"
+fi
 
 # --- phase 5: status reconciles READY -> COLD on new PID --------------------
 progress 5 status-cold
