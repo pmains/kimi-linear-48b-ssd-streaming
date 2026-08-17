@@ -752,80 +752,131 @@ evidence and classification in `service-progress/step-07-position-mechanism.md`.
   positional-extrapolation question. No ladder was defined or begun; that
   decision is deferred per the Stage 7 directive.
 
-### 8. Expand the usable context window
+### 8. Verify usable context scaling under the native NoPE mechanism
 
-The next narrow question is separate from durability:
+(Renamed from "Expand the usable context window" per operator definition 2026-08-17.)
 
-> Can caveman be given a much larger usable context window without breaking the basic agent path or blowing the memory budget?
+Stage 7 established the architectural reason, not just a knob result: Kimi Linear
+is natively **NoPE**, and both execution paths (reference and llama.cpp) derive
+ordering from causality (causal mask in the 7 MLA layers; causal conv1d +
+recurrent delta-net scan in the 20 KDA layers) rather than explicit positional
+transforms. That removes an entire class of context-extension variables. Stage 8
+is therefore a **capacity, correctness, and memory-behavior validation problem**,
+not a positional-extrapolation problem.
 
-Test only the verified native/reference mechanism first. Do not make `RoPE`, `YaRN`, and `NoPE` peer experiments unless the verification gate proves they are all actually applicable.
+Acceptance question:
 
-If a non-native mechanism is later shown to participate, document it as a separate follow-up, not as an equal first-round candidate.
+> How far can the current Kimi Linear implementation scale toward its declared
+> 1,048,576-token native context while preserving correctness, stable memory
+> behavior, cache semantics, and acceptable service operation?
 
-Concrete protocol:
+Ladder: increasing contexts with **no positional knob changes** (no RoPE, no
+YaRN, no frequency overrides — none are applicable per Stage 7).
 
-1. Capture a baseline run at the current known-good configuration.
-2. Use the verified native/reference mechanism and one exact runtime knob set.
-3. Run a fixed ladder of context sizes: `32k`, `64k`, `96k`, `128k`, `160k`, `192k`, `256k`.
-4. Use the same caveman request shape at every rung.
-5. Keep the rest of the agent configuration unchanged.
-6. Stop the ladder at the first rung that fails, times out, or pushes memory into an unusable state.
-7. Repeat the same ladder for any later, separately validated mechanism only after the native/reference result is documented.
+    current validated context (32K) → 64K → 128K → 256K → 512K → 1,048,576
+
+Each rung is a **diagnostic checkpoint, not a mandatory target**. If resource
+growth reveals a hard architectural or implementation limit, stop and
+characterize it before proceeding.
+
+Four independent gates per rung:
+
+1. **Allocation / startup** — the requested context provisions successfully.
+2. **Prompt ingestion / prefill correctness** — long prompts prefill correctly.
+3. **Post-prefill generation correctness** — generation after long-context
+   prefill is correct.
+4. **State/cache behavior after long-context use** — KV cache, KDA recurrent
+   state, expert cache, and slot behavior remain stable.
+
+Memory must be recorded **separately** at each rung where observable:
+
+- KV cache (MLA layers)
+- recurrent/KDA state (KDA layers)
+- model / expert cache
+- total process RSS
+
+Three failure classes — never collapsed into a single FAIL:
+
+- **Allocation failure** — the memory model or implementation cannot provision
+  the requested context.
+- **Correctness failure** — it provisions, but long-context semantics break.
+- **Performance failure** — correctness holds, but latency or memory pressure
+  makes that rung operationally unusable.
+
+Scaling law: measure the actual memory curve rather than assuming it. With only
+7 MLA layers carrying conventional attention-state costs and 20 KDA layers using
+recurrent state, the observed slope may differ substantially from what a standard
+transformer context calculator predicts. Stage 8 establishes that curve.
+
+Protocol (per rung):
+
+1. Capture a baseline run at the current known-good configuration first.
+2. Use the native NoPE configuration and one exact runtime knob set (`--ctx-size`
+   only; no positional knobs).
+3. Run the fixed rung ladder above with the same caveman request shape at every
+   rung; keep the rest of the agent configuration unchanged.
+4. Apply the four gates and classify any failure per the three classes above.
+5. Record memory separately (KV / KDA state / expert cache / total RSS).
+6. Stop at the first rung that fails, times out, or pushes memory into an
+   unusable state; characterize it before proceeding.
+7. Report each rung in `service-progress/` and save machine-readable outputs
+   under `benchmarks/results/`.
 
 Treat two ceilings separately:
 
 - `runtime ceiling`: crashes, allocation failure, or unacceptable memory pressure
-- `useful-context ceiling`: caveman runs, but can no longer reliably retrieve or use the expanded context
+- `useful-context ceiling`: caveman runs, but can no longer reliably retrieve or
+  use the expanded context
 
 Measure at each rung:
 
 - prompt token count at the boundary
 - prompt-eval duration
 - first-token latency
-- resident memory
+- resident memory (split per the four buckets above)
 - runtime failure mode, if any
 - useful-context result from a small needle/retrieval test
 - whether caveman still completes a normal request at that size
 
-Implementation notes:
+PASS condition for Stage 8:
 
-- Use the runtime's actual supported long-context knobs, not guessed CLI flags.
-- Record the exact knob names and values used for each mechanism.
-- Keep the prompt content fixed and extend only the length of the context window input.
-- If the runtime exposes a separate `ctx-size`, `rope-scale`, `yarn-*`, or equivalent parameter, record it explicitly.
-- If a mechanism is unsupported in the current `llama-server` path, mark it `UNAVAILABLE` and move on instead of inventing behavior.
-- Make `128k` the first major success milestone. Treat `256k` as the aspirational upper target if the machine and runtime make it practical.
-
-PASS condition:
-
-- caveman can sustain a measured context target that is materially larger than the current baseline
+- caveman sustains a measured context target materially larger than the current
+  baseline, with the native NoPE mechanism and no positional knobs
 - the agent path still works at that size
-- the chosen strategy is documented with its exact runtime knobs and measured limits
-- the useful-context test still passes at the milestone rung
+- the strategy is documented with exact runtime knobs and measured limits
+- the useful-context test passes at the milestone rung
+- the empirical memory-vs-context curve is recorded
 
-If `256k` is not practical on this machine, record the highest sustainable value and stop there. Do not guess a higher number without evidence.
+If 1,048,576 is not practical on this machine, record the highest sustainable
+value and stop there. Do not guess a higher number without evidence. The current
+validated context (32K) is the floor; 128K remains a milestone marker, with
+higher rungs aspirational pending measured evidence.
 
-### 8A. Baseline and compare
+### 8A. Baseline
 
-Before changing the positional strategy:
+Before the ladder:
 
-- run the current caveman request at the existing context setting
-- capture prompt tokens, prefill time, first-token latency, RSS, and log tail
+- run the current caveman request at the existing context setting (32K)
+- capture prompt tokens, prefill time, first-token latency, RSS split, and log
+  tail
 - save this as the comparison baseline for the ladder
 
 ### 8B. Evidence to save
 
-For each ladder run, write a short report in `service-progress/` and save the machine-readable outputs under `benchmarks/results/phase-06/` or a sibling directory named for the mechanism.
+For each ladder run, write a short report in `service-progress/` and save the
+machine-readable outputs under `benchmarks/results/` (sibling directory named
+for the mechanism, e.g. `benchmarks/results/no-pe-ladder/`).
 
 Each report should include:
 
-- mechanism used
-- exact runtime knobs
+- mechanism used (native NoPE; no positional knobs)
+- exact runtime knobs (`--ctx-size` value and full server invocation)
 - largest successful context size
 - first failing context size
+- failure class at the failing rung (allocation / correctness / performance)
 - runtime ceiling, if reached
 - useful-context ceiling, if reached
-- memory footprint at the top successful rung
+- memory split at the top successful rung (KV / KDA state / expert cache / RSS)
 - whether caveman remained usable
 - the command used to reproduce the run
 
