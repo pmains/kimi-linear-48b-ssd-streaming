@@ -46,16 +46,19 @@ PREfill_SUBSHELL=""
 
 log() { echo "[$(date '+%F %T %z')] $*" | tee -a "$DRIVER_LOG" >&2; }
 progress() {
-  # progress <phase> <key> [value]
-  python3 - "$PROGRESS" "$1" "$2" "${3:-}" <<'PY'
+  # progress <phase> <label> [key] [value]  (stores facts[key]=value when key set)
+  local phase="$1" label="$2" key="${3:-}" value="${4:-}"
+  python3 - "$PROGRESS" "$phase" "$label" "$key" "$value" <<'PY'
 import json, sys, os, datetime
-path, phase, key, value = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+path, phase, label, key, value = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
 d = {}
 if os.path.exists(path):
     d = json.load(open(path))
 d["phase"] = phase
+d["lastLabel"] = label
 d["lastUpdated"] = datetime.datetime.now(datetime.UTC).isoformat()
-d.setdefault("facts", {})[key] = value
+if key:
+    d.setdefault("facts", {})[key] = value
 json.dump(d, open(path, "w"), indent=2)
 PY
 }
@@ -267,10 +270,17 @@ progress 4 restarted pidB "$PID_B"
 
 else
   log "=== resuming from phase $RESUME_FROM (run dir $OUT) ==="
-  FP_A="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["facts"].get("fingerprintA",""))' "$PROGRESS")"
-  PID_B="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["facts"].get("pidB",""))' "$PROGRESS")"
-  ORIG_SHA="$(python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["facts"].get("configSha",""))' "$PROGRESS")"
+  # Derive facts from ground truth, not progress.json (whose key layout was
+  # buggy in earlier driver versions): fp A from the driver log, PID B from
+  # the live pidfile, ORIG_SHA from the config backup.
+  FP_A="$(grep -oE 'fp A = [0-9a-f]{64}' "$DRIVER_LOG" | tail -1 | awk '{print $3}')"
+  PID_B="$(cat "$PIDFILE" 2>/dev/null || true)"
+  ORIG_SHA="$(shasum -a 256 "$CONFIG_BACKUP" 2>/dev/null | cut -d' ' -f1)"
   log "resumed facts: FP_A=$FP_A PID_B=$PID_B ORIG_SHA=$ORIG_SHA"
+  if [ -z "$FP_A" ] || [ -z "$PID_B" ] || [ -z "$ORIG_SHA" ]; then
+    log "FATAL: resume could not derive required facts"
+    exit 9
+  fi
 fi
 
 # --- phase 5: status reconciles READY -> COLD on new PID --------------------
@@ -310,5 +320,5 @@ else
 fi
 
 log "=== Stage 6E driver complete: PASS ==="
-progress done done "PASS"
+progress done done PASS "PASS"
 exit 0
