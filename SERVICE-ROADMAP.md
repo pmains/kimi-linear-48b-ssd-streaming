@@ -670,6 +670,29 @@ warm state against its bootstrap fingerprint and inference-server lifetime,
 expose observable CLI progress and status, and prove that a subsequent new
 agent session actually reuses the prefilled state.
 
+#### 6E status (2026-08-17)
+
+**PASS** — full live sequence observed end to end via `prefill status` / the
+registry (see `service-progress/step-06e-prefill-invalidation.md`). Operator
+refinement applied: because the original bootstrap is restored, the recovered
+fingerprint returns to fp A (identity, not chronology).
+
+    READY(fp A, PID A=32953)
+    → mutate acp.enabled=false → `prefill status` → STALE (same PID)
+    → restore bootstrap byte-identical → prefill → READY(fp A, PID 32953)
+    → controlled restart → PID B=35859
+    → `prefill status` → COLD (new PID)
+    → cold prefill (20,989 tokens, 974.9 s) → READY(fp A, PID 35859)
+    → final config byte-identical (sha256 7fe3eb62…)
+
+Three properties proven independently: bootstrap invalidation
+(`READY → STALE` on a stable-input change), determinism/recovery (restored
+bootstrap reproduced the same fp A), and process invalidation (`COLD` on PID
+change, recovery as `READY(fp A, PID B)`). Three orchestration/harness
+failures occurred during the run; all were driver defects in
+`tools/stage6e_acceptance.sh`, none implementation failures (documented in the
+6E report). Stage 6 as a whole: **PASS**.
+
 ### 7. Verify the native position mechanism
 
 Before running any ladder, establish which positional behavior Kimi Linear actually uses in the reference implementation and in the current `llama.cpp` path.
