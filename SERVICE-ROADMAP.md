@@ -722,6 +722,36 @@ Required output:
 
 Stop this gate before the ladder if the mechanism is not clearly identified. Do not guess.
 
+#### 7 status (2026-08-17)
+
+**COMPLETE — native mechanism verified: NoPE (no positional encoding).** Full
+evidence and classification in `service-progress/step-07-position-mechanism.md`.
+
+- Reference (`moonshotai/Kimi-Linear-48B-A3B-Instruct` `config.json` +
+  `modeling_kimi.py`): `rope_theta=10000.0`, `rope_scaling=None`,
+  `qk_rope_head_dim=64` / `qk_nope_head_dim=128`; the MLA forward splits
+  `q_rot`/`k_rot` and re-concatenates them **without any rotary application**
+  (no `apply_rotary_pos_emb`, no cos/sin tables, no rotary module anywhere in
+  the file). KDA layers use causal conv1d + recurrent delta-net scan — position
+  is implicit in causality/convolution/recurrence.
+- llama.cpp (`0a6b2df63`): `llama_model_rope_type()` returns
+  `LLAMA_ROPE_TYPE_NONE` for `LLM_ARCH_KIMI_LINEAR`; `src/models/kimi-linear.cpp`
+  builds MLA Q/K by concatenating nope + "pe" slices with no `ggml_rope` call
+  (code comments: "Kimi MLA does NOT apply RoPE"; "k_pe is used directly
+  without RoPE"); KDA uses `causal_conv1d` + `ggml_kda_scan`. No rope freqs
+  are built; KV-cache K-shift is gated off (`rope_type != NONE`).
+- Classification: RoPE, RoPE linear scaling, YaRN — **NOT APPLICABLE**
+  (no rope op exists to consume them; `rope_scaling=None` in reference).
+  NoPE — **SUPPORTED (native)**. MLA/KDA position handling — **SUPPORTED**
+  (matches reference). `--ctx-size` — participates (KV + recurrent state
+  allocation). `--rope-scaling`/`--yarn-*`/`--rope-freq-base`/`--rope-freq-scale`
+  — **NOT APPLICABLE** for this arch.
+- Implication: the model's native context is 1,048,576 tokens
+  (`model_max_length`; GGUF `context_length=1048576`). Any future
+  context-window ladder is a **memory-budget** question, not a
+  positional-extrapolation question. No ladder was defined or begun; that
+  decision is deferred per the Stage 7 directive.
+
 ### 8. Expand the usable context window
 
 The next narrow question is separate from durability:
