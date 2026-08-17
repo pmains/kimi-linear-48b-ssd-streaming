@@ -22,3 +22,7 @@ kimi_stream_stats.csv
 # Dev-harness OpenClaw runtime (gateway config with dev tokens, sqlite,
 # agent state, acceptance artifacts) — regenerable, not source
 dev-openclaw/
+# Nested OpenClaw dev checkout (own git history) + runtime artifacts
+openclaw-src/
+runtime/state/slot-cache/
+openclaw-workspace-state.json
