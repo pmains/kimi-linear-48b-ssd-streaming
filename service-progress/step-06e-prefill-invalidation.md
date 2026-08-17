@@ -61,3 +61,24 @@ _(pending)_
   afterward: extract any generally useful observability into a clean commit or
   discard — do not preserve debugging instrumentation merely because it once
   proved useful (operator decision 2026-08-16).
+
+## Clean-tree baseline (2026-08-17, pre-6E)
+
+Per operator directive, 6E runs only from a clean, recorded revision.
+
+- Workspace repo HEAD: `e90860b` (`chore: track service-progress reports...`);
+  service-hardening committed separately as `6a9f239`; scratch probes stashed
+  (one embedded a dev gateway token — never committed).
+- openclaw-src HEAD: `18ffc771c54` — contains the 6D.2 canonicalization
+  (`d8acd4a5f43`), the 6E status STALE-reconciliation (`f3cd48c5e8f`), and the
+  COLD-restart prefill fix (`18ffc771c54`).
+- llama.cpp / live-runtime: `0a6b2df63` (runtime/live/COMMIT, stage-6a6
+  temp-context pool recycle fix).
+- Pre-6E registry snapshot preserved:
+  `dev-openclaw/state/warm-state/preserved/registry-2026-08-17T10-04-40-pre-6E.json`
+  (sha256 `0090d71f17aab6f408c83fb7b9e91b3ca76476509fa74c41cbfe97f4f847051c`);
+  contains the incidental restart invalidation: PIDs 64991, 80177 (6D
+  acceptance server), 23163, 31088 all reconciled COLD; one orphaned
+  PREFILLING (pid None).
+- Live server at 6E start: PID 32953, `runtime/live/bin/llama-server` with
+  `--slot-save-path runtime/state/slot-cache` (new serve script flag set).
