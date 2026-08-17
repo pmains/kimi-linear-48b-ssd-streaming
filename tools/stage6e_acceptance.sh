@@ -273,7 +273,7 @@ else
   # Derive facts from ground truth, not progress.json (whose key layout was
   # buggy in earlier driver versions): fp A from the driver log, PID B from
   # the live pidfile, ORIG_SHA from the config backup.
-  FP_A="$(grep -oE 'fp A = [0-9a-f]{64}' "$DRIVER_LOG" | tail -1 | awk '{print $3}')"
+  FP_A="$(grep 'fp A = ' "$DRIVER_LOG" | tail -1 | grep -oE '[0-9a-f]{64}' | tail -1)"
   PID_B="$(cat "$PIDFILE" 2>/dev/null || true)"
   ORIG_SHA="$(shasum -a 256 "$CONFIG_BACKUP" 2>/dev/null | cut -d' ' -f1)"
   log "resumed facts: FP_A=$FP_A PID_B=$PID_B ORIG_SHA=$ORIG_SHA"
