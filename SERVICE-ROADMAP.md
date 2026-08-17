@@ -561,62 +561,54 @@ percentages; JSON mode never mixes progress into stdout).
 
 #### 6D. Prove that `/prefill` actually works
 
-#### Status (2026-08-16, updated after run)
+#### Status (2026-08-17, final: PASS)
 
-**FAIL (as constructed)** — verdict and full evidence in
-`service-progress/step-06d-prefill-acceptance.md` and
-`dev-openclaw/state/stage6d-acceptance/2026-08-17T03-26-05-078Z/`
-(`findings-surface-divergence.md` + captured request bodies).
+**PASS (6D rerun #2, 2026-08-17)** — the full acceptance now passes end to end:
+cold llama-server restart → CLI prefill → READY on the live PID → brand-new
+Caveman session through the real ordinary-agent path → `cacheRead = 20,473`
+(96.5% of the 21,209-token prompt), evaluated suffix **735 tokens**, ordinary
+turn **46 s** vs ~22 min cold. All 10 criteria green. Evidence:
+`dev-openclaw/state/stage6d-acceptance/2026-08-17T16-08-07-815Z/`.
 
-Prefill half PASSED: cold restart (64991 → 80177), CLI prefill READY in
-1,352 s (25,396 prompt tokens @ ~21 t/s, 1 output token), registry
-fingerprint `0976a1a4`, PID match, no conversational turn.
+History (preserved in `service-progress/step-06d-prefill-acceptance.md`):
 
-Reuse half FAILED: a fresh-session ordinary turn through the dev gateway ran
-a full prompt eval (cacheRead = 0). Root cause: the ordinary turn's request
-surface diverges from the CLI prefill's in three classes, each sufficient to
-break server-side prefix reuse: (1) tool catalog 52 vs 41 (the gateway's
-owner-only `tools.deny` strips 11 tools from agent runs; the CLI ignores it);
-(2) tool metadata + system sections differ (147 diff regions); (3) the
-ordinary system prompt embeds a session/runtime metadata block (session key,
-model identity, channel, capabilities) that only the agent runtime can
-produce — a CLI prefill cannot reproduce a future session's block. The
-warm-state registry behaved correctly (fingerprints differ → honest miss).
-The 6A.6 within-session proof (cacheRead=22,410) remains valid: reuse works
-when the prefill is a turn in the same session.
+1. **6D (initial) — FAIL** — prefill half PASSED (cold restart 64991 → 80177;
+READY in 1,352 s; fingerprint `0976a1a4`); reuse half FAILED (full eval,
+cacheRead 0). Root cause: surface divergence (52 vs 41 tools; 147 diff
+regions; session/runtime metadata block in the prefix). Registry behaved
+honestly (fingerprints differ → miss).
+2. **6D.1 — PASS (deterministic invariant)** — Option B remediation:
+canonical agent-stable bootstrap builder shared by prefill and ordinary
+sessions; session-varying material below the cache boundary; invariant test
+`prefix_N(cli_prefill) == prefix_N(session_A) == prefix_N(session_B)`
+(hermetic). Commit `96e31106a1b`.
+3. **6D rerun #1 (2026-08-17, `96e31106a1b`) — FAIL** — new mechanism:
+process-local ACP/ambient state leaked into the stable surface
+(`acp-router` skill gated on the per-process ACP backend registry;
+`sessions_spawn` tool metadata from the same process-local check; ambient
+`slack` channel auto-enabled in the CLI but suppressed in the gateway).
+Server reused nothing: f_sim 0.414, full 21,205-token eval, cacheRead 0.
+4. **6D.2 — PASS (remediation)** — canonicalized the three leaks to
+config policy (acpx skills + sessions_spawn advertisement via
+`resolveCanonicalAcpSpawnAvailable`; prefill config load with
+`ambientEnvTriggers: "suppress"` matching the gateway default). Full detail:
+`service-progress/step-06d2-acp-determinism-fix.md`.
+5. **6D rerun #2 — PASS** — full acceptance green (above).
 
-Also: the acceptance harness must target the dev gateway (18790, dev config
-+ state) — the real gateway does not know `caveman` and hangs; the env URL
-must be set in-process after config load. Warm KV was overwritten by the
-failed probe eval; any re-run needs a fresh cold prefill (~22 min).
-
-Design decision required before re-running (see the step report's Next
-Phase): session-scoped prefill (6A.6 model) vs making the bootstrap
-agent-stable vs re-scoping 6D/6E.
+Also fixed in the harness: dev-gateway dispatch (in-process URL 18790 after
+config load), registry selection by expected (agent, model, fingerprint)
+rather than position, non-fatal `session_status` pre-call (a brand-new
+session key is expected unknown; dispatch creates it), and a cheap dev-gateway
+health preflight before the ~20-minute prefill.
 
 #### 6D.1. Agent-stable bootstrap invariant (Option B remediation)
 
 #### Status (2026-08-17)
 
-**PASS (deterministic invariant)** — the 6D FAIL is kept as authoritative and
-recorded separately. Option B was implemented as stage 6D.1: the CLI prefill
-and ordinary execution now consume the SAME canonical agent-stable bootstrap
-builder (`resolveAgentStableBootstrapContext` + the shared prepare chain in
-`attempt-stable-bootstrap-prefill.ts`); the effective tool surface is the
-canonical 41-tool Caveman surface (owner-only `tools.deny` applied, verified
-against the dev config); session-varying material (Runtime block, Assistant
-Output Directives, Silent Replies) moved below the cache boundary; the
-warm-state fingerprint now covers the canonical stable prefix only (a
-session-key change cannot change it). The deterministic invariant test
-proves `prefix_N(cli_prefill) == prefix_N(session_A) == prefix_N(session_B)`
-byte-identically, sessions differ after N, and genuine bootstrap input
-changes flip the fingerprint. `tsgo:core` clean; 102 + 228 + 29 + 3
-regression tests pass. Commit `96e31106a1b`. Full detail:
-`service-progress/step-06d1-agent-stable-bootstrap-invariant.md`.
-
-A 6D rerun (cold restart → CLI prefill → brand-new Caveman session →
-cacheRead > 0) is structurally ready but was NOT run: it costs a fresh
-~22-minute prefill and requires explicit operator go-ahead. 6E not started.
+**PASS (deterministic invariant)** — see below (unchanged from the original
+record). The 6D rerun (#1) revealed that the hermetic invariant did not cover
+real-config process-local inputs (ACP backend registration, ambient channel
+policy); those were canonicalized in 6D.2 and the rerun then passed.
 
 Acceptance experiment:
 
