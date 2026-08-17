@@ -22,6 +22,22 @@ the uncommitted 6B follow-up work, which remains uncommitted and type-broken
 - The 6B follow-up WIP (`attempt-*.ts` family, `stable-bootstrap-context.ts`)
   is NOT part of the 6C commit and remains uncommitted + type-broken (67
   tsgo errors) — commit it before treating 6D acceptance as authoritative.
+
+## Follow-up 2 (2026-08-16 20:30 MST)
+
+- The 6B follow-up seam WIP is now committed as openclaw-src `a2b7c96075a`
+  ("stage-6b: stable-bootstrap seam completion", 23 files: the
+  `StableBootstrapAttemptContext` + stable-bootstrap prepare/prefill entries,
+  the preparer-chain type refactor, `addGenerationPrompt` plumbing through
+  `llm-core`/`packages/ai`, plugin-sdk re-export, and fixtures/regression
+  tests). `tsgo:core` clean; 74/74 seam-affected unit tests pass.
+- 6D acceptance is running from that exact revision (cold restart → CLI
+  prefill → READY → fresh ordinary Caveman turn → cacheRead proof),
+  orchestrated by `scripts/dev/stage6d-acceptance.ts`; see
+  `step-06d-prefill-acceptance.md` and the SERVICE-ROADMAP 6D status block.
+- The 6A.4 boundary-trace instrumentation (14 files, diagnostic only) was
+  deliberately kept OUT of the seam commit and is stashed in the dev tree
+  during the 6D run; committing or reverting it is an open decision.
 - Removed the stale `NOT STARTED` placeholder
   `service-progress/step-06c-prefill-cli-observability.md`; this report
   supersedes it.

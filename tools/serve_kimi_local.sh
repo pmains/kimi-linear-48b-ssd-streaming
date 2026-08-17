@@ -27,30 +27,42 @@
 # Env:
 #   KIMI_CACHE_MB=4096|8192|...   expert cache budget (default 4096)
 #   KIMI_PORT=18080               server port
-#   KIMI_CTX=8192                 context size
+#   KIMI_CTX=32768                context size
 #   KIMI_BIN=runtime/live/bin/llama-server (override binary, e.g. dev build)
 set -euo pipefail
 
 MODEL="models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf"
 BIN="${KIMI_BIN:-runtime/live/bin/llama-server}"
 PORT="${KIMI_PORT:-18080}"
-CTX="${KIMI_CTX:-8192}"
+CTX="${KIMI_CTX:-32768}"
 CACHE_MB="${KIMI_CACHE_MB:-4096}"
-HOST="127.0.0.1"
+HOST="${KIMI_HOST:-127.0.0.1}"
 LOG="/tmp/kimi-llama-server.log"
 PIDFILE="/tmp/kimi-llama-server.pid"
+STATE_DIR="runtime/state"
+SLOT_SAVE_PATH="$STATE_DIR/slot-cache"
+
+running_cmd() {
+    pgrep -f -- "$BIN -m $MODEL -ngl 0 --no-mmap --ctx-size $CTX --host $HOST --port $PORT --parallel 1" >/dev/null 2>&1
+}
 
 start() {
     if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
         echo "already running (pid $(cat "$PIDFILE"))"
         return 0
     fi
+    if running_cmd; then
+        echo "already running (matched process)"
+        return 0
+    fi
     echo "starting llama-server on $HOST:$PORT (ctx $CTX, expert cache ${CACHE_MB} MiB, zerocopy)"
+    mkdir -p "$SLOT_SAVE_PATH"
     KIMI_STREAM_EXPERTS=naive \
     KIMI_EXPERT_CACHE_MB="$CACHE_MB" \
     KIMI_EXPERT_CACHE_MODE=zerocopy \
     nohup "$BIN" -m "$MODEL" -ngl 0 --no-mmap --ctx-size "$CTX" \
         --host "$HOST" --port "$PORT" --parallel 1 \
+        --slot-save-path "$SLOT_SAVE_PATH" \
         > "$LOG" 2>&1 &
     echo $! > "$PIDFILE"
     for i in $(seq 1 60); do
@@ -69,6 +81,13 @@ stop() {
         kill "$(cat "$PIDFILE")"
         rm -f "$PIDFILE"
         echo "stopped"
+        return 0
+    fi
+    if running_cmd; then
+        pkill -f -- "$BIN -m $MODEL -ngl 0 --no-mmap --ctx-size $CTX --host $HOST --port $PORT --parallel 1"
+        rm -f "$PIDFILE"
+        echo "stopped (matched process)"
+        return 0
     else
         echo "not running"
     fi
@@ -78,6 +97,12 @@ status() {
     if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
         echo "running (pid $(cat "$PIDFILE")) on $HOST:$PORT"
         curl -s -m 2 "http://$HOST:$PORT/health" && echo
+        return 0
+    fi
+    if running_cmd; then
+        echo "running (matched process) on $HOST:$PORT"
+        curl -s -m 2 "http://$HOST:$PORT/health" && echo
+        return 0
     else
         echo "not running"
     fi

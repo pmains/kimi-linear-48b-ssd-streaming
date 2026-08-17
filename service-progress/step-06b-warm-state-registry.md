@@ -138,9 +138,20 @@ Registry file (when enabled):
     <stateDir>/warm-state/registry.json
     # dev harness: dev-openclaw/state/warm-state/registry.json
 
+## Follow-up (2026-08-16, after seam commit)
+
+The 6B follow-up seam WIP (`attempt-*.ts` family, `stable-bootstrap-context.ts`,
+`addGenerationPrompt` transport plumbing) is committed as `a2b7c96075a`
+(openclaw-src). `tsgo:core` clean; 74/74 seam-affected unit tests pass. This
+makes the tree self-consistent: `cf4f6bde255` (6C) imports
+`attempt-stable-bootstrap-prefill`/`stable-bootstrap-context`, which were
+untracked before this commit. The only remaining uncommitted dev-tree changes
+are the 6A.4 boundary-trace instrumentation (14 files, diagnostic only).
+
 ## Artifacts
 
 - `openclaw-src/src/agents/warm-state-registry.ts`
 - `openclaw-src/src/agents/warm-state-registry.test.ts`
 - `openclaw-src/src/agents/simple-completion-runtime.ts` (seam wiring)
-- Commit: `c9c6ff96d93` (openclaw-src dev tree)
+- Commit: `c9c6ff96d93` (openclaw-src dev tree); seam completion
+  `a2b7c96075a`

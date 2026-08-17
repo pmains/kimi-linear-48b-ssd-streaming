@@ -1,2 +1,2 @@
-e8baeb16e284ac00cd720e5d72c015ca08e8837e
-phase-07: instrumentation — hit-class decomposition, repack/placement split, per-layer cache observability
+0a6b2df632bd123a02f69797e45d33fc6ad5fb6f
+stage-6a6: fix grow-only temp-context pool underallocation (recycle on overflow)

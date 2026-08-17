@@ -10,6 +10,23 @@
     </array>
     <key>WorkingDirectory</key>
     <string>/Users/pmains/Code/openclaw/kimi</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>KIMI_BIN</key>
+        <string>/Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server</string>
+        <key>KIMI_CACHE_MB</key>
+        <string>4096</string>
+        <key>KIMI_CTX</key>
+        <string>32768</string>
+        <key>KIMI_HOST</key>
+        <string>127.0.0.1</string>
+        <key>KIMI_PORT</key>
+        <string>18080</string>
+        <key>KIMI_STREAM_EXPERTS</key>
+        <string>naive</string>
+        <key>KIMI_EXPERT_CACHE_MODE</key>
+        <string>zerocopy</string>
+    </dict>
     <key>KeepAlive</key>
     <true/>
     <key>RunAtLoad</key>
