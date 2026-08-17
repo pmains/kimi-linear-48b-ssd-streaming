@@ -1,0 +1,15 @@
+{
+  "wall_s": 2.249,
+  "finish_reason": "tool_calls",
+  "tool_calls": [
+    {
+      "type": "function",
+      "function": {
+        "name": "get_weather",
+        "arguments": "{\"city\": \"Phoenix\"}"
+      },
+      "id": "qVIxwV5FRcTHNMnIKfPkoKXGXPdcDRyN"
+    }
+  ],
+  "correct": true
+}

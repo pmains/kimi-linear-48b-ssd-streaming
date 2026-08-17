@@ -1,0 +1,93 @@
+{
+  "server_pid": 97300,
+  "runs": {
+    "tool_call": {
+      "label": "tool_call",
+      "wall_s": 2.274,
+      "ttft_first_token_s": 0.38,
+      "prompt_tokens": 163,
+      "completion_tokens": 20,
+      "cached_tokens": 3,
+      "prompt_per_second": 381.83241375360353,
+      "predicted_per_second": 25.12240561578322,
+      "tool_calls": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_weather",
+            "arguments": "{\"city\": \"Phoenix\"}"
+          },
+          "id": "qVIxwV5FRcTHNMnIKfPkoKXGXPdcDRyN"
+        }
+      ],
+      "finish_reason": "tool_calls"
+    },
+    "cold": {
+      "label": "cold",
+      "wall_s": 240.506,
+      "ttft_first_token_s": 238.536,
+      "prompt_tokens": 30484,
+      "completion_tokens": 28,
+      "cached_tokens": 3,
+      "prompt_per_second": 128.21929181297844,
+      "predicted_per_second": 10.005551228051711,
+      "tool_calls": [
+        {
+          "index": 0,
+          "function": {
+            "arguments": "}"
+          }
+        }
+      ]
+    },
+    "warm": {
+      "label": "warm",
+      "wall_s": 2.946,
+      "ttft_first_token_s": 0.989,
+      "prompt_tokens": 30484,
+      "completion_tokens": 28,
+      "cached_tokens": 30483,
+      "prompt_per_second": 9.251892011916437,
+      "predicted_per_second": 9.787743714818498,
+      "tool_calls": [
+        {
+          "index": 0,
+          "function": {
+            "arguments": "}"
+          }
+        }
+      ]
+    },
+    "mutated": {
+      "label": "mutated",
+      "wall_s": 2.751,
+      "ttft_first_token_s": 1.647,
+      "prompt_tokens": 30479,
+      "completion_tokens": 20,
+      "cached_tokens": 30464,
+      "prompt_per_second": 16.43740144408051,
+      "predicted_per_second": 10.744382101895196,
+      "tool_calls": [
+        {
+          "index": 0,
+          "function": {
+            "arguments": "\"}"
+          }
+        }
+      ]
+    }
+  },
+  "tool_call_correct": true,
+  "context_capacity_native": 40960,
+  "notes": {
+    "qwen3_8b_official_rope_scaling": "null (config.json max_position_embeddings=40960, rope_scaling=null)",
+    "context_decision": "native 40960; no YaRN/extension applied (none officially supported for qwen3-8b)"
+  },
+  "tool_call_evidence": "get_weather(city=Phoenix), finish_reason=tool_calls (non-stream + streaming-merged)",
+  "memory_use_gb": {
+    "rss_at_startup": 10.54,
+    "rss_after_30k_prefill": 14.53,
+    "note": "RSS sampled via ps during baseline; includes model + KV (40960 ctx) + Metal compute buffers"
+  },
+  "startup_seconds": 3
+}
