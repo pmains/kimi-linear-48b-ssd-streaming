@@ -441,7 +441,7 @@ Current state note:
 
 #### 6B. Implement the warm-state registry
 
-### Status (2026-08-16)
+#### Status (2026-08-16)
 
 **PASS** — see `service-progress/step-06b-warm-state-registry.md`. Registry
 implemented in `openclaw-src` (`c9c6ff96d93`):
@@ -451,6 +451,11 @@ READY→COLD on PID change, versioned JSON persistence) wired into
 `prefillWithStableBootstrapForAgent` (opt-in via `OPENCLAW_WARM_STATE_REGISTRY=1`
 or explicit `warmStateDir`; inert otherwise). 17/17 new unit tests pass;
 54/54 existing prefill-seam tests pass; `tsc` clean.
+
+Caveat: the 6B follow-up seam WIP (`attempt-*.ts` family,
+`stable-bootstrap-context.ts`) is still uncommitted and type-broken (67
+pre-existing tsgo errors) — it must land before 6D acceptance is treated as
+authoritative. See the 6C status below.
 
 OpenClaw needs to know what it believes is warm:
 
@@ -477,38 +482,63 @@ That PID rule is important: Stage 5B established that restart persistence is
 unsupported in this configuration, so a server restart must invalidate the prior
 READY state.
 
-Current implementation note (2026-08-16):
+Current implementation note (2026-08-16, updated after 6C):
 
-- The registry is implemented as a single JSON store at
-  `runtime/state/warm-state.json` managed by `tools/warm_state.py`.
+- The operative registry for the prefill path is the TypeScript
+  implementation in `openclaw-src`: `src/agents/warm-state-registry.ts`
+  (commits `c9c6ff96d93` + `cf4f6bde255`, which adds
+  `probeWarmStateRegistry`), persisted as versioned JSON at
+  `<stateDir>/warm-state/registry.json` (atomic tmp+rename writes;
+  corrupted file -> empty registry).
 - Registry key: `(agent_id, model_id, bootstrap_fingerprint)`; entry fields:
-  `status`, `server_pid`, `cached_tokens`, `warmed_at`, `updated_at`, and a
-  bounded transition `history` (last 20 transitions with timestamps and
-  reasons).
-- The bootstrap fingerprint is sha256 over the canonical ordinary-request
-  bootstrap body: system prompt + tool declarations + `tool_choice` from
-  `dev-openclaw/state/stage6a4-request-body.json` (the captured exact Caveman
-  request shape). If that source changes, the fingerprint changes and any
-  READY entry is marked STALE.
-- The probe discovers the live `llama-server` PID (pidfile, then pgrep of the
-  frozen live bundle) read-only and applies the state machine:
-  - READY -> COLD when the live PID differs from the recorded `server_pid`
-    or no server is running;
-  - READY -> STALE when the current bootstrap fingerprint differs;
-  - PREFILLING -> FAILED if the prefill target server died;
-  - FAILED -> PREFILLING on explicit retry (`begin-prefill`).
-- CLI: `status`, `probe`, `begin-prefill`, `ready --pid --cached-tokens`,
-  `fail`, `reset`, `fingerprint`; `--json` for machine-readable output;
-  `--registry` to operate on an alternate store.
-- Verified on 2026-08-16 against live PID 64991 (scratch store):
-  COLD->PREFILLING->READY, READY stable on same PID/fingerprint,
-  READY->COLD on PID change (12345 -> 64991), READY->STALE on fingerprint
-  change, PREFILLING->FAILED, FAILED->PREFILLING on retry.
-- Seeded store state: `(caveman, kimi-linear-48b, <fp>)` = COLD with
-  `live_pid` 64991 observed. Nothing was restarted; the live server was not
-  touched. Acceptance of the full prefill loop remains Stage 6D.
+  `status`, `server_pid`, `cached_tokens`, `warmed_at`, `updated_at`.
+- The bootstrap fingerprint is sha256 over the stable serialization (sorted
+  keys, undefined dropped) of the provider-ready system prompt plus the
+  effective tool catalog — not a captured request body. Any bootstrap change
+  flips the fingerprint and marks the old READY entry STALE.
+- `resolveWarmState` applies lazy invalidation on read, persisted:
+  READY -> COLD when the recorded `server_pid` differs from the live
+  llama-server PID (pidfile, default `/tmp/kimi-llama-server.pid`) or no
+  server is running; READY -> STALE when the fingerprint differs;
+  PREFILLING -> FAILED if the prefill target server died; FAILED -> PREFILLING
+  on explicit retry.
+- Recording is opt-in: `OPENCLAW_WARM_STATE_REGISTRY=1` or an explicit
+  `warmStateDir`; the Stage 6C CLI always enables it. Bookkeeping errors are
+  caught and surfaced, never allowed to fail the prefill.
+- Separate management surface: `tools/warm_state.py` operates a different
+  store (`runtime/state/warm-state.json`; fingerprint over the captured
+  stage6a4 request body; bounded `history` field; `--registry` for alternate
+  stores). The CLI and seam share the TS store; converging the two surfaces
+  is an open follow-up (`service-progress/step-06c-cli-observability.md`,
+  Problem 5).
+- Verified on 2026-08-16: 17/17 unit tests exercise the full state machine
+  (including READY->COLD on PID change and READY->STALE on fingerprint
+  change) against the dev store and live PID 64991; live `prefill status`
+  confirms READY->COLD invalidation against the real server.
+- Status/observability surface is Stage 6C (`openclaw prefill status`), which
+  applies the READY->COLD PID rule across all entries.
+- Acceptance of the full prefill loop remains Stage 6D.
 
 #### 6C. CLI and observability
+
+#### Status (2026-08-16)
+
+**PASS (surface) — e2e prefill run in flight.** See
+`service-progress/step-06c-cli-observability.md`. Implemented in `openclaw-src`
+(committed `cf4f6bde255`): `src/cli/prefill-cli.ts` + `prefill-cli.runtime.ts`
+(command registration + domain logic), `probeWarmStateRegistry` in
+`src/agents/warm-state-registry.ts`, and seam fixes required to make the
+prefill path actually executable (explicit-agent workspace binding for model
+discovery, request-timeout strip for prefill completions, `admittedRunContext`
+threading through the prefill context). 18 new CLI tests + 28 seam tests +
+17 registry tests pass. Live `prefill status` verified against the running
+llama-server; the first real `prefill caveman kimi-linear-48b` was launched
+detached and reached the server (registry PREFILLING, server task 13,
+`timeoutMs=undefined`). Still in flight at last check (19:35 MST): task 13 at
+6,144/25,600 tokens (progress 0.24, ~21.8 t/s), expected READY ~19:50.
+The uncommitted 6B follow-up WIP remains uncommitted and type-broken (67
+pre-existing tsgo errors) — it must be finished and committed before 6D
+acceptance is treated as authoritative.
 
 Implement:
 
@@ -518,23 +548,25 @@ Implement:
     openclaw prefill status caveman
     openclaw prefill caveman kimi-linear-48b --json
 
-The command itself must not be subject to the normal agent stuck-session
-watchdog. A long prefill is legitimate work, not a stalled conversational turn.
-
-Progress should come from actual inference progress rather than an elapsed-time
-animation:
-
-    PREFILLING 7,782 / 10,240 tokens 76%
-    15.8 tok/s · ETA 2m35s · PID 11752
-
-If `llama.cpp` cannot expose exact token progress cleanly, document the best
-authoritative signal available rather than fabricating percentages.
-
-The CLI should expose the same underlying operation through a chat command if
-desired, but the first implementation only needs the core prefill path, the
-state registry, and machine-readable status.
+DONE: the command itself is not subject to the normal agent stuck-session
+watchdog (in-process simple-completion seam; provider request timeouts are
+stripped for prefill completions). DONE: progress comes from llama-server's
+own logged prompt-progress fraction (`slot print_timing ... n_tokens = N,
+progress = P`), rendered as `PREFILLING 7,782 / 10,240 tokens (76%) ·
+15.8 tok/s · ETA 2m35s · PID 11752` on TTY stderr (no fabricated
+percentages; JSON mode never mixes progress into stdout).
 
 #### 6D. Prove that `/prefill` actually works
+
+#### Status (2026-08-16)
+
+Not yet run. Prerequisites landed with 6C: CLI committed (`cf4f6bde255`),
+seam fixes in place (explicit-agent workspace binding, prefill
+request-timeout strip), and the first real prefill is in flight against the
+live server (task 13; expected READY ~19:50 MST). Per the 6C report,
+acceptance can run against that warm same-PID server or restart for a
+genuinely cold start per the original protocol — pick one and record it.
+The 6B follow-up WIP must be committed first (see 6C status).
 
 Acceptance experiment:
 
