@@ -1,0 +1,20 @@
+{
+  "full_decode": {
+    "reads": 26880, "bytes": 38533183488,
+    "seq_ms": 7305, "seq_gbps": 5.27,
+    "par4_ms": 3536, "par8_ms": 3251, "par16_ms": 3309, "par32_ms": 3229,
+    "par16_gbps": 11.64,
+    "coalesce_ms": 3040, "coalesce_gbps": 12.67,
+    "rawseq_ms": 4657, "rawseq_gbps": 8.27
+  },
+  "per_step": {
+    "4":  {"reads": 252, "seq_ms": 81, "par8_ms": 8,  "par16_ms": 7},
+    "5":  {"reads": 357, "seq_ms": 113, "par8_ms": 10, "par16_ms": 9},
+    "6":  {"reads": 291, "seq_ms": 90,  "par8_ms": 8,  "par16_ms": 8},
+    "64": {"reads": 111, "seq_ms": 27,  "par8_ms": 3,  "par16_ms": 3},
+    "65": {"reads": 189, "seq_ms": 54,  "par8_ms": 5,  "par16_ms": 5}
+  },
+  "seq_to_par_ratio_full": 2.26,
+  "seq_to_par_ratio_step_median": 10.7,
+  "notes": "probe replayed the runtime-recorded decode pread schedule (coding @ 4GB) against the live GGUF with warm page cache (probe ran immediately after inference). par = worker-thread issue (queue depth). coalesce = sort+merge adjacent. rawseq = sequential 4MiB reads from file offset 0 (includes cold trunk bytes)."
+}
