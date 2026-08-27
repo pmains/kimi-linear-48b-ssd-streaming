@@ -1,0 +1,31 @@
+phase-07b baseline: 2026-08-27T19:38:48Z
+caps: 4  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-coding-lru.md  n_tokens: 128  seed: 1  ctx: 4096
+idle check at start:
+12:38  up 14 days, 6 mins, 3 users, load averages: 2.54 2.89 2.18
+ 28.3 /opt/homebrew/opt/node/bin/node
+ 23.2 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/151.1.93.136/Helpers/Brave Browser Helper (Renderer).app/Contents/MacOS/Brave Browser Helper (Renderer)
+ 11.5 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/151.1.93.136/Helpers/Brave Browser Helper (Renderer).app/Contents/MacOS/Brave Browser Helper (Renderer)
+  5.2 /usr/libexec/syspolicyd
+  4.2 /bin/zsh
+== round 1 ==
+  [run]  uncached-r1  12:38:48
+  [done] uncached-r1  12:40:07
+   cap order: 4
+  [run]  cap-4-r1  12:40:22
+  [done] cap-4-r1  12:41:23
+== round 2 ==
+  [run]  uncached-r2  12:41:38
+  [done] uncached-r2  12:42:57
+   cap order: 4
+  [run]  cap-4-r2  12:43:12
+  [done] cap-4-r2  12:44:17
+== round 3 ==
+  [run]  uncached-r3  12:44:32
+  [done] uncached-r3  12:45:51
+   cap order: 4
+  [run]  cap-4-r3  12:46:06
+  [done] cap-4-r3  12:47:10
+baseline complete: benchmarks/results/phase-09a/ladder/coding-lru
+idle check at end:
+12:47  up 14 days, 15 mins, 3 users, load averages: 3.08 2.97 2.46

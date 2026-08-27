@@ -1,0 +1,48 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\llama_expert_streamer: KIMI_EXPERT_CACHE_MODE=zerocopy requires KIMI_EXPERT_CACHE_MB>0; disabling
+|/-\|/-\|/-\|/-\|/-\ 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10436-cad716035
+model      : /Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Write a Python function that takes a list of integers and returns the sum of all even numbers in the list, preserving the original order of the input. Include a brief docstring and one example usage.
+```python
+def sum_even_preserve_order(numbers):
+    """
+    Return the sum of all even integers in `numbers`, keeping the original order.
+
+    Parameters
+    ----------
+    numbers : list[int]
+        A list of integers.
+
+    Returns
+    -------
+    int
+        The sum of the even numbers in
+llama_server_terminate: requested orderly shutdown
+
+[ Prompt: 5.7 t/s | Generation: 2.5 t/s ]
+
+
+Exiting...

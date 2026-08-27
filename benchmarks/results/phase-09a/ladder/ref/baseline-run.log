@@ -1,0 +1,31 @@
+phase-07b baseline: 2026-08-27T19:56:26Z
+caps: 4  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-04-ref.md  n_tokens: 64  seed: 1  ctx: 4096
+idle check at start:
+12:56  up 14 days, 24 mins, 3 users, load averages: 2.46 3.03 2.79
+ 25.2 /System/Library/PrivateFrameworks/SkyLight.framework/Resources/WindowServer
+ 21.5 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/151.1.93.136/Helpers/Brave Browser Helper.app/Contents/MacOS/Brave Browser Helper
+ 13.9 /Applications/Brave Browser.app/Contents/Frameworks/Brave Browser Framework.framework/Versions/151.1.93.136/Helpers/Brave Browser Helper (Renderer).app/Contents/MacOS/Brave Browser Helper (Renderer)
+  3.3 /Applications/iTerm.app/Contents/MacOS/iTerm2
+  3.1 /Library/SystemExtensions/3D4BE74B-CA8B-488C-A258-C66E6FDD940A/com.nordvpn.macos.Shield.systemextension/Contents/MacOS/com.nordvpn.macos.Shield
+== round 1 ==
+  [run]  uncached-r1  12:56:26
+  [done] uncached-r1  12:57:12
+   cap order: 4
+  [run]  cap-4-r1  12:57:27
+  [done] cap-4-r1  12:58:06
+== round 2 ==
+  [run]  uncached-r2  12:58:21
+  [done] uncached-r2  12:59:05
+   cap order: 4
+  [run]  cap-4-r2  12:59:20
+  [done] cap-4-r2  12:59:59
+== round 3 ==
+  [run]  uncached-r3  13:00:14
+  [done] uncached-r3  13:00:58
+   cap order: 4
+  [run]  cap-4-r3  13:01:13
+  [done] cap-4-r3  13:01:58
+baseline complete: benchmarks/results/phase-09a/ladder/ref
+idle check at end:
+13:02  up 14 days, 30 mins, 3 users, load averages: 3.59 3.27 2.98

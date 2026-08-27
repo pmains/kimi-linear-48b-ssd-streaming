@@ -1,0 +1,135 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\llama_expert_streamer: expert cache enabled: 4096 MiB (selfcheck on)
+llama_expert_streamer: expert cache enabled: 4096 MiB zero-copy mode (per-layer capacity 38..39 slots, selfcheck on)
+|llama_expert_streamer: expert cache armed (4096 MiB, zero-copy mode, selfcheck on)
+/-\|/-\|/-\|/-\|/llama_expert_streamer: zerocopy selfcheck OK il=3 kind=up expert=138 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=3 kind=gate expert=138 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=3 kind=down expert=138 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=4 kind=up expert=153 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=4 kind=gate expert=153 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=4 kind=down expert=153 slot=31
+-llama_expert_streamer: zerocopy selfcheck OK il=5 kind=up expert=23 slot=34
+llama_expert_streamer: zerocopy selfcheck OK il=5 kind=gate expert=23 slot=34
+llama_expert_streamer: zerocopy selfcheck OK il=5 kind=down expert=23 slot=34
+llama_expert_streamer: zerocopy selfcheck OK il=6 kind=up expert=121 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=6 kind=gate expert=121 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=6 kind=down expert=121 slot=31
+\llama_expert_streamer: zerocopy selfcheck OK il=8 kind=up expert=218 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=8 kind=gate expert=218 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=8 kind=down expert=218 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=9 kind=up expert=2 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=9 kind=gate expert=2 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=9 kind=down expert=2 slot=33
+|llama_expert_streamer: zerocopy selfcheck OK il=10 kind=up expert=119 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=10 kind=gate expert=119 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=10 kind=down expert=119 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=11 kind=up expert=153 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=11 kind=gate expert=153 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=11 kind=down expert=153 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=12 kind=up expert=218 slot=38
+/llama_expert_streamer: zerocopy selfcheck OK il=12 kind=gate expert=218 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=12 kind=down expert=218 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=13 kind=up expert=253 slot=25
+llama_expert_streamer: zerocopy selfcheck OK il=13 kind=gate expert=253 slot=25
+llama_expert_streamer: zerocopy selfcheck OK il=13 kind=down expert=253 slot=25
+llama_expert_streamer: zerocopy selfcheck OK il=14 kind=up expert=225 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=14 kind=gate expert=225 slot=38
+llama_expert_streamer: zerocopy selfcheck OK il=14 kind=down expert=225 slot=38
+-llama_expert_streamer: zerocopy selfcheck OK il=15 kind=up expert=36 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=15 kind=gate expert=36 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=15 kind=down expert=36 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=16 kind=up expert=152 slot=23
+llama_expert_streamer: zerocopy selfcheck OK il=16 kind=gate expert=152 slot=23
+llama_expert_streamer: zerocopy selfcheck OK il=16 kind=down expert=152 slot=23
+\llama_expert_streamer: zerocopy selfcheck OK il=17 kind=up expert=18 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=17 kind=gate expert=18 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=17 kind=down expert=18 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=19 kind=up expert=152 slot=27
+llama_expert_streamer: zerocopy selfcheck OK il=19 kind=gate expert=152 slot=27
+llama_expert_streamer: zerocopy selfcheck OK il=19 kind=down expert=152 slot=27
+|llama_expert_streamer: zerocopy selfcheck OK il=20 kind=up expert=37 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=20 kind=gate expert=37 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=20 kind=down expert=37 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=21 kind=up expert=234 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=21 kind=gate expert=234 slot=31
+llama_expert_streamer: zerocopy selfcheck OK il=21 kind=down expert=234 slot=31
+/llama_expert_streamer: zerocopy selfcheck OK il=22 kind=up expert=160 slot=32
+llama_expert_streamer: zerocopy selfcheck OK il=22 kind=gate expert=160 slot=32
+llama_expert_streamer: zerocopy selfcheck OK il=22 kind=down expert=160 slot=32
+llama_expert_streamer: zerocopy selfcheck OK il=23 kind=up expert=115 slot=37
+llama_expert_streamer: zerocopy selfcheck OK il=23 kind=gate expert=115 slot=37
+llama_expert_streamer: zerocopy selfcheck OK il=23 kind=down expert=115 slot=37
+-llama_expert_streamer: zerocopy selfcheck OK il=24 kind=up expert=123 slot=26
+llama_expert_streamer: zerocopy selfcheck OK il=24 kind=gate expert=123 slot=26
+llama_expert_streamer: zerocopy selfcheck OK il=24 kind=down expert=123 slot=26
+llama_expert_streamer: zerocopy selfcheck OK il=25 kind=up expert=4 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=25 kind=gate expert=4 slot=33
+llama_expert_streamer: zerocopy selfcheck OK il=25 kind=down expert=4 slot=33
+\| llama_expert_streamer: zerocopy selfcheck OK il=1 kind=up expert=42 slot=0
+llama_expert_streamer: zerocopy selfcheck OK il=1 kind=gate expert=42 slot=0
+llama_expert_streamer: zerocopy selfcheck OK il=1 kind=down expert=42 slot=0
+llama_expert_streamer: zerocopy selfcheck OK il=2 kind=up expert=163 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=2 kind=gate expert=163 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=2 kind=down expert=163 slot=7
+llama_expert_streamer: zerocopy selfcheck OK il=7 kind=up expert=88 slot=16
+llama_expert_streamer: zerocopy selfcheck OK il=7 kind=gate expert=88 slot=16
+llama_expert_streamer: zerocopy selfcheck OK il=7 kind=down expert=88 slot=16
+llama_expert_streamer: zerocopy selfcheck OK il=18 kind=up expert=12 slot=37
+llama_expert_streamer: zerocopy selfcheck OK il=18 kind=gate expert=12 slot=37
+llama_expert_streamer: zerocopy selfcheck OK il=18 kind=down expert=12 slot=37
+llama_expert_streamer: zerocopy selfcheck OK il=26 kind=up expert=87 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=26 kind=gate expert=87 slot=24
+llama_expert_streamer: zerocopy selfcheck OK il=26 kind=down expert=87 slot=24
+
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10436-cad716035
+model      : /Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Implement a concurrent LRU cache in Rust with the following requirements:
+
+1. Generic over key and value types, bounded by a maximum number of entries.
+2. Thread-safe: safe for concurrent reads and writes from multiple threads, with a public API that cannot deadlock in normal usage.
+3. Support get, insert, and remove operations, all O(1) average time.
+4. Evict the least recently used entry when the cache exceeds capacity; reads must refresh recency.
+5. Provide a way to iterate over the current e ... (truncated)
+# Concurrent LRU Cache Implementation
+
+I'll implement a concurrent LRU cache using a sharded lock approach with fine-grained locking to minimize contention. Here's the complete implementation:
+
+```rust
+use std::collections::{HashMap, LinkedList};
+use std::hash::{BuildHasher, Hash};
+use std::sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
+use std::thread;
+use std::time::{Duration, Instant};
+
+/// A concurrent LRU cache with O(1) operations and thread-safe access.
+///
+/// This implementation uses sharding to minimize lock contention:
+/// - The cache is divided into shards, each
+llama_server_terminate: requested orderly shutdown
+
+[ Prompt: 12.1 t/s | Generation: 4.0 t/s ]
+
+
+Exiting...

@@ -1,0 +1,73 @@
+=== CODING ===
+phase-07b baseline: 2026-08-27T19:38:48Z
+caps: 4  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-coding-lru.md  n_tokens: 128  seed: 1  ctx: 4096
+== round 1 ==
+  [run]  uncached-r1  12:38:48
+  [done] uncached-r1  12:40:07
+   cap order: 4
+  [run]  cap-4-r1  12:40:22
+  [done] cap-4-r1  12:41:23
+== round 2 ==
+  [run]  uncached-r2  12:41:38
+  [done] uncached-r2  12:42:57
+   cap order: 4
+  [run]  cap-4-r2  12:43:12
+  [done] cap-4-r2  12:44:17
+== round 3 ==
+  [run]  uncached-r3  12:44:32
+  [done] uncached-r3  12:45:51
+   cap order: 4
+  [run]  cap-4-r3  12:46:06
+  [done] cap-4-r3  12:47:10
+baseline complete: benchmarks/results/phase-09a/ladder/coding-lru
+summarize with: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-09a/ladder/coding-lru
+=== REASONING ===
+phase-07b baseline: 2026-08-27T19:47:25Z
+caps: 4  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-03-reasoning-pumps.md  n_tokens: 128  seed: 1  ctx: 4096
+== round 1 ==
+  [run]  uncached-r1  12:47:25
+  [done] uncached-r1  12:48:44
+   cap order: 4
+  [run]  cap-4-r1  12:48:59
+  [done] cap-4-r1  12:50:09
+== round 2 ==
+  [run]  uncached-r2  12:50:24
+  [done] uncached-r2  12:51:43
+   cap order: 4
+  [run]  cap-4-r2  12:51:58
+  [done] cap-4-r2  12:53:08
+== round 3 ==
+  [run]  uncached-r3  12:53:23
+  [done] uncached-r3  12:54:43
+   cap order: 4
+  [run]  cap-4-r3  12:54:58
+  [done] cap-4-r3  12:56:11
+baseline complete: benchmarks/results/phase-09a/ladder/reasoning
+summarize with: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-09a/ladder/reasoning
+=== REF ===
+phase-07b baseline: 2026-08-27T19:56:26Z
+caps: 4  reps: 3  mode: zerocopy  settle: 15s
+prompt: benchmarks/prompts/phase-04-ref.md  n_tokens: 64  seed: 1  ctx: 4096
+== round 1 ==
+  [run]  uncached-r1  12:56:26
+  [done] uncached-r1  12:57:12
+   cap order: 4
+  [run]  cap-4-r1  12:57:27
+  [done] cap-4-r1  12:58:06
+== round 2 ==
+  [run]  uncached-r2  12:58:21
+  [done] uncached-r2  12:59:05
+   cap order: 4
+  [run]  cap-4-r2  12:59:20
+  [done] cap-4-r2  12:59:59
+== round 3 ==
+  [run]  uncached-r3  13:00:14
+  [done] uncached-r3  13:00:58
+   cap order: 4
+  [run]  cap-4-r3  13:01:13
+  [done] cap-4-r3  13:01:58
+baseline complete: benchmarks/results/phase-09a/ladder/ref
+summarize with: python3 tools/phase07b_summarize.py --root benchmarks/results/phase-09a/ladder/ref
+=== LADDER DONE ===

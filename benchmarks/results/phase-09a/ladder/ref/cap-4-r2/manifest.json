@@ -1,0 +1,11 @@
+{
+  "prompt": "benchmarks/prompts/phase-04-ref.md",
+  "n_tokens": 64,
+  "seed": 1,
+  "backend": "cpu",
+  "stream_mode": "naive",
+  "llama_commit": "cad7160352190556d1edc0091ce4113ed09a16a5",
+  "llama_worktree_dirty": true,
+  "phase7_instrumentation": 1,
+  "captured_at": "2026-08-27T19:59:59Z"
+}
