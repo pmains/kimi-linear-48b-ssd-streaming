@@ -189,9 +189,11 @@ phase only:
 - **Sequential vs scattered**: the runtime issues reads in *routing
   (first-occurrence) order* → the issued stream is scattered. But the
   underlying offsets **cluster by kind**: within a (layer, kind) group,
-  78% of offset-sorted consecutive reads are within one slice of each
-  other and ~85% are contiguous (gap ≤ 0) in the uncached trace — expert
-  slices are packed contiguously per tensor in the GGUF. The three kinds
+  55.7% of offset-sorted consecutive reads are strictly contiguous
+  (gap ≤ 0; 84.9% in the uncached trace, whose repeated full-set reads
+  saturate the tensor), and 78% are within one slice of the previous
+  read — expert slices are packed contiguously per tensor in the GGUF.
+  The three kinds
   live in three separate tensors (far apart). So **per-kind coalescing is
   possible with zero layout change** (the `coalesced` streamer mode
   already implements sort+merge), contrary to the selection gate's
