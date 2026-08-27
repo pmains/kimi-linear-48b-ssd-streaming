@@ -1,0 +1,5279 @@
+{
+  "coding-lru": {
+    "trace_steps": 131,
+    "n_decode_tokens": 128,
+    "reuse_distance": {
+      "n": 27030,
+      "p50": 3,
+      "p90": 40,
+      "p99": 105,
+      "max": 128,
+      "frac_le1": 0.39,
+      "frac_le8": 0.694
+    },
+    "budgets": {
+      "cap-1": {
+        "cap_slots_min": 9,
+        "cap_slots_max": 10,
+        "obs_decode_mb_tok": 567.5,
+        "opt": {
+          "decode_mb_tok": 374.0,
+          "decode_hit_rate": 0.5575,
+          "decode_reloads": 11181,
+          "n_evictions": 11460,
+          "regret": {
+            "n": 7692,
+            "p50": 108,
+            "le8": 0.0,
+            "le26": 0.044,
+            "le52": 0.229
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 399.0,
+          "decode_hit_rate": 0.5278,
+          "decode_reloads": 11964,
+          "n_evictions": 8229,
+          "regret": {
+            "n": 5444,
+            "p50": 103,
+            "le8": 0.0,
+            "le26": 0.044,
+            "le52": 0.235
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 567.5,
+            "decode_hit_rate": 0.3279,
+            "decode_reloads": 17245,
+            "n_evictions": 17525,
+            "regret": {
+              "n": 13757,
+              "p50": 37,
+              "le8": 0.214,
+              "le26": 0.406,
+              "le52": 0.569
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 609.4,
+            "decode_hit_rate": 0.2782,
+            "decode_reloads": 18559,
+            "n_evictions": 18839,
+            "regret": {
+              "n": 15071,
+              "p50": 31,
+              "le8": 0.275,
+              "le26": 0.46,
+              "le52": 0.608
+            },
+            "gap_recovered_pct": -21.7
+          },
+          "twoq": {
+            "decode_mb_tok": 547.2,
+            "decode_hit_rate": 0.3524,
+            "decode_reloads": 16598,
+            "n_evictions": 16528,
+            "regret": {
+              "n": 12839,
+              "p50": 41,
+              "le8": 0.198,
+              "le26": 0.391,
+              "le52": 0.552
+            },
+            "gap_recovered_pct": 10.5
+          },
+          "slru": {
+            "decode_mb_tok": 573.0,
+            "decode_hit_rate": 0.3218,
+            "decode_reloads": 17407,
+            "n_evictions": 17689,
+            "regret": {
+              "n": 13921,
+              "p50": 36,
+              "le8": 0.236,
+              "le26": 0.419,
+              "le52": 0.576
+            },
+            "gap_recovered_pct": -2.8
+          },
+          "slru_t25": {
+            "decode_mb_tok": 556.0,
+            "decode_hit_rate": 0.3417,
+            "decode_reloads": 16881,
+            "n_evictions": 17161,
+            "regret": {
+              "n": 13393,
+              "p50": 39,
+              "le8": 0.202,
+              "le26": 0.394,
+              "le52": 0.557
+            },
+            "gap_recovered_pct": 5.9
+          },
+          "slru_t75": {
+            "decode_mb_tok": 727.0,
+            "decode_hit_rate": 0.1397,
+            "decode_reloads": 22216,
+            "n_evictions": 22545,
+            "regret": {
+              "n": 18731,
+              "p50": 21,
+              "le8": 0.321,
+              "le26": 0.539,
+              "le52": 0.672
+            },
+            "gap_recovered_pct": -82.4
+          },
+          "lfu_da": {
+            "decode_mb_tok": 537.7,
+            "decode_hit_rate": 0.3631,
+            "decode_reloads": 16316,
+            "n_evictions": 16596,
+            "regret": {
+              "n": 12828,
+              "p50": 42,
+              "le8": 0.147,
+              "le26": 0.39,
+              "le52": 0.549
+            },
+            "gap_recovered_pct": 15.4
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 542.6,
+            "decode_hit_rate": 0.3574,
+            "decode_reloads": 16466,
+            "n_evictions": 16746,
+            "regret": {
+              "n": 12978,
+              "p50": 42,
+              "le8": 0.171,
+              "le26": 0.397,
+              "le52": 0.552
+            },
+            "gap_recovered_pct": 12.9
+          },
+          "lru2": {
+            "decode_mb_tok": 636.1,
+            "decode_hit_rate": 0.2469,
+            "decode_reloads": 19384,
+            "n_evictions": 19664,
+            "regret": {
+              "n": 15896,
+              "p50": 28,
+              "le8": 0.237,
+              "le26": 0.492,
+              "le52": 0.637
+            },
+            "gap_recovered_pct": -35.4
+          },
+          "lirs": {
+            "decode_mb_tok": 683.6,
+            "decode_hit_rate": 0.1895,
+            "decode_reloads": 20900,
+            "n_evictions": 21083,
+            "regret": {
+              "n": 17282,
+              "p50": 26,
+              "le8": 0.258,
+              "le26": 0.502,
+              "le52": 0.644
+            },
+            "gap_recovered_pct": -60.0
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 612.0,
+            "decode_hit_rate": 0.276,
+            "decode_reloads": 18615,
+            "n_evictions": 18453,
+            "regret": {
+              "n": 14670,
+              "p50": 36,
+              "le8": 0.237,
+              "le26": 0.437,
+              "le52": 0.592
+            },
+            "gap_recovered_pct": -23.0
+          },
+          "lru_f1": {
+            "decode_mb_tok": 560.7,
+            "decode_hit_rate": 0.336,
+            "decode_reloads": 17030,
+            "n_evictions": 17310,
+            "regret": {
+              "n": 13542,
+              "p50": 39,
+              "le8": 0.208,
+              "le26": 0.403,
+              "le52": 0.562
+            },
+            "gap_recovered_pct": 3.5
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 548.4,
+            "decode_hit_rate": 0.3506,
+            "decode_reloads": 16646,
+            "n_evictions": 16926,
+            "regret": {
+              "n": 13158,
+              "p50": 41,
+              "le8": 0.188,
+              "le26": 0.399,
+              "le52": 0.552
+            },
+            "gap_recovered_pct": 9.8
+          },
+          "lru_admit": {
+            "decode_mb_tok": 563.8,
+            "decode_hit_rate": 0.3323,
+            "decode_reloads": 17130,
+            "n_evictions": 16884,
+            "regret": {
+              "n": 13338,
+              "p50": 37,
+              "le8": 0.212,
+              "le26": 0.407,
+              "le52": 0.57
+            },
+            "gap_recovered_pct": 1.9
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 552.3,
+            "decode_hit_rate": 0.346,
+            "decode_reloads": 16767,
+            "n_evictions": 13032,
+            "regret": {
+              "n": 10247,
+              "p50": 33,
+              "le8": 0.212,
+              "le26": 0.437,
+              "le52": 0.587
+            },
+            "gap_recovered_pct": 7.8
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 567.5
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-2": {
+        "cap_slots_min": 19,
+        "cap_slots_max": 20,
+        "obs_decode_mb_tok": 420.2,
+        "opt": {
+          "decode_mb_tok": 262.7,
+          "decode_hit_rate": 0.6895,
+          "decode_reloads": 7692,
+          "n_evictions": 8517,
+          "regret": {
+            "n": 4742,
+            "p50": 206,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.02
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 303.2,
+          "decode_hit_rate": 0.6415,
+          "decode_reloads": 8960,
+          "n_evictions": 5571,
+          "regret": {
+            "n": 2906,
+            "p50": 198,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.012
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 420.2,
+            "decode_hit_rate": 0.5028,
+            "decode_reloads": 12624,
+            "n_evictions": 13474,
+            "regret": {
+              "n": 9699,
+              "p50": 64,
+              "le8": 0.11,
+              "le26": 0.294,
+              "le52": 0.446
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 436.3,
+            "decode_hit_rate": 0.4838,
+            "decode_reloads": 13128,
+            "n_evictions": 13976,
+            "regret": {
+              "n": 10201,
+              "p50": 58,
+              "le8": 0.131,
+              "le26": 0.319,
+              "le52": 0.476
+            },
+            "gap_recovered_pct": -10.2
+          },
+          "twoq": {
+            "decode_mb_tok": 414.2,
+            "decode_hit_rate": 0.5098,
+            "decode_reloads": 12441,
+            "n_evictions": 12125,
+            "regret": {
+              "n": 8700,
+              "p50": 68,
+              "le8": 0.127,
+              "le26": 0.276,
+              "le52": 0.429
+            },
+            "gap_recovered_pct": 3.8
+          },
+          "slru": {
+            "decode_mb_tok": 405.7,
+            "decode_hit_rate": 0.5203,
+            "decode_reloads": 12162,
+            "n_evictions": 13036,
+            "regret": {
+              "n": 9261,
+              "p50": 70,
+              "le8": 0.103,
+              "le26": 0.268,
+              "le52": 0.423
+            },
+            "gap_recovered_pct": 9.2
+          },
+          "slru_t25": {
+            "decode_mb_tok": 408.9,
+            "decode_hit_rate": 0.5164,
+            "decode_reloads": 12267,
+            "n_evictions": 13128,
+            "regret": {
+              "n": 9353,
+              "p50": 68,
+              "le8": 0.1,
+              "le26": 0.271,
+              "le52": 0.427
+            },
+            "gap_recovered_pct": 7.2
+          },
+          "slru_t75": {
+            "decode_mb_tok": 448.3,
+            "decode_hit_rate": 0.4702,
+            "decode_reloads": 13486,
+            "n_evictions": 14368,
+            "regret": {
+              "n": 10593,
+              "p50": 58,
+              "le8": 0.165,
+              "le26": 0.323,
+              "le52": 0.476
+            },
+            "gap_recovered_pct": -17.8
+          },
+          "lfu_da": {
+            "decode_mb_tok": 432.6,
+            "decode_hit_rate": 0.4879,
+            "decode_reloads": 13019,
+            "n_evictions": 13869,
+            "regret": {
+              "n": 10094,
+              "p50": 60,
+              "le8": 0.118,
+              "le26": 0.324,
+              "le52": 0.477
+            },
+            "gap_recovered_pct": -7.8
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 409.7,
+            "decode_hit_rate": 0.5154,
+            "decode_reloads": 12293,
+            "n_evictions": 13143,
+            "regret": {
+              "n": 9368,
+              "p50": 68,
+              "le8": 0.104,
+              "le26": 0.284,
+              "le52": 0.438
+            },
+            "gap_recovered_pct": 6.7
+          },
+          "lru2": {
+            "decode_mb_tok": 533.3,
+            "decode_hit_rate": 0.3683,
+            "decode_reloads": 16178,
+            "n_evictions": 17028,
+            "regret": {
+              "n": 13253,
+              "p50": 36,
+              "le8": 0.197,
+              "le26": 0.44,
+              "le52": 0.591
+            },
+            "gap_recovered_pct": -71.8
+          },
+          "lirs": {
+            "decode_mb_tok": 622.4,
+            "decode_hit_rate": 0.2618,
+            "decode_reloads": 18992,
+            "n_evictions": 19871,
+            "regret": {
+              "n": 16009,
+              "p50": 30,
+              "le8": 0.248,
+              "le26": 0.482,
+              "le52": 0.62
+            },
+            "gap_recovered_pct": -128.3
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 463.7,
+            "decode_hit_rate": 0.4514,
+            "decode_reloads": 13982,
+            "n_evictions": 13761,
+            "regret": {
+              "n": 9986,
+              "p50": 62,
+              "le8": 0.152,
+              "le26": 0.304,
+              "le52": 0.458
+            },
+            "gap_recovered_pct": -27.6
+          },
+          "lru_f1": {
+            "decode_mb_tok": 412.7,
+            "decode_hit_rate": 0.5118,
+            "decode_reloads": 12387,
+            "n_evictions": 13237,
+            "regret": {
+              "n": 9462,
+              "p50": 67,
+              "le8": 0.113,
+              "le26": 0.275,
+              "le52": 0.439
+            },
+            "gap_recovered_pct": 4.8
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 410.3,
+            "decode_hit_rate": 0.5147,
+            "decode_reloads": 12312,
+            "n_evictions": 13162,
+            "regret": {
+              "n": 9387,
+              "p50": 68,
+              "le8": 0.115,
+              "le26": 0.277,
+              "le52": 0.442
+            },
+            "gap_recovered_pct": 6.3
+          },
+          "lru_admit": {
+            "decode_mb_tok": 418.8,
+            "decode_hit_rate": 0.5045,
+            "decode_reloads": 12581,
+            "n_evictions": 12226,
+            "regret": {
+              "n": 8906,
+              "p50": 62,
+              "le8": 0.113,
+              "le26": 0.297,
+              "le52": 0.456
+            },
+            "gap_recovered_pct": 0.9
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 416.8,
+            "decode_hit_rate": 0.507,
+            "decode_reloads": 12514,
+            "n_evictions": 9125,
+            "regret": {
+              "n": 6460,
+              "p50": 63,
+              "le8": 0.124,
+              "le26": 0.29,
+              "le52": 0.453
+            },
+            "gap_recovered_pct": 2.2
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 420.2
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-4": {
+        "cap_slots_min": 38,
+        "cap_slots_max": 39,
+        "obs_decode_mb_tok": 286.4,
+        "opt": {
+          "decode_mb_tok": 171.1,
+          "decode_hit_rate": 0.7978,
+          "decode_reloads": 4831,
+          "n_evictions": 5505,
+          "regret": {
+            "n": 2191,
+            "p50": 445,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 230.8,
+          "decode_hit_rate": 0.7272,
+          "decode_reloads": 6698,
+          "n_evictions": 3204,
+          "regret": {
+            "n": 998,
+            "p50": 456,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 286.4,
+            "decode_hit_rate": 0.6616,
+            "decode_reloads": 8429,
+            "n_evictions": 9116,
+            "regret": {
+              "n": 5802,
+              "p50": 104,
+              "le8": 0.071,
+              "le26": 0.195,
+              "le52": 0.327
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 293.3,
+            "decode_hit_rate": 0.6535,
+            "decode_reloads": 8645,
+            "n_evictions": 9333,
+            "regret": {
+              "n": 6019,
+              "p50": 99,
+              "le8": 0.075,
+              "le26": 0.206,
+              "le52": 0.338
+            },
+            "gap_recovered_pct": -6.0
+          },
+          "twoq": {
+            "decode_mb_tok": 292.3,
+            "decode_hit_rate": 0.6544,
+            "decode_reloads": 8620,
+            "n_evictions": 7719,
+            "regret": {
+              "n": 4973,
+              "p50": 97,
+              "le8": 0.07,
+              "le26": 0.21,
+              "le52": 0.351
+            },
+            "gap_recovered_pct": -5.2
+          },
+          "slru": {
+            "decode_mb_tok": 283.3,
+            "decode_hit_rate": 0.6652,
+            "decode_reloads": 8335,
+            "n_evictions": 9075,
+            "regret": {
+              "n": 5761,
+              "p50": 107,
+              "le8": 0.066,
+              "le26": 0.195,
+              "le52": 0.324
+            },
+            "gap_recovered_pct": 2.7
+          },
+          "slru_t25": {
+            "decode_mb_tok": 282.8,
+            "decode_hit_rate": 0.6658,
+            "decode_reloads": 8318,
+            "n_evictions": 9016,
+            "regret": {
+              "n": 5702,
+              "p50": 107,
+              "le8": 0.07,
+              "le26": 0.195,
+              "le52": 0.322
+            },
+            "gap_recovered_pct": 3.1
+          },
+          "slru_t75": {
+            "decode_mb_tok": 306.7,
+            "decode_hit_rate": 0.6375,
+            "decode_reloads": 9068,
+            "n_evictions": 9864,
+            "regret": {
+              "n": 6550,
+              "p50": 95,
+              "le8": 0.071,
+              "le26": 0.209,
+              "le52": 0.357
+            },
+            "gap_recovered_pct": -17.6
+          },
+          "lfu_da": {
+            "decode_mb_tok": 309.1,
+            "decode_hit_rate": 0.6344,
+            "decode_reloads": 9148,
+            "n_evictions": 9826,
+            "regret": {
+              "n": 6512,
+              "p50": 83,
+              "le8": 0.094,
+              "le26": 0.27,
+              "le52": 0.395
+            },
+            "gap_recovered_pct": -19.7
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 293.3,
+            "decode_hit_rate": 0.6536,
+            "decode_reloads": 8642,
+            "n_evictions": 9320,
+            "regret": {
+              "n": 6006,
+              "p50": 95,
+              "le8": 0.077,
+              "le26": 0.222,
+              "le52": 0.353
+            },
+            "gap_recovered_pct": -6.0
+          },
+          "lru2": {
+            "decode_mb_tok": 391.2,
+            "decode_hit_rate": 0.5365,
+            "decode_reloads": 11734,
+            "n_evictions": 12421,
+            "regret": {
+              "n": 9107,
+              "p50": 43,
+              "le8": 0.163,
+              "le26": 0.398,
+              "le52": 0.529
+            },
+            "gap_recovered_pct": -90.9
+          },
+          "lirs": {
+            "decode_mb_tok": 397.5,
+            "decode_hit_rate": 0.5278,
+            "decode_reloads": 11964,
+            "n_evictions": 12489,
+            "regret": {
+              "n": 9151,
+              "p50": 56,
+              "le8": 0.182,
+              "le26": 0.344,
+              "le52": 0.49
+            },
+            "gap_recovered_pct": -96.4
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 352.9,
+            "decode_hit_rate": 0.5825,
+            "decode_reloads": 10519,
+            "n_evictions": 9558,
+            "regret": {
+              "n": 6244,
+              "p50": 98,
+              "le8": 0.075,
+              "le26": 0.217,
+              "le52": 0.356
+            },
+            "gap_recovered_pct": -57.7
+          },
+          "lru_f1": {
+            "decode_mb_tok": 285.6,
+            "decode_hit_rate": 0.6627,
+            "decode_reloads": 8402,
+            "n_evictions": 9089,
+            "regret": {
+              "n": 5775,
+              "p50": 102,
+              "le8": 0.068,
+              "le26": 0.207,
+              "le52": 0.336
+            },
+            "gap_recovered_pct": 0.7
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 291.0,
+            "decode_hit_rate": 0.6563,
+            "decode_reloads": 8570,
+            "n_evictions": 9257,
+            "regret": {
+              "n": 5943,
+              "p50": 94,
+              "le8": 0.076,
+              "le26": 0.231,
+              "le52": 0.364
+            },
+            "gap_recovered_pct": -4.0
+          },
+          "lru_admit": {
+            "decode_mb_tok": 286.3,
+            "decode_hit_rate": 0.6617,
+            "decode_reloads": 8427,
+            "n_evictions": 7978,
+            "regret": {
+              "n": 5126,
+              "p50": 100,
+              "le8": 0.07,
+              "le26": 0.191,
+              "le52": 0.331
+            },
+            "gap_recovered_pct": 0.1
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 307.6,
+            "decode_hit_rate": 0.6366,
+            "decode_reloads": 9090,
+            "n_evictions": 5596,
+            "regret": {
+              "n": 3390,
+              "p50": 85,
+              "le8": 0.07,
+              "le26": 0.205,
+              "le52": 0.362
+            },
+            "gap_recovered_pct": -18.4
+          }
+        },
+        "warm": {
+          "lru": {
+            "decode_mb_tok": 287.1,
+            "decode_hit_rate": 0.6608,
+            "decode_reloads": 8451,
+            "n_evictions": 10112,
+            "gap_recovered_pct": -0.6
+          },
+          "clock": {
+            "decode_mb_tok": 294.5,
+            "decode_hit_rate": 0.652,
+            "decode_reloads": 8683,
+            "n_evictions": 10344,
+            "gap_recovered_pct": -7.0
+          },
+          "twoq": {
+            "decode_mb_tok": 293.5,
+            "decode_hit_rate": 0.6531,
+            "decode_reloads": 8655,
+            "n_evictions": 8735,
+            "gap_recovered_pct": -6.1
+          },
+          "slru": {
+            "decode_mb_tok": 284.2,
+            "decode_hit_rate": 0.6642,
+            "decode_reloads": 8362,
+            "n_evictions": 10090,
+            "gap_recovered_pct": 1.9
+          },
+          "slru_t25": {
+            "decode_mb_tok": 283.7,
+            "decode_hit_rate": 0.6648,
+            "decode_reloads": 8345,
+            "n_evictions": 10019,
+            "gap_recovered_pct": 2.4
+          },
+          "slru_t75": {
+            "decode_mb_tok": 307.8,
+            "decode_hit_rate": 0.6361,
+            "decode_reloads": 9105,
+            "n_evictions": 10883,
+            "gap_recovered_pct": -18.6
+          },
+          "lfu_da": {
+            "decode_mb_tok": 309.1,
+            "decode_hit_rate": 0.6344,
+            "decode_reloads": 9148,
+            "n_evictions": 10699,
+            "gap_recovered_pct": -19.7
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 293.3,
+            "decode_hit_rate": 0.6536,
+            "decode_reloads": 8642,
+            "n_evictions": 10193,
+            "gap_recovered_pct": -6.0
+          },
+          "lru2": {
+            "decode_mb_tok": 399.3,
+            "decode_hit_rate": 0.5265,
+            "decode_reloads": 11999,
+            "n_evictions": 13651,
+            "gap_recovered_pct": -98.0
+          },
+          "lirs": {
+            "decode_mb_tok": 444.2,
+            "decode_hit_rate": 0.4761,
+            "decode_reloads": 13331,
+            "n_evictions": 14911,
+            "gap_recovered_pct": -136.9
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 355.6,
+            "decode_hit_rate": 0.5793,
+            "decode_reloads": 10604,
+            "n_evictions": 10594,
+            "gap_recovered_pct": -60.0
+          },
+          "lru_f1": {
+            "decode_mb_tok": 288.6,
+            "decode_hit_rate": 0.659,
+            "decode_reloads": 8500,
+            "n_evictions": 10151,
+            "gap_recovered_pct": -1.9
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 294.6,
+            "decode_hit_rate": 0.652,
+            "decode_reloads": 8684,
+            "n_evictions": 10335,
+            "gap_recovered_pct": -7.1
+          },
+          "lru_admit": {
+            "decode_mb_tok": 286.3,
+            "decode_hit_rate": 0.6618,
+            "decode_reloads": 8426,
+            "n_evictions": 8914,
+            "gap_recovered_pct": 0.1
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 305.8,
+            "decode_hit_rate": 0.6388,
+            "decode_reloads": 9033,
+            "n_evictions": 6926,
+            "gap_recovered_pct": -16.8
+          },
+          "opt": {
+            "decode_mb_tok": 167.4
+          }
+        },
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 286.4
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-6": {
+        "cap_slots_min": 57,
+        "cap_slots_max": 58,
+        "obs_decode_mb_tok": 219.0,
+        "opt": {
+          "decode_mb_tok": 136.5,
+          "decode_hit_rate": 0.8388,
+          "decode_reloads": 3750,
+          "n_evictions": 3923,
+          "regret": {
+            "n": 1110,
+            "p50": 600,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 211.5,
+          "decode_hit_rate": 0.75,
+          "decode_reloads": 6094,
+          "n_evictions": 2099,
+          "regret": {
+            "n": 394,
+            "p50": 478,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 219.0,
+            "decode_hit_rate": 0.7415,
+            "decode_reloads": 6319,
+            "n_evictions": 6492,
+            "regret": {
+              "n": 3679,
+              "p50": 153,
+              "le8": 0.057,
+              "le26": 0.159,
+              "le52": 0.256
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 225.3,
+            "decode_hit_rate": 0.7339,
+            "decode_reloads": 6520,
+            "n_evictions": 6693,
+            "regret": {
+              "n": 3880,
+              "p50": 140,
+              "le8": 0.065,
+              "le26": 0.159,
+              "le52": 0.271
+            },
+            "gap_recovered_pct": -7.7
+          },
+          "twoq": {
+            "decode_mb_tok": 229.3,
+            "decode_hit_rate": 0.7293,
+            "decode_reloads": 6643,
+            "n_evictions": 5275,
+            "regret": {
+              "n": 3071,
+              "p50": 128,
+              "le8": 0.065,
+              "le26": 0.191,
+              "le52": 0.31
+            },
+            "gap_recovered_pct": -12.5
+          },
+          "slru": {
+            "decode_mb_tok": 217.2,
+            "decode_hit_rate": 0.7434,
+            "decode_reloads": 6269,
+            "n_evictions": 6466,
+            "regret": {
+              "n": 3653,
+              "p50": 156,
+              "le8": 0.048,
+              "le26": 0.146,
+              "le52": 0.251
+            },
+            "gap_recovered_pct": 2.1
+          },
+          "slru_t25": {
+            "decode_mb_tok": 216.9,
+            "decode_hit_rate": 0.7439,
+            "decode_reloads": 6255,
+            "n_evictions": 6428,
+            "regret": {
+              "n": 3615,
+              "p50": 158,
+              "le8": 0.052,
+              "le26": 0.148,
+              "le52": 0.246
+            },
+            "gap_recovered_pct": 2.5
+          },
+          "slru_t75": {
+            "decode_mb_tok": 254.3,
+            "decode_hit_rate": 0.6993,
+            "decode_reloads": 7435,
+            "n_evictions": 7704,
+            "regret": {
+              "n": 4891,
+              "p50": 108,
+              "le8": 0.066,
+              "le26": 0.201,
+              "le52": 0.336
+            },
+            "gap_recovered_pct": -42.8
+          },
+          "lfu_da": {
+            "decode_mb_tok": 233.1,
+            "decode_hit_rate": 0.7247,
+            "decode_reloads": 6764,
+            "n_evictions": 6937,
+            "regret": {
+              "n": 4124,
+              "p50": 98,
+              "le8": 0.085,
+              "le26": 0.233,
+              "le52": 0.342
+            },
+            "gap_recovered_pct": -17.1
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 227.6,
+            "decode_hit_rate": 0.7314,
+            "decode_reloads": 6587,
+            "n_evictions": 6760,
+            "regret": {
+              "n": 3947,
+              "p50": 117,
+              "le8": 0.068,
+              "le26": 0.19,
+              "le52": 0.299
+            },
+            "gap_recovered_pct": -10.5
+          },
+          "lru2": {
+            "decode_mb_tok": 271.7,
+            "decode_hit_rate": 0.6789,
+            "decode_reloads": 7974,
+            "n_evictions": 8147,
+            "regret": {
+              "n": 5334,
+              "p50": 68,
+              "le8": 0.122,
+              "le26": 0.308,
+              "le52": 0.442
+            },
+            "gap_recovered_pct": -63.9
+          },
+          "lirs": {
+            "decode_mb_tok": 322.2,
+            "decode_hit_rate": 0.6185,
+            "decode_reloads": 9570,
+            "n_evictions": 9334,
+            "regret": {
+              "n": 6521,
+              "p50": 71,
+              "le8": 0.151,
+              "le26": 0.284,
+              "le52": 0.43
+            },
+            "gap_recovered_pct": -125.1
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 299.4,
+            "decode_hit_rate": 0.6459,
+            "decode_reloads": 8846,
+            "n_evictions": 7264,
+            "regret": {
+              "n": 4451,
+              "p50": 120,
+              "le8": 0.063,
+              "le26": 0.178,
+              "le52": 0.309
+            },
+            "gap_recovered_pct": -97.5
+          },
+          "lru_f1": {
+            "decode_mb_tok": 215.5,
+            "decode_hit_rate": 0.7456,
+            "decode_reloads": 6210,
+            "n_evictions": 6383,
+            "regret": {
+              "n": 3570,
+              "p50": 153,
+              "le8": 0.053,
+              "le26": 0.144,
+              "le52": 0.247
+            },
+            "gap_recovered_pct": 4.2
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 222.2,
+            "decode_hit_rate": 0.7378,
+            "decode_reloads": 6418,
+            "n_evictions": 6591,
+            "regret": {
+              "n": 3778,
+              "p50": 136,
+              "le8": 0.068,
+              "le26": 0.184,
+              "le52": 0.275
+            },
+            "gap_recovered_pct": -3.9
+          },
+          "lru_admit": {
+            "decode_mb_tok": 222.2,
+            "decode_hit_rate": 0.7377,
+            "decode_reloads": 6420,
+            "n_evictions": 5470,
+            "regret": {
+              "n": 3119,
+              "p50": 149,
+              "le8": 0.055,
+              "le26": 0.154,
+              "le52": 0.256
+            },
+            "gap_recovered_pct": -3.9
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 254.1,
+            "decode_hit_rate": 0.6999,
+            "decode_reloads": 7419,
+            "n_evictions": 3424,
+            "regret": {
+              "n": 1719,
+              "p50": 145,
+              "le8": 0.061,
+              "le26": 0.143,
+              "le52": 0.25
+            },
+            "gap_recovered_pct": -42.6
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 219.0
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-8": {
+        "cap_slots_min": 77,
+        "cap_slots_max": 78,
+        "obs_decode_mb_tok": 180.5,
+        "opt": {
+          "decode_mb_tok": 118.1,
+          "decode_hit_rate": 0.8605,
+          "decode_reloads": 3177,
+          "n_evictions": 2849,
+          "regret": {
+            "n": 537,
+            "p50": 619,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 200.7,
+          "decode_hit_rate": 0.7626,
+          "decode_reloads": 5761,
+          "n_evictions": 1265,
+          "regret": {
+            "n": 61,
+            "p50": 428,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 180.5,
+            "decode_hit_rate": 0.7869,
+            "decode_reloads": 5119,
+            "n_evictions": 4791,
+            "regret": {
+              "n": 2479,
+              "p50": 187,
+              "le8": 0.038,
+              "le26": 0.115,
+              "le52": 0.21
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 185.8,
+            "decode_hit_rate": 0.7806,
+            "decode_reloads": 5287,
+            "n_evictions": 4959,
+            "regret": {
+              "n": 2647,
+              "p50": 169,
+              "le8": 0.043,
+              "le26": 0.136,
+              "le52": 0.239
+            },
+            "gap_recovered_pct": -8.6
+          },
+          "twoq": {
+            "decode_mb_tok": 188.7,
+            "decode_hit_rate": 0.7771,
+            "decode_reloads": 5379,
+            "n_evictions": 3666,
+            "regret": {
+              "n": 2015,
+              "p50": 179,
+              "le8": 0.049,
+              "le26": 0.137,
+              "le52": 0.237
+            },
+            "gap_recovered_pct": -13.2
+          },
+          "slru": {
+            "decode_mb_tok": 178.1,
+            "decode_hit_rate": 0.7897,
+            "decode_reloads": 5047,
+            "n_evictions": 4720,
+            "regret": {
+              "n": 2408,
+              "p50": 184,
+              "le8": 0.037,
+              "le26": 0.111,
+              "le52": 0.195
+            },
+            "gap_recovered_pct": 3.8
+          },
+          "slru_t25": {
+            "decode_mb_tok": 179.6,
+            "decode_hit_rate": 0.7879,
+            "decode_reloads": 5095,
+            "n_evictions": 4767,
+            "regret": {
+              "n": 2455,
+              "p50": 186,
+              "le8": 0.04,
+              "le26": 0.119,
+              "le52": 0.205
+            },
+            "gap_recovered_pct": 1.3
+          },
+          "slru_t75": {
+            "decode_mb_tok": 201.5,
+            "decode_hit_rate": 0.7619,
+            "decode_reloads": 5780,
+            "n_evictions": 5518,
+            "regret": {
+              "n": 3206,
+              "p50": 128,
+              "le8": 0.062,
+              "le26": 0.182,
+              "le52": 0.293
+            },
+            "gap_recovered_pct": -33.7
+          },
+          "lfu_da": {
+            "decode_mb_tok": 182.0,
+            "decode_hit_rate": 0.7851,
+            "decode_reloads": 5168,
+            "n_evictions": 4840,
+            "regret": {
+              "n": 2528,
+              "p50": 122,
+              "le8": 0.073,
+              "le26": 0.197,
+              "le52": 0.292
+            },
+            "gap_recovered_pct": -2.4
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 180.8,
+            "decode_hit_rate": 0.7866,
+            "decode_reloads": 5128,
+            "n_evictions": 4800,
+            "regret": {
+              "n": 2488,
+              "p50": 144,
+              "le8": 0.055,
+              "le26": 0.158,
+              "le52": 0.25
+            },
+            "gap_recovered_pct": -0.6
+          },
+          "lru2": {
+            "decode_mb_tok": 194.4,
+            "decode_hit_rate": 0.7701,
+            "decode_reloads": 5565,
+            "n_evictions": 5237,
+            "regret": {
+              "n": 2925,
+              "p50": 92,
+              "le8": 0.115,
+              "le26": 0.255,
+              "le52": 0.376
+            },
+            "gap_recovered_pct": -22.4
+          },
+          "lirs": {
+            "decode_mb_tok": 273.8,
+            "decode_hit_rate": 0.6763,
+            "decode_reloads": 8042,
+            "n_evictions": 7080,
+            "regret": {
+              "n": 4768,
+              "p50": 79,
+              "le8": 0.109,
+              "le26": 0.242,
+              "le52": 0.393
+            },
+            "gap_recovered_pct": -149.6
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 268.0,
+            "decode_hit_rate": 0.6831,
+            "decode_reloads": 7863,
+            "n_evictions": 5587,
+            "regret": {
+              "n": 3275,
+              "p50": 126,
+              "le8": 0.056,
+              "le26": 0.181,
+              "le52": 0.29
+            },
+            "gap_recovered_pct": -140.3
+          },
+          "lru_f1": {
+            "decode_mb_tok": 177.7,
+            "decode_hit_rate": 0.7901,
+            "decode_reloads": 5035,
+            "n_evictions": 4707,
+            "regret": {
+              "n": 2395,
+              "p50": 169,
+              "le8": 0.046,
+              "le26": 0.125,
+              "le52": 0.211
+            },
+            "gap_recovered_pct": 4.4
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 183.8,
+            "decode_hit_rate": 0.7829,
+            "decode_reloads": 5225,
+            "n_evictions": 4897,
+            "regret": {
+              "n": 2585,
+              "p50": 141,
+              "le8": 0.057,
+              "le26": 0.163,
+              "le52": 0.264
+            },
+            "gap_recovered_pct": -5.4
+          },
+          "lru_admit": {
+            "decode_mb_tok": 187.9,
+            "decode_hit_rate": 0.7782,
+            "decode_reloads": 5350,
+            "n_evictions": 3899,
+            "regret": {
+              "n": 2049,
+              "p50": 174,
+              "le8": 0.046,
+              "le26": 0.129,
+              "le52": 0.218
+            },
+            "gap_recovered_pct": -11.9
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 229.6,
+            "decode_hit_rate": 0.7286,
+            "decode_reloads": 6660,
+            "n_evictions": 2164,
+            "regret": {
+              "n": 960,
+              "p50": 128,
+              "le8": 0.041,
+              "le26": 0.138,
+              "le52": 0.237
+            },
+            "gap_recovered_pct": -78.8
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 180.5
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      }
+    }
+  },
+  "reasoning": {
+    "trace_steps": 131,
+    "n_decode_tokens": 128,
+    "reuse_distance": {
+      "n": 27095,
+      "p50": 4,
+      "p90": 33,
+      "p99": 101,
+      "max": 128,
+      "frac_le1": 0.325,
+      "frac_le8": 0.618
+    },
+    "budgets": {
+      "cap-1": {
+        "cap_slots_min": 9,
+        "cap_slots_max": 10,
+        "obs_decode_mb_tok": 623.1,
+        "opt": {
+          "decode_mb_tok": 428.8,
+          "decode_hit_rate": 0.4934,
+          "decode_reloads": 12910,
+          "n_evictions": 13152,
+          "regret": {
+            "n": 9327,
+            "p50": 115,
+            "le8": 0.0,
+            "le26": 0.037,
+            "le52": 0.175
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 459.4,
+          "decode_hit_rate": 0.4571,
+          "decode_reloads": 13867,
+          "n_evictions": 10039,
+          "regret": {
+            "n": 7190,
+            "p50": 109,
+            "le8": 0.0,
+            "le26": 0.037,
+            "le52": 0.178
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 623.1,
+            "decode_hit_rate": 0.263,
+            "decode_reloads": 18996,
+            "n_evictions": 19241,
+            "regret": {
+              "n": 15416,
+              "p50": 55,
+              "le8": 0.197,
+              "le26": 0.36,
+              "le52": 0.489
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 648.9,
+            "decode_hit_rate": 0.2322,
+            "decode_reloads": 19809,
+            "n_evictions": 20054,
+            "regret": {
+              "n": 16229,
+              "p50": 48,
+              "le8": 0.229,
+              "le26": 0.393,
+              "le52": 0.515
+            },
+            "gap_recovered_pct": -13.3
+          },
+          "twoq": {
+            "decode_mb_tok": 626.5,
+            "decode_hit_rate": 0.2593,
+            "decode_reloads": 19093,
+            "n_evictions": 19009,
+            "regret": {
+              "n": 15244,
+              "p50": 49,
+              "le8": 0.197,
+              "le26": 0.385,
+              "le52": 0.513
+            },
+            "gap_recovered_pct": -1.7
+          },
+          "slru": {
+            "decode_mb_tok": 644.8,
+            "decode_hit_rate": 0.2378,
+            "decode_reloads": 19660,
+            "n_evictions": 19906,
+            "regret": {
+              "n": 16081,
+              "p50": 46,
+              "le8": 0.225,
+              "le26": 0.399,
+              "le52": 0.524
+            },
+            "gap_recovered_pct": -11.1
+          },
+          "slru_t25": {
+            "decode_mb_tok": 617.6,
+            "decode_hit_rate": 0.27,
+            "decode_reloads": 18812,
+            "n_evictions": 19057,
+            "regret": {
+              "n": 15232,
+              "p50": 56,
+              "le8": 0.19,
+              "le26": 0.355,
+              "le52": 0.487
+            },
+            "gap_recovered_pct": 2.9
+          },
+          "slru_t75": {
+            "decode_mb_tok": 760.9,
+            "decode_hit_rate": 0.0988,
+            "decode_reloads": 23334,
+            "n_evictions": 23627,
+            "regret": {
+              "n": 19756,
+              "p50": 30,
+              "le8": 0.271,
+              "le26": 0.483,
+              "le52": 0.598
+            },
+            "gap_recovered_pct": -70.9
+          },
+          "lfu_da": {
+            "decode_mb_tok": 603.9,
+            "decode_hit_rate": 0.2857,
+            "decode_reloads": 18397,
+            "n_evictions": 18642,
+            "regret": {
+              "n": 14817,
+              "p50": 50,
+              "le8": 0.146,
+              "le26": 0.384,
+              "le52": 0.506
+            },
+            "gap_recovered_pct": 9.9
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 625.1,
+            "decode_hit_rate": 0.2609,
+            "decode_reloads": 19050,
+            "n_evictions": 19295,
+            "regret": {
+              "n": 15470,
+              "p50": 49,
+              "le8": 0.166,
+              "le26": 0.38,
+              "le52": 0.513
+            },
+            "gap_recovered_pct": -1.0
+          },
+          "lru2": {
+            "decode_mb_tok": 740.4,
+            "decode_hit_rate": 0.1224,
+            "decode_reloads": 22711,
+            "n_evictions": 22956,
+            "regret": {
+              "n": 19131,
+              "p50": 30,
+              "le8": 0.223,
+              "le26": 0.48,
+              "le52": 0.599
+            },
+            "gap_recovered_pct": -60.3
+          },
+          "lirs": {
+            "decode_mb_tok": 708.3,
+            "decode_hit_rate": 0.1606,
+            "decode_reloads": 21701,
+            "n_evictions": 21847,
+            "regret": {
+              "n": 18004,
+              "p50": 38,
+              "le8": 0.211,
+              "le26": 0.434,
+              "le52": 0.562
+            },
+            "gap_recovered_pct": -43.8
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 662.1,
+            "decode_hit_rate": 0.2173,
+            "decode_reloads": 20204,
+            "n_evictions": 20046,
+            "regret": {
+              "n": 16221,
+              "p50": 45,
+              "le8": 0.21,
+              "le26": 0.393,
+              "le52": 0.527
+            },
+            "gap_recovered_pct": -20.0
+          },
+          "lru_f1": {
+            "decode_mb_tok": 619.6,
+            "decode_hit_rate": 0.2672,
+            "decode_reloads": 18884,
+            "n_evictions": 19129,
+            "regret": {
+              "n": 15304,
+              "p50": 55,
+              "le8": 0.191,
+              "le26": 0.358,
+              "le52": 0.487
+            },
+            "gap_recovered_pct": 1.8
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 613.3,
+            "decode_hit_rate": 0.2747,
+            "decode_reloads": 18687,
+            "n_evictions": 18932,
+            "regret": {
+              "n": 15107,
+              "p50": 56,
+              "le8": 0.178,
+              "le26": 0.355,
+              "le52": 0.483
+            },
+            "gap_recovered_pct": 5.1
+          },
+          "lru_admit": {
+            "decode_mb_tok": 621.0,
+            "decode_hit_rate": 0.2655,
+            "decode_reloads": 18929,
+            "n_evictions": 18684,
+            "regret": {
+              "n": 15069,
+              "p50": 55,
+              "le8": 0.195,
+              "le26": 0.359,
+              "le52": 0.489
+            },
+            "gap_recovered_pct": 1.1
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 617.1,
+            "decode_hit_rate": 0.2701,
+            "decode_reloads": 18808,
+            "n_evictions": 14980,
+            "regret": {
+              "n": 12131,
+              "p50": 53,
+              "le8": 0.186,
+              "le26": 0.359,
+              "le52": 0.499
+            },
+            "gap_recovered_pct": 3.1
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 623.1
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-2": {
+        "cap_slots_min": 19,
+        "cap_slots_max": 20,
+        "obs_decode_mb_tok": 486.4,
+        "opt": {
+          "decode_mb_tok": 317.0,
+          "decode_hit_rate": 0.6258,
+          "decode_reloads": 9413,
+          "n_evictions": 10199,
+          "regret": {
+            "n": 6337,
+            "p50": 153,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.024
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 359.7,
+          "decode_hit_rate": 0.5751,
+          "decode_reloads": 10751,
+          "n_evictions": 7239,
+          "regret": {
+            "n": 4502,
+            "p50": 144,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.022
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 486.4,
+            "decode_hit_rate": 0.4255,
+            "decode_reloads": 14703,
+            "n_evictions": 15514,
+            "regret": {
+              "n": 11652,
+              "p50": 76,
+              "le8": 0.091,
+              "le26": 0.236,
+              "le52": 0.371
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 498.2,
+            "decode_hit_rate": 0.4114,
+            "decode_reloads": 15075,
+            "n_evictions": 15884,
+            "regret": {
+              "n": 12022,
+              "p50": 73,
+              "le8": 0.104,
+              "le26": 0.256,
+              "le52": 0.391
+            },
+            "gap_recovered_pct": -7.0
+          },
+          "twoq": {
+            "decode_mb_tok": 503.1,
+            "decode_hit_rate": 0.4058,
+            "decode_reloads": 15223,
+            "n_evictions": 14679,
+            "regret": {
+              "n": 11088,
+              "p50": 70,
+              "le8": 0.146,
+              "le26": 0.301,
+              "le52": 0.44
+            },
+            "gap_recovered_pct": -9.9
+          },
+          "slru": {
+            "decode_mb_tok": 481.9,
+            "decode_hit_rate": 0.4309,
+            "decode_reloads": 14560,
+            "n_evictions": 15399,
+            "regret": {
+              "n": 11537,
+              "p50": 75,
+              "le8": 0.109,
+              "le26": 0.255,
+              "le52": 0.396
+            },
+            "gap_recovered_pct": 2.6
+          },
+          "slru_t25": {
+            "decode_mb_tok": 477.3,
+            "decode_hit_rate": 0.4362,
+            "decode_reloads": 14421,
+            "n_evictions": 15247,
+            "regret": {
+              "n": 11385,
+              "p50": 77,
+              "le8": 0.086,
+              "le26": 0.228,
+              "le52": 0.37
+            },
+            "gap_recovered_pct": 5.4
+          },
+          "slru_t75": {
+            "decode_mb_tok": 526.4,
+            "decode_hit_rate": 0.3786,
+            "decode_reloads": 15941,
+            "n_evictions": 16790,
+            "regret": {
+              "n": 12928,
+              "p50": 65,
+              "le8": 0.178,
+              "le26": 0.335,
+              "le52": 0.458
+            },
+            "gap_recovered_pct": -23.6
+          },
+          "lfu_da": {
+            "decode_mb_tok": 495.7,
+            "decode_hit_rate": 0.4142,
+            "decode_reloads": 15001,
+            "n_evictions": 15812,
+            "regret": {
+              "n": 11950,
+              "p50": 69,
+              "le8": 0.137,
+              "le26": 0.335,
+              "le52": 0.453
+            },
+            "gap_recovered_pct": -5.5
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 500.8,
+            "decode_hit_rate": 0.4086,
+            "decode_reloads": 15150,
+            "n_evictions": 15961,
+            "regret": {
+              "n": 12099,
+              "p50": 68,
+              "le8": 0.126,
+              "le26": 0.301,
+              "le52": 0.436
+            },
+            "gap_recovered_pct": -8.5
+          },
+          "lru2": {
+            "decode_mb_tok": 643.8,
+            "decode_hit_rate": 0.2377,
+            "decode_reloads": 19665,
+            "n_evictions": 20477,
+            "regret": {
+              "n": 16615,
+              "p50": 38,
+              "le8": 0.2,
+              "le26": 0.443,
+              "le52": 0.559
+            },
+            "gap_recovered_pct": -92.9
+          },
+          "lirs": {
+            "decode_mb_tok": 650.6,
+            "decode_hit_rate": 0.2285,
+            "decode_reloads": 19906,
+            "n_evictions": 20682,
+            "regret": {
+              "n": 16782,
+              "p50": 39,
+              "le8": 0.203,
+              "le26": 0.429,
+              "le52": 0.558
+            },
+            "gap_recovered_pct": -96.9
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 557.0,
+            "decode_hit_rate": 0.3419,
+            "decode_reloads": 16912,
+            "n_evictions": 16639,
+            "regret": {
+              "n": 12777,
+              "p50": 59,
+              "le8": 0.164,
+              "le26": 0.33,
+              "le52": 0.477
+            },
+            "gap_recovered_pct": -41.7
+          },
+          "lru_f1": {
+            "decode_mb_tok": 485.1,
+            "decode_hit_rate": 0.4271,
+            "decode_reloads": 14662,
+            "n_evictions": 15474,
+            "regret": {
+              "n": 11612,
+              "p50": 76,
+              "le8": 0.097,
+              "le26": 0.238,
+              "le52": 0.376
+            },
+            "gap_recovered_pct": 0.8
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 490.7,
+            "decode_hit_rate": 0.4204,
+            "decode_reloads": 14838,
+            "n_evictions": 15650,
+            "regret": {
+              "n": 11788,
+              "p50": 74,
+              "le8": 0.1,
+              "le26": 0.258,
+              "le52": 0.393
+            },
+            "gap_recovered_pct": -2.5
+          },
+          "lru_admit": {
+            "decode_mb_tok": 486.6,
+            "decode_hit_rate": 0.4252,
+            "decode_reloads": 14710,
+            "n_evictions": 14365,
+            "regret": {
+              "n": 10964,
+              "p50": 74,
+              "le8": 0.089,
+              "le26": 0.237,
+              "le52": 0.38
+            },
+            "gap_recovered_pct": -0.1
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 498.2,
+            "decode_hit_rate": 0.4116,
+            "decode_reloads": 15070,
+            "n_evictions": 11558,
+            "regret": {
+              "n": 8821,
+              "p50": 70,
+              "le8": 0.09,
+              "le26": 0.243,
+              "le52": 0.398
+            },
+            "gap_recovered_pct": -6.9
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 486.4
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-4": {
+        "cap_slots_min": 38,
+        "cap_slots_max": 39,
+        "obs_decode_mb_tok": 370.1,
+        "opt": {
+          "decode_mb_tok": 203.5,
+          "decode_hit_rate": 0.7599,
+          "decode_reloads": 5870,
+          "n_evictions": 6484,
+          "regret": {
+            "n": 3065,
+            "p50": 261,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 261.3,
+          "decode_hit_rate": 0.6914,
+          "decode_reloads": 7680,
+          "n_evictions": 4021,
+          "regret": {
+            "n": 1721,
+            "p50": 258,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 370.1,
+            "decode_hit_rate": 0.5633,
+            "decode_reloads": 11064,
+            "n_evictions": 11687,
+            "regret": {
+              "n": 8268,
+              "p50": 72,
+              "le8": 0.059,
+              "le26": 0.204,
+              "le52": 0.387
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 380.7,
+            "decode_hit_rate": 0.5506,
+            "decode_reloads": 11398,
+            "n_evictions": 12022,
+            "regret": {
+              "n": 8603,
+              "p50": 69,
+              "le8": 0.06,
+              "le26": 0.201,
+              "le52": 0.405
+            },
+            "gap_recovered_pct": -6.4
+          },
+          "twoq": {
+            "decode_mb_tok": 357.5,
+            "decode_hit_rate": 0.578,
+            "decode_reloads": 10675,
+            "n_evictions": 9312,
+            "regret": {
+              "n": 6439,
+              "p50": 92,
+              "le8": 0.077,
+              "le26": 0.207,
+              "le52": 0.341
+            },
+            "gap_recovered_pct": 7.6
+          },
+          "slru": {
+            "decode_mb_tok": 344.1,
+            "decode_hit_rate": 0.5939,
+            "decode_reloads": 10255,
+            "n_evictions": 10935,
+            "regret": {
+              "n": 7516,
+              "p50": 90,
+              "le8": 0.067,
+              "le26": 0.188,
+              "le52": 0.325
+            },
+            "gap_recovered_pct": 15.6
+          },
+          "slru_t25": {
+            "decode_mb_tok": 359.2,
+            "decode_hit_rate": 0.576,
+            "decode_reloads": 10728,
+            "n_evictions": 11365,
+            "regret": {
+              "n": 7946,
+              "p50": 80,
+              "le8": 0.067,
+              "le26": 0.198,
+              "le52": 0.365
+            },
+            "gap_recovered_pct": 6.5
+          },
+          "slru_t75": {
+            "decode_mb_tok": 350.3,
+            "decode_hit_rate": 0.5867,
+            "decode_reloads": 10445,
+            "n_evictions": 11184,
+            "regret": {
+              "n": 7765,
+              "p50": 93,
+              "le8": 0.085,
+              "le26": 0.211,
+              "le52": 0.329
+            },
+            "gap_recovered_pct": 11.9
+          },
+          "lfu_da": {
+            "decode_mb_tok": 354.0,
+            "decode_hit_rate": 0.582,
+            "decode_reloads": 10570,
+            "n_evictions": 11188,
+            "regret": {
+              "n": 7769,
+              "p50": 90,
+              "le8": 0.112,
+              "le26": 0.269,
+              "le52": 0.38
+            },
+            "gap_recovered_pct": 9.7
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 349.3,
+            "decode_hit_rate": 0.5876,
+            "decode_reloads": 10420,
+            "n_evictions": 11038,
+            "regret": {
+              "n": 7619,
+              "p50": 87,
+              "le8": 0.09,
+              "le26": 0.232,
+              "le52": 0.361
+            },
+            "gap_recovered_pct": 12.5
+          },
+          "lru2": {
+            "decode_mb_tok": 497.2,
+            "decode_hit_rate": 0.4124,
+            "decode_reloads": 15049,
+            "n_evictions": 15672,
+            "regret": {
+              "n": 12253,
+              "p50": 46,
+              "le8": 0.174,
+              "le26": 0.399,
+              "le52": 0.517
+            },
+            "gap_recovered_pct": -76.2
+          },
+          "lirs": {
+            "decode_mb_tok": 427.0,
+            "decode_hit_rate": 0.495,
+            "decode_reloads": 12866,
+            "n_evictions": 13195,
+            "regret": {
+              "n": 9776,
+              "p50": 69,
+              "le8": 0.18,
+              "le26": 0.348,
+              "le52": 0.458
+            },
+            "gap_recovered_pct": -34.1
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 426.6,
+            "decode_hit_rate": 0.4961,
+            "decode_reloads": 12839,
+            "n_evictions": 11136,
+            "regret": {
+              "n": 7717,
+              "p50": 93,
+              "le8": 0.094,
+              "le26": 0.232,
+              "le52": 0.348
+            },
+            "gap_recovered_pct": -33.9
+          },
+          "lru_f1": {
+            "decode_mb_tok": 364.8,
+            "decode_hit_rate": 0.5695,
+            "decode_reloads": 10898,
+            "n_evictions": 11521,
+            "regret": {
+              "n": 8102,
+              "p50": 74,
+              "le8": 0.062,
+              "le26": 0.202,
+              "le52": 0.38
+            },
+            "gap_recovered_pct": 3.2
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 372.3,
+            "decode_hit_rate": 0.5607,
+            "decode_reloads": 11132,
+            "n_evictions": 11755,
+            "regret": {
+              "n": 8336,
+              "p50": 69,
+              "le8": 0.087,
+              "le26": 0.24,
+              "le52": 0.411
+            },
+            "gap_recovered_pct": -1.3
+          },
+          "lru_admit": {
+            "decode_mb_tok": 371.1,
+            "decode_hit_rate": 0.5622,
+            "decode_reloads": 11091,
+            "n_evictions": 10643,
+            "regret": {
+              "n": 7676,
+              "p50": 69,
+              "le8": 0.062,
+              "le26": 0.214,
+              "le52": 0.402
+            },
+            "gap_recovered_pct": -0.6
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 389.4,
+            "decode_hit_rate": 0.5403,
+            "decode_reloads": 11671,
+            "n_evictions": 8012,
+            "regret": {
+              "n": 5712,
+              "p50": 60,
+              "le8": 0.077,
+              "le26": 0.236,
+              "le52": 0.448
+            },
+            "gap_recovered_pct": -11.6
+          }
+        },
+        "warm": {
+          "lru": {
+            "decode_mb_tok": 370.2,
+            "decode_hit_rate": 0.5632,
+            "decode_reloads": 11066,
+            "n_evictions": 12670,
+            "gap_recovered_pct": -0.0
+          },
+          "clock": {
+            "decode_mb_tok": 380.6,
+            "decode_hit_rate": 0.5508,
+            "decode_reloads": 11392,
+            "n_evictions": 12995,
+            "gap_recovered_pct": -6.3
+          },
+          "twoq": {
+            "decode_mb_tok": 358.4,
+            "decode_hit_rate": 0.5769,
+            "decode_reloads": 10704,
+            "n_evictions": 10313,
+            "gap_recovered_pct": 7.0
+          },
+          "slru": {
+            "decode_mb_tok": 344.7,
+            "decode_hit_rate": 0.5932,
+            "decode_reloads": 10274,
+            "n_evictions": 11942,
+            "gap_recovered_pct": 15.3
+          },
+          "slru_t25": {
+            "decode_mb_tok": 359.2,
+            "decode_hit_rate": 0.5759,
+            "decode_reloads": 10729,
+            "n_evictions": 12346,
+            "gap_recovered_pct": 6.5
+          },
+          "slru_t75": {
+            "decode_mb_tok": 351.1,
+            "decode_hit_rate": 0.5857,
+            "decode_reloads": 10471,
+            "n_evictions": 12186,
+            "gap_recovered_pct": 11.4
+          },
+          "lfu_da": {
+            "decode_mb_tok": 354.0,
+            "decode_hit_rate": 0.582,
+            "decode_reloads": 10569,
+            "n_evictions": 12079,
+            "gap_recovered_pct": 9.7
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 349.3,
+            "decode_hit_rate": 0.5877,
+            "decode_reloads": 10419,
+            "n_evictions": 11929,
+            "gap_recovered_pct": 12.5
+          },
+          "lru2": {
+            "decode_mb_tok": 489.3,
+            "decode_hit_rate": 0.4218,
+            "decode_reloads": 14801,
+            "n_evictions": 16396,
+            "gap_recovered_pct": -71.5
+          },
+          "lirs": {
+            "decode_mb_tok": 437.8,
+            "decode_hit_rate": 0.4831,
+            "decode_reloads": 13182,
+            "n_evictions": 14482,
+            "gap_recovered_pct": -40.6
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 426.7,
+            "decode_hit_rate": 0.4959,
+            "decode_reloads": 12842,
+            "n_evictions": 12126,
+            "gap_recovered_pct": -34.0
+          },
+          "lru_f1": {
+            "decode_mb_tok": 366.5,
+            "decode_hit_rate": 0.5676,
+            "decode_reloads": 10950,
+            "n_evictions": 12545,
+            "gap_recovered_pct": 2.2
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 376.9,
+            "decode_hit_rate": 0.5552,
+            "decode_reloads": 11277,
+            "n_evictions": 12872,
+            "gap_recovered_pct": -4.1
+          },
+          "lru_admit": {
+            "decode_mb_tok": 370.4,
+            "decode_hit_rate": 0.563,
+            "decode_reloads": 11071,
+            "n_evictions": 11552,
+            "gap_recovered_pct": -0.2
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 387.7,
+            "decode_hit_rate": 0.5424,
+            "decode_reloads": 11614,
+            "n_evictions": 9390,
+            "gap_recovered_pct": -10.6
+          },
+          "opt": {
+            "decode_mb_tok": 198.5
+          }
+        },
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 370.1
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-6": {
+        "cap_slots_min": 57,
+        "cap_slots_max": 58,
+        "obs_decode_mb_tok": 270.3,
+        "opt": {
+          "decode_mb_tok": 151.0,
+          "decode_hit_rate": 0.8218,
+          "decode_reloads": 4234,
+          "n_evictions": 4347,
+          "regret": {
+            "n": 1429,
+            "p50": 397,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 222.8,
+          "decode_hit_rate": 0.7367,
+          "decode_reloads": 6483,
+          "n_evictions": 2323,
+          "regret": {
+            "n": 524,
+            "p50": 433,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 270.3,
+            "decode_hit_rate": 0.6813,
+            "decode_reloads": 7947,
+            "n_evictions": 8060,
+            "regret": {
+              "n": 5142,
+              "p50": 95,
+              "le8": 0.085,
+              "le26": 0.223,
+              "le52": 0.349
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 279.1,
+            "decode_hit_rate": 0.6708,
+            "decode_reloads": 8223,
+            "n_evictions": 8336,
+            "regret": {
+              "n": 5418,
+              "p50": 90,
+              "le8": 0.085,
+              "le26": 0.219,
+              "le52": 0.358
+            },
+            "gap_recovered_pct": -7.3
+          },
+          "twoq": {
+            "decode_mb_tok": 272.7,
+            "decode_hit_rate": 0.6782,
+            "decode_reloads": 8027,
+            "n_evictions": 6340,
+            "regret": {
+              "n": 4022,
+              "p50": 99,
+              "le8": 0.082,
+              "le26": 0.201,
+              "le52": 0.327
+            },
+            "gap_recovered_pct": -2.0
+          },
+          "slru": {
+            "decode_mb_tok": 258.0,
+            "decode_hit_rate": 0.6955,
+            "decode_reloads": 7571,
+            "n_evictions": 7705,
+            "regret": {
+              "n": 4787,
+              "p50": 100,
+              "le8": 0.058,
+              "le26": 0.181,
+              "le52": 0.315
+            },
+            "gap_recovered_pct": 10.3
+          },
+          "slru_t25": {
+            "decode_mb_tok": 264.0,
+            "decode_hit_rate": 0.6886,
+            "decode_reloads": 7753,
+            "n_evictions": 7866,
+            "regret": {
+              "n": 4948,
+              "p50": 98,
+              "le8": 0.086,
+              "le26": 0.209,
+              "le52": 0.326
+            },
+            "gap_recovered_pct": 5.2
+          },
+          "slru_t75": {
+            "decode_mb_tok": 268.1,
+            "decode_hit_rate": 0.6836,
+            "decode_reloads": 7886,
+            "n_evictions": 8099,
+            "regret": {
+              "n": 5181,
+              "p50": 105,
+              "le8": 0.061,
+              "le26": 0.172,
+              "le52": 0.29
+            },
+            "gap_recovered_pct": 1.8
+          },
+          "lfu_da": {
+            "decode_mb_tok": 265.5,
+            "decode_hit_rate": 0.6867,
+            "decode_reloads": 7803,
+            "n_evictions": 7916,
+            "regret": {
+              "n": 4998,
+              "p50": 107,
+              "le8": 0.096,
+              "le26": 0.231,
+              "le52": 0.34
+            },
+            "gap_recovered_pct": 4.1
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 258.4,
+            "decode_hit_rate": 0.6951,
+            "decode_reloads": 7580,
+            "n_evictions": 7693,
+            "regret": {
+              "n": 4775,
+              "p50": 108,
+              "le8": 0.078,
+              "le26": 0.206,
+              "le52": 0.32
+            },
+            "gap_recovered_pct": 10.0
+          },
+          "lru2": {
+            "decode_mb_tok": 337.0,
+            "decode_hit_rate": 0.6024,
+            "decode_reloads": 10030,
+            "n_evictions": 10143,
+            "regret": {
+              "n": 7225,
+              "p50": 77,
+              "le8": 0.14,
+              "le26": 0.307,
+              "le52": 0.426
+            },
+            "gap_recovered_pct": -56.0
+          },
+          "lirs": {
+            "decode_mb_tok": 333.1,
+            "decode_hit_rate": 0.6057,
+            "decode_reloads": 9943,
+            "n_evictions": 9610,
+            "regret": {
+              "n": 6692,
+              "p50": 79,
+              "le8": 0.162,
+              "le26": 0.31,
+              "le52": 0.421
+            },
+            "gap_recovered_pct": -52.7
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 344.4,
+            "decode_hit_rate": 0.5933,
+            "decode_reloads": 10271,
+            "n_evictions": 7973,
+            "regret": {
+              "n": 5055,
+              "p50": 102,
+              "le8": 0.067,
+              "le26": 0.192,
+              "le52": 0.317
+            },
+            "gap_recovered_pct": -62.1
+          },
+          "lru_f1": {
+            "decode_mb_tok": 263.2,
+            "decode_hit_rate": 0.6895,
+            "decode_reloads": 7730,
+            "n_evictions": 7843,
+            "regret": {
+              "n": 4925,
+              "p50": 95,
+              "le8": 0.079,
+              "le26": 0.21,
+              "le52": 0.34
+            },
+            "gap_recovered_pct": 5.9
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 263.3,
+            "decode_hit_rate": 0.6894,
+            "decode_reloads": 7733,
+            "n_evictions": 7846,
+            "regret": {
+              "n": 4928,
+              "p50": 95,
+              "le8": 0.103,
+              "le26": 0.242,
+              "le52": 0.352
+            },
+            "gap_recovered_pct": 5.9
+          },
+          "lru_admit": {
+            "decode_mb_tok": 270.1,
+            "decode_hit_rate": 0.6814,
+            "decode_reloads": 7943,
+            "n_evictions": 6994,
+            "regret": {
+              "n": 4528,
+              "p50": 91,
+              "le8": 0.089,
+              "le26": 0.225,
+              "le52": 0.354
+            },
+            "gap_recovered_pct": 0.2
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 294.5,
+            "decode_hit_rate": 0.6523,
+            "decode_reloads": 8712,
+            "n_evictions": 4552,
+            "regret": {
+              "n": 2753,
+              "p50": 77,
+              "le8": 0.113,
+              "le26": 0.269,
+              "le52": 0.401
+            },
+            "gap_recovered_pct": -20.3
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 270.3
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-8": {
+        "cap_slots_min": 77,
+        "cap_slots_max": 78,
+        "obs_decode_mb_tok": 201.2,
+        "opt": {
+          "decode_mb_tok": 122.5,
+          "decode_hit_rate": 0.8554,
+          "decode_reloads": 3346,
+          "n_evictions": 2958,
+          "regret": {
+            "n": 541,
+            "p50": 477,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 209.0,
+          "decode_hit_rate": 0.7529,
+          "decode_reloads": 6055,
+          "n_evictions": 1394,
+          "regret": {
+            "n": 96,
+            "p50": 416,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 201.2,
+            "decode_hit_rate": 0.7625,
+            "decode_reloads": 5802,
+            "n_evictions": 5414,
+            "regret": {
+              "n": 2997,
+              "p50": 108,
+              "le8": 0.058,
+              "le26": 0.168,
+              "le52": 0.28
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 208.2,
+            "decode_hit_rate": 0.7544,
+            "decode_reloads": 6016,
+            "n_evictions": 5628,
+            "regret": {
+              "n": 3211,
+              "p50": 103,
+              "le8": 0.068,
+              "le26": 0.173,
+              "le52": 0.301
+            },
+            "gap_recovered_pct": -8.9
+          },
+          "twoq": {
+            "decode_mb_tok": 211.5,
+            "decode_hit_rate": 0.7503,
+            "decode_reloads": 6124,
+            "n_evictions": 4196,
+            "regret": {
+              "n": 2454,
+              "p50": 128,
+              "le8": 0.059,
+              "le26": 0.178,
+              "le52": 0.291
+            },
+            "gap_recovered_pct": -13.1
+          },
+          "slru": {
+            "decode_mb_tok": 195.4,
+            "decode_hit_rate": 0.7695,
+            "decode_reloads": 5617,
+            "n_evictions": 5231,
+            "regret": {
+              "n": 2814,
+              "p50": 125,
+              "le8": 0.055,
+              "le26": 0.152,
+              "le52": 0.263
+            },
+            "gap_recovered_pct": 7.4
+          },
+          "slru_t25": {
+            "decode_mb_tok": 197.6,
+            "decode_hit_rate": 0.7667,
+            "decode_reloads": 5691,
+            "n_evictions": 5303,
+            "regret": {
+              "n": 2886,
+              "p50": 113,
+              "le8": 0.049,
+              "le26": 0.15,
+              "le52": 0.27
+            },
+            "gap_recovered_pct": 4.5
+          },
+          "slru_t75": {
+            "decode_mb_tok": 218.2,
+            "decode_hit_rate": 0.7426,
+            "decode_reloads": 6327,
+            "n_evictions": 6005,
+            "regret": {
+              "n": 3588,
+              "p50": 111,
+              "le8": 0.059,
+              "le26": 0.166,
+              "le52": 0.307
+            },
+            "gap_recovered_pct": -21.6
+          },
+          "lfu_da": {
+            "decode_mb_tok": 201.7,
+            "decode_hit_rate": 0.7619,
+            "decode_reloads": 5816,
+            "n_evictions": 5428,
+            "regret": {
+              "n": 3011,
+              "p50": 113,
+              "le8": 0.076,
+              "le26": 0.19,
+              "le52": 0.286
+            },
+            "gap_recovered_pct": -0.6
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 200.6,
+            "decode_hit_rate": 0.7632,
+            "decode_reloads": 5781,
+            "n_evictions": 5393,
+            "regret": {
+              "n": 2976,
+              "p50": 117,
+              "le8": 0.062,
+              "le26": 0.165,
+              "le52": 0.271
+            },
+            "gap_recovered_pct": 0.7
+          },
+          "lru2": {
+            "decode_mb_tok": 240.5,
+            "decode_hit_rate": 0.7163,
+            "decode_reloads": 7022,
+            "n_evictions": 6634,
+            "regret": {
+              "n": 4217,
+              "p50": 93,
+              "le8": 0.1,
+              "le26": 0.24,
+              "le52": 0.352
+            },
+            "gap_recovered_pct": -50.0
+          },
+          "lirs": {
+            "decode_mb_tok": 278.6,
+            "decode_hit_rate": 0.6702,
+            "decode_reloads": 8239,
+            "n_evictions": 7238,
+            "regret": {
+              "n": 4821,
+              "p50": 89,
+              "le8": 0.132,
+              "le26": 0.278,
+              "le52": 0.381
+            },
+            "gap_recovered_pct": -98.4
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 283.2,
+            "decode_hit_rate": 0.6654,
+            "decode_reloads": 8367,
+            "n_evictions": 5836,
+            "regret": {
+              "n": 3419,
+              "p50": 118,
+              "le8": 0.065,
+              "le26": 0.168,
+              "le52": 0.3
+            },
+            "gap_recovered_pct": -104.3
+          },
+          "lru_f1": {
+            "decode_mb_tok": 196.2,
+            "decode_hit_rate": 0.7684,
+            "decode_reloads": 5645,
+            "n_evictions": 5257,
+            "regret": {
+              "n": 2840,
+              "p50": 114,
+              "le8": 0.05,
+              "le26": 0.167,
+              "le52": 0.276
+            },
+            "gap_recovered_pct": 6.3
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 197.0,
+            "decode_hit_rate": 0.7675,
+            "decode_reloads": 5669,
+            "n_evictions": 5281,
+            "regret": {
+              "n": 2864,
+              "p50": 119,
+              "le8": 0.078,
+              "le26": 0.184,
+              "le52": 0.285
+            },
+            "gap_recovered_pct": 5.3
+          },
+          "lru_admit": {
+            "decode_mb_tok": 205.1,
+            "decode_hit_rate": 0.7579,
+            "decode_reloads": 5921,
+            "n_evictions": 4471,
+            "regret": {
+              "n": 2506,
+              "p50": 101,
+              "le8": 0.06,
+              "le26": 0.173,
+              "le52": 0.301
+            },
+            "gap_recovered_pct": -5.0
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 242.2,
+            "decode_hit_rate": 0.7139,
+            "decode_reloads": 7084,
+            "n_evictions": 2423,
+            "regret": {
+              "n": 1125,
+              "p50": 95,
+              "le8": 0.098,
+              "le26": 0.226,
+              "le52": 0.358
+            },
+            "gap_recovered_pct": -52.1
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 201.2
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      }
+    }
+  },
+  "ref": {
+    "trace_steps": 67,
+    "n_decode_tokens": 64,
+    "reuse_distance": {
+      "n": 12889,
+      "p50": 2,
+      "p90": 24,
+      "p99": 49,
+      "max": 64,
+      "frac_le1": 0.404,
+      "frac_le8": 0.696
+    },
+    "budgets": {
+      "cap-1": {
+        "cap_slots_min": 9,
+        "cap_slots_max": 10,
+        "obs_decode_mb_tok": 585.5,
+        "opt": {
+          "decode_mb_tok": 405.8,
+          "decode_hit_rate": 0.5167,
+          "decode_reloads": 5257,
+          "n_evictions": 6105,
+          "regret": {
+            "n": 3251,
+            "p50": 108,
+            "le8": 0.0,
+            "le26": 0.03,
+            "le52": 0.186
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 451.6,
+          "decode_hit_rate": 0.4623,
+          "decode_reloads": 5970,
+          "n_evictions": 3716,
+          "regret": {
+            "n": 1929,
+            "p50": 104,
+            "le8": 0.0,
+            "le26": 0.032,
+            "le52": 0.195
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 585.5,
+            "decode_hit_rate": 0.3021,
+            "decode_reloads": 8069,
+            "n_evictions": 8918,
+            "regret": {
+              "n": 6064,
+              "p50": 40,
+              "le8": 0.217,
+              "le26": 0.42,
+              "le52": 0.548
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 618.8,
+            "decode_hit_rate": 0.262,
+            "decode_reloads": 8595,
+            "n_evictions": 9444,
+            "regret": {
+              "n": 6590,
+              "p50": 33,
+              "le8": 0.272,
+              "le26": 0.466,
+              "le52": 0.584
+            },
+            "gap_recovered_pct": -18.5
+          },
+          "twoq": {
+            "decode_mb_tok": 601.0,
+            "decode_hit_rate": 0.2837,
+            "decode_reloads": 8310,
+            "n_evictions": 9003,
+            "regret": {
+              "n": 6185,
+              "p50": 33,
+              "le8": 0.241,
+              "le26": 0.462,
+              "le52": 0.584
+            },
+            "gap_recovered_pct": -8.6
+          },
+          "slru": {
+            "decode_mb_tok": 627.7,
+            "decode_hit_rate": 0.2518,
+            "decode_reloads": 8728,
+            "n_evictions": 9577,
+            "regret": {
+              "n": 6723,
+              "p50": 29,
+              "le8": 0.287,
+              "le26": 0.486,
+              "le52": 0.6
+            },
+            "gap_recovered_pct": -23.5
+          },
+          "slru_t25": {
+            "decode_mb_tok": 576.2,
+            "decode_hit_rate": 0.3135,
+            "decode_reloads": 7920,
+            "n_evictions": 8769,
+            "regret": {
+              "n": 5915,
+              "p50": 42,
+              "le8": 0.206,
+              "le26": 0.408,
+              "le52": 0.54
+            },
+            "gap_recovered_pct": 5.1
+          },
+          "slru_t75": {
+            "decode_mb_tok": 776.8,
+            "decode_hit_rate": 0.0728,
+            "decode_reloads": 11074,
+            "n_evictions": 12027,
+            "regret": {
+              "n": 9070,
+              "p50": 17,
+              "le8": 0.351,
+              "le26": 0.585,
+              "le52": 0.684
+            },
+            "gap_recovered_pct": -106.5
+          },
+          "lfu_da": {
+            "decode_mb_tok": 556.1,
+            "decode_hit_rate": 0.3374,
+            "decode_reloads": 7607,
+            "n_evictions": 8456,
+            "regret": {
+              "n": 5602,
+              "p50": 40,
+              "le8": 0.165,
+              "le26": 0.425,
+              "le52": 0.555
+            },
+            "gap_recovered_pct": 16.3
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 569.8,
+            "decode_hit_rate": 0.321,
+            "decode_reloads": 7821,
+            "n_evictions": 8670,
+            "regret": {
+              "n": 5816,
+              "p50": 40,
+              "le8": 0.182,
+              "le26": 0.427,
+              "le52": 0.556
+            },
+            "gap_recovered_pct": 8.7
+          },
+          "lru2": {
+            "decode_mb_tok": 666.5,
+            "decode_hit_rate": 0.2061,
+            "decode_reloads": 9327,
+            "n_evictions": 10176,
+            "regret": {
+              "n": 7322,
+              "p50": 23,
+              "le8": 0.293,
+              "le26": 0.537,
+              "le52": 0.647
+            },
+            "gap_recovered_pct": -45.1
+          },
+          "lirs": {
+            "decode_mb_tok": 747.0,
+            "decode_hit_rate": 0.109,
+            "decode_reloads": 10600,
+            "n_evictions": 11502,
+            "regret": {
+              "n": 8553,
+              "p50": 20,
+              "le8": 0.299,
+              "le26": 0.563,
+              "le52": 0.665
+            },
+            "gap_recovered_pct": -89.9
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 655.1,
+            "decode_hit_rate": 0.2194,
+            "decode_reloads": 9153,
+            "n_evictions": 9826,
+            "regret": {
+              "n": 6964,
+              "p50": 28,
+              "le8": 0.269,
+              "le26": 0.492,
+              "le52": 0.607
+            },
+            "gap_recovered_pct": -38.8
+          },
+          "lru_f1": {
+            "decode_mb_tok": 579.4,
+            "decode_hit_rate": 0.3095,
+            "decode_reloads": 7972,
+            "n_evictions": 8821,
+            "regret": {
+              "n": 5967,
+              "p50": 41,
+              "le8": 0.217,
+              "le26": 0.414,
+              "le52": 0.547
+            },
+            "gap_recovered_pct": 3.3
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 568.8,
+            "decode_hit_rate": 0.3223,
+            "decode_reloads": 7804,
+            "n_evictions": 8653,
+            "regret": {
+              "n": 5799,
+              "p50": 41,
+              "le8": 0.19,
+              "le26": 0.401,
+              "le52": 0.545
+            },
+            "gap_recovered_pct": 9.3
+          },
+          "lru_admit": {
+            "decode_mb_tok": 575.0,
+            "decode_hit_rate": 0.3146,
+            "decode_reloads": 7905,
+            "n_evictions": 7657,
+            "regret": {
+              "n": 5339,
+              "p50": 40,
+              "le8": 0.206,
+              "le26": 0.414,
+              "le52": 0.552
+            },
+            "gap_recovered_pct": 5.8
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 576.8,
+            "decode_hit_rate": 0.3128,
+            "decode_reloads": 7929,
+            "n_evictions": 5675,
+            "regret": {
+              "n": 3888,
+              "p50": 36,
+              "le8": 0.203,
+              "le26": 0.422,
+              "le52": 0.593
+            },
+            "gap_recovered_pct": 4.9
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 585.5
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-2": {
+        "cap_slots_min": 19,
+        "cap_slots_max": 20,
+        "obs_decode_mb_tok": 454.1,
+        "opt": {
+          "decode_mb_tok": 302.6,
+          "decode_hit_rate": 0.6401,
+          "decode_reloads": 3640,
+          "n_evictions": 5002,
+          "regret": {
+            "n": 2052,
+            "p50": 146,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.006
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 369.8,
+          "decode_hit_rate": 0.5601,
+          "decode_reloads": 4689,
+          "n_evictions": 2656,
+          "regret": {
+            "n": 990,
+            "p50": 137,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.008
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 454.1,
+            "decode_hit_rate": 0.4596,
+            "decode_reloads": 6005,
+            "n_evictions": 7388,
+            "regret": {
+              "n": 4438,
+              "p50": 68,
+              "le8": 0.111,
+              "le26": 0.263,
+              "le52": 0.419
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 464.6,
+            "decode_hit_rate": 0.4471,
+            "decode_reloads": 6169,
+            "n_evictions": 7550,
+            "regret": {
+              "n": 4600,
+              "p50": 65,
+              "le8": 0.126,
+              "le26": 0.276,
+              "le52": 0.433
+            },
+            "gap_recovered_pct": -6.9
+          },
+          "twoq": {
+            "decode_mb_tok": 477.2,
+            "decode_hit_rate": 0.432,
+            "decode_reloads": 6367,
+            "n_evictions": 7140,
+            "regret": {
+              "n": 4375,
+              "p50": 56,
+              "le8": 0.169,
+              "le26": 0.36,
+              "le52": 0.487
+            },
+            "gap_recovered_pct": -15.3
+          },
+          "slru": {
+            "decode_mb_tok": 454.4,
+            "decode_hit_rate": 0.4593,
+            "decode_reloads": 6009,
+            "n_evictions": 7417,
+            "regret": {
+              "n": 4467,
+              "p50": 67,
+              "le8": 0.123,
+              "le26": 0.302,
+              "le52": 0.439
+            },
+            "gap_recovered_pct": -0.2
+          },
+          "slru_t25": {
+            "decode_mb_tok": 452.5,
+            "decode_hit_rate": 0.4615,
+            "decode_reloads": 5981,
+            "n_evictions": 7376,
+            "regret": {
+              "n": 4426,
+              "p50": 68,
+              "le8": 0.117,
+              "le26": 0.272,
+              "le52": 0.424
+            },
+            "gap_recovered_pct": 1.0
+          },
+          "slru_t75": {
+            "decode_mb_tok": 528.5,
+            "decode_hit_rate": 0.3715,
+            "decode_reloads": 7160,
+            "n_evictions": 8576,
+            "regret": {
+              "n": 5625,
+              "p50": 42,
+              "le8": 0.235,
+              "le26": 0.424,
+              "le52": 0.535
+            },
+            "gap_recovered_pct": -49.1
+          },
+          "lfu_da": {
+            "decode_mb_tok": 454.7,
+            "decode_hit_rate": 0.459,
+            "decode_reloads": 6013,
+            "n_evictions": 7396,
+            "regret": {
+              "n": 4446,
+              "p50": 56,
+              "le8": 0.137,
+              "le26": 0.36,
+              "le52": 0.486
+            },
+            "gap_recovered_pct": -0.4
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 456.9,
+            "decode_hit_rate": 0.4565,
+            "decode_reloads": 6046,
+            "n_evictions": 7429,
+            "regret": {
+              "n": 4479,
+              "p50": 59,
+              "le8": 0.136,
+              "le26": 0.344,
+              "le52": 0.474
+            },
+            "gap_recovered_pct": -1.8
+          },
+          "lru2": {
+            "decode_mb_tok": 532.8,
+            "decode_hit_rate": 0.3658,
+            "decode_reloads": 7235,
+            "n_evictions": 8618,
+            "regret": {
+              "n": 5668,
+              "p50": 36,
+              "le8": 0.213,
+              "le26": 0.449,
+              "le52": 0.569
+            },
+            "gap_recovered_pct": -51.9
+          },
+          "lirs": {
+            "decode_mb_tok": 717.5,
+            "decode_hit_rate": 0.1448,
+            "decode_reloads": 10130,
+            "n_evictions": 11715,
+            "regret": {
+              "n": 8565,
+              "p50": 22,
+              "le8": 0.289,
+              "le26": 0.547,
+              "le52": 0.653
+            },
+            "gap_recovered_pct": -173.9
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 541.6,
+            "decode_hit_rate": 0.3551,
+            "decode_reloads": 7375,
+            "n_evictions": 8238,
+            "regret": {
+              "n": 5288,
+              "p50": 46,
+              "le8": 0.207,
+              "le26": 0.395,
+              "le52": 0.524
+            },
+            "gap_recovered_pct": -57.7
+          },
+          "lru_f1": {
+            "decode_mb_tok": 448.4,
+            "decode_hit_rate": 0.4665,
+            "decode_reloads": 5915,
+            "n_evictions": 7298,
+            "regret": {
+              "n": 4348,
+              "p50": 71,
+              "le8": 0.107,
+              "le26": 0.274,
+              "le52": 0.42
+            },
+            "gap_recovered_pct": 3.7
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 454.2,
+            "decode_hit_rate": 0.4596,
+            "decode_reloads": 6005,
+            "n_evictions": 7388,
+            "regret": {
+              "n": 4438,
+              "p50": 66,
+              "le8": 0.121,
+              "le26": 0.296,
+              "le52": 0.438
+            },
+            "gap_recovered_pct": -0.1
+          },
+          "lru_admit": {
+            "decode_mb_tok": 453.5,
+            "decode_hit_rate": 0.4603,
+            "decode_reloads": 5996,
+            "n_evictions": 5601,
+            "regret": {
+              "n": 3508,
+              "p50": 63,
+              "le8": 0.107,
+              "le26": 0.261,
+              "le52": 0.436
+            },
+            "gap_recovered_pct": 0.4
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 470.4,
+            "decode_hit_rate": 0.4403,
+            "decode_reloads": 6258,
+            "n_evictions": 4225,
+            "regret": {
+              "n": 2559,
+              "p50": 59,
+              "le8": 0.116,
+              "le26": 0.292,
+              "le52": 0.463
+            },
+            "gap_recovered_pct": -10.8
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 454.1
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-4": {
+        "cap_slots_min": 38,
+        "cap_slots_max": 39,
+        "obs_decode_mb_tok": 345.1,
+        "opt": {
+          "decode_mb_tok": 202.9,
+          "decode_hit_rate": 0.7592,
+          "decode_reloads": 2079,
+          "n_evictions": 3326,
+          "regret": {
+            "n": 786,
+            "p50": 221,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 297.5,
+          "decode_hit_rate": 0.6464,
+          "decode_reloads": 3558,
+          "n_evictions": 1406,
+          "regret": {
+            "n": 178,
+            "p50": 219,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 345.1,
+            "decode_hit_rate": 0.5901,
+            "decode_reloads": 4295,
+            "n_evictions": 5554,
+            "regret": {
+              "n": 3014,
+              "p50": 66,
+              "le8": 0.074,
+              "le26": 0.218,
+              "le52": 0.416
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 357.3,
+            "decode_hit_rate": 0.5755,
+            "decode_reloads": 4486,
+            "n_evictions": 5745,
+            "regret": {
+              "n": 3205,
+              "p50": 62,
+              "le8": 0.08,
+              "le26": 0.231,
+              "le52": 0.435
+            },
+            "gap_recovered_pct": -8.6
+          },
+          "twoq": {
+            "decode_mb_tok": 340.6,
+            "decode_hit_rate": 0.5951,
+            "decode_reloads": 4230,
+            "n_evictions": 4755,
+            "regret": {
+              "n": 2583,
+              "p50": 77,
+              "le8": 0.092,
+              "le26": 0.242,
+              "le52": 0.379
+            },
+            "gap_recovered_pct": 3.2
+          },
+          "slru": {
+            "decode_mb_tok": 328.7,
+            "decode_hit_rate": 0.6097,
+            "decode_reloads": 4038,
+            "n_evictions": 5348,
+            "regret": {
+              "n": 2808,
+              "p50": 76,
+              "le8": 0.076,
+              "le26": 0.217,
+              "le52": 0.37
+            },
+            "gap_recovered_pct": 11.6
+          },
+          "slru_t25": {
+            "decode_mb_tok": 335.6,
+            "decode_hit_rate": 0.6013,
+            "decode_reloads": 4148,
+            "n_evictions": 5413,
+            "regret": {
+              "n": 2873,
+              "p50": 69,
+              "le8": 0.066,
+              "le26": 0.197,
+              "le52": 0.402
+            },
+            "gap_recovered_pct": 6.7
+          },
+          "slru_t75": {
+            "decode_mb_tok": 345.2,
+            "decode_hit_rate": 0.5897,
+            "decode_reloads": 4300,
+            "n_evictions": 5663,
+            "regret": {
+              "n": 3123,
+              "p50": 76,
+              "le8": 0.1,
+              "le26": 0.244,
+              "le52": 0.384
+            },
+            "gap_recovered_pct": -0.0
+          },
+          "lfu_da": {
+            "decode_mb_tok": 327.4,
+            "decode_hit_rate": 0.6114,
+            "decode_reloads": 4016,
+            "n_evictions": 5267,
+            "regret": {
+              "n": 2727,
+              "p50": 70,
+              "le8": 0.109,
+              "le26": 0.287,
+              "le52": 0.43
+            },
+            "gap_recovered_pct": 12.5
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 326.7,
+            "decode_hit_rate": 0.6122,
+            "decode_reloads": 4006,
+            "n_evictions": 5257,
+            "regret": {
+              "n": 2717,
+              "p50": 72,
+              "le8": 0.103,
+              "le26": 0.267,
+              "le52": 0.42
+            },
+            "gap_recovered_pct": 13.0
+          },
+          "lru2": {
+            "decode_mb_tok": 360.7,
+            "decode_hit_rate": 0.5718,
+            "decode_reloads": 4535,
+            "n_evictions": 5794,
+            "regret": {
+              "n": 3254,
+              "p50": 61,
+              "le8": 0.131,
+              "le26": 0.333,
+              "le52": 0.463
+            },
+            "gap_recovered_pct": -11.0
+          },
+          "lirs": {
+            "decode_mb_tok": 483.7,
+            "decode_hit_rate": 0.4242,
+            "decode_reloads": 6469,
+            "n_evictions": 7711,
+            "regret": {
+              "n": 5134,
+              "p50": 37,
+              "le8": 0.242,
+              "le26": 0.448,
+              "le52": 0.548
+            },
+            "gap_recovered_pct": -97.4
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 421.4,
+            "decode_hit_rate": 0.4988,
+            "decode_reloads": 5492,
+            "n_evictions": 5715,
+            "regret": {
+              "n": 3175,
+              "p50": 75,
+              "le8": 0.097,
+              "le26": 0.273,
+              "le52": 0.404
+            },
+            "gap_recovered_pct": -53.6
+          },
+          "lru_f1": {
+            "decode_mb_tok": 333.0,
+            "decode_hit_rate": 0.6045,
+            "decode_reloads": 4106,
+            "n_evictions": 5365,
+            "regret": {
+              "n": 2825,
+              "p50": 67,
+              "le8": 0.07,
+              "le26": 0.204,
+              "le52": 0.4
+            },
+            "gap_recovered_pct": 8.6
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 338.1,
+            "decode_hit_rate": 0.5984,
+            "decode_reloads": 4187,
+            "n_evictions": 5446,
+            "regret": {
+              "n": 2906,
+              "p50": 63,
+              "le8": 0.1,
+              "le26": 0.266,
+              "le52": 0.448
+            },
+            "gap_recovered_pct": 4.9
+          },
+          "lru_admit": {
+            "decode_mb_tok": 344.6,
+            "decode_hit_rate": 0.5907,
+            "decode_reloads": 4287,
+            "n_evictions": 3738,
+            "regret": {
+              "n": 2083,
+              "p50": 57,
+              "le8": 0.079,
+              "le26": 0.241,
+              "le52": 0.463
+            },
+            "gap_recovered_pct": 0.4
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 372.6,
+            "decode_hit_rate": 0.5572,
+            "decode_reloads": 4727,
+            "n_evictions": 2575,
+            "regret": {
+              "n": 1347,
+              "p50": 48,
+              "le8": 0.114,
+              "le26": 0.303,
+              "le52": 0.532
+            },
+            "gap_recovered_pct": -19.3
+          }
+        },
+        "warm": {
+          "lru": {
+            "decode_mb_tok": 346.0,
+            "decode_hit_rate": 0.5891,
+            "decode_reloads": 4309,
+            "n_evictions": 6481,
+            "gap_recovered_pct": -0.6
+          },
+          "clock": {
+            "decode_mb_tok": 359.3,
+            "decode_hit_rate": 0.5732,
+            "decode_reloads": 4517,
+            "n_evictions": 6691,
+            "gap_recovered_pct": -9.9
+          },
+          "twoq": {
+            "decode_mb_tok": 340.0,
+            "decode_hit_rate": 0.5956,
+            "decode_reloads": 4223,
+            "n_evictions": 5688,
+            "gap_recovered_pct": 3.6
+          },
+          "slru": {
+            "decode_mb_tok": 328.2,
+            "decode_hit_rate": 0.6103,
+            "decode_reloads": 4031,
+            "n_evictions": 6303,
+            "gap_recovered_pct": 11.9
+          },
+          "slru_t25": {
+            "decode_mb_tok": 335.5,
+            "decode_hit_rate": 0.6013,
+            "decode_reloads": 4148,
+            "n_evictions": 6348,
+            "gap_recovered_pct": 6.8
+          },
+          "slru_t75": {
+            "decode_mb_tok": 345.8,
+            "decode_hit_rate": 0.5891,
+            "decode_reloads": 4309,
+            "n_evictions": 6632,
+            "gap_recovered_pct": -0.5
+          },
+          "lfu_da": {
+            "decode_mb_tok": 327.1,
+            "decode_hit_rate": 0.6118,
+            "decode_reloads": 4011,
+            "n_evictions": 6115,
+            "gap_recovered_pct": 12.7
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 326.3,
+            "decode_hit_rate": 0.6126,
+            "decode_reloads": 4001,
+            "n_evictions": 6105,
+            "gap_recovered_pct": 13.2
+          },
+          "lru2": {
+            "decode_mb_tok": 365.6,
+            "decode_hit_rate": 0.5657,
+            "decode_reloads": 4615,
+            "n_evictions": 6784,
+            "gap_recovered_pct": -14.4
+          },
+          "lirs": {
+            "decode_mb_tok": 493.0,
+            "decode_hit_rate": 0.4147,
+            "decode_reloads": 6594,
+            "n_evictions": 8804,
+            "gap_recovered_pct": -104.0
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 417.6,
+            "decode_hit_rate": 0.5032,
+            "decode_reloads": 5434,
+            "n_evictions": 6640,
+            "gap_recovered_pct": -50.9
+          },
+          "lru_f1": {
+            "decode_mb_tok": 335.9,
+            "decode_hit_rate": 0.601,
+            "decode_reloads": 4153,
+            "n_evictions": 6323,
+            "gap_recovered_pct": 6.5
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 342.1,
+            "decode_hit_rate": 0.5937,
+            "decode_reloads": 4248,
+            "n_evictions": 6418,
+            "gap_recovered_pct": 2.1
+          },
+          "lru_admit": {
+            "decode_mb_tok": 343.2,
+            "decode_hit_rate": 0.5924,
+            "decode_reloads": 4265,
+            "n_evictions": 4596,
+            "gap_recovered_pct": 1.4
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 362.7,
+            "decode_hit_rate": 0.5691,
+            "decode_reloads": 4570,
+            "n_evictions": 3920,
+            "gap_recovered_pct": -12.4
+          },
+          "opt": {
+            "decode_mb_tok": 186.9
+          }
+        },
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 345.1
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-6": {
+        "cap_slots_min": 57,
+        "cap_slots_max": 58,
+        "obs_decode_mb_tok": 267.4,
+        "opt": {
+          "decode_mb_tok": 164.0,
+          "decode_hit_rate": 0.8056,
+          "decode_reloads": 1472,
+          "n_evictions": 2218,
+          "regret": {
+            "n": 179,
+            "p50": 283,
+            "le8": 0.0,
+            "le26": 0.0,
+            "le52": 0.0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 285.9,
+          "decode_hit_rate": 0.66,
+          "decode_reloads": 3380,
+          "n_evictions": 727,
+          "regret": {
+            "n": 0,
+            "p50": 0,
+            "le8": 0,
+            "le26": 0,
+            "le52": 0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 267.4,
+            "decode_hit_rate": 0.6829,
+            "decode_reloads": 3079,
+            "n_evictions": 3825,
+            "regret": {
+              "n": 1786,
+              "p50": 70,
+              "le8": 0.108,
+              "le26": 0.268,
+              "le52": 0.42
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 271.3,
+            "decode_hit_rate": 0.6783,
+            "decode_reloads": 3140,
+            "n_evictions": 3886,
+            "regret": {
+              "n": 1847,
+              "p50": 72,
+              "le8": 0.079,
+              "le26": 0.242,
+              "le52": 0.407
+            },
+            "gap_recovered_pct": -3.8
+          },
+          "twoq": {
+            "decode_mb_tok": 280.1,
+            "decode_hit_rate": 0.6675,
+            "decode_reloads": 3281,
+            "n_evictions": 3499,
+            "regret": {
+              "n": 1787,
+              "p50": 68,
+              "le8": 0.094,
+              "le26": 0.235,
+              "le52": 0.402
+            },
+            "gap_recovered_pct": -12.3
+          },
+          "slru": {
+            "decode_mb_tok": 261.5,
+            "decode_hit_rate": 0.6901,
+            "decode_reloads": 2985,
+            "n_evictions": 3749,
+            "regret": {
+              "n": 1710,
+              "p50": 70,
+              "le8": 0.065,
+              "le26": 0.206,
+              "le52": 0.392
+            },
+            "gap_recovered_pct": 5.7
+          },
+          "slru_t25": {
+            "decode_mb_tok": 262.7,
+            "decode_hit_rate": 0.6886,
+            "decode_reloads": 3005,
+            "n_evictions": 3751,
+            "regret": {
+              "n": 1712,
+              "p50": 71,
+              "le8": 0.086,
+              "le26": 0.247,
+              "le52": 0.4
+            },
+            "gap_recovered_pct": 4.5
+          },
+          "slru_t75": {
+            "decode_mb_tok": 289.8,
+            "decode_hit_rate": 0.6556,
+            "decode_reloads": 3437,
+            "n_evictions": 4278,
+            "regret": {
+              "n": 2239,
+              "p50": 78,
+              "le8": 0.073,
+              "le26": 0.199,
+              "le52": 0.35
+            },
+            "gap_recovered_pct": -21.7
+          },
+          "lfu_da": {
+            "decode_mb_tok": 251.4,
+            "decode_hit_rate": 0.702,
+            "decode_reloads": 2829,
+            "n_evictions": 3575,
+            "regret": {
+              "n": 1536,
+              "p50": 78,
+              "le8": 0.102,
+              "le26": 0.275,
+              "le52": 0.411
+            },
+            "gap_recovered_pct": 15.5
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 251.4,
+            "decode_hit_rate": 0.7019,
+            "decode_reloads": 2830,
+            "n_evictions": 3576,
+            "regret": {
+              "n": 1537,
+              "p50": 78,
+              "le8": 0.103,
+              "le26": 0.277,
+              "le52": 0.411
+            },
+            "gap_recovered_pct": 15.4
+          },
+          "lru2": {
+            "decode_mb_tok": 260.7,
+            "decode_hit_rate": 0.6912,
+            "decode_reloads": 2971,
+            "n_evictions": 3717,
+            "regret": {
+              "n": 1678,
+              "p50": 76,
+              "le8": 0.092,
+              "le26": 0.256,
+              "le52": 0.397
+            },
+            "gap_recovered_pct": 6.5
+          },
+          "lirs": {
+            "decode_mb_tok": 413.2,
+            "decode_hit_rate": 0.5095,
+            "decode_reloads": 5352,
+            "n_evictions": 5943,
+            "regret": {
+              "n": 3847,
+              "p50": 48,
+              "le8": 0.225,
+              "le26": 0.408,
+              "le52": 0.513
+            },
+            "gap_recovered_pct": -140.9
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 359.7,
+            "decode_hit_rate": 0.5724,
+            "decode_reloads": 4527,
+            "n_evictions": 4221,
+            "regret": {
+              "n": 2182,
+              "p50": 74,
+              "le8": 0.087,
+              "le26": 0.235,
+              "le52": 0.38
+            },
+            "gap_recovered_pct": -89.2
+          },
+          "lru_f1": {
+            "decode_mb_tok": 253.9,
+            "decode_hit_rate": 0.6991,
+            "decode_reloads": 2867,
+            "n_evictions": 3613,
+            "regret": {
+              "n": 1574,
+              "p50": 76,
+              "le8": 0.071,
+              "le26": 0.201,
+              "le52": 0.375
+            },
+            "gap_recovered_pct": 13.0
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 254.2,
+            "decode_hit_rate": 0.6986,
+            "decode_reloads": 2874,
+            "n_evictions": 3620,
+            "regret": {
+              "n": 1581,
+              "p50": 73,
+              "le8": 0.094,
+              "le26": 0.26,
+              "le52": 0.428
+            },
+            "gap_recovered_pct": 12.7
+          },
+          "lru_admit": {
+            "decode_mb_tok": 271.1,
+            "decode_hit_rate": 0.6784,
+            "decode_reloads": 3138,
+            "n_evictions": 2088,
+            "regret": {
+              "n": 934,
+              "p50": 72,
+              "le8": 0.1,
+              "le26": 0.249,
+              "le52": 0.397
+            },
+            "gap_recovered_pct": -3.6
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 314.7,
+            "decode_hit_rate": 0.6262,
+            "decode_reloads": 3822,
+            "n_evictions": 1169,
+            "regret": {
+              "n": 442,
+              "p50": 46,
+              "le8": 0.118,
+              "le26": 0.321,
+              "le52": 0.55
+            },
+            "gap_recovered_pct": -45.7
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 267.4
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      },
+      "cap-8": {
+        "cap_slots_min": 77,
+        "cap_slots_max": 78,
+        "obs_decode_mb_tok": 209.8,
+        "opt": {
+          "decode_mb_tok": 152.0,
+          "decode_hit_rate": 0.8192,
+          "decode_reloads": 1293,
+          "n_evictions": 1538,
+          "regret": {
+            "n": 0,
+            "p50": 0,
+            "le8": 0,
+            "le26": 0,
+            "le52": 0
+          }
+        },
+        "opt_admit2": {
+          "decode_mb_tok": 285.9,
+          "decode_hit_rate": 0.66,
+          "decode_reloads": 3380,
+          "n_evictions": 256,
+          "regret": {
+            "n": 0,
+            "p50": 0,
+            "le8": 0,
+            "le26": 0,
+            "le52": 0
+          }
+        },
+        "policies": {
+          "lru": {
+            "decode_mb_tok": 209.8,
+            "decode_hit_rate": 0.7514,
+            "decode_reloads": 2181,
+            "n_evictions": 2426,
+            "regret": {
+              "n": 888,
+              "p50": 76,
+              "le8": 0.078,
+              "le26": 0.2,
+              "le52": 0.36
+            },
+            "gap_recovered_pct": 0.0
+          },
+          "clock": {
+            "decode_mb_tok": 217.6,
+            "decode_hit_rate": 0.7422,
+            "decode_reloads": 2302,
+            "n_evictions": 2547,
+            "regret": {
+              "n": 1009,
+              "p50": 71,
+              "le8": 0.086,
+              "le26": 0.218,
+              "le52": 0.384
+            },
+            "gap_recovered_pct": -13.3
+          },
+          "twoq": {
+            "decode_mb_tok": 233.4,
+            "decode_hit_rate": 0.7232,
+            "decode_reloads": 2551,
+            "n_evictions": 2435,
+            "regret": {
+              "n": 1167,
+              "p50": 73,
+              "le8": 0.085,
+              "le26": 0.246,
+              "le52": 0.409
+            },
+            "gap_recovered_pct": -40.8
+          },
+          "slru": {
+            "decode_mb_tok": 207.5,
+            "decode_hit_rate": 0.7541,
+            "decode_reloads": 2146,
+            "n_evictions": 2394,
+            "regret": {
+              "n": 856,
+              "p50": 73,
+              "le8": 0.078,
+              "le26": 0.231,
+              "le52": 0.396
+            },
+            "gap_recovered_pct": 4.0
+          },
+          "slru_t25": {
+            "decode_mb_tok": 207.4,
+            "decode_hit_rate": 0.7543,
+            "decode_reloads": 2144,
+            "n_evictions": 2389,
+            "regret": {
+              "n": 851,
+              "p50": 75,
+              "le8": 0.076,
+              "le26": 0.224,
+              "le52": 0.377
+            },
+            "gap_recovered_pct": 4.3
+          },
+          "slru_t75": {
+            "decode_mb_tok": 255.6,
+            "decode_hit_rate": 0.6964,
+            "decode_reloads": 2902,
+            "n_evictions": 3239,
+            "regret": {
+              "n": 1672,
+              "p50": 74,
+              "le8": 0.08,
+              "le26": 0.21,
+              "le52": 0.39
+            },
+            "gap_recovered_pct": -79.2
+          },
+          "lfu_da": {
+            "decode_mb_tok": 202.1,
+            "decode_hit_rate": 0.7604,
+            "decode_reloads": 2064,
+            "n_evictions": 2309,
+            "regret": {
+              "n": 771,
+              "p50": 88,
+              "le8": 0.066,
+              "le26": 0.209,
+              "le52": 0.351
+            },
+            "gap_recovered_pct": 13.5
+          },
+          "lfu_da2": {
+            "decode_mb_tok": 202.1,
+            "decode_hit_rate": 0.7604,
+            "decode_reloads": 2064,
+            "n_evictions": 2309,
+            "regret": {
+              "n": 771,
+              "p50": 88,
+              "le8": 0.066,
+              "le26": 0.209,
+              "le52": 0.351
+            },
+            "gap_recovered_pct": 13.5
+          },
+          "lru2": {
+            "decode_mb_tok": 202.2,
+            "decode_hit_rate": 0.7603,
+            "decode_reloads": 2065,
+            "n_evictions": 2310,
+            "regret": {
+              "n": 772,
+              "p50": 81,
+              "le8": 0.058,
+              "le26": 0.163,
+              "le52": 0.312
+            },
+            "gap_recovered_pct": 13.3
+          },
+          "lirs": {
+            "decode_mb_tok": 354.5,
+            "decode_hit_rate": 0.5773,
+            "decode_reloads": 4463,
+            "n_evictions": 4464,
+            "regret": {
+              "n": 2829,
+              "p50": 68,
+              "le8": 0.168,
+              "le26": 0.343,
+              "le52": 0.449
+            },
+            "gap_recovered_pct": -250.3
+          },
+          "lirs_h20": {
+            "decode_mb_tok": 320.0,
+            "decode_hit_rate": 0.6197,
+            "decode_reloads": 3908,
+            "n_evictions": 3119,
+            "regret": {
+              "n": 1581,
+              "p50": 71,
+              "le8": 0.089,
+              "le26": 0.232,
+              "le52": 0.397
+            },
+            "gap_recovered_pct": -190.6
+          },
+          "lru_f1": {
+            "decode_mb_tok": 201.7,
+            "decode_hit_rate": 0.761,
+            "decode_reloads": 2056,
+            "n_evictions": 2301,
+            "regret": {
+              "n": 763,
+              "p50": 83,
+              "le8": 0.06,
+              "le26": 0.161,
+              "le52": 0.333
+            },
+            "gap_recovered_pct": 14.2
+          },
+          "lru_f1_all": {
+            "decode_mb_tok": 200.6,
+            "decode_hit_rate": 0.7621,
+            "decode_reloads": 2041,
+            "n_evictions": 2286,
+            "regret": {
+              "n": 748,
+              "p50": 87,
+              "le8": 0.075,
+              "le26": 0.194,
+              "le52": 0.342
+            },
+            "gap_recovered_pct": 16.0
+          },
+          "lru_admit": {
+            "decode_mb_tok": 231.2,
+            "decode_hit_rate": 0.7258,
+            "decode_reloads": 2517,
+            "n_evictions": 966,
+            "regret": {
+              "n": 313,
+              "p50": 57,
+              "le8": 0.067,
+              "le26": 0.259,
+              "le52": 0.47
+            },
+            "gap_recovered_pct": -36.9
+          },
+          "lru_admit2": {
+            "decode_mb_tok": 290.0,
+            "decode_hit_rate": 0.6552,
+            "decode_reloads": 3442,
+            "n_evictions": 318,
+            "regret": {
+              "n": 62,
+              "p50": 36,
+              "le8": 0.194,
+              "le26": 0.387,
+              "le52": 0.613
+            },
+            "gap_recovered_pct": -138.7
+          }
+        },
+        "warm": {},
+        "validation": {
+          "lookup_match_pct": 100.0,
+          "miss_match_pct": 100.0,
+          "hit_match_pct": 100.0,
+          "lru_replay_mb_tok": 209.8
+        },
+        "meta": {
+          "lru": {
+            "label": "LRU (Phase 8 baseline)",
+            "metadata": "1 list position per resident entry; O(1)/request",
+            "complexity": "existing runtime behavior; zero new code"
+          },
+          "clock": {
+            "label": "CLOCK (second chance)",
+            "metadata": "1 ref bit + hand index per layer; O(1) amortized, worst-case scan cap",
+            "complexity": "small: ref bit + hand per layer; ~40-60 lines in runtime"
+          },
+          "twoq": {
+            "label": "2Q (A1in FIFO + A1out ghost + Am LRU)",
+            "metadata": "queue tags + links per resident; ghost = ids only (50% cap); O(1)/request",
+            "complexity": "moderate: 3 structures per layer; ~80-120 lines"
+          },
+          "slru": {
+            "label": "SLRU (probation + protected 50/50)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t25": {
+            "label": "SLRU (protected 25%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "slru_t75": {
+            "label": "SLRU (protected 75%)",
+            "metadata": "1 segment bit + list position per resident; O(1)/request",
+            "complexity": "moderate: split LRU list; ~60-80 lines"
+          },
+          "lfu_da": {
+            "label": "LFU with dynamic aging (halve at saturation)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lfu_da2": {
+            "label": "LFU with dynamic aging (avg-threshold subtract-min)",
+            "metadata": "1 saturating byte + recency tiebreak per resident; bucket lists O(1); aging O(cap) amortized",
+            "complexity": "moderate-high: counters + aging + buckets; ~80-120 lines"
+          },
+          "lru2": {
+            "label": "LRU-2 (2nd-reference recency)",
+            "metadata": "2 timestamps per resident + priority structure; O(log cap)/request",
+            "complexity": "moderate-high: per-layer heap or 2-level lists; ~100-150 lines"
+          },
+          "lirs": {
+            "label": "LIRS (HIR 5%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lirs_h20": {
+            "label": "LIRS (HIR 20%)",
+            "metadata": "stack entry (id + 1 bit) + small FIFO; O(1) amortized; stack bounded",
+            "complexity": "moderate-high: stack + Q; ~100-150 lines"
+          },
+          "lru_f1": {
+            "label": "LRU + single-ref-first eviction (scan bound cap/2)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_f1_all": {
+            "label": "LRU + single-ref-first eviction (unbounded scan)",
+            "metadata": "1 freq>=2 bit per resident; O(scan) worst-case",
+            "complexity": "small: victim-scan tweak; ~30-50 lines"
+          },
+          "lru_admit": {
+            "label": "LRU + 2nd-read admission gate (all reads count)",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          },
+          "lru_admit2": {
+            "label": "LRU + 2nd cache-visible-read admission gate",
+            "metadata": "+32 B bitmap per layer (256 expert ids); O(1)/request",
+            "complexity": "tiny: bitmap + placement gate; ~15-25 lines"
+          }
+        }
+      }
+    }
+  }
+}
