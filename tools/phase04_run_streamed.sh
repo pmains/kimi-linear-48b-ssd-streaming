@@ -62,6 +62,7 @@ cat > "$OUTDIR/manifest.json" <<EOF
   "llama_commit": "$(git -C /Users/pmains/Code/openclaw/kimi/llama.cpp rev-parse HEAD)",
   "llama_worktree_dirty": $WORKTREE_DIRTY,
   "phase7_instrumentation": ${KIMI_PHASE7_INSTR:-0},
+  "read_workers": ${KIMI_EXPERT_READ_WORKERS:-1},
   "captured_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF

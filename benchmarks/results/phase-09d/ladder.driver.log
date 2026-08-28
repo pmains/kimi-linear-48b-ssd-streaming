@@ -1,0 +1,32 @@
+=== config coding-cap4 (cache 4096MiB) ===
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w1-before-W2
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w2
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w1-after-W2
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09d/ladder/coding-cap4/w1-before-W4
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w4
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w1-after-W4
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w1-before-W8
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w8
+  (cached) benchmarks/results/phase-09d/ladder/coding-cap4/w1-after-W8
+=== config reasoning-cap8 (cache 8192MiB) ===
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w1-before-W2
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w2
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w1-after-W2
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w1-before-W4
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w4
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w1-after-W4
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w1-before-W8
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w8
+  (cached) benchmarks/results/phase-09d/ladder/reasoning-cap8/w1-after-W8
+=== config uncached (cache 0MiB) ===
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w1-before-W2
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w2
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w1-after-W2
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w1-before-W4
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w4
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w1-after-W4
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w1-before-W8
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w8
+  (cached) benchmarks/results/phase-09d/ladder/uncached/w1-after-W8
+ladder complete: benchmarks/results/phase-09d/ladder
+analyze with: python3 tools/phase09d_analyze.py benchmarks/results/phase-09d/ladder

@@ -26,7 +26,8 @@ import json
 import os
 import sys
 
-# stats.csv columns (1-indexed, Phase 7 layout)
+# stats.csv columns (1-indexed, Phase 7 layout; Phase 9D appends
+# pread_wall_us as an optional trailing column 31)
 C = {
     "step": 0, "phase": 1, "n_tokens": 2, "pread_calls": 3, "pread_bytes": 4,
     "pread_us": 5, "copy_us": 6, "sync_us": 7, "route_us": 8, "expert_us": 9,
@@ -35,8 +36,9 @@ C = {
     "budget": 19, "repack_us": 20, "placement_us": 21, "repack_bytes": 22,
     "placement_bytes": 23, "zc_hits": 24, "ph_hits": 25, "zc_hit_bytes": 26,
     "build_measured_us": 27, "other_us": 28, "n_unique": 29,
+    "pread_wall_us": 30,  # optional (Phase 9D); falls back to pread_us
 }
-NCOLS = 30
+NCOLS = 30  # minimum; row 31 (pread_wall_us) read when present
 
 WARMUP_DECODE_STEPS = 8  # steady-state decode starts here (6B ladder convention)
 
@@ -55,6 +57,13 @@ def read_stats(path):
                 row = [int(x) for x in parts[:C["phase"]]]
                 row.append(parts[C["phase"]])            # phase (string)
                 row.extend(int(x) for x in parts[C["n_tokens"]:NCOLS])
+                # Phase 9D optional column: read-phase wall; legacy rows (no
+                # column) fall back to the per-syscall sum (== wall when
+                # workers=1, the only mode that produced legacy rows).
+                if len(parts) > NCOLS:
+                    row.append(int(parts[NCOLS]))
+                else:
+                    row.append(row[C["pread_us"]])
             except ValueError:
                 continue  # header row
             rows.append(row)
@@ -266,8 +275,12 @@ def summarize_dir(d):
             if r[C["zc_hit_bytes"]] != 0:
                 violations.append(f"step {r[C['step']]}: placement mode reports zc_hit_bytes {r[C['zc_hit_bytes']]} != 0")
                 bad += 1
-        # measured components must not exceed the total
-        comp = (r[C["pread_us"]] + r[C["copy_us"]] + r[C["sync_us"]]
+        # measured components must not exceed the total. Phase 9D: with
+        # parallel expert-read, pread_us (col 5) is the SUM of per-syscall
+        # latencies and may exceed the wall because reads overlap; the
+        # component check therefore uses the read-phase wall (pread_wall_us,
+        # == pread_us when workers=1).
+        comp = (r[C["pread_wall_us"]] + r[C["copy_us"]] + r[C["sync_us"]]
                 + r[C["route_us"]] + r[C["expert_us"]] + r[C["build_measured_us"]])
         if comp > r[C["total_us"]] + 1000:  # 1 ms slack for clock granularity
             violations.append(f"step {r[C['step']]}: component sum {comp} > total {r[C['total_us']]}")
