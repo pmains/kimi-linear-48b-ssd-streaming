@@ -1034,6 +1034,23 @@ Do not optimize further merely because optimization opportunities exist.
 Review the measurements and determine whether the architecture warrants
 additional engineering.
 
+## Phase 9 Selection Gate (2026-08-27)
+
+Before any Phase 9 work, the selection gate ran a trace replay of the
+Phase 8 artifacts (routing traces from moe.csv through per-layer slot
+caches, LRU vs Belady-OPT, validated 100% against observed stats).
+
+Result: **GO for a scoped Phase 9** — an offline oracle cuts decode SSD
+traffic 40% at 4 GB (286.4 → 171.1 MB/token, coding) and 35% at 8 GB
+(180.5 → 118.1). Recommended scope, in order: (1) replacement
+policy/pinning + prefetch/prefill warm-up (fix the prefill cache bypass);
+(2) async expert loading (I/O-compute overlap); (3) coalesced reads +
+storage layout only if (1)+(2) measurements warrant.
+
+Details: `progress/phase-09-selection-gate.md`,
+`benchmarks/results/phase-09-selection-gate.json`,
+`tools/phase09_selection_gate.py`.
+
 ---
 
 ## Parallel Track — SERVICE-ROADMAP.md
@@ -1060,6 +1077,14 @@ The two tracks converge here:
 
 ## Potential Phase 9 — Streaming Optimization
 
+**PAUSED (2026-08-28).** Optimization subphases 9A–9F are complete and the
+9E end-to-end prediction was falsified by cross-session baseline
+instability (see `progress/phase-09f-report.md`). Before further
+optimization, the next phase is **Phase 9G — Benchmark Methodology**
+(paired bracketed A/B, variance quantification, frozen protocol). No new
+optimization subphase may be started until 9G passes and its protocol is
+frozen. Archived-baseline comparisons are NOT valid optimization gates.
+
 Proceed only if Phase 8 demonstrates that streaming is viable.
 
 Optimize measured bottlenecks.
@@ -1076,6 +1101,39 @@ Potential work includes:
 - mmap/filesystem-cache optimization.
 
 The benchmark results determine which of these, if any, should be built.
+
+---
+
+## Phase 9G — Benchmark Methodology (2026-08-28)
+
+### Goal
+
+Make measurements of how much faster one configuration is than another
+trustworthy and reproducible, after Phase 9F demonstrated that archived
+cross-session baselines are unstable enough to falsify a correct mechanism.
+
+### Work
+
+- Quantify variance components (within-run, run-to-run, drift,
+  session-to-session) of the frozen control and candidate paths.
+- Validate a paired bracketed protocol A→B→A (experimental unit: one
+  bracket; quantity: paired speedup S_i = B_i / mean(A_before,i,
+  A_after,i); report the distribution of S_i, not a point comparison).
+- Validate against a null control (A→A→A) and a positive control (W=4
+  pipelined vs W=1 frozen, same-session).
+- Determine how many brackets are needed to distinguish 5%, 10%, 20%
+  effects (paired test, α=0.05, β=0.20) from measured variance.
+- Freeze the protocol (harness, analysis tooling, environment capture)
+  for all subsequent phases; ban archived-baseline optimization gates.
+
+### Design / status
+
+`progress/phase-09g-design.md`; seed variance analysis in
+`benchmarks/results/phase-09g/variance-9d-9f.json`.
+
+### Report
+
+    progress/phase-09g-report.md
 
 ---
 
