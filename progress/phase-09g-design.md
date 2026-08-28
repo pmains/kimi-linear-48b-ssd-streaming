@@ -1,12 +1,39 @@
 # Phase 9G Design — Benchmark Methodology (paired bracketed A/B)
 
-Status: **DESIGN** (not yet run)
+Status: **DESIGN — protocol updated after harness pilot (2026-08-28)**
 
 Decision (Peter, 2026-08-28): stop Phase 9 optimization subphases. The next
 activity is a benchmark-methodology phase: quantify run-to-run and
 session-to-session variance, establish a repeated paired/bracketed A/B
 protocol, determine the bracket count needed to distinguish 5/10/20%
 effects, and freeze that protocol for all subsequent phases.
+
+Post-pilot protocol decisions (Peter, 2026-08-28; pilot report:
+`progress/phase-09g-harness-pilot-report.md`):
+
+- Pilot PASS (n=4 brackets, 12 runs); **no tuning based on pilot
+  brackets** — the pilot's job was harness validation, and bracket 4's
+  18.96% A spread is exactly the phenomenon the full phase must
+  quantify, not an outlier to delete.
+- Harness frozen after adding randomization: per bracket, the three
+  labeled runs (A-before, B, A-after) execute in a seeded uniform random
+  permutation (candidate placement/order randomized across brackets;
+  seed recorded in `harness.json`; `SEED` env to reproduce).
+- Null experiment runs the SAME machinery and labels: the middle labeled
+  slot executes the frozen A config as a sham "B" (`MODE=null`); no
+  special null execution path. S_i computed identically; under the null
+  it should center near 1.0 and its tails bound the spurious
+  "optimizations" the protocol can manufacture.
+- Full experiment prioritizes three estimates: the null distribution of
+  S_i, the positive-control distribution of S_i (W4 vs W1), and how both
+  change across sessions — i.e., how large an observed speedup must be
+  to be reliably distinguished from this machine's performance
+  variability.
+- Prefer **3 shorter sessions separated in time over 1 marathon** of
+  equivalent N: between-session variation (including variation in the
+  response to parallel I/O) is part of the phenomenon.
+- Robust summaries (median/IQR, bootstrap CI) accommodate swing brackets
+  without pretending they did not happen.
 
 Companion artifacts:
 - `benchmarks/results/phase-09g/variance-9d-9f.json`
@@ -83,7 +110,10 @@ Experimental unit = one bracket:
     A_before → B → A_after
 
 contemporaneous (tight timing, same session, same config), candidate
-placement and order randomized across brackets. Paired speedup:
+placement and order randomized across brackets: the three labeled runs
+are executed in a seeded uniform random permutation per bracket (labels
+stay attached to roles; the estimator is unchanged; seed recorded in
+`harness.json`). Paired speedup:
 
     S_i = tok/s(B_i) / mean(tok/s(A_before,i), tok/s(A_after,i))
 
@@ -119,10 +149,13 @@ Design points to validate:
    different ambient states: idle vs after-reboot vs high-memory-pressure).
    Output: σ_iid, drift rate, σ_session, and the same for the candidate
    (W=4) path.
-2. **Null protocol validation**: 10× (A→A→A) brackets where B ≡ A.
-   Output: empirical S distribution; must be centered ≈ 1.0; false
-   positive rate at α = 0.05 must be within binomial tolerance; check for
-   position bias (is the middle run systematically different?).
+2. **Null protocol validation**: 10× (A→A→A) brackets where B ≡ A,
+   implemented as a sham — the middle labeled slot runs the frozen A
+   config under identical machinery and labels (`MODE=null`); no special
+   null path. Output: empirical S distribution; must be centered ≈ 1.0;
+   false positive rate at α = 0.05 must be within binomial tolerance;
+   check for position bias (is the middle run systematically different?)
+   — reported as S by the sham's temporal position.
 3. **Positive control**: W=4 vs W=1 frozen, same-session, ~6 brackets.
    Expected S ≈ 1.15–1.35 from archived paired data; must be detected at
    the recommended bracket count with p < 0.05.
@@ -132,7 +165,9 @@ Design points to validate:
 5. **Freeze**: commit `tools/phase09g_run_brackets.sh` +
    `tools/phase09g_analyze.py`; document protocol in `TOOLS.md`;
    amend the Phase 9F report's root-cause claim via the 9G report (do not
-   rewrite 9F history); record the corrected variance story.
+   rewrite 9F history); record the corrected variance story. Harness
+   frozen 2026-08-28 (randomization + `MODE=null` sham-B), pending the
+   full-phase runs in idle windows.
 
 ## 5. Machine-time and live-server constraint
 

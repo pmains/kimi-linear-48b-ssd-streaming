@@ -105,6 +105,31 @@ Harness checks: **14/14 PASS** (overall PILOT PASS):
 - Raw data committed per prior-phase convention (all artifacts except
   gitignored act.bin).
 
+## Post-pilot changes (2026-08-28, per Peter)
+
+Implemented and committed BEFORE the full phase (no re-tuning from the
+four pilot brackets):
+
+- **Randomized within-bracket execution order** — the three labeled runs
+  (A-before, B, A-after) are now executed in a seeded uniform random
+  permutation per bracket (`SEED` env, default epoch-s, recorded in
+  `harness.json` as `bracket_orders`; pass `SEED` to reproduce). The
+  candidate's temporal placement/order is therefore randomized across
+  brackets per design §3. Labels stay attached to roles; the estimator is
+  unchanged.
+- **`MODE=null` (sham B)** — the middle labeled slot runs the frozen A
+  config under identical machinery and labels; there is no special null
+  execution path. S_i is computed identically; the analyzer reports null
+  diagnostics (median log S, bootstrap CI, sign test, centered flag) as
+  findings, not exit gates.
+- **Analyzer additions** — mode-aware worker expectations, recorded-order
+  vs driver-log-mtime verification (check 1b), S by candidate position
+  (first/middle/last), `pilot` flag selecting summary filename
+  (`phase-09g-pilot-summary.json` vs `phase-09g-summary.json`).
+- Full phase (variance decomposition, ≥10 null brackets, positive
+  control, power table) is scheduled for idle windows per design §5;
+  three shorter sessions are preferred over one marathon.
+
 ## Next Phase
 
 Full 9G (design `progress/phase-09g-design.md`) — requires an idle
@@ -120,9 +145,17 @@ window per design §5:
 
 ## Reproduction
 
-    # pilot (12 runs, ~12 min)
-    CONFIG=coding-cap4 tools/phase09g_run_brackets.sh \
+    # pilot (12 runs, ~12 min; PILOT=true keeps the pilot summary filename)
+    CONFIG=coding-cap4 PILOT=true SEED=1 tools/phase09g_run_brackets.sh \
         benchmarks/results/phase-09g/pilot 4 128
+
+    # null-mode bracket (sham B; same machinery and labels)
+    CONFIG=coding-cap4 MODE=null tools/phase09g_run_brackets.sh \
+        benchmarks/results/phase-09g/<dir> 10 128
+
+    # positive-control bracket (B = W4 candidate)
+    CONFIG=coding-cap4 MODE=positive tools/phase09g_run_brackets.sh \
+        benchmarks/results/phase-09g/<dir> 10 128
 
     # analysis + harness validation (exit 0 = PILOT PASS)
     python3 tools/phase09g_analyze.py benchmarks/results/phase-09g/pilot

@@ -10,6 +10,25 @@
 # Paired speedup per bracket:
 #     S_i = tok/s(B_i) / mean(tok/s(A_before,i), tok/s(A_after,i))
 #
+# Randomization (frozen protocol, 2026-08-28):
+#   Within each bracket the three labeled runs (A-before, B, A-after) are
+#   executed in a seeded random order (uniform over the 3 permutations),
+#   so the candidate's temporal placement/order is randomized across
+#   brackets (design: "candidate placement and order randomized across
+#   brackets"). Labels stay attached to roles; the estimator is unchanged.
+#   The seed is recorded in harness.json; pass SEED explicitly to
+#   reproduce a given set of orders.
+#
+# Modes:
+#   MODE=positive (default): B = candidate (B_WORKERS). The positive
+#       control for the full 9G experiment (W4 pipelined vs W1 frozen).
+#   MODE=null: B is a SHAM. The middle labeled slot runs the frozen A
+#       config (A_WORKERS) under identical machinery and labels — there
+#       is no special null execution path (per Peter, 2026-08-28:
+#       "Randomly designate the middle A run as a sham 'B'"). S_i is
+#       computed identically; under the null its distribution should
+#       center near 1.0.
+#
 # Every run keeps the full Phase 4/7/9 artifact set (stats.csv, retr.csv,
 # moe.csv, mem.csv, cache_layers.csv, p9c-layer.csv, cpu.csv, run.log,
 # manifest.json) so raw per-run data are retained for later re-analysis.
@@ -24,11 +43,17 @@
 # Env:
 #   CONFIG      coding-cap4 (default) | reasoning-cap8 | uncached
 #   A_WORKERS   1   (frozen control)
-#   B_WORKERS   4   (candidate)
+#   B_WORKERS   4   (candidate; ignored in MODE=null)
+#   MODE        positive (default) | null
+#   SEED        RNG seed for bracket-order randomization. Default: epoch
+#               seconds (fresh draw per run, recorded in harness.json);
+#               set explicitly to reproduce a recorded order set.
+#   PILOT       true|false (default false). true = pilot metadata and
+#               pilot summary filename in the analyzer.
 #   CTX         4096 (KV-cache pin, matches the 9D/9F ladder)
 #
 # Pilot usage (harness validation, 2026-08-28):
-#   CONFIG=coding-cap4 tools/phase09g_run_brackets.sh \
+#   CONFIG=coding-cap4 PILOT=true SEED=1 tools/phase09g_run_brackets.sh \
 #       benchmarks/results/phase-09g/pilot 4 128
 set -euo pipefail
 
@@ -38,10 +63,17 @@ N="${3:-128}"
 CONFIG="${CONFIG:-coding-cap4}"
 A_WORKERS="${A_WORKERS:-1}"
 B_WORKERS="${B_WORKERS:-4}"
-SEED=1
+MODE="${MODE:-positive}"
+SEED="${SEED:-$(date +%s)}"
+PILOT="${PILOT:-false}"
 export CTX="${CTX:-4096}"
 export KIMI_EXPERT_CACHE_MODE=zerocopy
 export KIMI_PHASE7_INSTR=1
+
+case "$MODE" in
+    positive|null) ;;
+    *) echo "unknown MODE=$MODE (positive|null)" >&2; exit 2 ;;
+esac
 
 case "$CONFIG" in
     coding-cap4)    PROMPT="benchmarks/prompts/phase-03-coding-lru.md";    CACHE_MB=4096 ;;
@@ -53,10 +85,37 @@ esac
 BASE="$OUTDIR/$CONFIG"
 mkdir -p "$BASE/env"
 
+# --- randomized within-bracket execution order (seeded, recorded) ---
+# Per bracket, a uniform random permutation of the three labeled slots.
+# (macOS /bin/bash is 3.2: no readarray/mapfile — parse via python.)
+ORDERS_JSON="$(python3 - "$SEED" "$N_BRACKETS" <<'PY'
+import json, random, sys
+seed, n = int(sys.argv[1]), int(sys.argv[2])
+rng = random.Random(seed)
+orders = [rng.sample(["A-before", "B", "A-after"], 3) for _ in range(n)]
+print(json.dumps(orders))
+PY
+)"
+
+bracket_order() {  # $1 = 1-based bracket index -> prints slot order
+    python3 - "$ORDERS_JSON" "$1" <<'PY'
+import json, sys
+orders = json.loads(sys.argv[1])
+print(" ".join(orders[int(sys.argv[2]) - 1]))
+PY
+}
+
+if [ "$MODE" = "null" ]; then
+    B_EFFECTIVE="$A_WORKERS"
+else
+    B_EFFECTIVE="$B_WORKERS"
+fi
+
 cat > "$OUTDIR/harness.json" <<EOF
 {
   "harness": "phase09g_run_brackets.sh",
-  "pilot": true,
+  "pilot": $PILOT,
+  "mode": "$MODE",
   "n_brackets": $N_BRACKETS,
   "n_tokens": $N,
   "seed": $SEED,
@@ -65,7 +124,9 @@ cat > "$OUTDIR/harness.json" <<EOF
   "cache_mb": $CACHE_MB,
   "a_workers": $A_WORKERS,
   "b_workers": $B_WORKERS,
+  "b_effective_workers": $B_EFFECTIVE,
   "ctx": "$CTX",
+  "bracket_orders": $ORDERS_JSON,
   "started_at_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF
@@ -131,15 +192,29 @@ run_one() {
     fi
 }
 
-echo "=== Phase 9G harness pilot: config=$CONFIG brackets=$N_BRACKETS n_tokens=$N ==="
-echo "    A=workers=$A_WORKERS (frozen)  B=workers=$B_WORKERS (candidate)  cache=${CACHE_MB}MiB"
+echo "=== Phase 9G harness: config=$CONFIG mode=$MODE brackets=$N_BRACKETS n_tokens=$N seed=$SEED ==="
+if [ "$MODE" = "null" ]; then
+    echo "    A=workers=$A_WORKERS (frozen)  B=SHAM workers=$A_WORKERS (null: B = A)  cache=${CACHE_MB}MiB"
+else
+    echo "    A=workers=$A_WORKERS (frozen)  B=workers=$B_WORKERS (candidate)  cache=${CACHE_MB}MiB"
+fi
 
 for i in $(seq 1 "$N_BRACKETS"); do
-    echo "=== bracket $i/$N_BRACKETS ==="
+    echo "=== bracket $i/$N_BRACKETS (order: $(bracket_order $i)) ==="
     env_snapshot "$BASE/env/b${i}-before.json"
-    run_one "$BASE/b${i}-A-before" "$A_WORKERS"
-    run_one "$BASE/b${i}-B"        "$B_WORKERS"
-    run_one "$BASE/b${i}-A-after"  "$A_WORKERS"
+    for slot in $(bracket_order $i); do
+        case "$slot" in
+            A-before) run_one "$BASE/b${i}-A-before" "$A_WORKERS" ;;
+            A-after)  run_one "$BASE/b${i}-A-after"  "$A_WORKERS" ;;
+            B)
+                if [ "$MODE" = "null" ]; then
+                    run_one "$BASE/b${i}-B" "$A_WORKERS"
+                else
+                    run_one "$BASE/b${i}-B" "$B_WORKERS"
+                fi
+                ;;
+        esac
+    done
     env_snapshot "$BASE/env/b${i}-after.json"
 done
 

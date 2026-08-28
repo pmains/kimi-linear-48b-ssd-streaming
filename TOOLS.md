@@ -327,3 +327,79 @@ served.
    binary + dylibs + .so plugins, rewrites rpath, records COMMIT).
 3. Restart the server: `tools/serve_kimi_local.sh restart`.
 4. Verify: `openclaw infer model run --model kimi-local/kimi-linear-48b`.
+
+---
+
+## Phase 9G Benchmark Protocol (frozen 2026-08-28)
+
+Frozen after the harness pilot PASS (`progress/phase-09g-harness-pilot-report.md`).
+Do NOT change this protocol without a new methodology phase. Performance
+and memory claims after Phase 9F must be evaluated with this protocol;
+archived-baseline comparisons are NOT valid optimization gates.
+
+### Experimental unit and estimator
+
+One bracket = three labeled runs executed back-to-back in one session:
+
+    A-before → B → A-after
+
+- A = frozen workers=1 control (`KIMI_EXPERT_READ_WORKERS=1`, the Phase
+  8/9D/9F byte-identical path).
+- B = candidate: `MODE=positive` → `B_WORKERS` (default 4, the W4
+  pipelined repack); `MODE=null` → sham B (the middle slot runs the A
+  config under identical machinery/labels).
+- Paired speedup per bracket:
+
+      S_i = tok/s(B_i) / mean(tok/s(A_before,i), tok/s(A_after,i))
+
+  Report the DISTRIBUTION of S_i (median, IQR, bootstrap 95% CI) plus
+  the bracketed A spread (mandatory noise disclosure). A gate passes
+  only if the bootstrap CI of the median S_i excludes the threshold AND
+  the A spread is reported.
+
+### Randomization (mandatory)
+
+Within each bracket the three labeled runs execute in a seeded uniform
+random permutation (candidate placement/order randomized across
+brackets). `SEED` env (default epoch-s) is recorded in `harness.json`;
+pass `SEED` explicitly to reproduce an order set. The analyzer verifies
+the recorded order against driver-log mtimes.
+
+### Usage
+
+    # null protocol (B ≡ A): 10 brackets, ~30 min
+    CONFIG=coding-cap4 MODE=null SEED=<s> tools/phase09g_run_brackets.sh \
+        benchmarks/results/phase-09g/<session-dir>/null 10 128
+
+    # positive control (W4 vs W1): ~10 brackets
+    CONFIG=coding-cap4 MODE=positive SEED=<s> tools/phase09g_run_brackets.sh \
+        benchmarks/results/phase-09g/<session-dir>/positive 10 128
+
+    # analysis + harness validation (exit 0 = PASS; null diagnostics are
+    # reported, not exit gates — they are judged in the phase report)
+    python3 tools/phase09g_analyze.py benchmarks/results/phase-09g/<session-dir>/null
+    python3 tools/phase09g_analyze.py benchmarks/results/phase-09g/<session-dir>/positive
+
+Env: `CONFIG` coding-cap4|reasoning-cap8|uncached; `A_WORKERS`=1;
+`B_WORKERS`=4; `CTX`=4096; `PILOT`=true only for pilot metadata/summary
+filename. Every run retains the full Phase 4/7/9 artifact set; env
+covariates (memory pressure, vm_stat, loadavg, top CPU, thermal, live
+llama-server health) are snapshotted before/after every bracket.
+
+### Scheduling rule
+
+Benchmarks share this MacBook Air with the live server (port 18080,
+serving kimi/poliscopic/aristotle). Run full-phase brackets only in idle
+windows (live server healthy + low loadavg); record live-server load as
+a covariate. Prefer 3 shorter sessions separated in time over one
+marathon — between-session variation (including variation in the
+response to parallel I/O) is part of the phenomenon.
+
+### Analysis conventions
+
+- Robust summaries (median/IQR, bootstrap CI). Swing brackets (e.g.,
+  pilot bracket 4's 18.96% A spread) are data — do not delete them
+  unless a documented external event invalidated the run.
+- Statistical outcomes (null centering, false-positive rate) are phase
+  acceptance criteria evaluated in `progress/phase-09g-report.md`, not
+  harness exit gates.

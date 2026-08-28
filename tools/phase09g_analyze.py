@@ -1,14 +1,30 @@
 #!/usr/bin/env python3
-"""Phase 9G pilot analysis: A->B->A paired brackets, harness validation.
+"""Phase 9G harness analysis: A->B->A paired brackets, harness validation.
 
-Validates the Phase 9G bracket harness (not a performance experiment — do
-not draw performance conclusions from n=4 brackets).
+Validates the Phase 9G bracket harness. Not itself a performance
+experiment: speedup magnitudes are reported, and in MODE=null the
+S distribution is a diagnostic (judged in the phase report), not an
+exit gate.
+
+Modes (from harness.json):
+  positive: B = candidate (B_WORKERS); the S_i distribution is the
+      positive-control evidence.
+  null:     B is a sham (middle slot ran the A config, identical
+      machinery/labels); S_i should center near 1.0.
+
+Randomization: per bracket the three labeled runs were executed in a
+seeded random order (harness.json "bracket_orders"). The analyzer
+verifies the recorded order against driver-log mtimes and reports
+S_i by the candidate's temporal position (first/middle/last).
 
 Checks, in order:
   1. A->B->A execution: all run dirs present with stats.csv; manifest
-     confirms A runs used read_workers=A_WORKERS and B runs B_WORKERS.
+     confirms A runs used read_workers=A_WORKERS and B runs used the
+     effective B workers (B_WORKERS, or A_WORKERS in null mode).
+  1b. Recorded randomized execution order matches driver-log order.
   2. Paired speedup: S_i = tok/s(B_i) / mean(tok/s(A_before,i), tok/s(A_after,i));
-     distribution over brackets (median, IQR, min/max, bootstrap CI).
+     distribution over brackets (median, IQR, min/max, bootstrap CI),
+     plus S by candidate position (first/middle/last).
   3. Correctness / invariants: moe.csv md5 == frozen Phase 8 baseline;
      retr.csv byte-identity across every run (deterministic routing);
      Phase 7 per-step invariants (phase07_summarize.py, exit 0);
@@ -19,10 +35,14 @@ Checks, in order:
      (sign test), first-bracket vs rest warmup check, linear drift of A
      tok/s across brackets.
 
+Null diagnostics (mode=null; REPORTED, not exit gates): median log S,
+95% bootstrap CI of the median log S, sign-test p vs 0, centered flag.
+
 Usage:
     python3 tools/phase09g_analyze.py [OUTDIR] [--config coding-cap4]
 
-Output: <OUTDIR>/phase-09g-pilot-summary.json; exit 0 = PASS, 1 = FAIL.
+Output: <OUTDIR>/phase-09g-pilot-summary.json (pilot) or
+<OUTDIR>/phase-09g-summary.json (full phase); exit 0 = PASS, 1 = FAIL.
 """
 import argparse
 import csv
@@ -201,6 +221,10 @@ def main():
     n_brackets = int(harness.get("n_brackets", 4))
     a_workers = int(harness.get("a_workers", 1))
     b_workers = int(harness.get("b_workers", 4))
+    mode = harness.get("mode", "positive")
+    pilot = harness.get("pilot", True)
+    bracket_orders = harness.get("bracket_orders")
+    b_expected = a_workers if mode == "null" else b_workers
 
     checks = []
     def check(name, ok, detail=""):
@@ -221,7 +245,7 @@ def main():
         for role in ("A_before", "A_after"):
             mf = entry[role].get("manifest") or {}
             entry[role]["workers_ok"] = (mf.get("read_workers") == a_workers)
-        entry["B"]["workers_ok"] = (entry["B"].get("manifest") or {}).get("read_workers") == b_workers
+        entry["B"]["workers_ok"] = (entry["B"].get("manifest") or {}).get("read_workers") == b_expected
         brackets.append(entry)
     check("bracket execution", not exec_errors and len(brackets) == n_brackets,
           "; ".join(exec_errors) or f"{n_brackets} brackets x 3 runs complete")
@@ -229,7 +253,35 @@ def main():
                    if not e[role].get("workers_ok")] + \
                   [f"b{e['index']}-B" for e in brackets if not e["B"].get("workers_ok")]
     check("manifest worker counts", not worker_fail,
-          "A=%d B=%d; bad: %s" % (a_workers, b_workers, ",".join(worker_fail) or "none"))
+          "A=%d B=%s (mode=%s); bad: %s" % (a_workers, b_expected, mode,
+                                            ",".join(worker_fail) or "none"))
+
+    # --- 1b. recorded randomized execution order vs driver-log order ---
+    order_fail, order_notes = [], []
+    for e in brackets:
+        i = e["index"]
+        rec = bracket_orders[i - 1] if bracket_orders and i - 1 < len(bracket_orders) else None
+        if not rec:
+            e["order_verified"] = "n/a (no recorded order)"
+            order_notes.append(f"b{i}: n/a")
+            continue
+        mtimes = {}
+        for slot in ("A-before", "B", "A-after"):
+            dl = os.path.join(base, f"b{i}-{slot}.driver.log")
+            if os.path.exists(dl):
+                mtimes[slot] = os.path.getmtime(dl)
+        if len(mtimes) < 3:
+            e["order_verified"] = f"skipped ({3 - len(mtimes)} driver log(s) missing)"
+            order_notes.append(f"b{i}: skipped")
+            continue
+        by_time = [s for s, _ in sorted(mtimes.items(), key=lambda kv: kv[1])]
+        if by_time == rec:
+            e["order_verified"] = "match"
+        else:
+            e["order_verified"] = f"MISMATCH recorded={rec} actual={by_time}"
+            order_fail.append(f"b{i} recorded={rec} actual={by_time}")
+    check("recorded bracket order matches execution order", not order_fail,
+          "; ".join(order_notes) or "all brackets match")
 
     # --- 2. Paired speedup ---
     speedups, a_means, b_tok, a_spread = [], [], [], []
@@ -245,6 +297,16 @@ def main():
         a_means.append(am)
         b_tok.append(b)
         a_spread.append(e["a_spread_rel"])
+    # candidate temporal position per bracket (recorded randomized order;
+    # legacy fixed A->B->A => middle)
+    for e in brackets:
+        i = e["index"]
+        rec = bracket_orders[i - 1] if bracket_orders and i - 1 < len(bracket_orders) else None
+        if rec and "B" in rec:
+            e["b_position"] = ("first" if rec.index("B") == 0
+                                else "last" if rec.index("B") == 2 else "middle")
+        else:
+            e["b_position"] = "middle"
     valid_s = [s for s in speedups if s is not None]
     if valid_s:
         med_s = statistics.median(valid_s)
@@ -252,6 +314,12 @@ def main():
         ci = bootstrap_ci(valid_s)
     else:
         med_s = q = ci = None
+    s_by_position = {}
+    for pos in ("first", "middle", "last"):
+        vals = [s for e, s in zip(brackets, speedups) if e["b_position"] == pos and s is not None]
+        if vals:
+            s_by_position[pos] = {"n": len(vals), "median": statistics.median(vals),
+                                  "values": [round(v, 4) for v in vals]}
     speedup_stats = {
         "n": len(valid_s),
         "median": med_s,
@@ -260,6 +328,8 @@ def main():
         "max": max(valid_s) if valid_s else None,
         "bootstrap95_ci_of_median": ci,
         "per_bracket": speedups,
+        "b_positions": [e["b_position"] for e in brackets],
+        "s_by_position": s_by_position,
     }
     check("paired speedup computed", len(valid_s) == n_brackets,
           "median S=%.3f, per-bracket %s" % (med_s or 0, [round(s, 3) if s else None for s in speedups]))
@@ -312,7 +382,8 @@ def main():
             for a in EXPECTED_ARTIFACTS:
                 if not os.path.exists(os.path.join(d, a)):
                     missing.append(f"{os.path.basename(d)}:{a}")
-    check("raw artifacts retained", not missing, ",".join(missing) or "all artifacts in all 12 runs")
+    check("raw artifacts retained", not missing,
+          ",".join(missing) or f"all artifacts in all {n_brackets * 3} runs")
 
     # --- 5. Env covariates ---
     env_files = [f for i in range(1, n_brackets + 1) for f in
@@ -373,7 +444,8 @@ def main():
         "flag": warm,
     }
     check("no warmup artifact (first bracket vs rest)", not warm,
-          f"first {first_mean:.3f} vs rest {rest_mean:.3f} tok/s ({warmup_check['rel_diff']*100:+.1f}% rel)")
+          (f"first {first_mean:.3f} vs rest {rest_mean:.3f} tok/s "
+           f"({warmup_check['rel_diff']*100:+.1f}% rel)") if rest_mean else "n/a (single bracket)")
 
     a_means_by_index = [statistics.mean([e["A_before"]["tok_per_s"], e["A_after"]["tok_per_s"]]) for e in brackets]
     slope = linear_slope(a_means_by_index)
@@ -383,13 +455,34 @@ def main():
     check("no strong drift across brackets", not drift_check["flag"],
           f"slope {slope:.4f} tok/s per bracket ({drift*100:+.2f}% rel/bracket)" if drift is not None else "slope n/a")
 
+    # --- Null-mode diagnostics (REPORTED, not exit gates: statistical
+    #     outcomes are judged in the phase report, not by the harness) ---
+    null_diag = None
+    if mode == "null" and valid_s:
+        log_s = [math.log(s) for s in valid_s if s and s > 0]
+        if log_s:
+            ci_log = bootstrap_ci(log_s)
+            null_diag = {
+                "n": len(log_s),
+                "median_s": math.exp(statistics.median(log_s)),
+                "median_log_s": statistics.median(log_s),
+                "bootstrap95_ci_of_median_log_s": ci_log,
+                "sign_test_p_median_log_s_eq_0": sign_test(log_s),
+                "centered_at_1": bool(ci_log and ci_log[0] <= 0 <= ci_log[1]),
+            }
+
     # --- Assemble ---
     all_ok = all(c["ok"] for c in checks)
     summary = {
         "harness": harness,
+        "mode": mode,
+        "pilot": pilot,
         "config": args.config,
         "a_workers": a_workers,
         "b_workers": b_workers,
+        "b_effective_workers": b_expected,
+        "bracket_orders": bracket_orders,
+        "null_diagnostics": null_diag,
         "checks": checks,
         "speedup": speedup_stats,
         "a_spread_rel": a_spread,
@@ -404,23 +497,37 @@ def main():
                          "workers_ok", "invariants_ok", "cpu_pct", "error")} if isinstance(v, dict) else v))
                       for k, v in e.items()} for e in brackets],
     }
-    jp = os.path.join(args.outdir, "phase-09g-pilot-summary.json")
+    jp = os.path.join(args.outdir, "phase-09g-pilot-summary.json" if pilot else "phase-09g-summary.json")
     with open(jp, "w") as f:
         json.dump(summary, f, indent=2, default=str)
 
     # --- Print ---
-    print(f"=== Phase 9G harness pilot: {args.config} (A=w{a_workers} frozen, B=w{b_workers}) ===")
+    tag = "pilot" if pilot else "analysis"
+    mode_label = "(null: B is sham A)" if mode == "null" else f"(B=w{b_workers})"
+    print(f"=== Phase 9G harness {tag}: {args.config} (A=w{a_workers} frozen, B=w{b_expected} {mode_label}) ===")
+    print(f"    bracket order: {[e['b_position'] for e in brackets]} (recorded seed {harness.get('seed')})")
     print(f"{'bracket':>7} | {'A_before':>8} | {'B':>8} | {'A_after':>8} | {'S_i':>6} | {'A spread':>8}")
     for e in brackets:
         print(f"{e['index']:>7} | {e['A_before']['tok_per_s']:8.3f} | {e['B']['tok_per_s']:8.3f} | "
               f"{e['A_after']['tok_per_s']:8.3f} | {(e['paired_speedup'] or 0):6.3f} | "
               f"{(e['a_spread_rel'] or 0)*100:7.2f}%")
     print(f"\npaired speedup: median {med_s:.3f}" + (f"  95% CI [{ci[0]:.3f}, {ci[1]:.3f}]" if ci else ""))
+    if s_by_position:
+        print("S by candidate position: " + "; ".join(
+            f"{pos}={v['median']:.3f} (n={v['n']})" for pos, v in s_by_position.items()))
     print(f"A-bracket spread: CV {summary['a_cv_pct']:.1f}%  |  A mean {statistics.mean(a_all):.3f} tok/s")
+    if null_diag:
+        c = null_diag
+        ci = c['bootstrap95_ci_of_median_log_s']
+        print(f"\nnull diagnostics (mode=null; reported, not gates):")
+        print(f"  median S {c['median_s']:.3f}  median log S {c['median_log_s']:+.4f}")
+        print(f"  95% CI of median log S {[round(x, 4) for x in ci] if ci else 'n/a (n<2)'}  "
+              f"sign-test p {c['sign_test_p_median_log_s_eq_0']:.3f}  centered_at_1={c['centered_at_1']}")
     print("\n--- checks ---")
     for c in checks:
         print(f"  [{'PASS' if c['ok'] else 'FAIL'}] {c['name']}: {c['detail']}")
-    print(f"\noverall: {'PILOT PASS' if all_ok else 'PILOT FAIL'}")
+    verdict = ("PILOT PASS" if pilot else "HARNESS PASS") if all_ok else ("PILOT FAIL" if pilot else "HARNESS FAIL")
+    print(f"\noverall: {verdict}")
     print(f"wrote {jp}")
     return 0 if all_ok else 1
 

@@ -1131,6 +1131,15 @@ cross-session baselines are unstable enough to falsify a correct mechanism.
 `progress/phase-09g-design.md`; seed variance analysis in
 `benchmarks/results/phase-09g/variance-9d-9f.json`.
 
+Status (2026-08-28): harness pilot PASS (n=4 brackets / 12 runs;
+`progress/phase-09g-harness-pilot-report.md`). Harness frozen with
+within-bracket execution-order randomization (seeded, recorded in
+`harness.json`) and `MODE=null` (sham middle-B under identical
+machinery/labels; no special null path). Full experiment — variance
+decomposition, ≥10 null brackets, positive control (W4), power table
+from measured σ_s — runs in idle windows per design §5, with 3 shorter
+sessions preferred over one marathon. Protocol documented in `TOOLS.md`.
+
 ### Report
 
     progress/phase-09g-report.md
