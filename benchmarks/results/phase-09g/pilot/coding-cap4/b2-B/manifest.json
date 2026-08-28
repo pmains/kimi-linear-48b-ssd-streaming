@@ -1,0 +1,12 @@
+{
+  "prompt": "benchmarks/prompts/phase-03-coding-lru.md",
+  "n_tokens": 128,
+  "seed": 1,
+  "backend": "cpu",
+  "stream_mode": "naive",
+  "llama_commit": "caea707b7d216c8685cf85db1a2682e26deb47d9",
+  "llama_worktree_dirty": false,
+  "phase7_instrumentation": 1,
+  "read_workers": 4,
+  "captured_at": "2026-08-28T18:19:39Z"
+}
