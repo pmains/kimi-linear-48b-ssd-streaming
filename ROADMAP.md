@@ -1034,6 +1034,18 @@ Do not optimize further merely because optimization opportunities exist.
 Review the measurements and determine whether the architecture warrants
 additional engineering.
 
+Post-Phase-8 continuation is explicitly selected work, not automatic:
+
+- Phase 9G (benchmark methodology) PASSED 2026-08-29 and froze the
+  measurement protocol;
+- Phase 10 packages the frozen scientific baseline for external
+  reproduction — it does not change the experimental result;
+- the K-track (K1 MXFP4, K2 native runtime, …) is the only authorized
+  optimization work, each phase gated on measured evidence and
+  evaluated under the frozen 9G protocol.
+
+Archived-baseline comparisons are NOT valid optimization gates.
+
 ## Phase 9 Selection Gate (2026-08-27)
 
 Before any Phase 9 work, the selection gate ran a trace replay of the
@@ -1063,8 +1075,10 @@ is a separate, parallel engineering track, maintained in
   KV-session persistence, cold-start behavior, agent-latency
   decomposition) belongs to `SERVICE-ROADMAP.md`, NOT to Phase 9+ of
   this file.
-- Phase 9+ in this file remains inference-runtime development and
-  optimization only (streaming optimization, MXFP4, native kernels).
+- Phase 9+ in this file remains inference-runtime work only: Phase 10
+  (reproducible release of the frozen baseline) and the K-track
+  (MXFP4, native kernels, storage/repack pipeline). All optimization
+  is evaluated under the frozen 9G protocol.
 - Inference optimization work (repack batching, prefetching,
   asynchronous I/O, cache-policy changes, new kernels) belongs here,
   NOT in `SERVICE-ROADMAP.md`.
@@ -1077,13 +1091,14 @@ The two tracks converge here:
 
 ## Potential Phase 9 — Streaming Optimization
 
-**PAUSED (2026-08-28).** Optimization subphases 9A–9F are complete and the
-9E end-to-end prediction was falsified by cross-session baseline
-instability (see `progress/phase-09f-report.md`). Before further
-optimization, the next phase is **Phase 9G — Benchmark Methodology**
-(paired bracketed A/B, variance quantification, frozen protocol). No new
-optimization subphase may be started until 9G passes and its protocol is
-frozen. Archived-baseline comparisons are NOT valid optimization gates.
+**PAUSED (2026-08-28); superseded (2026-08-29).** Optimization subphases
+9A–9F are complete; the 9E end-to-end prediction was falsified by
+cross-session baseline instability (see `progress/phase-09f-report.md`),
+and 9G PASSED on 2026-08-29, freezing the paired bracketed protocol.
+9A–9F remain closed. No further streaming-optimization subphase will be
+started under the old numbering; future optimization proceeds through
+the K-track (K1, K2, …) under the frozen 9G protocol. Archived-baseline
+comparisons are NOT valid optimization gates.
 
 Proceed only if Phase 8 demonstrates that streaming is viable.
 
@@ -1131,14 +1146,14 @@ cross-session baselines are unstable enough to falsify a correct mechanism.
 `progress/phase-09g-design.md`; seed variance analysis in
 `benchmarks/results/phase-09g/variance-9d-9f.json`.
 
-Status (2026-08-28): harness pilot PASS (n=4 brackets / 12 runs;
-`progress/phase-09g-harness-pilot-report.md`). Harness frozen with
-within-bracket execution-order randomization (seeded, recorded in
-`harness.json`) and `MODE=null` (sham middle-B under identical
-machinery/labels; no special null path). Full experiment — variance
-decomposition, ≥10 null brackets, positive control (W4), power table
-from measured σ_s — runs in idle windows per design §5, with 3 shorter
-sessions preferred over one marathon. Protocol documented in `TOOLS.md`.
+Status (2026-08-29): **PASS** — full experiment complete (sessions 1–3,
+30 null + 30 positive brackets, coding-cap4, seeds 1787983806 /
+1788018038 / 1788029761). Null pooled median S = 1.002 (median log S
++0.0018, empirical FPR 2.7% vs nominal 5%); positive control (W4 vs W1)
+pooled median S = 1.180 with all session CIs excluding the 1.10 gate;
+power table from measured sd(log S) = 0.0559: 11 / 3 / 1 brackets for
+5 / 10 / 20% effects. Harness frozen at `c40c008`; protocol documented
+in `TOOLS.md`. Full results: `progress/phase-09g-report.md`.
 
 ### Report
 
@@ -1146,27 +1161,106 @@ sessions preferred over one marathon. Protocol documented in `TOOLS.md`.
 
 ---
 
-## Potential Phase 10 — MXFP4
-
-Proceed only after routing and streaming work correctly.
+## Phase 10 — Reproducible Release
 
 ### Goal
 
-Determine whether MXFP4 can improve the memory/performance frontier
-without unacceptable quality loss.
+Turn the frozen Kimi Linear storage-backed inference implementation into
+a reproducible public artifact that another technically competent user
+can install, run, benchmark, and validate without knowledge of the
+project's development history.
 
-Evaluate:
+Phase 9 remains the frozen scientific baseline. This phase packages that
+baseline for external use; it does not change the experimental result.
 
-- model storage;
-- resident memory;
-- expert-cache density;
-- model quality;
-- inference throughput;
-- cost of decoding or directly computing MXFP4 weights.
+### Build
 
-Prefer existing ggml/Metal functionality where available.
+Provide a documented build process from a clean checkout.
 
-Implement new kernels only when required and justified by measurement.
+Prefer:
+
+1. standard llama.cpp build mechanisms;
+2. minimal required patches or maintained fork;
+3. automated dependency detection where practical.
+
+A clean machine should not require undocumented manual source changes.
+
+### Model Setup
+
+Document:
+
+- supported Kimi Linear model/version;
+- supported GGUF quantization;
+- model acquisition;
+- expected file size/checksum where appropriate;
+- required context/cache configuration.
+
+Do not redistribute model weights unless permitted.
+
+### Runtime
+
+Provide a simple supported launch path.
+
+The user should not need to understand the internal experimental
+architecture to start the server.
+
+Expose important configuration explicitly, including:
+
+- expert-cache size;
+- expert-read worker count;
+- context size;
+- storage/model path;
+- relevant performance options.
+
+Defaults should represent the validated Phase 9 configuration where
+appropriate.
+
+### Validation
+
+Provide a short reproducibility test that verifies:
+
+- model loads successfully;
+- storage-backed expert execution is active;
+- routing/retrieval invariants hold;
+- generated output is valid;
+- expected instrumentation is produced.
+
+Provide a separate benchmark/reproduction path for users who want to
+replicate the Phase 9 performance results.
+
+Installation success and scientific reproduction should not require
+running the entire historical Phase 1–9 workflow.
+
+### Documentation
+
+README should contain a clean path:
+
+    clone
+    build/install
+    obtain model
+    run
+    verify
+    benchmark
+
+Document:
+
+- supported hardware/OS;
+- expected RAM and disk requirements;
+- known limitations;
+- expected approximate performance;
+- configuration knobs;
+- troubleshooting.
+
+### External Reproduction Gate
+
+Before declaring Phase 10 complete, perform at least one clean-room
+installation from the public instructions.
+
+Preferably, obtain an independent reproduction from another user or
+machine without providing undocumented intervention.
+
+Record failures as reproducibility findings and fix the installation
+process rather than coaching around them.
 
 ### Report
 
@@ -1174,15 +1268,50 @@ Implement new kernels only when required and justified by measurement.
 
 ---
 
-## Potential Phase 11 — Native Runtime Optimization
+## Kimi Optimization K1 — MXFP4
 
-The project is already expected to use a native runtime.
+### Goal
 
-This phase therefore does NOT mean "rewrite the project in C."
+Determine whether MXFP4 can improve the practical memory/performance
+frontier without unacceptable quality loss.
 
-It means implementing lower-level specialized functionality only where
-profiling demonstrates that the existing llama.cpp / ggml / Metal path
-cannot efficiently support the required behavior.
+Evaluate:
+
+- model storage;
+- resident memory;
+- expert-cache density;
+- SSD traffic per token;
+- model quality;
+- inference throughput;
+- MXFP4 decode/conversion overhead;
+- direct MXFP4 computation where supported.
+
+Particular attention should be paid to whether increased expert-cache
+density reduces reload traffic enough to materially change the storage
+bottleneck observed in Phase 8/9.
+
+Prefer existing ggml/Metal functionality where available.
+
+Implement new kernels only when required and justified by measurement.
+
+### Promotion
+
+Promote to the Kimi production baseline only if the measured practical
+benefit justifies the quality and implementation costs.
+
+### Report
+
+    progress/kimi-k1-mxfp4-report.md
+
+---
+
+## Kimi Optimization K2 — Native Runtime Optimization
+
+### Goal
+
+Implement lower-level specialized functionality only where profiling
+demonstrates that the existing llama.cpp / ggml / Metal path cannot
+efficiently support the required behavior.
 
 Potential work includes:
 
@@ -1190,10 +1319,21 @@ Potential work includes:
 - custom Metal kernels;
 - native MXFP4 operations;
 - direct I/O;
-- specialized memory management.
+- specialized memory management;
+- storage/repack pipeline improvements.
 
-Do not build a new inference engine unless evidence demonstrates that the
-existing runtime architecture fundamentally prevents the desired result.
+Do not build a new inference engine unless evidence demonstrates that
+the existing runtime architecture fundamentally prevents the desired
+result.
+
+Each intervention should target a measured bottleneck and be evaluated
+against the current production baseline using the Phase 9G protocol.
+
+### Report
+
+    progress/kimi-k2-native-runtime-report.md
+
+With the possibility of K3, etc. if future investigation warrants.
 
 ---
 
