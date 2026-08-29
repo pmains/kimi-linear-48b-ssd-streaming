@@ -27,7 +27,8 @@ import os
 import sys
 
 # stats.csv columns (1-indexed, Phase 7 layout; Phase 9D appends
-# pread_wall_us as an optional trailing column 31)
+# pread_wall_us as an optional trailing column 31; Phase 9F appends
+# hidden_us as an optional trailing column 32)
 C = {
     "step": 0, "phase": 1, "n_tokens": 2, "pread_calls": 3, "pread_bytes": 4,
     "pread_us": 5, "copy_us": 6, "sync_us": 7, "route_us": 8, "expert_us": 9,
@@ -37,6 +38,7 @@ C = {
     "placement_bytes": 23, "zc_hits": 24, "ph_hits": 25, "zc_hit_bytes": 26,
     "build_measured_us": 27, "other_us": 28, "n_unique": 29,
     "pread_wall_us": 30,  # optional (Phase 9D); falls back to pread_us
+    "hidden_us": 31,      # optional (Phase 9F); 0 when absent
 }
 NCOLS = 30  # minimum; row 31 (pread_wall_us) read when present
 
@@ -64,6 +66,13 @@ def read_stats(path):
                     row.append(int(parts[NCOLS]))
                 else:
                     row.append(row[C["pread_us"]])
+                # Phase 9F optional column: measured read/repack overlap
+                # (0 when absent — legacy rows have no overlap by
+                # construction).
+                if len(parts) > NCOLS + 1:
+                    row.append(int(parts[NCOLS + 1]))
+                else:
+                    row.append(0)
             except ValueError:
                 continue  # header row
             rows.append(row)
@@ -279,11 +288,26 @@ def summarize_dir(d):
         # parallel expert-read, pread_us (col 5) is the SUM of per-syscall
         # latencies and may exceed the wall because reads overlap; the
         # component check therefore uses the read-phase wall (pread_wall_us,
-        # == pread_us when workers=1).
+        # == pread_us when workers=1). Phase 9F: pipelined repack overlaps
+        # the read wall with the repack/placement stages, so the component
+        # sum legitimately exceeds the total by the measured overlap
+        # (hidden_us, col 31). The identity is components + other == total +
+        # hidden, with other and hidden both >= 0.
         comp = (r[C["pread_wall_us"]] + r[C["copy_us"]] + r[C["sync_us"]]
                 + r[C["route_us"]] + r[C["expert_us"]] + r[C["build_measured_us"]])
-        if comp > r[C["total_us"]] + 1000:  # 1 ms slack for clock granularity
-            violations.append(f"step {r[C['step']]}: component sum {comp} > total {r[C['total_us']]}")
+        other = r[C["other_us"]]
+        hidden = r[C["hidden_us"]]
+        if other < 0 or hidden < 0:
+            violations.append(f"step {r[C['step']]}: negative residual (other {other}, hidden {hidden})")
+            bad += 1
+        if abs(comp + other - (r[C["total_us"]] + hidden)) > 1000:
+            violations.append(f"step {r[C['step']]}: components+other {comp + other} != total+hidden {r[C['total_us']] + hidden}")
+            bad += 1
+        if hidden > 2000 and r[C["pread_wall_us"]] == r[C["pread_us"]]:
+            # workers=1 (sequential reads) cannot overlap repack with reads;
+            # hidden > 0 there indicates an accounting inconsistency (sub-timer
+            # clock overlap can produce small values; 2 ms threshold).
+            violations.append(f"step {r[C['step']]}: hidden_us {hidden} with sequential reads (pread_wall == pread_us)")
             bad += 1
     res["zc_mode"] = zc_mode
     res["pure_zc_decode_steps"] = n_pure_zc_decode
