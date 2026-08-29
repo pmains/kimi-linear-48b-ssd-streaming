@@ -1,0 +1,251 @@
+[
+  {
+    "dir": "benchmarks/results/phase-09g/session-2/positive/coding-cap4/b10-B",
+    "steps": 131,
+    "invariants": {
+      "violations": [],
+      "ok": true
+    },
+    "cache_all": {
+      "lookups": 27742,
+      "hits": 17538,
+      "misses": 10204,
+      "zc_hits": 17538,
+      "ph_hits": 0,
+      "evictions": 10112,
+      "hit_rate": 0.6321822507389517,
+      "zc_hit_rate": 0.6321822507389517,
+      "ph_hit_rate": 0.0,
+      "pread_bytes": 63907246080,
+      "repack_bytes": 63907246080,
+      "placement_bytes": 47743340544,
+      "hit_bytes": 75024230400,
+      "zc_hit_bytes": 75024230400,
+      "unique_ranges": 32429
+    },
+    "cache_decode_steady": {
+      "lookups": 25584,
+      "hits": 16996,
+      "misses": 8588,
+      "zc_hits": 16996,
+      "ph_hits": 0,
+      "evictions": 8584,
+      "hit_rate": 0.6643214509068167,
+      "zc_hit_rate": 0.6643214509068167,
+      "ph_hit_rate": 0.0,
+      "pread_bytes": 36934133760,
+      "repack_bytes": 36934133760,
+      "placement_bytes": 36934133760,
+      "hit_bytes": 72704563200,
+      "zc_hit_bytes": 72704563200,
+      "unique_ranges": 25584
+    },
+    "cache_bytes_used_mb": 4094.5078125,
+    "cache_budget_mb": 4096.0,
+    "ssd_mb_per_token_decode": 286.3669493140244,
+    "mem_prefill_peak_phys_mb": 6450.9,
+    "mem_decode_steady_phys_mb": 5586.092682926829,
+    "mem_decode_steady_resident_mb": 5596.504065040651,
+    "mem_max_sched_mb": 167.5,
+    "cache_layers": [
+      {
+        "il": 1,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 2,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 3,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 4,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 5,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 6,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 7,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 8,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 9,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 10,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 11,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 12,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 13,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 14,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 15,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 16,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 17,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 18,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 19,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 20,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 21,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 22,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 23,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 24,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 25,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 26,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      }
+    ],
+    "cache_layers_total_cap": 1002,
+    "cache_layers_total_used": 1002,
+    "cache_layers_total_occupied_mb": 4094.5078125,
+    "zc_mode": true,
+    "pure_zc_decode_steps": 129,
+    "mixed_fallback_steps": 0,
+    "per_phase": {
+      "prefill": {
+        "steps": 4,
+        "tokens": 241,
+        "tok_per_s_mean": 13.374416284422889,
+        "tok_per_s_median": 0.9741713089988587,
+        "avg_total_ms": 4504.8695,
+        "pread_ms": 3928.31475,
+        "repack_ms": 2109.83275,
+        "placement_ms": 315.565,
+        "copy_ms": 2425.39775,
+        "sync_ms": 0.007,
+        "route_ms": 443.151,
+        "expert_ms": 658.4845,
+        "build_ms": 88.133,
+        "build_measured_ms": 65.44025,
+        "other_ms": 24.72125
+      },
+      "decode": {
+        "steps": 127,
+        "tokens": 127,
+        "tok_per_s_mean": 5.759622299389068,
+        "tok_per_s_median": 5.760600945890675,
+        "avg_total_ms": 173.6224960629921,
+        "pread_ms": 141.1391338582677,
+        "repack_ms": 93.2574566929134,
+        "placement_ms": 5.0570944881889766,
+        "copy_ms": 98.31455118110236,
+        "sync_ms": 0.0014881889763779528,
+        "route_ms": 23.09826771653543,
+        "expert_ms": 16.503984251968504,
+        "build_ms": 0.0,
+        "build_measured_ms": 2.0652204724409446,
+        "other_ms": 0.0
+      }
+    }
+  }
+]

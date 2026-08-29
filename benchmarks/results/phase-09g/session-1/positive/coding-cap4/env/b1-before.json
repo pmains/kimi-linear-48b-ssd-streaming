@@ -1,0 +1,13 @@
+{
+  "captured_at_utc": "2026-08-29T06:39:44.124494+00:00",
+  "uptime": "23:39  up 15 days, 11:07, 3 users, load averages: 2.62 2.43 2.15",
+  "loadavg": "{ 2.62 2.43 2.15 }",
+  "memory_pressure": "The system has 25769803776 (1572864 pages with a page size of 16384).\nSystem-wide memory free percentage: 72%",
+  "vm_stat": "Mach Virtual Memory Statistics: (page size of 16384 bytes)\nPages free:                                   323326.\nPages active:                                 232869.\nPages inactive:                               546402.\nPages speculative:                              7562.\nPages throttled:                                   0.\nPages wired down:                             146318.\nPages purgeable:                                  44.\n\"Translation faults\":                    13038804366.\nPages copy-on-write:                       134063830.\nPages zero filled:                        7629078710.\nPages reactivated:                        1677253000.\nPages purged:                              142135615.\nFile-backed pages:                            645793.",
+  "top_cpu": "PID  %CPU COMM\n  583  79.9 mds_stores\n39791  39.4 openclaw-gateway\n10205  16.4 com.nordvpn.macos.Shield\n61131   5.6 Python\n 6879   5.0 Brave Browser Helper (Renderer)\n  693   4.3 iTerm2\n61105   1.9 mdworker_shared",
+  "cpu_thermal_level": "",
+  "pmset_therm": "Note: No thermal warning level has been recorded\nNote: No performance warning level has been recorded\nNote: No CPU power status has been recorded",
+  "live_server_health": "{\"status\":\"ok\"}",
+  "live_server_procs": "21854 /Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server -m models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf -ngl 0 --no-mmap --ctx-size 65536 --host 127.0.0.1 --port 18080 --parallel 1 --slot-save-path /Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache",
+  "bench_procs": ""
+}

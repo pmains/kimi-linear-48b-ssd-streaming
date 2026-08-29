@@ -1,0 +1,251 @@
+[
+  {
+    "dir": "benchmarks/results/phase-09g/session-3/positive/coding-cap4/b7-A-after",
+    "steps": 131,
+    "invariants": {
+      "violations": [],
+      "ok": true
+    },
+    "cache_all": {
+      "lookups": 27742,
+      "hits": 17538,
+      "misses": 10204,
+      "zc_hits": 17538,
+      "ph_hits": 0,
+      "evictions": 10112,
+      "hit_rate": 0.6321822507389517,
+      "zc_hit_rate": 0.6321822507389517,
+      "ph_hit_rate": 0.0,
+      "pread_bytes": 63907246080,
+      "repack_bytes": 63907246080,
+      "placement_bytes": 47743340544,
+      "hit_bytes": 75024230400,
+      "zc_hit_bytes": 75024230400,
+      "unique_ranges": 32429
+    },
+    "cache_decode_steady": {
+      "lookups": 25584,
+      "hits": 16996,
+      "misses": 8588,
+      "zc_hits": 16996,
+      "ph_hits": 0,
+      "evictions": 8584,
+      "hit_rate": 0.6643214509068167,
+      "zc_hit_rate": 0.6643214509068167,
+      "ph_hit_rate": 0.0,
+      "pread_bytes": 36934133760,
+      "repack_bytes": 36934133760,
+      "placement_bytes": 36934133760,
+      "hit_bytes": 72704563200,
+      "zc_hit_bytes": 72704563200,
+      "unique_ranges": 25584
+    },
+    "cache_bytes_used_mb": 4094.5078125,
+    "cache_budget_mb": 4096.0,
+    "ssd_mb_per_token_decode": 286.3669493140244,
+    "mem_prefill_peak_phys_mb": 6427.6,
+    "mem_decode_steady_phys_mb": 5580.99430894309,
+    "mem_decode_steady_resident_mb": 5582.89918699187,
+    "mem_max_sched_mb": 167.5,
+    "cache_layers": [
+      {
+        "il": 1,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 2,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 3,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 4,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 5,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 6,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 7,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 8,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 9,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 10,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 11,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 12,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 13,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 14,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 15,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 16,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 17,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 18,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 19,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 20,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 21,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 22,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 23,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 24,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 25,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 26,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      }
+    ],
+    "cache_layers_total_cap": 1002,
+    "cache_layers_total_used": 1002,
+    "cache_layers_total_occupied_mb": 4094.5078125,
+    "zc_mode": true,
+    "pure_zc_decode_steps": 129,
+    "mixed_fallback_steps": 0,
+    "per_phase": {
+      "prefill": {
+        "steps": 4,
+        "tokens": 241,
+        "tok_per_s_mean": 11.963272257767317,
+        "tok_per_s_median": 0.7339926299800024,
+        "avg_total_ms": 5036.2475,
+        "pread_ms": 1770.702,
+        "repack_ms": 1715.66775,
+        "placement_ms": 291.101,
+        "copy_ms": 2006.76875,
+        "sync_ms": 0.007,
+        "route_ms": 426.12225,
+        "expert_ms": 735.7715,
+        "build_ms": 96.79225,
+        "build_measured_ms": 57.34225,
+        "other_ms": 39.45
+      },
+      "decode": {
+        "steps": 127,
+        "tokens": 127,
+        "tok_per_s_mean": 5.478318927367585,
+        "tok_per_s_median": 5.5068505220494295,
+        "avg_total_ms": 182.53774803149608,
+        "pread_ms": 63.49172440944882,
+        "repack_ms": 66.5811968503937,
+        "placement_ms": 4.864314960629921,
+        "copy_ms": 71.44551181102362,
+        "sync_ms": 0.0011417322834645668,
+        "route_ms": 20.13356692913386,
+        "expert_ms": 15.799968503937007,
+        "build_ms": 11.6611968503937,
+        "build_measured_ms": 1.87796062992126,
+        "other_ms": 9.78323622047244
+      }
+    }
+  }
+]

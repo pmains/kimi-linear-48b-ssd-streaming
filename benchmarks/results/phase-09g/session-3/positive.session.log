@@ -1,0 +1,101 @@
+=== Phase 9G harness: config=coding-cap4 mode=positive brackets=10 n_tokens=128 seed=1788029761 ===
+    A=workers=1 (frozen)  B=workers=4 (candidate)  cache=4096MiB
+=== bracket 1/10 (order: A-after B A-before) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b1-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b1-A-after
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b1-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b1-A-before
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b1-after.json
+=== bracket 2/10 (order: A-before B A-after) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b2-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b2-A-before
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b2-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b2-A-after
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b2-after.json
+=== bracket 3/10 (order: A-before B A-after) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b3-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b3-A-before
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b3-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b3-A-after
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b3-after.json
+=== bracket 4/10 (order: B A-after A-before) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b4-before.json
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b4-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b4-A-after
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b4-A-before
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b4-after.json
+=== bracket 5/10 (order: A-before A-after B) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b5-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b5-A-before
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b5-A-after
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b5-B
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b5-after.json
+=== bracket 6/10 (order: B A-after A-before) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b6-before.json
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b6-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b6-A-after
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b6-A-before
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b6-after.json
+=== bracket 7/10 (order: A-before A-after B) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b7-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b7-A-before
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b7-A-after
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b7-B
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b7-after.json
+=== bracket 8/10 (order: A-before A-after B) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b8-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b8-A-before
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b8-A-after
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b8-B
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b8-after.json
+=== bracket 9/10 (order: B A-after A-before) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b9-before.json
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b9-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b9-A-after
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b9-A-before
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b9-after.json
+=== bracket 10/10 (order: A-after B A-before) ===
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b10-before.json
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b10-A-after
+  running workers=4 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b10-B
+  running workers=1 cache=4096MiB -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/b10-A-before
+env snapshot -> benchmarks/results/phase-09g/session-3/positive/coding-cap4/env/b10-after.json
+harness complete: benchmarks/results/phase-09g/session-3/positive/coding-cap4
+analyze with: python3 tools/phase09g_analyze.py benchmarks/results/phase-09g/session-3/positive
+=== Phase 9G harness analysis: coding-cap4 (A=w1 frozen, B=w4 (B=w4)) ===
+    bracket order: ['middle', 'middle', 'middle', 'first', 'last', 'first', 'last', 'last', 'first', 'middle'] (recorded seed 1788029761)
+bracket | A_before |        B |  A_after |    S_i | A spread
+      1 |    5.371 |    7.074 |    5.365 |  1.318 |    0.11%
+      2 |    5.156 |    6.852 |    5.245 |  1.318 |    1.72%
+      3 |    5.135 |    6.141 |    5.420 |  1.164 |    5.39%
+      4 |    5.359 |    6.068 |    5.082 |  1.162 |    5.31%
+      5 |    5.131 |    6.870 |    5.110 |  1.342 |    0.42%
+      6 |    5.079 |    6.053 |    5.639 |  1.129 |   10.46%
+      7 |    5.260 |    6.389 |    5.569 |  1.180 |    5.72%
+      8 |    5.370 |    6.101 |    5.191 |  1.155 |    3.40%
+      9 |    5.654 |    6.124 |    5.159 |  1.133 |    9.16%
+     10 |    5.257 |    6.242 |    5.667 |  1.143 |    7.50%
+
+paired speedup: median 1.163  95% CI [1.143, 1.318]
+S by candidate position: first=1.133 (n=3); middle=1.241 (n=4); last=1.180 (n=3)
+A-bracket spread: CV 3.7%  |  A mean 5.311 tok/s
+
+--- checks ---
+  [PASS] bracket execution: 10 brackets x 3 runs complete
+  [PASS] manifest worker counts: A=1 B=4 (mode=positive); bad: none
+  [PASS] recorded bracket order matches execution order: all brackets match
+  [PASS] paired speedup computed: median S=1.163, per-bracket [1.318, 1.318, 1.164, 1.162, 1.342, 1.129, 1.18, 1.155, 1.133, 1.143]
+  [PASS] moe md5 == frozen baseline: baseline=da45ab777b0fdd99be62f6c46a642e5c; bad: none
+  [PASS] retr byte-identity across all runs: identical
+  [PASS] retr present everywhere: all present
+  [PASS] phase07 per-step invariants: 30/30 PASS; bad: none
+  [PASS] run.log clean: no error/assert/abort markers
+  [PASS] raw artifacts retained: all artifacts in all 30 runs
+  [PASS] env covariates captured: 20 snapshots (10 brackets x before/after)
+  [PASS] env covariates parseable: 20 snapshots summarized
+  [PASS] no position bias (A_before vs A_after): mean delta +1.42% rel, sign test p=1.246
+  [PASS] no warmup artifact (first bracket vs rest): first 5.368 vs rest 5.305 tok/s (+1.2% rel)
+  [PASS] no strong drift across brackets: slope 0.0189 tok/s per bracket (+0.36% rel/bracket)
+
+overall: HARNESS PASS
+wrote benchmarks/results/phase-09g/session-3/positive/phase-09g-summary.json

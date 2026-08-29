@@ -1,0 +1,251 @@
+[
+  {
+    "dir": "benchmarks/results/phase-09g/session-3/null/coding-cap4/b4-B",
+    "steps": 131,
+    "invariants": {
+      "violations": [],
+      "ok": true
+    },
+    "cache_all": {
+      "lookups": 27742,
+      "hits": 17538,
+      "misses": 10204,
+      "zc_hits": 17538,
+      "ph_hits": 0,
+      "evictions": 10112,
+      "hit_rate": 0.6321822507389517,
+      "zc_hit_rate": 0.6321822507389517,
+      "ph_hit_rate": 0.0,
+      "pread_bytes": 63907246080,
+      "repack_bytes": 63907246080,
+      "placement_bytes": 47743340544,
+      "hit_bytes": 75024230400,
+      "zc_hit_bytes": 75024230400,
+      "unique_ranges": 32429
+    },
+    "cache_decode_steady": {
+      "lookups": 25584,
+      "hits": 16996,
+      "misses": 8588,
+      "zc_hits": 16996,
+      "ph_hits": 0,
+      "evictions": 8584,
+      "hit_rate": 0.6643214509068167,
+      "zc_hit_rate": 0.6643214509068167,
+      "ph_hit_rate": 0.0,
+      "pread_bytes": 36934133760,
+      "repack_bytes": 36934133760,
+      "placement_bytes": 36934133760,
+      "hit_bytes": 72704563200,
+      "zc_hit_bytes": 72704563200,
+      "unique_ranges": 25584
+    },
+    "cache_bytes_used_mb": 4094.5078125,
+    "cache_budget_mb": 4096.0,
+    "ssd_mb_per_token_decode": 286.3669493140244,
+    "mem_prefill_peak_phys_mb": 6427.5,
+    "mem_decode_steady_phys_mb": 5563.731707317073,
+    "mem_decode_steady_resident_mb": 5640.485365853659,
+    "mem_max_sched_mb": 167.5,
+    "cache_layers": [
+      {
+        "il": 1,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 2,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 3,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 4,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 5,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 6,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 7,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 8,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 9,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 10,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 11,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 12,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 178993152
+      },
+      {
+        "il": 13,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 14,
+        "cap_slots": 39,
+        "used_slots": 39,
+        "occupied_bytes": 155271168
+      },
+      {
+        "il": 15,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 16,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 17,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 18,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 19,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 20,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 21,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 22,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 151289856
+      },
+      {
+        "il": 23,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 24,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 25,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      },
+      {
+        "il": 26,
+        "cap_slots": 38,
+        "used_slots": 38,
+        "occupied_bytes": 174403584
+      }
+    ],
+    "cache_layers_total_cap": 1002,
+    "cache_layers_total_used": 1002,
+    "cache_layers_total_occupied_mb": 4094.5078125,
+    "zc_mode": true,
+    "pure_zc_decode_steps": 129,
+    "mixed_fallback_steps": 0,
+    "per_phase": {
+      "prefill": {
+        "steps": 4,
+        "tokens": 241,
+        "tok_per_s_mean": 11.238924995425151,
+        "tok_per_s_median": 0.7334292658813106,
+        "avg_total_ms": 5360.833,
+        "pread_ms": 1744.17275,
+        "repack_ms": 1892.59925,
+        "placement_ms": 279.8705,
+        "copy_ms": 2172.46975,
+        "sync_ms": 0.0075,
+        "route_ms": 510.9855,
+        "expert_ms": 840.375,
+        "build_ms": 92.744,
+        "build_measured_ms": 53.829,
+        "other_ms": 38.915
+      },
+      "decode": {
+        "steps": 127,
+        "tokens": 127,
+        "tok_per_s_mean": 4.990547627723537,
+        "tok_per_s_median": 5.074313318550167,
+        "avg_total_ms": 200.37881102362206,
+        "pread_ms": 63.31279527559055,
+        "repack_ms": 80.15074803149605,
+        "placement_ms": 4.412724409448819,
+        "copy_ms": 84.56347244094488,
+        "sync_ms": 0.0012440944881889763,
+        "route_ms": 22.14291338582677,
+        "expert_ms": 17.586110236220474,
+        "build_ms": 12.768062992125984,
+        "build_measured_ms": 1.7796850393700787,
+        "other_ms": 10.988377952755906
+      }
+    }
+  }
+]
