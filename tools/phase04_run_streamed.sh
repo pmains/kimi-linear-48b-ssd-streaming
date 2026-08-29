@@ -17,8 +17,15 @@ N="${3:?n tokens}"
 SEED="${4:-1}"
 MODE="${5:-naive}"
 
-MODEL="/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf"
-CLI="/Users/pmains/Code/openclaw/kimi/llama.cpp/build-metal/bin/llama-cli"
+# Repo-relative defaults with env overrides (Phase 10 release path):
+#   KIMI_MODEL  -> GGUF path (default: models/kimi-linear/...)
+#   KIMI_CLI    -> llama-cli binary (default: runtime/release-9f/bin/llama-cli)
+#   KIMI_LLAMA_GIT -> path to the llama.cpp checkout used for provenance
+#   KIMI_REPO   -> repo root (default: resolved from this script's location)
+REPO_ROOT="${KIMI_REPO:-$(cd "$(dirname "$0")/.." && pwd)}"
+MODEL="${KIMI_MODEL:-$REPO_ROOT/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf}"
+CLI="${KIMI_CLI:-$REPO_ROOT/runtime/release-9f/bin/llama-cli}"
+LLAMA_GIT="${KIMI_LLAMA_GIT:-$REPO_ROOT/llama.cpp}"
 
 mkdir -p "$OUTDIR"
 
@@ -49,9 +56,10 @@ KIMI_TRACE_MOE_FILE="$OUTDIR/moe.csv" \
     --no-display-prompt --no-conversation --single-turn < /dev/null > "$OUTDIR/run.log" 2>&1
 
 WORKTREE_DIRTY="false"
-if [ -n "$(git -C /Users/pmains/Code/openclaw/kimi/llama.cpp status --porcelain)" ]; then
+if [ -d "$LLAMA_GIT/.git" ] && [ -n "$(git -C "$LLAMA_GIT" status --porcelain 2>/dev/null)" ]; then
     WORKTREE_DIRTY="true"
 fi
+LLAMA_COMMIT="$(git -C "$LLAMA_GIT" rev-parse HEAD 2>/dev/null || echo unknown)"
 cat > "$OUTDIR/manifest.json" <<EOF
 {
   "prompt": "$PROMPT",
@@ -59,7 +67,7 @@ cat > "$OUTDIR/manifest.json" <<EOF
   "seed": $SEED,
   "backend": "cpu",
   "stream_mode": "$MODE",
-  "llama_commit": "$(git -C /Users/pmains/Code/openclaw/kimi/llama.cpp rev-parse HEAD)",
+  "llama_commit": "$LLAMA_COMMIT",
   "llama_worktree_dirty": $WORKTREE_DIRTY,
   "phase7_instrumentation": ${KIMI_PHASE7_INSTR:-0},
   "read_workers": ${KIMI_EXPERT_READ_WORKERS:-1},

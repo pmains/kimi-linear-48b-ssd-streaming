@@ -5,6 +5,11 @@ models/
 # tools/freeze_live_runtime.sh; provenance tracked in runtime/live/COMMIT)
 runtime/live/bin/
 
+# Phase 10 scientific release bundle binaries (reproducible via
+# tools/freeze_live_runtime.sh KIMI_FREEZE_*; provenance in
+# runtime/release-9f/COMMIT)
+runtime/release-9f/bin/
+
 # Nested working checkouts with their own git history
 llama.cpp/
 kimi-k3-in-c/
