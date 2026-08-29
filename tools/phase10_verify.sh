@@ -30,8 +30,19 @@ CACHE_MB="${KIMI_EXPERT_CACHE_MB:-4096}"
 READ_WORKERS="${KIMI_EXPERT_READ_WORKERS:-4}"
 FAIL=0
 
-if [ ! -f "$REPO_ROOT/runtime/release-9f/bin/llama-cli" ]; then
-    echo "FAIL: release bundle missing (runtime/release-9f/bin/llama-cli)" >&2
+# CLI resolution: explicit KIMI_CLI wins; else the release bundle; else a
+# source build (build-release or build-metal). The runner's own default is
+# build-metal (frozen 9G harness convention) — pass the resolved path.
+CLI="${KIMI_CLI:-}"
+if [ -z "$CLI" ]; then
+    for cand in "$REPO_ROOT/runtime/release-9f/bin/llama-cli" \
+                "$REPO_ROOT/llama.cpp/build-release/bin/llama-cli" \
+                "$REPO_ROOT/llama.cpp/build-metal/bin/llama-cli"; do
+        if [ -x "$cand" ]; then CLI="$cand"; break; fi
+    done
+fi
+if [ -z "$CLI" ] || [ ! -x "$CLI" ]; then
+    echo "FAIL: no llama-cli found (set KIMI_CLI, or build the release bundle / source tree)" >&2
     exit 1
 fi
 if [ ! -f "$REPO_ROOT/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf" ]; then
@@ -44,8 +55,10 @@ mkdir -p "$OUTDIR"
 
 echo "=== Phase 10 reproducibility test ==="
 echo "outdir=$OUTDIR  n_tokens=$N_TOKENS  seed=$SEED  cache=${CACHE_MB}MiB  workers=$READ_WORKERS"
+echo "cli=$CLI"
 
 # --- run the streamed capture via the frozen Phase 4 runner ---
+KIMI_CLI="$CLI" \
 KIMI_EXPERT_CACHE_MB="$CACHE_MB" \
 KIMI_EXPERT_CACHE_MODE=zerocopy \
 KIMI_EXPERT_READ_WORKERS="$READ_WORKERS" \

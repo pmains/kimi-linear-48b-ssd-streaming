@@ -19,12 +19,14 @@ MODE="${5:-naive}"
 
 # Repo-relative defaults with env overrides (Phase 10 release path):
 #   KIMI_MODEL  -> GGUF path (default: models/kimi-linear/...)
-#   KIMI_CLI    -> llama-cli binary (default: runtime/release-9f/bin/llama-cli)
+#   KIMI_CLI    -> llama-cli binary (default: dev-tree build-metal, the
+#                  frozen 9G harness convention; Phase 10 verify passes
+#                  KIMI_CLI=runtime/release-9f/bin/llama-cli explicitly)
 #   KIMI_LLAMA_GIT -> path to the llama.cpp checkout used for provenance
 #   KIMI_REPO   -> repo root (default: resolved from this script's location)
 REPO_ROOT="${KIMI_REPO:-$(cd "$(dirname "$0")/.." && pwd)}"
 MODEL="${KIMI_MODEL:-$REPO_ROOT/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf}"
-CLI="${KIMI_CLI:-$REPO_ROOT/runtime/release-9f/bin/llama-cli}"
+CLI="${KIMI_CLI:-$REPO_ROOT/llama.cpp/build-metal/bin/llama-cli}"
 LLAMA_GIT="${KIMI_LLAMA_GIT:-$REPO_ROOT/llama.cpp}"
 
 mkdir -p "$OUTDIR"
