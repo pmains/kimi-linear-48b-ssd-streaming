@@ -1040,6 +1040,8 @@ Post-Phase-8 continuation is explicitly selected work, not automatic:
   measurement protocol;
 - Phase 10 packages the frozen scientific baseline for external
   reproduction — it does not change the experimental result;
+- Phase 11 validates which findings generalize to other sparse-MoE
+  architectures under the frozen 9G methodology;
 - the K-track (K1 MXFP4, K2 native runtime, …) is the only authorized
   optimization work, each phase gated on measured evidence and
   evaluated under the frozen 9G protocol.
@@ -1076,9 +1078,10 @@ is a separate, parallel engineering track, maintained in
   decomposition) belongs to `SERVICE-ROADMAP.md`, NOT to Phase 9+ of
   this file.
 - Phase 9+ in this file remains inference-runtime work only: Phase 10
-  (reproducible release of the frozen baseline) and the K-track
-  (MXFP4, native kernels, storage/repack pipeline). All optimization
-  is evaluated under the frozen 9G protocol.
+  (reproducible release of the frozen baseline), Phase 11
+  (cross-architecture validation), and the K-track (MXFP4, native
+  kernels, storage/repack pipeline). All optimization is evaluated
+  under the frozen 9G protocol.
 - Inference optimization work (repack batching, prefetching,
   asynchronous I/O, cache-policy changes, new kernels) belongs here,
   NOT in `SERVICE-ROADMAP.md`.
@@ -1265,6 +1268,142 @@ process rather than coaching around them.
 ### Report
 
     progress/phase-10-report.md
+
+---
+
+## Phase 11 — Cross-Architecture Validation
+
+Proceed only after Phase 10 establishes a reproducible installation,
+runtime, and benchmark path.
+
+### Goal
+
+Determine which findings from the Kimi Linear storage-backed inference
+work generalize to other sparse-MoE architectures and which are
+model-specific.
+
+This phase is primarily a validation and characterization phase, not an
+optimization phase.
+
+Select at least one substantially different sparse-MoE architecture that
+can use the storage-backed execution framework. Prefer a model that
+differs meaningfully from Kimi Linear in expert count, routing behavior,
+expert size, or architecture.
+
+Do not require the second model to reproduce Kimi's absolute performance.
+The objective is to compare the underlying behavior.
+
+### Evaluate
+
+Using the Phase 9/9G methodology where applicable, measure:
+
+- routed-expert working set;
+- expert activation distribution;
+- expert reuse-distance distribution;
+- compulsory versus reload traffic;
+- LRU expert-cache behavior;
+- Belady-OPT bound;
+- fraction of the LRU-to-OPT gap recoverable by practical online
+  policies;
+- storage traffic per token;
+- cache-capacity sensitivity;
+- bounded expert-read parallelism;
+- stability of parallel-I/O compression;
+- read/repack overlap opportunities;
+- resident memory and storage requirements;
+- inference throughput;
+- correctness and exactness under storage-backed execution.
+
+Where the second architecture requires implementation changes, separate
+changes required for architectural support from changes intended to
+improve performance.
+
+Avoid model-specific optimization until the baseline characterization is
+complete.
+
+### Comparison
+
+Compare the second architecture directly with the frozen Kimi Linear
+results.
+
+For each major Phase 8/9 finding, classify it as:
+
+- reproduced;
+- directionally reproduced;
+- architecture-dependent;
+- not reproduced; or
+- not applicable.
+
+Particular attention should be paid to:
+
+1. whether expert routing exhibits enough temporal locality for caching;
+2. whether a large LRU-to-Belady gap exists;
+3. whether that theoretical gap is recoverable by causal online policies;
+4. whether storage traffic is dominated by compulsory reads or reloads;
+5. whether bounded parallel reads materially reduce exposed I/O latency;
+6. where the bottleneck moves after I/O parallelism;
+7. whether the Phase 9 pipelining opportunity appears on the second
+   architecture.
+
+Do not assume that an optimization effective on Kimi Linear should be
+effective on another model.
+
+### Experimental Method
+
+Performance claims must use contemporaneous controls under the frozen
+Phase 9G benchmark methodology.
+
+Archived-baseline comparisons may be reported descriptively but may not
+be used as optimization gates.
+
+Preserve routing traces and other artifacts needed for offline cache and
+locality analysis.
+
+### Independent Reproduction
+
+Use the Phase 10 public release to solicit independent reproduction where
+practical.
+
+External validation may include:
+
+- reproduction of Kimi Linear storage-backed execution;
+- reproduction of Phase 9 performance findings on different hardware;
+- execution of the second architecture using the published framework.
+
+Independent reproduction strengthens the result but is not required to
+begin or complete the cross-architecture experiments performed by this
+project.
+
+Record hardware, operating system, storage, memory, model, quantization,
+configuration, and software revision for all external results.
+
+### Exit Question
+
+Can the principal findings from Kimi Linear be stated as properties of
+storage-backed sparse-MoE inference more generally, or must they remain
+claims about Kimi Linear and the tested hardware?
+
+The answer may be mixed. Architecture-dependent results are valid
+findings and should not be treated as failures.
+
+### Exit Criteria
+
+Phase 11 is complete when:
+
+1. at least one substantially different sparse-MoE architecture executes
+   correctly through the storage-backed framework;
+2. the major Phase 8/9 measurements have been reproduced where
+   applicable;
+3. Kimi and the second architecture have been compared under a common
+   analysis framework;
+4. similarities and differences in routing, caching, storage traffic,
+   and I/O behavior are documented;
+5. the evidence is sufficient to delimit which research claims
+   generalize beyond Kimi Linear.
+
+### Report
+
+    progress/phase-11-report.md
 
 ---
 
