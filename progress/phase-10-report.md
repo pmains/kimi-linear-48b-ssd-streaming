@@ -1,8 +1,11 @@
 # Phase 10 Report
 
 Status: **PASS** (release packaging + local clean-room gate)
-Gate status: independent external reproduction **OPEN** (pending
-publication of the fork/repo and a separate machine — see Problems).
+Gate status: **repo published** 2026-08-29
+(`https://github.com/pmains/kimi-linear-48b-ssd-streaming`, commit
+`8ddf28b`, clean-history public tree, fork vendored at `caea707b7`);
+independent external reproduction on a separate machine/operator remains
+**OPEN** — see Problems.
 
 ## Objective
 
@@ -142,13 +145,13 @@ tool's bundle-only assumption.
 
 ## Problems
 
-1. **Repo has no origin; `llama.cpp/` is not part of the parent tree.**
-   `git remote -v` is empty and `llama.cpp/` is a nested gitignored
-   checkout (0 tracked files). A `git clone` of the parent contains NO
-   fork source, so the README's clone step is not yet executable from a
-   public URL. **The fork must be published (or the release tree
-   vendored) before the external reproduction gate can close.** The
-   local clean-room clones used local paths for this step.
+1. **Fork publication — DONE via vendoring.** The llama.cpp fork (23
+   commits on `caea707b7`) is vendored into the public release tree at
+   that commit, so the README's single-clone flow (`cd llama.cpp &&
+   cmake`) works from one `git clone`. Trade-off: the fork's commit
+   history is not carried into the public repo (provenance is recorded
+   in `runtime/release-9f/COMMIT` and the README); a separate fork repo
+   could be published later if upstream-diffability is wanted.
 2. **Stale committed analyzer.** `tools/phase07_summarize.py` at the
    last commit (`1249ea9`) predates Phase 9F: it flagged the legitimate
    read/repack overlap ("component sum > total") on the 9F baseline.
@@ -172,10 +175,11 @@ tool's bundle-only assumption.
    relative `$DST` as the rpath (cwd-dependent); fixed to `@loader_path`
    for both binaries. The pre-existing `runtime/live/` bundle retains
    the old behavior (operational, launched from repo root).
-6. **External reproduction not yet performed.** Requires (a) publishing
-   the fork + release tree, (b) a separate machine/operator. This is the
-   remaining open gate; per Peter, not required to complete the initial
-   Phase 10 development.
+6. **External reproduction not yet performed on a separate machine.**
+   The repo is published; the remaining gate is an independent
+   clean-room install from the public README on a separate
+   machine/operator. Failures from that run become reproducibility
+   findings and fixes to the installation process.
 7. **Model delivery in the local clean room** used a symlink (28 GiB
    download impractical locally); a remote user follows README
    acquisition + sha256. The symlink is disclosed, not hidden.
