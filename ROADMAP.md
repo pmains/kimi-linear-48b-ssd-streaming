@@ -1528,6 +1528,31 @@ Known limitations: Metal generated text is garbled vs coherent CPU text
 `KIMI_TRACE_MOE`) still aborts at load on Metal (E1b). Report:
 `progress/phase-11-e1-report.md`; fork commit `6c1895bff`.
 
+**E1b result (PASS, 2026-08-31):** trace observability restored on the
+streamed Metal path. The trace SIGTRAP was host-side heap corruption
+(EXC_BREAKPOINT in malloc freelist), not a Metal assert: the trace
+dumps issued `ggml_backend_tensor_get_async` into short-lived host
+vectors and read/freed them before the Metal async blit completed
+(CPU falls back to a synchronous copy, so CPU never crashed — an
+invalid CPU readback assumption). Fixed with
+`ggml_backend_synchronize(backend)` after each async readback in both
+dump loops, plus a 0-size topk guard — env-gated by the trace envs
+themselves, default path byte-identical (CPU trace output verified
+identical to the pre-fix run). Acceptance: Metal trace run EXIT=0,
+act.bin (191 MB) + moe.csv (7,667 rows) produced, phase07 invariants
+PASS, tracing-off E1 Metal run still clean, CPU trace unchanged.
+First bounded CPU-vs-Metal localization: activations diverge from the
+very first layers (layer-0 l_out max|d| ≈ 1.7e-3, layer-1 attn_out ≈
+1.2e-3) and grow monotonically with depth (O(1) by layer 18+; overall
+max|d| 89.2); routing order flips from prefill layer 8 and expert SET
+differences appear from layer 11 (2,494/7,666 set-divergent rows).
+Interpretation: small per-op numeric differences (accumulation order /
+MXFP4 dequant on Metal vs CPU) amplified through 26 MoE layers and the
+routing argmax — NOT a single broken op. The numeric divergence is NOT
+fixed here (cause not trivial/unambiguous); it is the E2/E4 quality
+gate. Report: `progress/phase-11-e1b-report.md`; fork commit
+`82335c59b`. Stop for review before E2.
+
 ---
 
 # Progress Tracking
