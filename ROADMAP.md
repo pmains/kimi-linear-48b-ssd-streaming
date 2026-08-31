@@ -1273,6 +1273,13 @@ process rather than coaching around them.
 
 ## Phase 11 — Cross-Architecture Validation
 
+**DEFERRED (2026-08-31).** The active Phase 11 work is the Native
+Runtime Optimization kickoff selected by the frozen K1 result (see the
+Phase 11 (Active) section below). The cross-architecture plan in this
+section is unchanged and remains a valid future phase; it resumes when
+the native-runtime track's first experiments conclude or the owner
+reprioritizes.
+
 Proceed only after Phase 10 establishes a reproducible installation,
 runtime, and benchmark path.
 
@@ -1473,6 +1480,38 @@ against the current production baseline using the Phase 9G protocol.
     progress/kimi-k2-native-runtime-report.md
 
 With the possibility of K3, etc. if future investigation warrants.
+
+---
+
+## Phase 11 (Active) — Native Runtime Optimization — K1 Kickoff (2026-08-31)
+
+Selected by the frozen K1 result (`progress/kimi-k1-mxfp4-report.md`,
+PASS): MXFP4 delivers +48% (cached) / +87% (uncached) decode with
++1.37% PPL cost. All accepted K1 measurements are CPU-only; Metal +
+expert streaming is NOT validated, and the per-step timers (retained
+K1 stats.csv) show the MXFP4 advantage is concentrated in the
+repack/placement stage (storage→compute layout conversion), not in
+expert matmul compute. Full analysis: `progress/phase-11-kickoff.md`.
+
+Active Phase 11 scope (immediate native-runtime work under the K2
+umbrella):
+
+1. Fix the streamed-expert Metal boundary. It currently aborts at
+   `ggml_metal_cpy_tensor_async` / `GGML_ASSERT(buf_dst)`
+   (ggml-metal-context.m:359): a NULL destination buffer, because
+   streamed expert tensors are staged in CPU buffers and never
+   allocated on the Metal backend.
+2. Attack the measured repack bottleneck: 239 ms of the 412 ms Q4_K_M
+   decode step (58%); MXFP4's repack is 74–87% cheaper and is the
+   primary reason MXFP4 decodes faster. A native/storage-side repack
+   primitive is the highest-value target.
+3. Preserve all K1 CPU gains. Every intervention is evaluated under
+   the frozen 9G protocol against the frozen K1 baseline; acceptance
+   criteria and the K1 artifacts are not modified.
+
+First bounded experiment: E1 — Metal staging for streamed experts
+(scope, gates, and rollback in the kickoff document). No code changes
+before E1.
 
 ---
 
