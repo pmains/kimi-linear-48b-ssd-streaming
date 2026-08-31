@@ -1513,6 +1513,21 @@ First bounded experiment: E1 — Metal staging for streamed experts
 (scope, gates, and rollback in the kickoff document). No code changes
 before E1.
 
+**E1 result (PASS, 2026-08-31):** streamed MXFP4 now executes on Metal
+end-to-end with the env-gated fixes (`KIMI_STREAM_METAL_STAGE=1`, default
+off = frozen path): 64-token smoke EXIT=0, phase07 invariants PASS
+(0 violations), 708.7 t/s prompt / 24.3 t/s generation, ~10.9 GB peak
+RSS (bounded streamed expert memory — no full-offload OOM). The abort
+was NOT expert staging (loaded experts were already Metal-allocated,
+MTL0); the measured blockers were (a) a 0-size routing-ids readback on
+the last MoE layer during prefill (`ffn_moe_topk-26 (copy)`,
+`GGML_ASSERT(buf_dst)`), and (b) a teardown leak of the persistent
+`stream_persist_` Metal buffers (`GGML_ASSERT([rsets->data count] == 0)`).
+Known limitations: Metal generated text is garbled vs coherent CPU text
+(quality gate for E4), and act/moe trace capture (`KIMI_TRACE_ACT`/
+`KIMI_TRACE_MOE`) still aborts at load on Metal (E1b). Report:
+`progress/phase-11-e1-report.md`; fork commit `6c1895bff`.
+
 ---
 
 # Progress Tracking
