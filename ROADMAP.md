@@ -1857,6 +1857,30 @@ promotion records); prompts `benchmarks/prompts/phase-11-e5-*.md`;
 drivers `tools/phase11_e5_deployment.sh` + `tools/phase11_e5_ttft.py`.
 STOPPED for review.
 
+**E3A — corrected-Metal decode regression diagnosis (PASS, 2026-09-01):**
+no optimization; regression explained from retained instrumentation. The
+routed-expert-ID synchronization fix is **exonerated**: `sync_us` =
+0.02 ms/token (0.01% of the 315.9 ms decode step). Dominant cause is
+**storage/cache-bound (mixed, sync-exonerated)**: pread (SSD expert
+reads) = 162.9 ms/token = **51.6%** (+ placement copy 21.6 ms = 6.8% →
+58.4% storage/placement); compute secondary (route 17.5% + expert
+14.1% = 31.6%); ~302 MB SSD read per generated token (80 cache
+misses/step at 4 GiB zerocopy). The ~24 → ~3 tok/s gap is largely
+baseline artifact: the pre-fix 24 tok/s path was degenerate (all routed
+ids = 0 → expert 0 everywhere → hit_rate 1.000, **SSD 0.00 MB/token**,
+per retained E1 report) and did almost no real work. Secondary
+Metal-specific inefficiencies vs the same-quantization CPU reference
+(K1 cached MXFP4, 5.05 tok/s): effective read BW 1.86 vs 4.96 GB/s
+(2.7×, 101.7 ms/step gap) and per-step compute 99.8 vs 36.0 ms (2.8×,
+63.8 ms/step gap) — corrected Metal (315.9 ms/step) is now 1.6× slower
+than corrected CPU (198.0 ms/step). Analyzer retained:
+`tools/phase11_e3a_analyze.py`; output:
+`benchmarks/results/phase-11/e3a/decode-decomposition.txt`; report:
+`progress/phase-11-e3a-report.md`. E3B not started; candidate future
+directions (from evidence, in contribution order): overlap/hide SSD
+pread (async reads/prefetch), reduce per-step Metal compute/launch
+overhead, cache-density to cut 80 misses/step. STOPPED for review.
+
 ---
 
 # Progress Tracking

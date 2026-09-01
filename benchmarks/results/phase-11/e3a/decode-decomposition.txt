@@ -1,0 +1,26 @@
+=== E3A decode decomposition ===
+corrected Metal (E5): 360 decode steps, 1.00 tok/step
+  pread_us                  162.90 ms/tok   51.6 %
+  copy_us                    21.56 ms/tok    6.8 %
+  sync_us                     0.02 ms/tok    0.0 %
+  route_compute_us           55.31 ms/tok   17.5 %
+  expert_compute_us          44.52 ms/tok   14.1 %
+  build_us                   31.60 ms/tok   10.0 %
+  total_us                  315.91 ms/tok  100.0 %
+  pread_bytes                302.3 MB/step
+  pread_calls                  241 /step  eff BW 1.86 GB/s
+  cache                  lookups=208 hits=128 misses=80 slots=208
+  -> decode 3.17 tok/s
+
+CPU cached reference (K1 b8-A-after): 127 decode steps, 1.00 tok/step
+  pread_us                   61.16 ms/tok   30.9 %
+  copy_us                    89.01 ms/tok   44.9 %
+  sync_us                     0.00 ms/tok    0.0 %
+  route_compute_us           20.07 ms/tok   10.1 %
+  expert_compute_us          15.91 ms/tok    8.0 %
+  build_us                   11.89 ms/tok    6.0 %
+  total_us                  198.04 ms/tok  100.0 %
+  pread_bytes                303.4 MB/step
+  pread_calls                  212 /step  eff BW 4.96 GB/s
+  cache                  lookups=208 hits=137 misses=71 slots=208
+  -> decode 5.05 tok/s
