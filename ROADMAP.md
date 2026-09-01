@@ -1577,6 +1577,22 @@ construction). Metal output quality remains the open E4 gate. Report:
 recorded in the fork log. STOPPED for review per directive — E2 not
 expanded; instrumentation contract unchanged.
 
+**E4 result (EXECUTED — Metal NOT quality-qualified, 2026-08-31):**
+perplexity quality gate on the frozen E2 Metal path, K1 methodology
+(wikitext-2-raw, 32 × 512-token chunks, ctx=512, zerocopy cache 4096
+MiB, streamed naive path, same binary). Fresh CPU MXFP4 reference
+re-run: **PPL 6.7596 ± 0.19264** — exact reproduction of the accepted
+K1 reference. Metal candidate (frozen E2 path): **PPL 1,477,252.66 ±
+42,507.67** — relative degradation **×218,541**, every one of 32 chunks
+> ×10^5 (min ×155,291), no NaN/Inf/asserts, no clean chunks, no
+outliers: systematic, not isolated. This quantifies the E1b numeric
+divergence (drift from layer 1 amplified through 26 MoE layers +
+routing argmax). Per the E4 decision rule: **stop before E3** and
+investigate Metal numerical quality/correctness. No source changes
+(frozen fork `32c02b145`); no kernels touched, no repair attempted.
+Driver retained: `tools/phase11_e4_perplexity.sh` (cpu|metal).
+Report: `progress/phase-11-e4-report.md`. E3 is NOT started.
+
 ---
 
 # Progress Tracking
