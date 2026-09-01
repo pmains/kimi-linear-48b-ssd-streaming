@@ -1731,6 +1731,35 @@ unchanged). No kernels modified; no E3. Report:
 `progress/phase-11-g1-probe-report.md`; evidence retained under
 `benchmarks/results/phase-11/g1-probe/`. STOPPED for review.
 
+**First MXFP4 expert `mul_mat` arithmetic isolation (PASS, CLEARED,
+2026-09-01):** the first streamed MXFP4 expert mul_mat — layer 1
+`blk.1.ffn_up_exps.weight` (layer 0 is a DENSE q8_0 FFN, no MoE;
+mxfp4 [2304,1024,256], abs_off 1,608,189,216, per-expert 1,253,376 B),
+mul_mat_id, first prefill step (233 tokens ⇒ mm_id kernel path
+`kernel_mul_mm_id_mxfp4_f32`) — produces numerically correct Metal
+results from the intended expert weights and activations. New probe
+`tools/phase11_mxfp4_probe.py`: router-selected slot-0 expert (id 50,
+CPU/Metal top-8 identical) from captured router_logits; expert bytes
+read at tensor_abs_off + expert_id·per_expert_bytes (the streamed
+pread addressing); reconstructions vs production moe_up captures. **
+Production Metal reproduced to 5.96e-8 (rel 1.6e-7) by the expected
+Metal arithmetic** — mm_id kernel's documented fp16-operand/fp32-
+accumulator semantics (T=half, S=half in the template instantiation;
+weights AND activations converted to fp16) — and production CPU
+reproduced to 7.8e-4 by the exact `ggml_vec_dot_mxfp4_q8_0` replica
+(documented q8_0 activation quantization). CPU-vs-Metal at this
+boundary max|d| = 3.6e-3 (rel 6.7e-3), fully explained by expected
+conversion semantics; expert arithmetic CLEARED (not the E4 cause;
+fp16 conversion ~2.4e-3 rel is too small to explain ×218k alone).
+Probe-side mxfp4 nibble-layout bug fixed (byte j low nibble = element
+j, high = j+16; missing d_q8 scale) — corrected run retained. Next
+discriminator (identified, NOT run): **E2 zerocopy slot-integrity
+check** (verify packed expert bytes land in the correct slots/strides
+for all layers — wrong-bytes-to-slot would produce garbage logits
+with no kernel wrong). No kernels modified; no E3. Report:
+`progress/phase-11-mxfp4-probe-report.md`; evidence retained under
+`benchmarks/results/phase-11/mxfp4-probe/`. STOPPED for review.
+
 ---
 
 # Progress Tracking

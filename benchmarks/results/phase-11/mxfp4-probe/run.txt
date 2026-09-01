@@ -1,0 +1,43 @@
+record cpu ffn_normed: exec=2 il=1 n_embd=2304 n_tokens=233 pos=0 ph=0
+record metal ffn_normed: exec=2 il=1 n_embd=2304 n_tokens=233 pos=0 ph=0
+record cpu router_logits: exec=2 il=1 n_embd=256 n_tokens=233 pos=0 ph=0
+record metal router_logits: exec=2 il=1 n_embd=256 n_tokens=233 pos=0 ph=0
+record cpu moe_up: exec=2 il=1 n_embd=1024 n_tokens=8 pos=0 ph=0
+record metal moe_up: exec=2 il=1 n_embd=1024 n_tokens=8 pos=0 ph=0
+router top-8 cpu : [50, 43, 21, 4, 83, 105, 96, 123]
+router top-8 metal: [50, 43, 21, 4, 83, 105, 96, 123]
+slot-0 expert id = 50
+ffn_normed bit-identical: False  max|d|=1.097e-03
+PRODUCTION cpu vs metal moe_up: max|d|=3.595918e-03 mean|d|=8.614943e-04 rel@max=6.667352e-03
+
+expert slice abs_off=1670858016 bytes=1253376 (expect 1253376)
+first block: e8m0=121 nibbles=39dc4ec5
+W dequantized: max|w|=3.750000e-01 mean|w|=3.173257e-02
+
+=== CPU path (input: cpu ffn_normed) ===
+  prod_cpu vs f64ref                       max|d|=3.168676e-03 mean|d|=7.072226e-04 rel@max=7.867853e-02 worst=(-3.710502e-02,-4.027370e-02)
+  prod_cpu vs cpu_q8 replica               max|d|=7.751212e-04 mean|d|=1.606890e-04 rel@max=1.674123e-02 worst=(-4.552501e-02,-4.630014e-02)
+  f64ref vs cpu_q8 replica                 max|d|=3.109786e-03 mean|d|=6.988760e-04 rel@max=7.721630e-02 worst=(-4.027370e-02,-3.716391e-02)
+
+=== Metal path (input: metal ffn_normed) ===
+  prod_metal vs f64ref                     max|d|=1.403889e-04 mean|d|=2.857174e-05 rel@max=2.394116e-03 worst=(-5.863913e-02,-5.849874e-02)
+  prod_metal vs f32seq                     max|d|=1.404919e-04 mean|d|=2.857716e-05 rel@max=2.395872e-03 worst=(-5.863913e-02,-5.849864e-02)
+  prod_metal vs half_weights               max|d|=1.404919e-04 mean|d|=2.857716e-05 rel@max=2.395872e-03 worst=(-5.863913e-02,-5.849864e-02)
+  prod_metal vs half_w+a                   max|d|=5.960464e-08 mean|d|=4.020876e-09 rel@max=1.647497e-07 worst=(3.617890e-01,3.617890e-01)
+  f64ref vs f32seq                         max|d|=8.268305e-07 mean|d|=9.425039e-08 rel@max=2.020013e-06 worst=(-4.093187e-01,-4.093195e-01)
+  f64ref vs half_weights                   max|d|=8.268305e-07 mean|d|=9.425039e-08 rel@max=2.020013e-06 worst=(-4.093187e-01,-4.093195e-01)
+  f64ref vs half_w+a                       max|d|=1.403889e-04 mean|d|=2.857155e-05 rel@max=2.394116e-03 worst=(-5.849874e-02,-5.863913e-02)
+
+=== cross-path (common input = cpu ffn_normed; isolates op arithmetic) ===
+  cpu_q8 vs f32seq                         max|d|=3.109712e-03 mean|d|=6.988830e-04 rel@max=7.721461e-02 worst=(-3.716391e-02,-4.027363e-02)
+  cpu_q8 vs half_w+a                       max|d|=3.135495e-03 mean|d|=6.999801e-04 rel@max=7.780498e-02 worst=(-3.716391e-02,-4.029941e-02)
+  f32seq vs half_w+a                       max|d|=1.178980e-04 mean|d|=2.784537e-05 rel@max=4.424266e-04 worst=(-2.663624e-01,-2.664803e-01)
+
+=== where CPU and Metal first diverge (per-block, cpu input) ===
+worst per-block (row 0) |d| = 3.159335e-04 at block 67 (K=2144) cpu=-5.475609e-03 metal=-5.791543e-03
+
+=== classification ===
+  prod_metal vs f32seq    max|d|=1.405e-04  rel=2.605e-04
+  prod_metal vs half_w+a  max|d|=5.960e-08  rel=1.105e-07
+  prod_cpu  vs cpu_q8     max|d|=7.751e-04  rel=1.437e-03
+  => Metal reproduced by expected arithmetic: True; CPU reproduced: True
