@@ -1616,6 +1616,26 @@ byte-identical). Report:
 `progress/phase-11-localize-report.md`. STOPPED for review; E3 not
 begun.
 
+**Controlled CPU substitution (PASS, 2026-08-31):** the layer-0 Q/K/V
+projection `mul_mat` is causally confirmed as a divergence source, and
+the defect is shown to affect MXFP4 `mul_mat` generally. On the frozen
+Metal path with ONLY the layer-0 Q/K/V projection routed through CPU
+(`KIMI_STREAM_LOCALIZE_SUB_QKV_CPU`, default off; pin re-applied after
+`ggml_backend_sched_reset`, which otherwise wipes user backend
+assignments), that op's branch collapses to CPU agreement: kda_Q/K/V
+proj max|d| ~1e-2 → ~5–7e-7, post-conv/l2-norm → ~1e-7–1e-8. The other
+MXFP4 matmuls in the same layer (g1 f_a/f_b, ssm_beta, gate g_a/g_b)
+still diverge at their original magnitudes (1.438 / 1.37e-3 / 6.75e-3)
+— not substituted, unchanged. Layer-0 attn_out improves ~26%
+(1.11e-4 → 8.2e-5); layer-1+ essentially unchanged (seed re-injected
+by every other MXFP4 matmul). Classification: defect is general to
+Metal MXFP4 `mul_mat`, not specific to this projection; dequant vs
+accumulation NOT concluded (next experiment: compare dequantized values
+from the same MXFP4 blocks/scales). No kernels modified; substitution
+env-gated and rollback-able. Report:
+`progress/phase-11-substitute-report.md`. STOPPED for review; E3 not
+begun.
+
 ---
 
 # Progress Tracking
