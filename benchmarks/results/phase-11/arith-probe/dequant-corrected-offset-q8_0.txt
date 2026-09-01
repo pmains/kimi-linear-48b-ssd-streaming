@@ -1,0 +1,9 @@
+kind=q8_0 offset=829182112 blocks=16  (block_bytes=34)
+elements compared: 512
+bit-identical: YES
+raw bit mismatches: 0  (numeric: 0, NaN-payload-only: 0)
+
+first block raw bytes: 24 10 1d df ee 0e 6b df 2d bf fe 91 b0 df 0e cf
+first block scale: d(half)=0x1024 -> 0.000505447
+first 8 values cpu : 0.014658 -0.0166798 -0.00909805 0.00707626 0.0540829 -0.0166798 0.0227451 -0.0328541
+first 8 values metal: 0.014658 -0.0166798 -0.00909805 0.00707626 0.0540829 -0.0166798 0.0227451 -0.0328541

@@ -1,0 +1,449 @@
+rows=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] K=2304 blocks/row=72  (activations bit-identical: yes)
+
+== row 0 ==
+  actuals: cpu=1.352782100e-01 metal=1.382996440e-01  |cpu-metal|=3.021e-03 rel=2.233e-02
+  f64ref =1.382996533e-01  f32seq=1.382997483e-01  cpu_q8vec=1.354951710e-01  metal_replica=1.382996440e-01
+  f64ref vs cpu_actual  : d=3.021e-03 rel=2.185e-02
+  f64ref vs metal_actual: d=9.272e-09 rel=6.704e-08
+  f32seq vs cpu_actual  : d=3.022e-03 rel=2.185e-02
+  cpu_q8vec vs cpu_actual: d=2.170e-04 rel=1.601e-03
+  metal_replica vs metal_actual: d=0.000e+00 rel=0.000e+00  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=-9.562967833e-03  metal_replica=-9.562967112e-03  |d|=7.203e-10
+    K=  256  f64blocks=-1.628148179e-01  metal_replica=-1.628148176e-01  |d|=3.038e-10
+    K= 1024  f64blocks=-1.631325116e-01  metal_replica=-1.631325151e-01  |d|=3.440e-09
+    K= 2304  f64blocks=1.382996434e-01  metal_replica=1.382996280e-01  |d|=1.539e-08
+    blocks: f64 vs metal_replica       max|d|=5.130e-09 mean|d|=9.663e-10 rel@max=1.588e-05 RMS=1.260e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=49 d=5.130e-09 (f64=+6.732865e-02 metal=+6.732865e-02), b=36 d=2.688e-09 (f64=+2.371816e-02 metal=+2.371817e-02), b=11 d=2.357e-09 (f64=+9.105431e-03 metal=+9.105429e-03)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=1.352e-03 mean|d|=1.862e-04 rel@max=9.370e-01 RMS=3.179e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=55 d=1.352e-03 (cpu=-1.443077e-03 metal=-9.096973e-05), b=59 d=1.215e-03 (cpu=-3.877193e-02 metal=-3.755727e-02), b=11 d=9.795e-04 (cpu=+8.125884e-03 metal=+9.105429e-03)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=-9.651822969e-03  metal_replica=-9.562967112e-03  |d|=8.886e-05
+    K=  256  cpu_path=-1.624123259e-01  metal_replica=-1.628148176e-01  |d|=4.025e-04
+    K= 1024  cpu_path=-1.644538994e-01  metal_replica=-1.631325151e-01  |d|=1.321e-03
+    K= 2304  cpu_path=1.354950393e-01  metal_replica=1.382996280e-01  |d|=2.805e-03
+    cumul K=64: cpu_path vs metal      max|d|=8.886e-05 mean|d|=8.886e-05 rel@max=9.206e-03 RMS=8.886e-05 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=4.025e-04 mean|d|=4.025e-04 rel@max=2.472e-03 RMS=4.025e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=1.321e-03 mean|d|=1.321e-03 rel@max=8.035e-03 RMS=1.321e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=2.805e-03 mean|d|=2.805e-03 rel@max=2.028e-02 RMS=2.805e-03 NaN=0 Inf=0
+
+== row 1 ==
+  actuals: cpu=-6.728654355e-02 metal=-6.034327298e-02  |cpu-metal|=6.943e-03 rel=1.032e-01
+  f64ref =-6.034316304e-02  f32seq=-6.034353003e-02  cpu_q8vec=-6.744998693e-02  metal_replica=-6.034328043e-02
+  f64ref vs cpu_actual  : d=6.943e-03 rel=1.151e-01
+  f64ref vs metal_actual: d=1.099e-07 rel=1.822e-06
+  f32seq vs cpu_actual  : d=6.943e-03 rel=1.151e-01
+  cpu_q8vec vs cpu_actual: d=1.634e-04 rel=2.423e-03
+  metal_replica vs metal_actual: d=7.451e-09 rel=1.235e-07  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=6.001737298e-02  metal_replica=6.001736899e-02  |d|=3.987e-09
+    K=  256  f64blocks=1.623529294e-01  metal_replica=1.623529240e-01  |d|=5.432e-09
+    K= 1024  f64blocks=4.100702170e-01  metal_replica=4.100701857e-01  |d|=3.126e-08
+    K= 2304  f64blocks=-6.034316443e-02  metal_replica=-6.034319691e-02  |d|=3.248e-08
+    blocks: f64 vs metal_replica       max|d|=2.718e-08 mean|d|=1.692e-09 rel@max=2.148e-06 RMS=3.650e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=11 d=2.718e-08 (f64=+3.704801e-01 metal=+3.704801e-01), b=15 d=8.033e-09 (f64=+1.350909e-01 metal=+1.350909e-01), b=31 d=3.827e-09 (f64=-9.749097e-03 metal=-9.749101e-03)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=2.129e-03 mean|d|=2.335e-04 rel@max=5.475e-01 RMS=4.139e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=15 d=2.129e-03 (cpu=+1.329617e-01 metal=+1.350909e-01), b=55 d=1.894e-03 (cpu=-4.200241e-02 metal=-4.389677e-02), b=48 d=7.755e-04 (cpu=-1.952378e-02 metal=-1.874832e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=6.001119316e-02  metal_replica=6.001736899e-02  |d|=6.176e-06
+    K=  256  cpu_path=1.624096691e-01  metal_replica=1.623529240e-01  |d|=5.675e-05
+    K= 1024  cpu_path=4.036879153e-01  metal_replica=4.100701857e-01  |d|=6.382e-03
+    K= 2304  cpu_path=-6.744971377e-02  metal_replica=-6.034319691e-02  |d|=7.107e-03
+    cumul K=64: cpu_path vs metal      max|d|=6.176e-06 mean|d|=6.176e-06 rel@max=1.029e-04 RMS=6.176e-06 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=5.675e-05 mean|d|=5.675e-05 rel@max=3.494e-04 RMS=5.675e-05 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=6.382e-03 mean|d|=6.382e-03 rel@max=1.556e-02 RMS=6.382e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=7.107e-03 mean|d|=7.107e-03 rel@max=1.054e-01 RMS=7.107e-03 NaN=0 Inf=0
+
+== row 2 ==
+  actuals: cpu=-3.285216391e-01 metal=-3.288454413e-01  |cpu-metal|=3.238e-04 rel=9.856e-04
+  f64ref =-3.288454166e-01  f32seq=-3.288451731e-01  cpu_q8vec=-3.283593357e-01  metal_replica=-3.288454115e-01
+  f64ref vs cpu_actual  : d=3.238e-04 rel=9.846e-04
+  f64ref vs metal_actual: d=2.471e-08 rel=7.514e-08
+  f32seq vs cpu_actual  : d=3.235e-04 rel=9.838e-04
+  cpu_q8vec vs cpu_actual: d=1.623e-04 rel=4.943e-04
+  metal_replica vs metal_actual: d=2.980e-08 rel=9.063e-08  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=6.362361790e-03  metal_replica=6.362359272e-03  |d|=2.517e-09
+    K=  256  f64blocks=1.235607490e-01  metal_replica=1.235607481e-01  |d|=8.549e-10
+    K= 1024  f64blocks=1.817367904e-01  metal_replica=1.817367947e-01  |d|=4.291e-09
+    K= 2304  f64blocks=-3.288454258e-01  metal_replica=-3.288454080e-01  |d|=1.771e-08
+    blocks: f64 vs metal_replica       max|d|=5.646e-09 mean|d|=1.116e-09 rel@max=7.714e-07 RMS=1.504e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=11 d=5.646e-09 (f64=+1.471326e-01 metal=+1.471326e-01), b=37 d=3.671e-09 (f64=-7.172232e-02 metal=-7.172232e-02), b=10 d=3.434e-09 (f64=-7.282154e-03 metal=-7.282150e-03)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=2.581e-03 mean|d|=2.710e-04 rel@max=9.346e-02 RMS=4.724e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=15 d=2.581e-03 (cpu=+1.267917e-01 metal=+1.242110e-01), b=11 d=2.028e-03 (cpu=+1.451042e-01 metal=+1.471326e-01), b=35 d=8.388e-04 (cpu=-3.512297e-02 metal=-3.596172e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=6.034595892e-03  metal_replica=6.362359272e-03  |d|=3.278e-04
+    K=  256  cpu_path=1.229370330e-01  metal_replica=1.235607481e-01  |d|=6.237e-04
+    K= 1024  cpu_path=1.814648914e-01  metal_replica=1.817367947e-01  |d|=2.719e-04
+    K= 2304  cpu_path=-3.283591962e-01  metal_replica=-3.288454080e-01  |d|=4.862e-04
+    cumul K=64: cpu_path vs metal      max|d|=3.278e-04 mean|d|=3.278e-04 rel@max=5.152e-02 RMS=3.278e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=6.237e-04 mean|d|=6.237e-04 rel@max=5.048e-03 RMS=6.237e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=2.719e-04 mean|d|=2.719e-04 rel@max=1.496e-03 RMS=2.719e-04 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=4.862e-04 mean|d|=4.862e-04 rel@max=1.479e-03 RMS=4.862e-04 NaN=0 Inf=0
+
+== row 3 ==
+  actuals: cpu=1.720802635e-01 metal=1.724211574e-01  |cpu-metal|=3.409e-04 rel=1.981e-03
+  f64ref =1.724211505e-01  f32seq=1.724210382e-01  cpu_q8vec=1.724286675e-01  metal_replica=1.724211425e-01
+  f64ref vs cpu_actual  : d=3.409e-04 rel=1.977e-03
+  f64ref vs metal_actual: d=6.905e-09 rel=4.005e-08
+  f32seq vs cpu_actual  : d=3.408e-04 rel=1.976e-03
+  cpu_q8vec vs cpu_actual: d=3.484e-04 rel=2.021e-03
+  metal_replica vs metal_actual: d=1.490e-08 rel=8.642e-08  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=2.522088767e-02  metal_replica=2.522088680e-02  |d|=8.622e-10
+    K=  256  f64blocks=1.535615249e-02  metal_replica=1.535614856e-02  |d|=3.922e-09
+    K= 1024  f64blocks=-5.851193204e-02  metal_replica=-5.851193302e-02  |d|=9.850e-10
+    K= 2304  f64blocks=1.724211450e-01  metal_replica=1.724211397e-01  |d|=5.316e-09
+    blocks: f64 vs metal_replica       max|d|=4.424e-09 mean|d|=7.640e-10 rel@max=1.389e-06 RMS=1.108e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=4 d=4.424e-09 (f64=+2.009057e-02 metal=+2.009057e-02), b=24 d=4.096e-09 (f64=-4.203844e-02 metal=-4.203843e-02), b=59 d=2.365e-09 (f64=+6.127963e-02 metal=+6.127963e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=2.184e-03 mean|d|=1.674e-04 rel@max=1.809e-01 RMS=3.655e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=11 d=2.184e-03 (cpu=-2.533725e-02 metal=-2.315290e-02), b=55 d=1.753e-03 (cpu=-1.620867e-02 metal=-1.796169e-02), b=15 d=5.782e-04 (cpu=+1.137160e-02 metal=+1.194982e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=2.556101140e-02  metal_replica=2.522088680e-02  |d|=3.401e-04
+    K=  256  cpu_path=1.570558408e-02  metal_replica=1.535614856e-02  |d|=3.494e-04
+    K= 1024  cpu_path=-6.055817427e-02  metal_replica=-5.851193302e-02  |d|=2.046e-03
+    K= 2304  cpu_path=1.724287398e-01  metal_replica=1.724211397e-01  |d|=7.600e-06
+    cumul K=64: cpu_path vs metal      max|d|=3.401e-04 mean|d|=3.401e-04 rel@max=1.331e-02 RMS=3.401e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=3.494e-04 mean|d|=3.494e-04 rel@max=2.225e-02 RMS=3.494e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=2.046e-03 mean|d|=2.046e-03 rel@max=3.379e-02 RMS=2.046e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=7.600e-06 mean|d|=7.600e-06 rel@max=4.408e-05 RMS=7.600e-06 NaN=0 Inf=0
+
+== row 4 ==
+  actuals: cpu=-1.525835693e-01 metal=-1.522304267e-01  |cpu-metal|=3.531e-04 rel=2.314e-03
+  f64ref =-1.522304382e-01  f32seq=-1.522306651e-01  cpu_q8vec=-1.522548199e-01  metal_replica=-1.522304118e-01
+  f64ref vs cpu_actual  : d=3.531e-04 rel=2.320e-03
+  f64ref vs metal_actual: d=1.158e-08 rel=7.607e-08
+  f32seq vs cpu_actual  : d=3.529e-04 rel=2.318e-03
+  cpu_q8vec vs cpu_actual: d=3.287e-04 rel=2.159e-03
+  metal_replica vs metal_actual: d=1.490e-08 rel=9.789e-08  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=-1.418558972e-02  metal_replica=-1.418558974e-02  |d|=2.183e-11
+    K=  256  f64blocks=-6.876204559e-02  metal_replica=-6.876204189e-02  |d|=3.703e-09
+    K= 1024  f64blocks=5.406905495e-02  metal_replica=5.406906123e-02  |d|=6.274e-09
+    K= 2304  f64blocks=-1.522304393e-01  metal_replica=-1.522304373e-01  |d|=1.924e-09
+    blocks: f64 vs metal_replica       max|d|=3.027e-09 mean|d|=7.904e-10 rel@max=1.575e-06 RMS=9.588e-10 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=7 d=3.027e-09 (f64=+1.597174e-02 metal=+1.597175e-02), b=16 d=2.190e-09 (f64=-4.997450e-03 metal=-4.997448e-03), b=38 d=1.775e-09 (f64=-1.502085e-02 metal=-1.502085e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=1.582e-03 mean|d|=1.795e-04 rel@max=2.464e-01 RMS=2.975e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=59 d=1.582e-03 (cpu=+5.350167e-02 metal=+5.191958e-02), b=11 d=1.179e-03 (cpu=-2.428771e-02 metal=-2.310835e-02), b=44 d=5.307e-04 (cpu=-6.115479e-02 metal=-6.062409e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=-1.443608571e-02  metal_replica=-1.418558974e-02  |d|=2.505e-04
+    K=  256  cpu_path=-6.915897224e-02  metal_replica=-6.876204189e-02  |d|=3.969e-04
+    K= 1024  cpu_path=5.317617813e-02  metal_replica=5.406906123e-02  |d|=8.929e-04
+    K= 2304  cpu_path=-1.522545018e-01  metal_replica=-1.522304373e-01  |d|=2.406e-05
+    cumul K=64: cpu_path vs metal      max|d|=2.505e-04 mean|d|=2.505e-04 rel@max=1.735e-02 RMS=2.505e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=3.969e-04 mean|d|=3.969e-04 rel@max=5.739e-03 RMS=3.969e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=8.929e-04 mean|d|=8.929e-04 rel@max=1.651e-02 RMS=8.929e-04 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=2.406e-05 mean|d|=2.406e-05 rel@max=1.581e-04 RMS=2.406e-05 NaN=0 Inf=0
+
+== row 5 ==
+  actuals: cpu=0.000000000e+00 metal=0.000000000e+00  |cpu-metal|=0.000e+00 rel=0.000e+00
+  f64ref =0.000000000e+00  f32seq=0.000000000e+00  cpu_q8vec=0.000000000e+00  metal_replica=0.000000000e+00
+  f64ref vs cpu_actual  : d=0.000e+00 rel=0.000e+00
+  f64ref vs metal_actual: d=0.000e+00 rel=0.000e+00
+  f32seq vs cpu_actual  : d=0.000e+00 rel=0.000e+00
+  cpu_q8vec vs cpu_actual: d=0.000e+00 rel=0.000e+00
+  metal_replica vs metal_actual: d=0.000e+00 rel=0.000e+00  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K=  256  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 1024  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 2304  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    blocks: f64 vs metal_replica       max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=71 d=0.000e+00 (f64=+0.000000e+00 metal=+0.000000e+00), b=70 d=0.000e+00 (f64=+0.000000e+00 metal=+0.000000e+00), b=19 d=0.000e+00 (f64=+0.000000e+00 metal=+0.000000e+00)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=71 d=0.000e+00 (cpu=+0.000000e+00 metal=+0.000000e+00), b=70 d=0.000e+00 (cpu=+0.000000e+00 metal=+0.000000e+00), b=19 d=0.000e+00 (cpu=+0.000000e+00 metal=+0.000000e+00)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K=  256  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 1024  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 2304  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    cumul K=64: cpu_path vs metal      max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+
+== row 6 ==
+  actuals: cpu=6.579647958e-02 metal=5.993689597e-02  |cpu-metal|=5.860e-03 rel=8.906e-02
+  f64ref =5.993690729e-02  f32seq=5.993737653e-02  cpu_q8vec=6.624414772e-02  metal_replica=5.993682146e-02
+  f64ref vs cpu_actual  : d=5.860e-03 rel=9.776e-02
+  f64ref vs metal_actual: d=1.133e-08 rel=1.890e-07
+  f32seq vs cpu_actual  : d=5.859e-03 rel=9.775e-02
+  cpu_q8vec vs cpu_actual: d=4.477e-04 rel=6.758e-03
+  metal_replica vs metal_actual: d=7.451e-08 rel=1.243e-06  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=3.445303468e-02  metal_replica=3.445303196e-02  |d|=2.721e-09
+    K=  256  f64blocks=-5.859675248e-02  metal_replica=-5.859676085e-02  |d|=8.371e-09
+    K= 1024  f64blocks=-3.651743748e-01  metal_replica=-3.651743905e-01  |d|=1.564e-08
+    K= 2304  f64blocks=5.993688565e-02  metal_replica=5.993685771e-02  |d|=2.794e-08
+    blocks: f64 vs metal_replica       max|d|=5.577e-09 mean|d|=1.024e-09 rel@max=7.164e-07 RMS=1.379e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=11 d=5.577e-09 (f64=-1.797579e-01 metal=-1.797579e-01), b=57 d=3.027e-09 (f64=+2.409566e-02 metal=+2.409565e-02), b=62 d=2.932e-09 (f64=-5.179576e-02 metal=-5.179576e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=2.114e-03 mean|d|=2.285e-04 rel@max=5.314e-01 RMS=3.767e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=11 d=2.114e-03 (cpu=-1.776443e-01 metal=-1.797579e-01), b=35 d=1.065e-03 (cpu=+2.954539e-02 metal=+3.060994e-02), b=48 d=9.390e-04 (cpu=-8.282028e-04 metal=-1.767248e-03)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=3.539020661e-02  metal_replica=3.445303196e-02  |d|=9.372e-04
+    K=  256  cpu_path=-5.703957286e-02  metal_replica=-5.859676085e-02  |d|=1.557e-03
+    K= 1024  cpu_path=-3.612898716e-01  metal_replica=-3.651743905e-01  |d|=3.885e-03
+    K= 2304  cpu_path=6.624411559e-02  metal_replica=5.993685771e-02  |d|=6.307e-03
+    cumul K=64: cpu_path vs metal      max|d|=9.372e-04 mean|d|=9.372e-04 rel@max=2.648e-02 RMS=9.372e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=1.557e-03 mean|d|=1.557e-03 rel@max=2.657e-02 RMS=1.557e-03 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=3.885e-03 mean|d|=3.885e-03 rel@max=1.064e-02 RMS=3.885e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=6.307e-03 mean|d|=6.307e-03 rel@max=9.521e-02 RMS=6.307e-03 NaN=0 Inf=0
+
+== row 7 ==
+  actuals: cpu=-2.141973227e-01 metal=-2.151266634e-01  |cpu-metal|=9.293e-04 rel=4.339e-03
+  f64ref =-2.151266599e-01  f32seq=-2.151264250e-01  cpu_q8vec=-2.144562453e-01  metal_replica=-2.151266485e-01
+  f64ref vs cpu_actual  : d=9.293e-04 rel=4.320e-03
+  f64ref vs metal_actual: d=3.524e-09 rel=1.638e-08
+  f32seq vs cpu_actual  : d=9.291e-04 rel=4.319e-03
+  cpu_q8vec vs cpu_actual: d=2.589e-04 rel=1.207e-03
+  metal_replica vs metal_actual: d=1.490e-08 rel=6.927e-08  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=4.607158915e-02  metal_replica=4.607158445e-02  |d|=4.700e-09
+    K=  256  f64blocks=-3.651238527e-02  metal_replica=-3.651239275e-02  |d|=7.478e-09
+    K= 1024  f64blocks=-2.214703662e-01  metal_replica=-2.214703736e-01  |d|=7.433e-09
+    K= 2304  f64blocks=-2.151266602e-01  metal_replica=-2.151266629e-01  |d|=2.660e-09
+    blocks: f64 vs metal_replica       max|d|=4.831e-09 mean|d|=1.151e-09 rel@max=2.099e-06 RMS=1.537e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=10 d=4.831e-09 (f64=-5.261132e-02 metal=-5.261133e-02), b=63 d=3.783e-09 (f64=-6.979906e-02 metal=-6.979906e-02), b=34 d=3.496e-09 (f64=-1.665581e-03 metal=-1.665585e-03)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=9.566e-04 mean|d|=1.959e-04 rel@max=5.770e-01 RMS=2.586e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=11 d=9.566e-04 (cpu=-5.958201e-02 metal=-5.862540e-02), b=48 d=7.210e-04 (cpu=-7.317509e-02 metal=-7.389608e-02), b=59 d=6.041e-04 (cpu=-2.230401e-02 metal=-2.169987e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=4.646764882e-02  metal_replica=4.607158445e-02  |d|=3.961e-04
+    K=  256  cpu_path=-3.593674954e-02  metal_replica=-3.651239275e-02  |d|=5.756e-04
+    K= 1024  cpu_path=-2.202560363e-01  metal_replica=-2.214703736e-01  |d|=1.214e-03
+    K= 2304  cpu_path=-2.144561937e-01  metal_replica=-2.151266629e-01  |d|=6.705e-04
+    cumul K=64: cpu_path vs metal      max|d|=3.961e-04 mean|d|=3.961e-04 rel@max=8.523e-03 RMS=3.961e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=5.756e-04 mean|d|=5.756e-04 rel@max=1.577e-02 RMS=5.756e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=1.214e-03 mean|d|=1.214e-03 rel@max=5.483e-03 RMS=1.214e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=6.705e-04 mean|d|=6.705e-04 rel@max=3.117e-03 RMS=6.705e-04 NaN=0 Inf=0
+
+== row 8 ==
+  actuals: cpu=-6.367368996e-02 metal=-6.671386957e-02  |cpu-metal|=3.040e-03 rel=4.775e-02
+  f64ref =-6.671391828e-02  f32seq=-6.671398878e-02  cpu_q8vec=-6.359858811e-02  metal_replica=-6.671383977e-02
+  f64ref vs cpu_actual  : d=3.040e-03 rel=4.557e-02
+  f64ref vs metal_actual: d=4.871e-08 rel=7.301e-07
+  f32seq vs cpu_actual  : d=3.040e-03 rel=4.557e-02
+  cpu_q8vec vs cpu_actual: d=7.510e-05 rel=1.181e-03
+  metal_replica vs metal_actual: d=2.980e-08 rel=4.467e-07  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=-1.458320934e-03  metal_replica=-1.458322397e-03  |d|=1.462e-09
+    K=  256  f64blocks=4.313509866e-02  metal_replica=4.313510359e-02  |d|=4.935e-09
+    K= 1024  f64blocks=2.137526751e-01  metal_replica=2.137526845e-01  |d|=9.386e-09
+    K= 2304  f64blocks=-6.671390898e-02  metal_replica=-6.671391563e-02  |d|=6.648e-09
+    blocks: f64 vs metal_replica       max|d|=4.329e-09 mean|d|=1.201e-09 rel@max=1.692e-06 RMS=1.523e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=31 d=4.329e-09 (f64=+2.558625e-03 metal=+2.558629e-03), b=51 d=3.856e-09 (f64=+7.017580e-02 metal=+7.017579e-02), b=19 d=3.492e-09 (f64=-8.048089e-02 metal=-8.048090e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=1.352e-03 mean|d|=2.014e-04 rel@max=3.515e-01 RMS=3.153e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=59 d=1.352e-03 (cpu=+3.022070e-02 metal=+3.157320e-02), b=55 d=1.112e-03 (cpu=-1.042318e-01 metal=-1.031202e-01), b=11 d=1.019e-03 (cpu=+1.996281e-01 metal=+1.986090e-01)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=-9.708600119e-04  metal_replica=-1.458322397e-03  |d|=4.875e-04
+    K=  256  cpu_path=4.354370059e-02  metal_replica=4.313510359e-02  |d|=4.086e-04
+    K= 1024  cpu_path=2.180468243e-01  metal_replica=2.137526845e-01  |d|=4.294e-03
+    K= 2304  cpu_path=-6.359882571e-02  metal_replica=-6.671391563e-02  |d|=3.115e-03
+    cumul K=64: cpu_path vs metal      max|d|=4.875e-04 mean|d|=4.875e-04 rel@max=3.343e-01 RMS=4.875e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=4.086e-04 mean|d|=4.086e-04 rel@max=9.384e-03 RMS=4.086e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=4.294e-03 mean|d|=4.294e-03 rel@max=1.969e-02 RMS=4.294e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=3.115e-03 mean|d|=3.115e-03 rel@max=4.669e-02 RMS=3.115e-03 NaN=0 Inf=0
+
+== row 9 ==
+  actuals: cpu=-1.788602769e-01 metal=-1.760136634e-01  |cpu-metal|=2.847e-03 rel=1.592e-02
+  f64ref =-1.760136866e-01  f32seq=-1.760136187e-01  cpu_q8vec=-1.789215356e-01  metal_replica=-1.760137081e-01
+  f64ref vs cpu_actual  : d=2.847e-03 rel=1.617e-02
+  f64ref vs metal_actual: d=2.322e-08 rel=1.319e-07
+  f32seq vs cpu_actual  : d=2.847e-03 rel=1.617e-02
+  cpu_q8vec vs cpu_actual: d=6.126e-05 rel=3.424e-04
+  metal_replica vs metal_actual: d=4.470e-08 rel=2.540e-07  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=-6.774541129e-03  metal_replica=-6.774541922e-03  |d|=7.931e-10
+    K=  256  f64blocks=-1.758121915e-01  metal_replica=-1.758121901e-01  |d|=1.375e-09
+    K= 1024  f64blocks=-3.300641429e-01  metal_replica=-3.300641402e-01  |d|=2.718e-09
+    K= 2304  f64blocks=-1.760137054e-01  metal_replica=-1.760137006e-01  |d|=4.783e-09
+    blocks: f64 vs metal_replica       max|d|=3.742e-09 mean|d|=7.898e-10 rel@max=7.853e-05 RMS=1.070e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=69 d=3.742e-09 (f64=-4.526765e-03 metal=-4.526761e-03), b=44 d=2.707e-09 (f64=+4.419296e-02 metal=+4.419296e-02), b=29 d=2.452e-09 (f64=-1.414017e-02 metal=-1.414017e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=1.707e-03 mean|d|=1.469e-04 rel@max=1.652e+00 RMS=2.648e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=11 d=1.707e-03 (cpu=-4.719238e-02 metal=-4.548527e-02), b=59 d=7.223e-04 (cpu=-1.363112e-02 metal=-1.435344e-02), b=24 d=4.429e-04 (cpu=-1.487458e-02 metal=-1.443163e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=-6.944500143e-03  metal_replica=-6.774541922e-03  |d|=1.700e-04
+    K=  256  cpu_path=-1.763207933e-01  metal_replica=-1.758121901e-01  |d|=5.086e-04
+    K= 1024  cpu_path=-3.325257215e-01  metal_replica=-3.300641402e-01  |d|=2.462e-03
+    K= 2304  cpu_path=-1.789210039e-01  metal_replica=-1.760137006e-01  |d|=2.907e-03
+    cumul K=64: cpu_path vs metal      max|d|=1.700e-04 mean|d|=1.700e-04 rel@max=2.447e-02 RMS=1.700e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=5.086e-04 mean|d|=5.086e-04 rel@max=2.885e-03 RMS=5.086e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=2.462e-03 mean|d|=2.462e-03 rel@max=7.403e-03 RMS=2.462e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=2.907e-03 mean|d|=2.907e-03 rel@max=1.625e-02 RMS=2.907e-03 NaN=0 Inf=0
+
+== row 10 ==
+  actuals: cpu=0.000000000e+00 metal=0.000000000e+00  |cpu-metal|=0.000e+00 rel=0.000e+00
+  f64ref =0.000000000e+00  f32seq=0.000000000e+00  cpu_q8vec=0.000000000e+00  metal_replica=0.000000000e+00
+  f64ref vs cpu_actual  : d=0.000e+00 rel=0.000e+00
+  f64ref vs metal_actual: d=0.000e+00 rel=0.000e+00
+  f32seq vs cpu_actual  : d=0.000e+00 rel=0.000e+00
+  cpu_q8vec vs cpu_actual: d=0.000e+00 rel=0.000e+00
+  metal_replica vs metal_actual: d=0.000e+00 rel=0.000e+00  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K=  256  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 1024  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 2304  f64blocks=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    blocks: f64 vs metal_replica       max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=71 d=0.000e+00 (f64=+0.000000e+00 metal=+0.000000e+00), b=70 d=0.000e+00 (f64=+0.000000e+00 metal=+0.000000e+00), b=19 d=0.000e+00 (f64=+0.000000e+00 metal=+0.000000e+00)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=71 d=0.000e+00 (cpu=+0.000000e+00 metal=+0.000000e+00), b=70 d=0.000e+00 (cpu=+0.000000e+00 metal=+0.000000e+00), b=19 d=0.000e+00 (cpu=+0.000000e+00 metal=+0.000000e+00)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K=  256  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 1024  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    K= 2304  cpu_path=0.000000000e+00  metal_replica=0.000000000e+00  |d|=0.000e+00
+    cumul K=64: cpu_path vs metal      max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=0.000e+00 mean|d|=0.000e+00 rel@max=0.000e+00 RMS=0.000e+00 NaN=0 Inf=0
+
+== row 11 ==
+  actuals: cpu=-5.453673601e-01 metal=-5.474855900e-01  |cpu-metal|=2.118e-03 rel=3.884e-03
+  f64ref =-5.474855714e-01  f32seq=-5.474855900e-01  cpu_q8vec=-5.452002287e-01  metal_replica=-5.474855900e-01
+  f64ref vs cpu_actual  : d=2.118e-03 rel=3.869e-03
+  f64ref vs metal_actual: d=1.855e-08 rel=3.388e-08
+  f32seq vs cpu_actual  : d=2.118e-03 rel=3.869e-03
+  cpu_q8vec vs cpu_actual: d=1.671e-04 rel=3.066e-04
+  metal_replica vs metal_actual: d=0.000e+00 rel=0.000e+00  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=-1.657121540e-02  metal_replica=-1.657121675e-02  |d|=1.353e-09
+    K=  256  f64blocks=-2.964380631e-02  metal_replica=-2.964380651e-02  |d|=2.001e-10
+    K= 1024  f64blocks=-2.875546679e-01  metal_replica=-2.875546903e-01  |d|=2.242e-08
+    K= 2304  f64blocks=-5.474855606e-01  metal_replica=-5.474855952e-01  |d|=3.457e-08
+    blocks: f64 vs metal_replica       max|d|=8.673e-09 mean|d|=1.616e-09 rel@max=1.289e-06 RMS=2.238e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=24 d=8.673e-09 (f64=-1.810449e-01 metal=-1.810449e-01), b=44 d=7.567e-09 (f64=-5.858267e-02 metal=-5.858268e-02), b=11 d=5.162e-09 (f64=-1.038721e-01 metal=-1.038720e-01)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=1.662e-03 mean|d|=2.876e-04 rel@max=2.589e-01 RMS=4.101e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=59 d=1.662e-03 (cpu=+3.386282e-02 metal=+3.220056e-02), b=15 d=1.222e-03 (cpu=-8.719795e-02 metal=-8.597644e-02), b=48 d=9.391e-04 (cpu=-7.838575e-02 metal=-7.744661e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=-1.607155427e-02  metal_replica=-1.657121675e-02  |d|=4.997e-04
+    K=  256  cpu_path=-2.972118929e-02  metal_replica=-2.964380651e-02  |d|=7.738e-05
+    K= 1024  cpu_path=-2.895123311e-01  metal_replica=-2.875546903e-01  |d|=1.958e-03
+    K= 2304  cpu_path=-5.452000800e-01  metal_replica=-5.474855952e-01  |d|=2.286e-03
+    cumul K=64: cpu_path vs metal      max|d|=4.997e-04 mean|d|=4.997e-04 rel@max=3.015e-02 RMS=4.997e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=7.738e-05 mean|d|=7.738e-05 rel@max=2.604e-03 RMS=7.738e-05 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=1.958e-03 mean|d|=1.958e-03 rel@max=6.762e-03 RMS=1.958e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=2.286e-03 mean|d|=2.286e-03 rel@max=4.175e-03 RMS=2.286e-03 NaN=0 Inf=0
+
+== row 12 ==
+  actuals: cpu=2.968070209e-01 metal=2.888498902e-01  |cpu-metal|=7.957e-03 rel=2.681e-02
+  f64ref =2.888498603e-01  f32seq=2.888496816e-01  cpu_q8vec=2.966144383e-01  metal_replica=2.888499200e-01
+  f64ref vs cpu_actual  : d=7.957e-03 rel=2.755e-02
+  f64ref vs metal_actual: d=2.989e-08 rel=1.035e-07
+  f32seq vs cpu_actual  : d=7.957e-03 rel=2.755e-02
+  cpu_q8vec vs cpu_actual: d=1.926e-04 rel=6.493e-04
+  metal_replica vs metal_actual: d=2.980e-08 rel=1.032e-07  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=2.635944196e-02  metal_replica=2.635943942e-02  |d|=2.539e-09
+    K=  256  f64blocks=1.419228304e-02  metal_replica=1.419228251e-02  |d|=5.239e-10
+    K= 1024  f64blocks=2.586444850e-01  metal_replica=2.586444903e-01  |d|=5.294e-09
+    K= 2304  f64blocks=2.888498661e-01  metal_replica=2.888498894e-01  |d|=2.326e-08
+    blocks: f64 vs metal_replica       max|d|=4.744e-09 mean|d|=1.038e-09 rel@max=3.803e-06 RMS=1.408e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=16 d=4.744e-09 (f64=-1.112156e-02 metal=-1.112156e-02), b=48 d=4.286e-09 (f64=-4.099481e-02 metal=-4.099481e-02), b=49 d=3.496e-09 (f64=+4.460318e-02 metal=+4.460319e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=5.996e-03 mean|d|=2.487e-04 rel@max=6.018e-01 RMS=7.473e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=11 d=5.996e-03 (cpu=+1.017471e-01 metal=+9.575129e-02), b=55 d=1.001e-03 (cpu=+1.333959e-02 metal=+1.434092e-02), b=59 d=8.012e-04 (cpu=+3.745652e-02 metal=+3.665532e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=2.593722090e-02  metal_replica=2.635943942e-02  |d|=4.222e-04
+    K=  256  cpu_path=1.374591689e-02  metal_replica=1.419228251e-02  |d|=4.464e-04
+    K= 1024  cpu_path=2.644075881e-01  metal_replica=2.586444903e-01  |d|=5.763e-03
+    K= 2304  cpu_path=2.966144885e-01  metal_replica=2.888498894e-01  |d|=7.765e-03
+    cumul K=64: cpu_path vs metal      max|d|=4.222e-04 mean|d|=4.222e-04 rel@max=1.602e-02 RMS=4.222e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=4.464e-04 mean|d|=4.464e-04 rel@max=3.145e-02 RMS=4.464e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=5.763e-03 mean|d|=5.763e-03 rel@max=2.180e-02 RMS=5.763e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=7.765e-03 mean|d|=7.765e-03 rel@max=2.618e-02 RMS=7.765e-03 NaN=0 Inf=0
+
+== row 13 ==
+  actuals: cpu=8.076570183e-02 metal=8.273586631e-02  |cpu-metal|=1.970e-03 rel=2.439e-02
+  f64ref =8.273586446e-02  f32seq=8.273585141e-02  cpu_q8vec=8.049261570e-02  metal_replica=8.273585141e-02
+  f64ref vs cpu_actual  : d=1.970e-03 rel=2.381e-02
+  f64ref vs metal_actual: d=1.849e-09 rel=2.235e-08
+  f32seq vs cpu_actual  : d=1.970e-03 rel=2.381e-02
+  cpu_q8vec vs cpu_actual: d=2.731e-04 rel=3.393e-03
+  metal_replica vs metal_actual: d=1.490e-08 rel=1.801e-07  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=1.301415775e-02  metal_replica=1.301415780e-02  |d|=4.366e-11
+    K=  256  f64blocks=4.744899704e-02  metal_replica=4.744899270e-02  |d|=4.337e-09
+    K= 1024  f64blocks=-3.380315548e-02  metal_replica=-3.380316825e-02  |d|=1.276e-08
+    K= 2304  f64blocks=8.273586433e-02  metal_replica=8.273586904e-02  |d|=4.716e-09
+    blocks: f64 vs metal_replica       max|d|=5.180e-09 mean|d|=9.077e-10 rel@max=3.946e-06 RMS=1.332e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=55 d=5.180e-09 (f64=+9.954308e-02 metal=+9.954309e-02), b=34 d=3.954e-09 (f64=-1.951783e-02 metal=-1.951783e-02), b=21 d=3.573e-09 (f64=-5.944418e-02 metal=-5.944419e-02)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=1.051e-03 mean|d|=1.459e-04 rel@max=4.966e-01 RMS=2.293e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=59 d=1.051e-03 (cpu=+1.853473e-02 metal=+1.958589e-02), b=15 d=8.299e-04 (cpu=+3.361725e-03 metal=+4.191665e-03), b=55 d=8.127e-04 (cpu=+9.873040e-02 metal=+9.954309e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=1.286399807e-02  metal_replica=1.301415780e-02  |d|=1.502e-04
+    K=  256  cpu_path=4.723464674e-02  metal_replica=4.744899270e-02  |d|=2.143e-04
+    K= 1024  cpu_path=-3.506310889e-02  metal_replica=-3.380316825e-02  |d|=1.260e-03
+    K= 2304  cpu_path=8.049264061e-02  metal_replica=8.273586904e-02  |d|=2.243e-03
+    cumul K=64: cpu_path vs metal      max|d|=1.502e-04 mean|d|=1.502e-04 rel@max=1.154e-02 RMS=1.502e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=2.143e-04 mean|d|=2.143e-04 rel@max=4.517e-03 RMS=2.143e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=1.260e-03 mean|d|=1.260e-03 rel@max=3.593e-02 RMS=1.260e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=2.243e-03 mean|d|=2.243e-03 rel@max=2.711e-02 RMS=2.243e-03 NaN=0 Inf=0
+
+== row 14 ==
+  actuals: cpu=-9.872160554e-01 metal=-9.945456982e-01  |cpu-metal|=7.330e-03 rel=7.425e-03
+  f64ref =-9.945456759e-01  f32seq=-9.945454001e-01  cpu_q8vec=-9.871984124e-01  metal_replica=-9.945456982e-01
+  f64ref vs cpu_actual  : d=7.330e-03 rel=7.370e-03
+  f64ref vs metal_actual: d=2.228e-08 rel=2.240e-08
+  f32seq vs cpu_actual  : d=7.329e-03 rel=7.370e-03
+  cpu_q8vec vs cpu_actual: d=1.764e-05 rel=1.787e-05
+  metal_replica vs metal_actual: d=0.000e+00 rel=0.000e+00  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=3.556312547e-02  metal_replica=3.556312411e-02  |d|=1.357e-09
+    K=  256  f64blocks=9.032296210e-02  metal_replica=9.032295924e-02  |d|=2.867e-09
+    K= 1024  f64blocks=-1.354132110e-01  metal_replica=-1.354132069e-01  |d|=4.101e-09
+    K= 2304  f64blocks=-9.945456737e-01  metal_replica=-9.945456837e-01  |d|=1.002e-08
+    blocks: f64 vs metal_replica       max|d|=7.814e-09 mean|d|=1.381e-09 rel@max=1.422e-06 RMS=2.115e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=55 d=7.814e-09 (f64=-2.086147e-01 metal=-2.086147e-01), b=11 d=7.254e-09 (f64=-4.698009e-02 metal=-4.698008e-02), b=15 d=6.723e-09 (f64=+1.614898e-01 metal=+1.614898e-01)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=5.180e-03 mean|d|=2.953e-04 rel@max=1.590e-01 RMS=7.287e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=11 d=5.180e-03 (cpu=-4.180011e-02 metal=-4.698008e-02), b=55 d=2.585e-03 (cpu=-2.060295e-01 metal=-2.086147e-01), b=48 d=8.494e-04 (cpu=+1.071664e-01 metal=+1.063170e-01)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=3.572594910e-02  metal_replica=3.556312411e-02  |d|=1.628e-04
+    K=  256  cpu_path=8.979009441e-02  metal_replica=9.032295924e-02  |d|=5.329e-04
+    K= 1024  cpu_path=-1.315065592e-01  metal_replica=-1.354132069e-01  |d|=3.907e-03
+    K= 2304  cpu_path=-9.871984902e-01  metal_replica=-9.945456837e-01  |d|=7.347e-03
+    cumul K=64: cpu_path vs metal      max|d|=1.628e-04 mean|d|=1.628e-04 rel@max=4.558e-03 RMS=1.628e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=5.329e-04 mean|d|=5.329e-04 rel@max=5.900e-03 RMS=5.329e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=3.907e-03 mean|d|=3.907e-03 rel@max=2.885e-02 RMS=3.907e-03 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=7.347e-03 mean|d|=7.347e-03 rel@max=7.387e-03 RMS=7.347e-03 NaN=0 Inf=0
+
+== row 15 ==
+  actuals: cpu=-9.668587446e-01 metal=-9.618263245e-01  |cpu-metal|=5.032e-03 rel=5.205e-03
+  f64ref =-9.618262570e-01  f32seq=-9.618253708e-01  cpu_q8vec=-9.666655660e-01  metal_replica=-9.618264437e-01
+  f64ref vs cpu_actual  : d=5.032e-03 rel=5.232e-03
+  f64ref vs metal_actual: d=6.744e-08 rel=7.012e-08
+  f32seq vs cpu_actual  : d=5.033e-03 rel=5.233e-03
+  cpu_q8vec vs cpu_actual: d=1.932e-04 rel=1.998e-04
+  metal_replica vs metal_actual: d=1.192e-07 rel=1.239e-07  [Case C validation]
+  cumulative sums (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  f64blocks=-6.906230932e-02  metal_replica=-6.906230748e-02  |d|=1.841e-09
+    K=  256  f64blocks=1.849878941e-01  metal_replica=1.849878974e-01  |d|=3.320e-09
+    K= 1024  f64blocks=-1.033990416e+00  metal_replica=-1.033990403e+00  |d|=1.296e-08
+    K= 2304  f64blocks=-9.618262551e-01  metal_replica=-9.618262635e-01  |d|=8.420e-09
+    blocks: f64 vs metal_replica       max|d|=9.662e-09 mean|d|=1.495e-09 rel@max=2.042e-06 RMS=2.178e-09 NaN=0 Inf=0
+    worst block deviations (f64 vs metal replica): b=11 d=9.662e-09 (f64=-9.113853e-01 metal=-9.113853e-01), b=15 d=5.362e-09 (f64=-3.947458e-01 metal=-3.947458e-01), b=57 d=4.933e-09 (f64=+1.239061e-01 metal=+1.239061e-01)
+  CPU path (q8-quantized act) vs Metal path (f32 act) — per block:
+    blocks: CPU path vs Metal replica  max|d|=2.955e-03 mean|d|=2.605e-04 rel@max=3.313e-01 RMS=4.511e-04 NaN=0 Inf=0
+    worst block deviations (CPU path vs Metal): b=55 d=2.955e-03 (cpu=-2.656591e-01 metal=-2.627039e-01), b=36 d=9.564e-04 (cpu=+1.039125e-01 metal=+1.029561e-01), b=0 d=8.557e-04 (cpu=-8.545963e-02 metal=-8.631530e-02)
+  cumulative sums — CPU path vs Metal path (blocks: 2,8,32,72 => K: 64,256,1024,2304):
+    K=   64  cpu_path=-6.835084036e-02  metal_replica=-6.906230748e-02  |d|=7.115e-04
+    K=  256  cpu_path=1.853406802e-01  metal_replica=1.849878974e-01  |d|=3.528e-04
+    K= 1024  cpu_path=-1.033897121e+00  metal_replica=-1.033990403e+00  |d|=9.328e-05
+    K= 2304  cpu_path=-9.666634741e-01  metal_replica=-9.618262635e-01  |d|=4.837e-03
+    cumul K=64: cpu_path vs metal      max|d|=7.115e-04 mean|d|=7.115e-04 rel@max=1.030e-02 RMS=7.115e-04 NaN=0 Inf=0
+    cumul K=256: cpu_path vs metal     max|d|=3.528e-04 mean|d|=3.528e-04 rel@max=1.903e-03 RMS=3.528e-04 NaN=0 Inf=0
+    cumul K=1024: cpu_path vs metal    max|d|=9.328e-05 mean|d|=9.328e-05 rel@max=9.022e-05 RMS=9.328e-05 NaN=0 Inf=0
+    cumul K=2304: cpu_path vs metal    max|d|=4.837e-03 mean|d|=4.837e-03 rel@max=5.004e-03 RMS=4.837e-03 NaN=0 Inf=0

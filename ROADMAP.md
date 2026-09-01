@@ -1653,6 +1653,34 @@ accumulations with identical inputs). No kernels modified; fork
 untouched. Report: `progress/phase-11-dequant-report.md`;
 `tools/phase11_dequant_probe.m`. STOPPED for review; E3 not begun.
 
+**mul_mat arithmetic isolation (PASS, COMPLETED, 2026-09-01):** with
+GGUF addressing resolved (attn_q abs_off = 829,182,112 = data section
+6,949,024 + GGUF-relative 822,233,088; verified via the retained
+repack dump tool), the corrected arithmetic probe (rows 0–15, correctly
+addressed q8_0 weights + bit-identical captured layer-0 activation)
+classifies the discrepancy: **Case A — local quantized
+dot-product/conversion arithmetic.** Per-block: Metal replica vs f64
+max|d| ≤ 9.7e-9 (exact); CPU path vs Metal path max|d| = 6.0e-3, mean
+1.9e-4 — block contributions materially differ because the CPU vec_dot
+path quantizes activations to q8_0 (`vec_dot_type = Q8_0`). Cumulative
+(K=64/256/1024/2304): Metal accumulates exactly (|d| ≤ 3.5e-8 at every
+cut); CPU-vs-Metal |d| grows monotonically with K (row 12: 4.2e-4 →
+4.5e-4 → 5.8e-3 → 7.8e-3) with no discontinuity — no independent
+accumulation-order defect. Case B excluded (blocks already differ);
+Case C closed (host replica of `kernel_mul_mv_ext_q8_0_f32` is
+bit-for-bit with production Metal, d=0). Minimum dequantization check
+re-run at the corrected address: CPU and Metal reconstruct identical
+q8_0 weights (bit-identical, 0 mismatches — the earlier dequant run's
+NaN-payload "mismatches" were garbage-read artifacts of the wrong
+offset). Conclusion: at the layer-0 Q projection **Metal is the
+near-exact path (≈1e-8 vs f64) and the frozen CPU reference carries the
+q8-activation quantization error**; E4's ×218k PPL explanation remains
+OPEN (cascade/routing-argmax vs a defect elsewhere). No kernels
+modified; no optimization. Report:
+`progress/phase-11-arith-probe-report.md`; evidence retained under
+`benchmarks/results/phase-11/arith-probe/` (runs + captures). STOPPED
+for review; E3 not begun.
+
 ---
 
 # Progress Tracking
