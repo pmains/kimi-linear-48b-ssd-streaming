@@ -27,15 +27,16 @@
 # Env:
 #   KIMI_CACHE_MB=4096|8192|...   expert cache budget (default 4096)
 #   KIMI_PORT=18080               server port
-#   KIMI_CTX=32768                context size
+#   KIMI_CTX=65536                context size
 #   KIMI_BIN=runtime/live/bin/llama-server (override binary, e.g. dev build)
 set -euo pipefail
 
-MODEL="models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf"
+MODEL="models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
 BIN="${KIMI_BIN:-runtime/live/bin/llama-server}"
 PORT="${KIMI_PORT:-18080}"
-CTX="${KIMI_CTX:-32768}"
+CTX="${KIMI_CTX:-65536}"
 CACHE_MB="${KIMI_CACHE_MB:-4096}"
+NGL="${KIMI_NGL:-999}"
 HOST="${KIMI_HOST:-127.0.0.1}"
 LOG="/tmp/kimi-llama-server.log"
 PIDFILE="/tmp/kimi-llama-server.pid"
@@ -43,7 +44,7 @@ STATE_DIR="runtime/state"
 SLOT_SAVE_PATH="$STATE_DIR/slot-cache"
 
 running_cmd() {
-    pgrep -f -- "$BIN -m $MODEL -ngl 0 --no-mmap --ctx-size $CTX --host $HOST --port $PORT --parallel 1" >/dev/null 2>&1
+    pgrep -f -- "$BIN -m $MODEL -ngl $NGL --no-mmap --ctx-size $CTX --host $HOST --port $PORT --parallel 1" >/dev/null 2>&1
 }
 
 start() {
@@ -56,11 +57,17 @@ start() {
         return 0
     fi
     echo "starting llama-server on $HOST:$PORT (ctx $CTX, expert cache ${CACHE_MB} MiB, zerocopy)"
+    # Mutual exclusion: kimi and qwen3 share the 24 GB unified-memory budget.
+    # Running both simultaneously caused 18+ GB of swap thrash (see
+    # goldenrod-progress/2026-08-25-diagnosis-hardening.md). One or the other.
+    "$(dirname "$0")/serve_qwen_local.sh" stop >/dev/null 2>&1 || true
     mkdir -p "$SLOT_SAVE_PATH"
     KIMI_STREAM_EXPERTS=naive \
     KIMI_EXPERT_CACHE_MB="$CACHE_MB" \
     KIMI_EXPERT_CACHE_MODE=zerocopy \
-    nohup "$BIN" -m "$MODEL" -ngl 0 --no-mmap --ctx-size "$CTX" \
+    KIMI_STREAM_METAL_STAGE=1 \
+    KIMI_STREAM_E2_DIRECT_PLACE=1 \
+    nohup "$BIN" -m "$MODEL" -ngl "$NGL" --no-mmap --ctx-size "$CTX" \
         --host "$HOST" --port "$PORT" --parallel 1 \
         --slot-save-path "$SLOT_SAVE_PATH" \
         > "$LOG" 2>&1 &
@@ -84,7 +91,7 @@ stop() {
         return 0
     fi
     if running_cmd; then
-        pkill -f -- "$BIN -m $MODEL -ngl 0 --no-mmap --ctx-size $CTX --host $HOST --port $PORT --parallel 1"
+        pkill -f -- "$BIN -m $MODEL -ngl $NGL --no-mmap --ctx-size $CTX --host $HOST --port $PORT --parallel 1"
         rm -f "$PIDFILE"
         echo "stopped (matched process)"
         return 0

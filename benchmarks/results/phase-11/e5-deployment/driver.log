@@ -1,0 +1,9 @@
+=== E5 deployment qualification: 2026-09-01T21:30:22Z ===
+model=kimi-local/kimi-linear-48b live-commit=a895f68266fb28cd84bcf353559246ae70e805e6
+--- A1 (cold) ---
+server restarted: pid 84242 -> 84622 (healthy after ~15s)
+tools/phase11_e5_deployment.sh: line 74: 84662 Terminated: 15          ( while kill -0 "$pid" 2> /dev/null; do
+    ps -o rss= -p "$pid" 2> /dev/null | tr -d ' ' >> "$dir/rss.samples"; sleep 0.2;
+done )
+[A1] rc=0 wall=64.9081s ttft_client=64.8836s prefill=11819.65ms/267tok decode=48370.64ms/158tok cached=0 rss_peak=8243056KB stats_rows=159 lookups=33237 hits=20162 misses=13075 evicts=13726 pread_B=32197397 retr_rows=197738 retr_B=247838810112
+--- B1 (warm follow-up) ---

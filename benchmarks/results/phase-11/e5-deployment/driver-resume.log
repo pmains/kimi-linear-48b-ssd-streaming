@@ -1,0 +1,25 @@
+=== E5 deployment qualification: 2026-09-01T22:16:21Z ===
+model=kimi-local/kimi-linear-48b live-commit=a895f68266fb28cd84bcf353559246ae70e805e6
+--- B1 (warm follow-up) ---
+tools/phase11_e5_deployment.sh: line 76: 22737 Terminated: 15          ( while kill -0 "$pid" 2> /dev/null; do
+    ps -o rss= -p "$pid" 2> /dev/null | tr -d ' ' >> "$dir/rss.samples"; sleep 0.2;
+done )
+[B1] rc=0 wall=68.7762s ttft_client=68.7519s prefill=1543.56ms/4tok decode=62338.69ms/192tok cached=0 rss_peak=6864080KB stats_rows=192 lookups=40324 hits=24138 misses=16186 evicts=16186 pread_B=33099536 retr_rows=49133 retr_B=61580869632
+--- A2 (cold) ---
+server restarted: pid 84622 -> 23848 (healthy after ~14s)
+tools/phase11_e5_deployment.sh: line 76: 23883 Terminated: 15          ( while kill -0 "$pid" 2> /dev/null; do
+    ps -o rss= -p "$pid" 2> /dev/null | tr -d ' ' >> "$dir/rss.samples"; sleep 0.2;
+done )
+[A2] rc=0 wall=90.4628s ttft_client=90.4406s prefill=11791.32ms/267tok decode=73896.03ms/229tok cached=0 rss_peak=8034304KB stats_rows=230 lookups=48005 hits=29715 misses=18290 evicts=18941 pread_B=45510315 retr_rows=213357 retr_B=267415289856
+--- B2 (warm follow-up) ---
+tools/phase11_e5_deployment.sh: line 76: 25248 Terminated: 15          ( while kill -0 "$pid" 2> /dev/null; do
+    ps -o rss= -p "$pid" 2> /dev/null | tr -d ' ' >> "$dir/rss.samples"; sleep 0.2;
+done )
+[B2] rc=0 wall=72.7241s ttft_client=72.6972s prefill=11913.07ms/289tok decode=55974.58ms/168tok cached=0 rss_peak=8408608KB stats_rows=169 lookups=35332 hits=21067 misses=14265 evicts=15276 pread_B=36868130 retr_rows=214385 retr_B=268703760384
+=== E5 done: 2026-09-01T22:20:29Z ===
+run   wall_s  ttft_s prefill_ms pToks   pT/s decode_ms dToks   dT/s cached  RSS_MB lookups   hits misses evict pread_MB retr_MB
+A1     64.97 64.8836   11819.65   267   22.6  48370.64   158    3.3   None  8049.9   33237  20162  13075 13726     32.2 247838.8
+A2     90.52 90.4406   11791.32   267   22.6  73896.03   229    3.1   None  7846.0   48005  29715  18290 18941     45.5 267415.3
+B1     68.82 68.7519    1543.56     4    2.6  62338.69   192    3.1   None  6703.2   40324  24138  16186 16186     33.1 61580.9
+B2     72.76 72.6972   11913.07   289   24.3  55974.58   168    3.0   None  8211.5   35332  21067  14265 15276     36.9 268703.8
+RESUME EXIT=0

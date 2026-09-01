@@ -1,0 +1,14 @@
+4.718425	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.730950	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=21 dispatcher=new contentType=text/event-stream
+90.440542	model.run via local
+90.440561	provider: kimi-local
+90.440562	model: kimi-linear-48b
+90.440563	outputs: 1
+90.440570	- **Incorrect offset calculation** → `tensor_abs_offset(layer)` may be 64-bit while `expert_id * PER_EXPERT` is 32-bit; overflow or truncation corrupts load address.  
+90.440585	  **Fix**: cast `expert_id` to `size_t` before multiplication: `off = tensor_abs_offset(layer) + static_cast<size_t>(expert_id) * PER_EXPERT;`.
+90.440585	
+90.440598	- **Race between `pread`/`memcpy` and eviction** → caller may evict the slot while `pread`/`memcpy` still copies; use `std::atomic` flag or reorder to avoid UB.  
+90.440598	  **Fix**: move `memcpy` inside `load_expert` after the `pread`; guard with `std::atomic` to prevent concurrent eviction until copy completes.
+90.440599	
+90.440602	- **Unaligned memory access** → `staging` and `slot_ptr(slot)` may not satisfy alignment requirements for SIMD; causes SIGBUS or stalls.  
+90.440609	  **Fix**: allocate `staging` with `alignas(64)` and ensure `slot_ptr` returns aligned pointer; if not, add runtime fallback or padding.

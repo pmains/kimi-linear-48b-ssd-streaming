@@ -1,0 +1,16 @@
+4.659948	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.672687	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=21 dispatcher=new contentType=text/event-stream
+64.883578	model.run via local
+64.883605	provider: kimi-local
+64.883607	model: kimi-linear-48b
+64.883608	outputs: 1
+64.883616	**Correctness risks**  
+64.883630	- **Race / visibility**: `staging` and `slot_ptr(slot)` may alias if slot memory is mapped into the same buffer as `staging`. Write then memcpy could corrupt the source before read.  
+64.883639	- **EOF truncation**: `pread` returns `< PER_EXPERT` on short read; memcpy still copies whatever was read, leaving stale data.  
+64.883640	
+64.883642	**Performance risk**  
+64.883643	- **Two copies**: data moves staging→staging→slot, doubling I/O and cache traffic.  
+64.883644	
+64.883651	**Minimal fixes**  
+64.883673	- Add `if (n != PER_EXPERT) return;` after `pread`.  
+64.883682	- Eliminate staging copy: `pread(fd, slot_ptr(slot), PER_EXPERT, off); slot_expert[slot]=expert_id;`

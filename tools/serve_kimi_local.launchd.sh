@@ -19,11 +19,24 @@ export KIMI_EXPERT_CACHE_MB="${KIMI_EXPERT_CACHE_MB:-4096}"
 export KIMI_EXPERT_CACHE_MODE="${KIMI_EXPERT_CACHE_MODE:-zerocopy}"
 export KIMI_HOST="${KIMI_HOST:-127.0.0.1}"
 export KIMI_PORT="${KIMI_PORT:-18080}"
-export KIMI_CTX="${KIMI_CTX:-32768}"
+export KIMI_CTX="${KIMI_CTX:-65536}"
 mkdir -p "$SLOT_SAVE_PATH"
 
-MODEL="models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf"
-CMD="$BIN -m $MODEL -ngl 0 --no-mmap --ctx-size $KIMI_CTX --host $KIMI_HOST --port $KIMI_PORT --parallel 1"
+MODEL="models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+NGL="${KIMI_NGL:-999}"
+# E5 promotion (2026-09-01): corrected Metal baseline = frozen E2 streamed
+# path with the routed-expert-ID sync fix (fork a895f6826).
+# KIMI_STREAM_METAL_STAGE=1 gates the E1 Metal staging fixes;
+# KIMI_STREAM_E2_DIRECT_PLACE=1 enables direct placement on the miss path.
+# Stats/retr/mem/cache_layers files are the existing env-gated Phase 7
+# observability, enabled here for the E5 deployment qualification run.
+export KIMI_STREAM_METAL_STAGE=1
+export KIMI_STREAM_E2_DIRECT_PLACE=1
+export KIMI_STREAM_STATS_FILE="${KIMI_STREAM_STATS_FILE:-$KIMI_DIR/benchmarks/results/phase-11/e5-deployment/stats.csv}"
+export KIMI_STREAM_RETR_FILE="${KIMI_STREAM_RETR_FILE:-$KIMI_DIR/benchmarks/results/phase-11/e5-deployment/retr.csv}"
+export KIMI_STREAM_MEM_FILE="${KIMI_STREAM_MEM_FILE:-$KIMI_DIR/benchmarks/results/phase-11/e5-deployment/mem.csv}"
+export KIMI_STREAM_CACHE_LAYERS_FILE="${KIMI_STREAM_CACHE_LAYERS_FILE:-$KIMI_DIR/benchmarks/results/phase-11/e5-deployment/cache_layers.csv}"
+CMD="$BIN -m $MODEL -ngl $NGL --no-mmap --ctx-size $KIMI_CTX --host $KIMI_HOST --port $KIMI_PORT --parallel 1"
 
 if [ -f "$PIDFILE" ] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; then
   echo "[$(date '+%F %T %z')] already running pid=$(cat "$PIDFILE")" >> "$LIFE"
@@ -42,7 +55,7 @@ trap 'rm -f "$PIDFILE"' EXIT
 
 "$BIN" \
   -m "$MODEL" \
-  -ngl 0 --no-mmap --ctx-size "$KIMI_CTX" \
+  -ngl "$NGL" --no-mmap --ctx-size "$KIMI_CTX" \
   --host "$KIMI_HOST" --port "$KIMI_PORT" --parallel 1 \
   --slot-save-path "$SLOT_SAVE_PATH" \
   >> "$SRVLOG" 2>&1 &

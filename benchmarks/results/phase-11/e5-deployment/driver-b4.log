@@ -1,0 +1,17 @@
+=== E5 deployment qualification: 2026-09-01T23:07:44Z ===
+model=kimi-local/kimi-linear-48b live-commit=a895f68266fb28cd84bcf353559246ae70e805e6
+--- B4 (warm follow-up) ---
+tools/phase11_e5_deployment.sh: line 76: 55485 Terminated: 15          ( while kill -0 "$pid" 2> /dev/null; do
+    ps -o rss= -p "$pid" 2> /dev/null | tr -d ' ' >> "$dir/rss.samples"; sleep 0.2;
+done )
+[B4] rc=0 wall=67.6292s ttft_client=67.5995s prefill=12336.81ms/374tok decode=50509.27ms/154tok cached=0 rss_peak=8260528KB stats_rows=155 lookups=32418 hits=19328 misses=13090 evicts=14106 pread_B=34650739 retr_rows=261835 retr_B=328176451584
+=== E5 done: 2026-09-01T23:08:52Z ===
+run   wall_s  ttft_s prefill_ms pToks   pT/s decode_ms dToks   dT/s cached  RSS_MB lookups   hits misses evict pread_MB retr_MB
+A1     64.97 64.8836   11819.65   267   22.6  48370.64   158    3.3   None  8049.9   33237  20162  13075 13726     32.2 247838.8
+A2     90.52 90.4406   11791.32   267   22.6  73896.03   229    3.1   None  7846.0   48005  29715  18290 18941     45.5 267415.3
+A3     61.79 61.6948    12153.3   267   22.0  44757.92   143    3.2   None  8079.0   30117  18114  12003 12654     30.9 243808.0
+A4     71.52 71.4256   11885.18   347   29.2  54802.19   177    3.2   None  7975.2   37186  22605  14581 15222     36.2 313684.9
+B1     68.82 68.7519    1543.56     4    2.6  62338.69   192    3.1   None  6703.2   40324  24138  16186 16186     33.1 61580.9
+B2     72.76 72.6972   11913.07   289   24.3  55974.58   168    3.0   None  8211.5   35332  21067  14265 15276     36.9 268703.8
+B3     86.40 86.3227    1412.94     4    2.8  80126.11   250    3.1   None  6656.6   52390  31971  20419 20419     42.2 77220.5
+B4     67.67 67.5995   12336.81   374   30.3  50509.27   154    3.0   None  8066.9   32418  19328  13090 14106     34.7 328176.5

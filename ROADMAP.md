@@ -1816,6 +1816,47 @@ cpu; the pre-fix "fast" metal timing was the degenerate n_slots=1
 `zc-slotcheck/verify-4096/`, `zc-slotcheck/verify-4096-traceon-fixed/`.
 STOPPED for review; E3 not begun.
 
+**E5 — Live OpenClaw Deployment Qualification (PASS/experiment; CONDITIONAL
+PASS deployment; /prefill category A, 2026-09-01):** corrected Metal
+runtime promoted to live via the existing routine mechanism
+(`tools/freeze_live_runtime.sh` + launchd wrapper
+`tools/serve_kimi_local.launchd.sh`, restarted via `launchctl kickstart`;
+recorded before/after in `benchmarks/results/phase-11/e5-deployment/
+before-promotion.txt` / `after-promotion.txt`). Live COMMIT `cad71603` →
+`a895f6826`; launch config Q4_K_M `-ngl 0` CPU → MXFP4 `-ngl 999` with
+`KIMI_STREAM_METAL_STAGE=1` + `KIMI_STREAM_E2_DIRECT_PLACE=1` (frozen E2
+baseline + idsync fix), ctx 65536, zerocopy cache 4096 MiB. Measured
+through the actual modified OpenClaw (`openclaw infer model run` →
+provider kimi-local → live llama-server :18080) with a realistic
+Alkaline-style engineering workload, cold and warm, reproducibility
+repeats: 4 cold (A1–A4) + 4 warm (B1–B4) turns, all EXIT=0, coherent,
+0 server errors/asserts/NaN/Inf, no OpenClaw timeouts (`timeoutMs=
+3600000`). Cold: prefill 11.8–12.4 s / 267–347 tok (22–29 tok/s), TTFT
+(server-side first token) ≈ 12 s, decode **3.0–3.3 tok/s**, total turn
+61.8–90.5 s, RSS peak 6.7–8.4 GB. Warm with matching prompt prefix (B1/B3,
+LCP f_sim=1.000): prefill collapses to ≈1.4 s (4 tokens) — llama-server
+prefix/prompt-cache reuse works; without matching prefix (B2/B4) full
+re-prefill ≈ 12 s. Expert cache hit rate 59.6–61.9% (lookups 30–52k,
+misses/evictions 12–20k per turn); SSD expert-read traffic (already-
+observable streamer accounting) 60.9–88.8 GB/turn. **/prefill
+classification: A (likely unnecessary)** — cold TTFT ≈ 12 s ≤ 60 s
+threshold; warm ≈ 1.4 s with reuse (note: larger real bootstrap would
+scale linearly at 22–29 tok/s, boundary recorded). **Deployment
+readiness: CONDITIONAL PASS** — usable/correct/stable, limitation =
+decode ≈ 3 tok/s makes a substantive response take 60–90 s wall (E3
+t territory, not begun) and heavy per-turn SSD traffic at 4 GiB cache.
+Gateway CLI dispatch (`--gateway`) blocked by `agents.defaults.
+modelPolicy.allow` (kimi-local not listed for agent main/kimi) — config
+restriction observed, NOT changed per directive; local infer path is the
+documented verification surface. No kernels/quantization/cache/sync/
+model-math//prefill changes; E3 not begun; /prefill not removed. Report:
+`progress/phase-11-e5-deployment-report.md`; artifacts under
+`benchmarks/results/phase-11/e5-deployment/` (per-run A1–B4 summaries,
+srvlog/stats/retr deltas, RSS samples, driver logs, covariates,
+promotion records); prompts `benchmarks/prompts/phase-11-e5-*.md`;
+drivers `tools/phase11_e5_deployment.sh` + `tools/phase11_e5_ttft.py`.
+STOPPED for review.
+
 ---
 
 # Progress Tracking

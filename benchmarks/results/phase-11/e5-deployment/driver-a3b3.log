@@ -1,0 +1,4 @@
+=== E5 deployment qualification: 2026-09-01T22:30:56Z ===
+model=kimi-local/kimi-linear-48b live-commit=a895f68266fb28cd84bcf353559246ae70e805e6
+--- A3 (cold) ---
+server restarted: pid 23848 -> 26702 (healthy after ~15s)

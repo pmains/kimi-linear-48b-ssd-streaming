@@ -1,2 +1,2 @@
-0a6b2df632bd123a02f69797e45d33fc6ad5fb6f
-stage-6a6: fix grow-only temp-context pool underallocation (recycle on overflow)
+a895f68266fb28cd84bcf353559246ae70e805e6
+phase-11/E4-fix: synchronize backend after routed-expert-id async readback (E4 root cause; minimal fix, mirrors E1b pattern)

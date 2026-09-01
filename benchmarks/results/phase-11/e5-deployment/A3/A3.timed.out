@@ -1,0 +1,14 @@
+4.745995	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.759008	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=21 dispatcher=new contentType=text/event-stream
+61.694754	model.run via local
+61.694781	provider: kimi-local
+61.694783	model: kimi-linear-48b
+61.694784	outputs: 1
+61.694811	- **Race on `slot_expert[slot]` assignment**  
+61.694836	  Concurrent kernel launch may read `slot_expert[slot]` while another thread overwrites it. Wrap with `std::atomic<int>` or lock.
+61.694837	
+61.694838	- **Silent truncation if `PER_EXPERT` ≠ actual slice size**  
+61.694845	  `pread` may read less than needed; `memcpy` copies only the available bytes, corrupting the slice. Verify `PER_EXPERT == slice_len` and add `return` on short read.
+61.694846	
+61.694855	- **High memory bandwidth**  
+61.694863	  Double copy (`pread → staging → slot`) wastes bandwidth. Map staging directly into the cache slot with `mmap` or `io_pread` to reduce copies.

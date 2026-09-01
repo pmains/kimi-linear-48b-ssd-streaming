@@ -1,0 +1,16 @@
+4.693690	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.714551	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=29 dispatcher=new contentType=text/event-stream
+71.425534	model.run via local
+71.425546	provider: kimi-local
+71.425547	model: kimi-linear-48b
+71.425548	outputs: 1
+71.425559	1. **Correctness risks**  
+71.425577	- **Race-free offset**: `tensor_abs_offset(layer)` may change after `off` is computed if `layer` is mutated; `off` should be derived inside the critical section.  
+71.425579	- **Bounds check**: `expert_id * PER_EXPERT` can overflow or exceed file size; validate `expert_id` and remaining bytes before `pread`.  
+71.425580	
+71.425581	2. **Performance risk**  
+71.425582	- **Synchronous read per slot**: `pread` per expert without prefetch or async queue causes extra I/O latency; batch reads or memory-map the expert file.  
+71.425588	
+71.425599	3. **Minimal fixes**  
+71.425600	- Clamp `expert_id` and assert `off + PER_EXPERT ≤ file_size`.  
+71.425606	- Replace each `pread` with `prefetch_async` + `mmap`, or read in a single multi-expert block.

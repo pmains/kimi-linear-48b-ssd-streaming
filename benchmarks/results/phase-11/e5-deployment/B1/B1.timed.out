@@ -1,0 +1,20 @@
+4.765759	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.847444	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=90 dispatcher=new contentType=text/event-stream
+68.751843	model.run via local
+68.751855	provider: kimi-local
+68.751857	model: kimi-linear-48b
+68.751858	outputs: 1
+68.751866	1. **Correctness risks**  
+68.751877	- **Memory race**: `pread` may finish after `memcpy`, corrupting `slot_ptr(slot)` if the slice is evicted/reused.  
+68.751878	- **Silent truncation**: `PER_EXPERT` may exceed the actual shard size, copying garbage past the file end.
+68.751879	
+68.751880	2. **Performance risk**  
+68.751881	- **Unnecessary copy**: `pread` → `memcpy` copies the slice twice; kernel DMA could be eliminated.
+68.751882	
+68.751891	3. **Minimal fixes**  
+68.751892	- Add `std::atomic` or `std::mutex` around the slice to serialize access.  
+68.751912	- Verify `PER_EXPERT <= file_size` before `pread`.  
+68.751912	- Replace `memcpy` with a direct DMA write from fd to slot if supported.
+68.751913	
+68.751914	Follow-up:  
+68.751915	The **silent truncation** risk would produce garbage logits without any wrong kernel arithmetic, because the extra bytes read from the file are simply noise, not arithmetic errors.

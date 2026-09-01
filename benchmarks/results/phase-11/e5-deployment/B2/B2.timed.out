@@ -1,0 +1,16 @@
+4.747819	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.790217	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=51 dispatcher=new contentType=text/event-stream
+72.697184	model.run via local
+72.697209	provider: kimi-local
+72.697211	model: kimi-linear-48b
+72.697212	outputs: 1
+72.697221	- **Incorrect slice size**: `PER_EXPERT` may exceed actual expert shard size; truncated shards cause silent data loss.  
+72.697245	- **Race on `slot_expert` write**: concurrent eviction may overwrite entry before router uses it, leading to stale专家被调用.  
+72.697246	- **Unaligned host memcpy**: `staging`/`slot_ptr` may be unaligned, causing slow or incorrect copies.  
+72.697250	
+72.697251	Minimal fixes:  
+72.697253	1. Add bounds check: `if (expert_id * PER_EXPERT + PER_EXPERT > file_size) return;`.  
+72.697255	2. Use atomic write or version tag for `slot_expert`.  
+72.697280	3. Align copies via `memcpy` or `std::copy`.
+72.697281	
+72.697282	Follow-up: **Incorrect slice size** would silently drop part of the expert, yielding garbage logits without any kernel arithmetic error.

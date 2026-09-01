@@ -1,0 +1,8 @@
+a895f68266fb28cd84bcf353559246ae70e805e6
+phase-11/E4-fix: synchronize backend after routed-expert-id async readback (E4 root cause; minimal fix, mirrors E1b pattern)
+---
+AFTER promotion (2026-09-01):
+fork HEAD: a895f68266fb28cd84bcf353559246ae70e805e6
+live COMMIT: a895f68266fb28cd84bcf353559246ae70e805e6
+live server cmd:
+/Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server -m models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf -ngl 999 --no-mmap --ctx-size 65536 --host 127.0.0.1 --port 18080 --parallel 1 --slot-save-path /Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache

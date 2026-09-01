@@ -1,0 +1,21 @@
+4.694599	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.762215	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=76 dispatcher=new contentType=text/event-stream
+86.322664	model.run via local
+86.322691	provider: kimi-local
+86.322693	model: kimi-linear-48b
+86.322694	outputs: 1
+86.322702	- **Correctness risks**  
+86.322734	  1. **fd I/O race**: `pread` may deliver fewer than `PER_EXPERT` bytes on partial read; `memcpy` then copies garbage.  
+86.322736	  2. **slot_expert aliasing**: `slot_expert[slot]` can overwrite a still-in-use slot, breaking the reuse/eviction contract.  
+86.322736	
+86.322737	- **Performance risk**  
+86.322738	  3. **Synchronous zero-copy stall**: the `pread + memcpy` pair blocks the caller until the slice is resident, harming pipeline depth.  
+86.322739	
+86.322745	- **Minimal fixes**  
+86.322746	  1. Check `pread` return value; retry or abort if short.  
+86.322747	  2. Use a stamp or sequence counter in `slot_expert` to detect overwrite.  
+86.322748	  3. Push `pread` into an async ring-buffer and return immediately; DMA completion event posts the slice into the cache.  
+86.322749	
+86.322765	- **Which correctness risk leaks garbage logits?**  
+86.322771	  The **I/O race** (`pread` short read) directly injects corrupted weights into the expert computation.  
+86.322774	  Since the kernel arithmetic itself is correct, the resulting logits are garbage but *not* the result of wrong arithmetic—just wrong data.

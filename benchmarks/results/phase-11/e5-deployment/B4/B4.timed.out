@@ -1,0 +1,11 @@
+4.719212	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.730485	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=20 dispatcher=new contentType=text/event-stream
+67.599461	model.run via local
+67.599492	provider: kimi-local
+67.599494	model: kimi-linear-48b
+67.599494	outputs: 1
+67.599504	- **Correctness risk 1**: `pread` may read fewer bytes than `PER_EXPERT` on partial last block → stale data copied.  
+67.599529	- **Correctness risk 2**: `memcpy` between possibly-unaligned `staging` and `slot_ptr(slot)` can fault or corrupt.  
+67.599530	- **Performance risk**: `pread` + `memcpy` per expert load → extra syscall + two copies.  
+67.599531	- **Minimal fix**: Check `pread` return; use `std::copy` or `memcpy` to aligned `slot_ptr` only if safe.  
+67.599538	- **Garbage logits without wrong kernel**: Risk 1 (partial read) leaves stale expert weights in `slot_ptr`, feeding garbage into compute → logits poisoned while kernels stay correct.
