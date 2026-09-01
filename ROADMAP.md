@@ -1551,7 +1551,31 @@ MXFP4 dequant on Metal vs CPU) amplified through 26 MoE layers and the
 routing argmax — NOT a single broken op. The numeric divergence is NOT
 fixed here (cause not trivial/unambiguous); it is the E2/E4 quality
 gate. Report: `progress/phase-11-e1b-report.md`; fork commit
-`82335c59b`. Stop for review before E2.
+`82335c59b`.
+
+**E2 result (PASS, 2026-08-31):** direct placement on the streamed
+Metal miss path (`KIMI_STREAM_E2_DIRECT_PLACE`, default off, requires
+the E1 gate). On Metal the packed MXFP4 slice is already the compute
+layout (no CPU-style repack buft exists), so the temp-tensor round
+trip (tensor_set + memcpy) is redundant — E2 memcpys packed bytes
+directly into the loaded slot / persistent zc slot. The phase07
+B-arm failure this exposed was an instrumentation-contract violation,
+not a computational failure: the frozen invariant
+`repack_bytes == pread_bytes` assumes every miss byte is repacked, and
+the direct path performs no physical repack. Fixed with compatibility
+accounting (repack_bytes counted logically on the direct path;
+invariant and acceptance criteria UNCHANGED); repack_us stays 0 on the
+direct path and is the honest physical-repack evidence. Measured
+(64-tok A/B, same binary): repack_us −89% (256 MiB) / −93% (4096 MiB)
+on the prefill miss path, copy_us −33% on the 4096 MiB config; decode
+steady-state flat within noise (0 misses there — the zc cache already
+absorbed the cost; residual decode cost is compute ≈73%, E3
+territory). All 6 configs (A/B × 0/256/4096) EXIT=0 and phase07
+invariants PASS; E1 baseline unchanged (A path byte-identical by
+construction). Metal output quality remains the open E4 gate. Report:
+`progress/phase-11-e2-report.md`; fork commit (E2 + accounting fix)
+recorded in the fork log. STOPPED for review per directive — E2 not
+expanded; instrumentation contract unchanged.
 
 ---
 
