@@ -1703,6 +1703,34 @@ begun. Report: `progress/phase-11-e4-sub-discriminator-report.md`;
 evidence retained under `benchmarks/results/phase-11/e4-sub-discriminator/`.
 STOPPED for review.
 
+**kda_g1 (delta-net decay gate) arithmetic isolation (PASS, BENIGN,
+2026-09-01):** the layer-0 `kda_g1` divergence (max|d| = 1.438 — the
+largest absolute boundary seen in localization) is classified as benign
+backend arithmetic (Case A class), NOT a Metal defect. Chain
+reconstructed from identical retained inputs: `f_a = mul_mat(ssm_f_a,
+cur)` → `f_b = mul_mat(ssm_f_b, f_a)` → `+dt_bias` → `softplus` →
+`×A` (A = `-exp(A_log)`, per-head values up to −201). New probe
+`tools/phase11_g1_probe.py` (f64 ref + CPU q8-vec_dot replica + Metal
+ext-kernel replica; beta self-check validates the machinery to ~1e-3
+relative; per-head empirical A estimate matches loaded A to 0.04%).
+The 1.438 is 0.66% RELATIVE on values ±217 (A amplification): it
+originates at `f_a` from the CPU path's q8_0 activation quantization
+(same `vec_dot_type=Q8_0` mechanism as Q/K/V Case A), propagates
+through f_b_out/softplus, amplified by A. Metal near-exact at every
+matmul stage (f64 agreement ≤4.7e-7); production Metal within 1.3e-3
+relative of f64 vs CPU's 7.4e-3 (Metal ~5.5× closer); replicas
+reproduce production (0/4096 mismatch rows post-fix). Layer-0 KDA is
+now fully cleared (Q/K/V + g1 + beta/gate all benign class). Next
+downstream boundary (identified, NOT run): first mxfp4 expert
+`mul_mat` (the original "Metal MXFP4" suspect never actually probed
+post premise-correction) and/or E2 zerocopy slot-integrity check.
+Probe-side latent fp16 subnormal-decode bug fixed in
+`phase11_arith_probe.py` + `phase11_g1_probe.py` (arith re-run
+byte-identical to retained → earlier Q/K/V Case A conclusion
+unchanged). No kernels modified; no E3. Report:
+`progress/phase-11-g1-probe-report.md`; evidence retained under
+`benchmarks/results/phase-11/g1-probe/`. STOPPED for review.
+
 ---
 
 # Progress Tracking

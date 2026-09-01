@@ -60,11 +60,12 @@ def fp16_to_fp32(h):
     if e == 0:
         if m == 0:
             return np.float32(struct.unpack('<f', struct.pack('<I', s))[0])
-        e2 = 127 - 15 - 1
+        # subnormal: renormalize (ggml ggml_fp16_to_fp32 semantics)
+        e2 = 127 - 15 + 1          # 113; NOT 111 (the old bug: e2+15+1 double-offset → 2^14 too large)
         while not (m & 0x0400):
             m <<= 1; e2 -= 1
         m &= 0x03FF
-        return np.float32(struct.unpack('<f', struct.pack('<I', s | ((e2 + 15 + 1) << 23) | (m << 13)))[0])
+        return np.float32(struct.unpack('<f', struct.pack('<I', s | (e2 << 23) | (m << 13)))[0])
     if e == 0x1F:
         return np.float32(struct.unpack('<f', struct.pack('<I', s | 0x7F800000 | (m << 13)))[0])
     return np.float32(struct.unpack('<f', struct.pack('<I', s | ((e + 127 - 15) << 23) | (m << 13)))[0])

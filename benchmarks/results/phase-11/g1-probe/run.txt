@@ -1,0 +1,127 @@
+GGUF data_base parsed = 6949024 (expected ~6949024)
+  blk.0.ssm_f_a.weight: type_code=8 dims=(2304, 128) rel_off=910270080 abs_off=917219104
+  blk.0.ssm_f_b.weight: type_code=8 dims=(128, 4096) rel_off=910583424 abs_off=917532448
+  blk.0.ssm_dt.bias: type_code=0 dims=(4096,) rel_off=910253696 abs_off=917202720
+  blk.0.ssm_a: type_code=0 dims=(1, 32) rel_off=909978624 abs_off=916927648
+
+=== loaded constants ===
+  dt_bias: amin=-3.641533e+00 amax=4.034553e+00
+  A (ssm_a): [  -3.016112     -0.81322694   -1.0661908    -9.747728    -29.963123
+  -67.3244       -6.7872114   -23.99845     -22.12331      -4.93909
+ -115.657166     -0.6228878   -12.836074   -201.19633      -0.7322653
+  -15.946577    -14.90749     -10.1110115    -5.255672    -22.6742
+   -0.22576885  -13.943412     -0.41904035  -34.50894     -19.176485
+  -18.777792    -17.941551     -9.631626    -29.364725    -19.340893
+  -42.216854    -20.63785   ]
+record cpu attn_norm: exec=2 n_tokens=233 pos=0 phase=0 n_embd=2304
+record metal attn_norm: exec=2 n_tokens=233 pos=0 phase=0 n_embd=2304
+record cpu kda_g1: exec=2 n_tokens=233 pos=0 phase=0 n_embd=4096
+record metal kda_g1: exec=2 n_tokens=233 pos=0 phase=0 n_embd=4096
+attn_norm input: bit-identical CPU vs Metal  (n_embd=2304)
+
+=== beta self-check: blk.0.ssm_beta.weight type=8 dims=(2304, 32) abs_off=916927776 ===
+  production cpu vs metal kda_beta: max|d|=1.369834e-03 mean|d|=4.911493e-04
+  prod_cpu  vs cpu  replica: max|d|=1.195371e-04
+  prod_metal vs metal replica: max|d|=3.325045e-04
+  prod_metal vs f64:           max|d|=3.325641e-04
+record cpu attn_norm: exec=2 n_tokens=233 pos=0 phase=0 n_embd=2304
+record metal attn_norm: exec=2 n_tokens=233 pos=0 phase=0 n_embd=2304
+record cpu kda_g1: exec=2 n_tokens=233 pos=0 phase=0 n_embd=4096
+record metal kda_g1: exec=2 n_tokens=233 pos=0 phase=0 n_embd=4096
+attn_norm input: bit-identical CPU vs Metal  (n_embd=2304)
+
+PRODUCTION cpu vs metal kda_g1: max|d|=1.438370e+00 mean|d|=1.693253e-02 rel@max=6.609307e-03
+
+=== stage magnitudes (amax / amin) ===
+  x (attn_norm)  amax=9.867559e-01  amin=-6.238069e-01
+  f_a            amax=2.246371e+00  amin=-2.246371e+00
+  f_b_out        amax=2.696880e+00  amin=-1.888016e+00
+  z              amax=3.178518e+00  amin=-3.178273e+00
+  s (softplus)   amax=3.219322e+00  amin=4.081324e-02
+  g1             amax=2.178043e+02  amin=-2.178043e+02
+
+=== stage-by-stage: f64 reference vs cpu replica vs metal replica ===
+  --- f_a ---
+  cpu replica vs metal replica                 max|d|=8.023657e-03 mean|d|=2.758628e-03 rel@max=2.339417e-01 worst=(3.429768e-02,2.627403e-02)
+  f64 vs cpu replica                           max|d|=8.023657e-03 mean|d|=2.758626e-03 rel@max=2.339417e-01 worst=(2.627403e-02,3.429768e-02)
+  f64 vs metal replica                         max|d|=4.721935e-07 mean|d|=1.000001e-07 rel@max=2.323242e-07 worst=(2.032476e+00,2.032476e+00)
+  --- f_b_out ---
+  cpu replica vs metal replica                 max|d|=2.139091e-02 mean|d|=2.699628e-03 rel@max=1.755800e-02 worst=(1.196909e+00,1.218300e+00)
+  f64 vs cpu replica                           max|d|=2.139103e-02 mean|d|=2.699634e-03 rel@max=1.755810e-02 worst=(1.218300e+00,1.196909e+00)
+  f64 vs metal replica                         max|d|=4.742800e-07 mean|d|=6.225652e-08 rel@max=5.173818e-07 worst=(9.166921e-01,9.166926e-01)
+  --- z (+bias) ---
+  cpu replica vs metal replica                 max|d|=2.139091e-02 mean|d|=2.699628e-03 rel@max=1.891021e-02 worst=(-1.131183e+00,-1.109792e+00)
+  f64 vs cpu replica                           max|d|=2.139103e-02 mean|d|=2.699634e-03 rel@max=1.891031e-02 worst=(-1.109792e+00,-1.131183e+00)
+  f64 vs metal replica                         max|d|=4.742800e-07 mean|d|=6.857394e-08 rel@max=4.246011e-07 worst=(-1.117001e+00,-1.117001e+00)
+  --- s (softplus) ---
+  cpu replica vs metal replica                 max|d|=9.249806e-03 mean|d|=7.382617e-04 rel@max=8.146111e-03 worst=(1.135487e+00,1.126238e+00)
+  f64 vs cpu replica                           max|d|=9.249800e-03 mean|d|=7.382639e-04 rel@max=8.146105e-03 worst=(1.126238e+00,1.135487e+00)
+  f64 vs metal replica                         max|d|=2.328360e-07 mean|d|=2.025481e-08 rel@max=1.735326e-07 worst=(1.341742e+00,1.341742e+00)
+  --- g1 (*A) ---
+  cpu replica vs metal replica                 max|d|=1.175018e+00 mean|d|=1.775111e-02 rel@max=5.394834e-03 worst=(-2.166293e+02,-2.178043e+02)
+  f64 vs cpu replica                           max|d|=1.175015e+00 mean|d|=1.775119e-02 rel@max=5.394818e-03 worst=(-2.178043e+02,-2.166293e+02)
+  f64 vs metal replica                         max|d|=3.360009e-05 mean|d|=5.388724e-07 rel@max=1.745511e-07 worst=(-1.924943e+02,-1.924943e+02)
+
+=== final g1 vs PRODUCTION captures ===
+  prod_cpu  vs cpu replica                     max|d|=4.397583e-01 mean|d|=5.456906e-03 rel@max=2.030004e-03 worst=(-2.161896e+02,-2.166293e+02)
+  prod_metal vs metal replica                  max|d|=2.746582e-01 mean|d|=2.689299e-03 rel@max=1.336014e-03 worst=(-2.053056e+02,-2.055803e+02)
+  prod_metal vs f64                            max|d|=2.746735e-01 mean|d|=2.689426e-03 rel@max=1.336088e-03 worst=(-2.053056e+02,-2.055803e+02)
+  prod_cpu  vs f64                             max|d|=1.614777e+00 mean|d|=1.744742e-02 rel@max=7.413886e-03 worst=(-2.161896e+02,-2.178043e+02)
+  prod_cpu  vs metal replica                   max|d|=1.614777e+00 mean|d|=1.744734e-02 rel@max=7.413886e-03 worst=(-2.161896e+02,-2.178043e+02)
+
+=== per-head empirical A estimate (prod_metal / s_met) ===
+  head  0: A_est(median)=-3.014810e+00  A_loaded=-3.016112e+00  ratio=0.9996
+  head  1: A_est(median)=-8.127826e-01  A_loaded=-8.132269e-01  ratio=0.9995
+  head  2: A_est(median)=-1.065857e+00  A_loaded=-1.066191e+00  ratio=0.9997
+  head  3: A_est(median)=-9.744465e+00  A_loaded=-9.747728e+00  ratio=0.9997
+  head  4: A_est(median)=-2.995357e+01  A_loaded=-2.996312e+01  ratio=0.9997
+  head  5: A_est(median)=-6.730106e+01  A_loaded=-6.732440e+01  ratio=0.9997
+  head  6: A_est(median)=-6.784711e+00  A_loaded=-6.787211e+00  ratio=0.9996
+  head  7: A_est(median)=-2.399520e+01  A_loaded=-2.399845e+01  ratio=0.9999
+  head  8: A_est(median)=-2.211935e+01  A_loaded=-2.212331e+01  ratio=0.9998
+  head  9: A_est(median)=-4.937450e+00  A_loaded=-4.939090e+00  ratio=0.9997
+  head 10: A_est(median)=-1.156288e+02  A_loaded=-1.156572e+02  ratio=0.9998
+  head 11: A_est(median)=-6.224635e-01  A_loaded=-6.228878e-01  ratio=0.9993
+  head 12: A_est(median)=-1.283253e+01  A_loaded=-1.283607e+01  ratio=0.9997
+  head 13: A_est(median)=-2.011742e+02  A_loaded=-2.011963e+02  ratio=0.9999
+  head 14: A_est(median)=-7.319371e-01  A_loaded=-7.322653e-01  ratio=0.9996
+  head 15: A_est(median)=-1.594186e+01  A_loaded=-1.594658e+01  ratio=0.9997
+  head 16: A_est(median)=-1.490332e+01  A_loaded=-1.490749e+01  ratio=0.9997
+  head 17: A_est(median)=-1.010854e+01  A_loaded=-1.011101e+01  ratio=0.9998
+  head 18: A_est(median)=-5.253565e+00  A_loaded=-5.255672e+00  ratio=0.9996
+  head 19: A_est(median)=-2.267019e+01  A_loaded=-2.267420e+01  ratio=0.9998
+  head 20: A_est(median)=-2.256320e-01  A_loaded=-2.257688e-01  ratio=0.9994
+  head 21: A_est(median)=-1.394091e+01  A_loaded=-1.394341e+01  ratio=0.9998
+  head 22: A_est(median)=-4.187855e-01  A_loaded=-4.190404e-01  ratio=0.9994
+  head 23: A_est(median)=-3.449877e+01  A_loaded=-3.450894e+01  ratio=0.9997
+  head 24: A_est(median)=-1.917104e+01  A_loaded=-1.917649e+01  ratio=0.9997
+  head 25: A_est(median)=-1.877338e+01  A_loaded=-1.877779e+01  ratio=0.9998
+  head 26: A_est(median)=-1.793540e+01  A_loaded=-1.794155e+01  ratio=0.9997
+  head 27: A_est(median)=-9.629288e+00  A_loaded=-9.631626e+00  ratio=0.9998
+  head 28: A_est(median)=-2.935773e+01  A_loaded=-2.936473e+01  ratio=0.9998
+  head 29: A_est(median)=-1.933575e+01  A_loaded=-1.934089e+01  ratio=0.9997
+  head 30: A_est(median)=-4.220853e+01  A_loaded=-4.221685e+01  ratio=0.9998
+  head 31: A_est(median)=-2.063312e+01  A_loaded=-2.063785e+01  ratio=0.9998
+
+=== mismatch localization (rows where production disagrees with replicas) ===
+rows with |prod - replica| > 1: 0 / 4096
+  implied production z (from prod_metal / A):
+
+=== W_fb weight scale audit ===
+  W_fb [4096,128] dequantized: overall max|w| = 6.181793e-01
+    row 1498: max|w| = 6.181793e-01
+    row 1480: max|w| = 6.089745e-01
+    row 2822: max|w| = 5.266151e-01
+    row 3568: max|w| = 4.704170e-01
+    row 3855: max|w| = 4.035606e-01
+    row 2857: max|w| = 4.011383e-01
+    row  569: max|w| = 3.996849e-01
+    row  588: max|w| = 3.960514e-01
+  rows with max|w| > 1: 0   > 10: 0   > 100: 0
+
+=== classification ===
+  cpu-replica vs metal-replica  max|d| = 1.175018e+00
+  prod_metal vs metal-replica   max|d| = 2.746582e-01   (reproduction of production Metal)
+  prod_cpu  vs cpu-replica      max|d| = 4.397583e-01   (reproduction of production CPU)
+  prod_metal vs f64             max|d| = 2.746735e-01   (Metal agreement with reference)
+  => Metal NOT reproduced by expected Metal arithmetic and/or disagrees with f64: candidate defect.
