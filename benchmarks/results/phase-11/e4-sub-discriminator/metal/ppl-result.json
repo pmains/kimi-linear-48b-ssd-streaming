@@ -1,0 +1,31 @@
+{
+  "arm": "metal",
+  "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+  "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+  "chunks": 8,
+  "ctx": 512,
+  "corpus": "/Users/pmains/Code/openclaw/kimi/benchmarks/data/wikitext-2-raw-test.txt",
+  "cli": "/Users/pmains/Code/openclaw/kimi/llama.cpp/build-metal/bin/llama-perplexity",
+  "llama_commit": "ce3df5117386a67774f2fc22db014c3c68c5bd06",
+  "ngl": 999,
+  "env": {
+    "KIMI_STREAM_METAL_STAGE": "1",
+    "KIMI_STREAM_E2_DIRECT_PLACE": "1",
+    "KIMI_STREAM_LOCALIZE_SUB_QKV_CPU": null,
+    "KIMI_STREAM_EXPERTS": "naive",
+    "KIMI_EXPERT_CACHE_MODE": "zerocopy",
+    "KIMI_EXPERT_CACHE_MB": "4096"
+  },
+  "final_ppl": 1374490.1403,
+  "n_ppl_values": 8,
+  "all_ppl_values": [
+    873434.9184,
+    1141934.7666,
+    1471131.7607,
+    1766346.8071,
+    1449365.7415,
+    1357543.6733,
+    1382616.194,
+    1374490.1403
+  ]
+}

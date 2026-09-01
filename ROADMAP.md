@@ -1681,6 +1681,28 @@ modified; no optimization. Report:
 `benchmarks/results/phase-11/arith-probe/` (runs + captures). STOPPED
 for review; E3 not begun.
 
+**E4 cause discriminator — layer-0 Q/K/V CPU substitution on the
+frozen Metal path (PASS, NEGATIVE, 2026-09-01):** bounded 3-arm
+perplexity probe (8 × 512-token chunks, same corpus/ctx/cache/binary
+as E4; fork `ce3df5117` unchanged; new ARM=metal-sub added to
+`tools/phase11_e4_perplexity.sh` = frozen metal envs +
+`KIMI_STREAM_LOCALIZE_SUB_QKV_CPU=1`). CPU reference 7.2777 (reproduces
+the E4 reference bit-for-bit on shared chunks); frozen Metal
+1,374,490.14 (catastrophic); **metal-sub 1,377,692.56 — no recovery
+(+0.23% vs metal, every chunk still ×179k–×287k vs CPU)**. Substitution
+mechanically engaged (CPU compute buffer 9.0 → 22.1 MiB in teardown;
+tiny real trajectory perturbation per chunk). Verdict: **layer-0 Q/K/V
+arithmetic divergence is EXCLUDED as the primary E4 cause** — the
+catastrophe originates downstream. Next localization boundary
+(identified, NOT run): layer-0 `kda_g1` (delta-net f_a/f_b matmuls,
+max|d| = 1.438e+00 — the largest single-boundary divergence measured,
+independent of the Q/K/V branch), then first mxfp4 expert `mul_mat`,
+then streamed data-path (E2 zerocopy slot) integrity. Metal path
+remains NOT quality-qualified; E2 frozen; no kernels modified; E3 not
+begun. Report: `progress/phase-11-e4-sub-discriminator-report.md`;
+evidence retained under `benchmarks/results/phase-11/e4-sub-discriminator/`.
+STOPPED for review.
+
 ---
 
 # Progress Tracking

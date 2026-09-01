@@ -10,8 +10,11 @@
 # ARM=cpu:    -ngl 0 (accepted MXFP4 CPU reference path)
 # ARM=metal:  -ngl 999 + KIMI_STREAM_METAL_STAGE=1 + KIMI_STREAM_E2_DIRECT_PLACE=1
 #             (the frozen E2 Metal path; E2 gate requires the E1 stage gate)
+# ARM=metal-sub: metal arm + KIMI_STREAM_LOCALIZE_SUB_QKV_CPU=1 (layer-0 Q/K/V
+#             projection routed through the CPU backend; env-gated diagnostic,
+#             default off, no kernel changes). E4 cause discriminator.
 #
-# Usage: tools/phase11_e4_perplexity.sh cpu|metal OUTDIR [CHUNKS] [CTX]
+# Usage: tools/phase11_e4_perplexity.sh cpu|metal|metal-sub OUTDIR [CHUNKS] [CTX]
 # Env: KIMI_EXPERT_CACHE_MB (default 4096), KIMI_CLI, KIMI_PPL_CORPUS
 set -euo pipefail
 
@@ -29,9 +32,10 @@ CLI="${KIMI_CLI:-$REPO_ROOT/llama.cpp/build-metal/bin/llama-perplexity}"
 MODEL="$REPO_ROOT/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
 
 case "$ARM" in
-    cpu)   NGL=0; export -n KIMI_STREAM_METAL_STAGE KIMI_STREAM_E2_DIRECT_PLACE 2>/dev/null || true ;;
-    metal) NGL=999; export KIMI_STREAM_METAL_STAGE=1 KIMI_STREAM_E2_DIRECT_PLACE=1 ;;
-    *) echo "ERROR: arm must be cpu|metal" >&2; exit 2 ;;
+    cpu)   NGL=0; export -n KIMI_STREAM_METAL_STAGE KIMI_STREAM_E2_DIRECT_PLACE KIMI_STREAM_LOCALIZE_SUB_QKV_CPU 2>/dev/null || true ;;
+    metal) NGL=999; export KIMI_STREAM_METAL_STAGE=1 KIMI_STREAM_E2_DIRECT_PLACE=1; export -n KIMI_STREAM_LOCALIZE_SUB_QKV_CPU 2>/dev/null || true ;;
+    metal-sub) NGL=999; export KIMI_STREAM_METAL_STAGE=1 KIMI_STREAM_E2_DIRECT_PLACE=1 KIMI_STREAM_LOCALIZE_SUB_QKV_CPU=1 ;;
+    *) echo "ERROR: arm must be cpu|metal|metal-sub" >&2; exit 2 ;;
 esac
 
 mkdir -p "$OUTDIR"
@@ -62,8 +66,8 @@ pairs = [(int(m.group(1)), float(m.group(2))) for m in re.finditer(r"\[(\d+)\]([
 pairs.sort()
 ppl_vals = [v for _, v in pairs]
 envs = {}
-for k in ("KIMI_STREAM_METAL_STAGE", "KIMI_STREAM_E2_DIRECT_PLACE", "KIMI_STREAM_EXPERTS",
-          "KIMI_EXPERT_CACHE_MODE", "KIMI_EXPERT_CACHE_MB"):
+for k in ("KIMI_STREAM_METAL_STAGE", "KIMI_STREAM_E2_DIRECT_PLACE", "KIMI_STREAM_LOCALIZE_SUB_QKV_CPU",
+          "KIMI_STREAM_EXPERTS", "KIMI_EXPERT_CACHE_MODE", "KIMI_EXPERT_CACHE_MB"):
     envs[k] = os.environ.get(k)
 with open(os.path.join(outdir, "ppl-result.json"), "w") as f:
     json.dump({

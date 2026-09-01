@@ -1,0 +1,11 @@
+=== driver start 2026-09-01T16:36:15Z ===
+--- ARM cpu ---
+=== E4 perplexity ARM=cpu moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf chunks=8 ctx=512 cache=4096MiB ngl=0 ===
+ARM=cpu final PPL = 7.2777 (chunks=8)
+--- ARM metal ---
+=== E4 perplexity ARM=metal moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf chunks=8 ctx=512 cache=4096MiB ngl=999 ===
+ARM=metal final PPL = 1374490.1403 (chunks=8)
+--- ARM metal-sub ---
+=== E4 perplexity ARM=metal-sub moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf chunks=8 ctx=512 cache=4096MiB ngl=999 ===
+ARM=metal-sub final PPL = 1377692.5602 (chunks=8)
+=== driver end 2026-09-01T16:39:08Z ===
