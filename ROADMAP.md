@@ -1593,6 +1593,29 @@ investigate Metal numerical quality/correctness. No source changes
 Driver retained: `tools/phase11_e4_perplexity.sh` (cpu|metal).
 Report: `progress/phase-11-e4-report.md`. E3 is NOT started.
 
+**Metal numerical localization — first bounded experiment (PASS,
+2026-08-31):** the first causally meaningful CPU-vs-Metal divergence is
+localized. Env-gated trace captures at every KDA attention boundary
+feeding `attn_out` (attn_norm, Q/K/V projection mul_mat outputs,
+post-conv, g1/beta, l2-norm, delta-net, gating, wo). Layer-0 first
+prefill step: `l_in` and `attn_norm` are BIT-IDENTICAL CPU vs Metal;
+the first non-zero divergence is the layer-0 **Q/K/V projection
+`mul_mat` (MXFP4 weights)** — max|d| ≈ 1e-2, rel ≈ 1.4–2.2e-2,
+~2,700–3,500× above the f32 accumulation-order noise floor; errors
+scattered per-element (not a uniform scale/layout bug); everything
+downstream just propagates the seed (layer-1 `l_in` already carries it
+at 1.06e-3). Classification: **identical inputs + different CPU/Metal
+operation result** (op-level), the directive's case 1. Large/structured
+enough to explain the E4 catastrophe (1e-2 seed through 26 MXFP4 layers
++ routing argmax). Candidate by evidence: MXFP4 dequant/accumulation in
+the Metal mul_mat path — NOT assumed; next step is a controlled
+substitution (pin projection mul_mat to CPU on the Metal run) to
+discriminate dequant vs accumulation before any kernel change. No
+kernels modified; diagnostic captures only (env-gated, default path
+byte-identical). Report:
+`progress/phase-11-localize-report.md`. STOPPED for review; E3 not
+begun.
+
 ---
 
 # Progress Tracking
