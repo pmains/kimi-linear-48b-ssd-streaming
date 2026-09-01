@@ -1636,6 +1636,23 @@ env-gated and rollback-able. Report:
 `progress/phase-11-substitute-report.md`. STOPPED for review; E3 not
 begun.
 
+**Dequantization isolation (PASS, 2026-08-31):** the defect lies AFTER
+dequantization. Standalone probe (real Metal shader execution vs exact
+ggml CPU dequant on identical raw blocks) shows CPU and Metal
+reconstruct the SAME values: q8_0 (the ACTUAL localized type) is
+bit-identical on all non-NaN values; mxfp4 is bit-identical except
+subnormal flush-to-zero on Metal at ~3.5e-38 (negligible, not the error
+class). PREMISE CORRECTION (verified from the GGUF): the layer-0
+projection tensors localized as the first divergence are q8_0, not
+MXFP4 — only MoE experts (and MLA K/V bias) are mxfp4; the substitution
+conclusion is corrected from "Metal MXFP4 mul_mat" to "Metal quantized
+mul_mat (q8_0 dense trunk first)". Representation decoding (q8_0 and
+mxfp4) provisionally cleared per the directive's decision tree; next
+experiment isolates the mul_mat arithmetic (partial products/
+accumulations with identical inputs). No kernels modified; fork
+untouched. Report: `progress/phase-11-dequant-report.md`;
+`tools/phase11_dequant_probe.m`. STOPPED for review; E3 not begun.
+
 ---
 
 # Progress Tracking
