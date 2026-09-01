@@ -1760,6 +1760,37 @@ with no kernel wrong). No kernels modified; no E3. Report:
 `progress/phase-11-mxfp4-probe-report.md`; evidence retained under
 `benchmarks/results/phase-11/mxfp4-probe/`. STOPPED for review.
 
+**E2 zerocopy expert-slot integrity check (CLASS A — E4 ROOT CAUSE
+FOUND, 2026-09-01):** env-gated instrumentation (`KIMI_DX_ZC_VERIFY`,
+default off; fork diagnostic-only) registers per-(layer,kind,slot)
+placed-byte FNV-1a64 checksums and verifies every occurrence's
+consumption (slot_ids readback == assigned slot, registry expert ==
+requested expert, slot checksum unchanged, fresh-pread cross-check per
+expert). Trace-off arms (4096 + 1024 MiB): 183,936/183,936 checks, 0
+failures — the zerocopy slot layer is internally consistent. BUT the
+ROUTE diag showed **`unique=[0]` for every layer (n_slots=1)**: the zc
+path received expert id 0 for every routed position, and FNV-1a64
+confirmed the stored checksums equal expert 0's GGUF slice exactly.
+Trace-on A/B (same binary/config, only `KIMI_TRACE_ACT=1`): real
+routing (`unique=[25,78,17,136,64,46,30,221]` …), coherent output;
+trace-off generated garbage. Root cause: the routed-expert ids
+readback in `llama-expert-stream-exec.cpp` is `ggml_backend_tensor_get_async`
+with NO synchronize after it in the default (trace-off) path — the
+only syncs are inside `llm_trace_moe/act_dump`, which early-return
+when trace envs are unset (the E1b fix lives in the dump loops). On
+Metal the async blit is still pending when `load_layer` consumes
+`ids_host` → all zeros → expert 0 for every routed position → garbage
+logits → **E4's ×218k PPL** (CPU falls back to synchronous copy, hence
+the correct 6.76 reference; all arithmetic probes were valid because
+they ran trace-on with correct routing). This is a streamed-data-path
+defect at the ids readback boundary — NOT the slot machinery, NOT a
+kernel, NOT the arithmetic. Per directive: **do NOT fix yet**; minimal
+fix would be a `ggml_backend_synchronize` after the ids get_async
+(mirroring E1b). Report:
+`progress/phase-11-zc-slotcheck-report.md`; evidence retained under
+`benchmarks/results/phase-11/zc-slotcheck/`. STOPPED for review; E3
+not begun.
+
 ---
 
 # Progress Tracking

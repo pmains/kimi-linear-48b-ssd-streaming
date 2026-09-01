@@ -1,0 +1,281 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|llama_expert_streamer: expert cache enabled: 4096 MiB
+llama_expert_streamer: expert cache enabled: 4096 MiB zero-copy mode (per-layer capacity 43..44 slots)
+llama_expert_streamer: expert cache armed (4096 MiB, zero-copy mode)
+/[zc-verify] ROUTE il=2 n_slots=16 n_occ=16 unique=[25,78,17,136,64,46,30,221]
+-[zc-verify] ROUTE il=3 n_slots=16 n_occ=16 unique=[151,226,14,74,129,109,65,76]
+\|[zc-verify] ROUTE il=4 n_slots=16 n_occ=16 unique=[9,126,167,237,17,35,111,153]
+/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\ 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10445-ce3df5117
+model      : models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+ftype      : MXFP4 MoE
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> Implement a concurrent LRU cache in Rust with the following requirements:
+
+1. Generic over key and value types, bounded by a maximum number of entries.
+2. Thread-safe: safe for concurrent reads and writes from multiple threads, with a public API that cannot deadlock in normal usage.
+3. Support get, insert, and remove operations, all O(1) average time.
+4. Evict the least recently used entry when the cache exceeds capacity; reads must refresh recency.
+5. Provide a way to iterate over the current e ... (truncated)
+# Concurrent LRU Cache Implementation
+
+I'll implement a concurrent LRU cache using a sharded lock approach with fine-grained locking to minimize contention. Here's the design rationale and implementation:
+
+## Design Choices
+
+### Data Structures
+- **HashMap**: For O(1) key-value lookups using `std::collections::HashMap`
+llama_server_terminate: requested orderly shutdown
+[zc-verify] SUMMARY occurrences_checked=44136 hits=25971 misses=18165 slot_reuses=17076 pread_crosschecks=10836 failures=no
+[zc-verify] DIAG slot_registry_entries=3426 expert_file_cksum_entries=10836
+[zc-verify] DIAG layer  1 distinct_experts=525
+[zc-verify] DIAG layer  2 distinct_experts=480
+[zc-verify] DIAG layer  3 distinct_experts=504
+[zc-verify] DIAG layer  4 distinct_experts=402
+[zc-verify] DIAG layer  5 distinct_experts=390
+[zc-verify] DIAG layer  6 distinct_experts=369
+[zc-verify] DIAG layer  7 distinct_experts=387
+[zc-verify] DIAG layer  8 distinct_experts=396
+[zc-verify] DIAG layer  9 distinct_experts=390
+[zc-verify] DIAG layer 10 distinct_experts=396
+[zc-verify] DIAG layer 11 distinct_experts=408
+[zc-verify] DIAG layer 12 distinct_experts=414
+[zc-verify] DIAG layer 13 distinct_experts=372
+[zc-verify] DIAG layer 14 distinct_experts=429
+[zc-verify] DIAG layer 15 distinct_experts=426
+[zc-verify] DIAG layer 16 distinct_experts=450
+[zc-verify] DIAG layer 17 distinct_experts=414
+[zc-verify] DIAG layer 18 distinct_experts=408
+[zc-verify] DIAG layer 19 distinct_experts=411
+[zc-verify] DIAG layer 20 distinct_experts=393
+[zc-verify] DIAG layer 21 distinct_experts=417
+[zc-verify] DIAG layer 22 distinct_experts=423
+[zc-verify] DIAG layer 23 distinct_experts=378
+[zc-verify] DIAG layer 24 distinct_experts=423
+[zc-verify] DIAG layer 25 distinct_experts=438
+[zc-verify] DIAG layer 26 distinct_experts=393
+[zc-verify] DIAG ekey il=24 kind=2 expert=174 cksum=e9ed4d8dc53ed877
+[zc-verify] DIAG ekey il=24 kind=1 expert=174 cksum=c7375e3967e83052
+[zc-verify] DIAG ekey il=24 kind=0 expert=174 cksum=2bb49baa48e00601
+[zc-verify] DIAG ekey il=23 kind=0 expert=192 cksum=12be2719e482608b
+[zc-verify] DIAG ekey il=19 kind=2 expert=233 cksum=84ed733378e38c9b
+[zc-verify] DIAG ekey il=19 kind=1 expert=233 cksum=a9ba5ece35907c6c
+[zc-verify] DIAG ekey il=19 kind=0 expert=233 cksum=a5b5695f70686de4
+[zc-verify] DIAG ekey il=18 kind=2 expert=29 cksum=1546c812efac2fd1
+[zc-verify] DIAG ekey il=17 kind=0 expert=215 cksum=2fd35c6d15d85503
+[zc-verify] DIAG ekey il=5 kind=2 expert=173 cksum=8da0ea66b10af746
+[zc-verify] DIAG ekey il=5 kind=1 expert=173 cksum=e07bc1a021e76830
+[zc-verify] DIAG ekey il=5 kind=0 expert=173 cksum=8c542ff654442574
+[zc-verify] DIAG ekey il=14 kind=0 expert=159 cksum=8b6d2ddf7afb48cf
+[zc-verify] DIAG ekey il=13 kind=2 expert=120 cksum=a0d529b4d61ff852
+[zc-verify] DIAG ekey il=13 kind=1 expert=213 cksum=558dd569efd8b619
+[zc-verify] DIAG ekey il=13 kind=0 expert=213 cksum=4290693f3a834351
+[zc-verify] DIAG ekey il=12 kind=2 expert=242 cksum=fe72b38d2d891517
+[zc-verify] DIAG ekey il=12 kind=1 expert=242 cksum=e64acaa1a5cf3273
+[zc-verify] DIAG ekey il=12 kind=0 expert=242 cksum=c0cef3d5a63a383d
+[zc-verify] DIAG ekey il=8 kind=2 expert=137 cksum=8dcbe3f536ca82c3
+[zc-verify] DIAG ekey il=7 kind=2 expert=116 cksum=56d5f0a4653ceba8
+[zc-verify] DIAG ekey il=7 kind=1 expert=116 cksum=fbd859680ee51c5e
+[zc-verify] DIAG ekey il=7 kind=0 expert=116 cksum=70ae2fd3109f4fb9
+[zc-verify] DIAG ekey il=7 kind=0 expert=203 cksum=08a9c8b88830ebd4
+[zc-verify] DIAG ekey il=5 kind=2 expert=159 cksum=2a844d2a263aba3a
+[zc-verify] DIAG ekey il=5 kind=1 expert=159 cksum=f13ead1afa07d072
+[zc-verify] DIAG ekey il=5 kind=0 expert=159 cksum=14f474e6ac91d8f8
+[zc-verify] DIAG ekey il=2 kind=2 expert=66 cksum=11ae6c01498e61b3
+[zc-verify] DIAG ekey il=26 kind=2 expert=207 cksum=81e8c314c95a97f7
+[zc-verify] DIAG ekey il=26 kind=1 expert=207 cksum=7bd1ff1c21e5e3c3
+[zc-verify] DIAG ekey il=26 kind=0 expert=207 cksum=f58d7d3e545bacd0
+[zc-verify] DIAG ekey il=25 kind=2 expert=201 cksum=1b6955263ea13a9f
+[zc-verify] DIAG ekey il=25 kind=1 expert=201 cksum=697683fc9f5909aa
+[zc-verify] DIAG ekey il=25 kind=0 expert=201 cksum=ef9ac60ddaf3dae1
+[zc-verify] DIAG ekey il=24 kind=2 expert=74 cksum=6fe9125d260023bd
+[zc-verify] DIAG ekey il=24 kind=1 expert=74 cksum=bc86de95a037b036
+[zc-verify] DIAG ekey il=24 kind=0 expert=74 cksum=c2302c9f050636ef
+[zc-verify] DIAG ekey il=20 kind=0 expert=180 cksum=96af9c8b20a7cada
+[zc-verify] DIAG ekey il=15 kind=2 expert=16 cksum=e86e835495fc6f25
+[zc-verify] DIAG ekey il=15 kind=1 expert=16 cksum=5e9499fde78b2066
+[zc-verify] DIAG ekey il=15 kind=0 expert=16 cksum=2e2ed46ab856e4e7
+[zc-verify] DIAG ekey il=10 kind=0 expert=207 cksum=3f98a7adafc8accc
+[zc-verify] DIAG ekey il=7 kind=2 expert=8 cksum=f7c2b23a6466e632
+[zc-verify] DIAG ekey il=7 kind=1 expert=8 cksum=bc761393a2a8042c
+[zc-verify] DIAG ekey il=7 kind=2 expert=225 cksum=e10db31c10a601fa
+[zc-verify] DIAG ekey il=7 kind=1 expert=225 cksum=984a23b0d0914233
+[zc-verify] DIAG ekey il=7 kind=0 expert=225 cksum=2ac71247e44e4472
+[zc-verify] DIAG ekey il=4 kind=2 expert=89 cksum=b30d30ff0ae4fd6a
+[zc-verify] DIAG ekey il=1 kind=2 expert=146 cksum=5ae60668d5a33609
+[zc-verify] DIAG ekey il=25 kind=2 expert=124 cksum=c11ec9aa0d0e37a1
+[zc-verify] DIAG ekey il=25 kind=1 expert=124 cksum=9276069826b298a2
+[zc-verify] DIAG ekey il=25 kind=0 expert=124 cksum=86e0441e485fbb47
+[zc-verify] DIAG ekey il=22 kind=0 expert=152 cksum=62e48520dbb0a75a
+[zc-verify] DIAG ekey il=20 kind=0 expert=126 cksum=dbf230a4bcbe43d3
+[zc-verify] DIAG ekey il=18 kind=1 expert=237 cksum=dfc0a78f84e3861c
+[zc-verify] DIAG ekey il=18 kind=0 expert=237 cksum=57b6ab383d98fec7
+[zc-verify] DIAG ekey il=15 kind=2 expert=70 cksum=f766651c1d9a1d81
+[zc-verify] DIAG ekey il=15 kind=1 expert=70 cksum=caa436e3c0a70378
+[zc-verify] DIAG ekey il=15 kind=0 expert=70 cksum=5bb893f323932b31
+[zc-verify] DIAG ekey il=14 kind=0 expert=210 cksum=466b58036bd10066
+[zc-verify] DIAG ekey il=12 kind=0 expert=151 cksum=81984a5bb682e742
+[zc-verify] DIAG ekey il=12 kind=2 expert=47 cksum=dfb22e3be065ada5
+[zc-verify] DIAG ekey il=11 kind=2 expert=45 cksum=e84fe0b7a1084bab
+[zc-verify] DIAG ekey il=11 kind=1 expert=45 cksum=f0bbf6b35534a583
+[zc-verify] DIAG ekey il=11 kind=0 expert=45 cksum=c1a7e802469c49fd
+[zc-verify] DIAG ekey il=10 kind=2 expert=112 cksum=9ca4e60c94775a12
+[zc-verify] DIAG ekey il=10 kind=1 expert=112 cksum=15c100dfdbdd3488
+[zc-verify] DIAG ekey il=10 kind=0 expert=112 cksum=7181d6ed3aafcd99
+[zc-verify] DIAG ekey il=9 kind=2 expert=100 cksum=4883a6aa54ef0932
+[zc-verify] DIAG ekey il=9 kind=1 expert=100 cksum=424faa9fee5968cb
+[zc-verify] DIAG ekey il=9 kind=0 expert=100 cksum=8fc12afafd838aaa
+[zc-verify] DIAG ekey il=9 kind=0 expert=234 cksum=a15a19c196f91585
+[zc-verify] DIAG ekey il=3 kind=2 expert=191 cksum=9a5f04be89c248f2
+[zc-verify] DIAG ekey il=3 kind=1 expert=191 cksum=8efddec793b785d7
+[zc-verify] DIAG ekey il=3 kind=0 expert=191 cksum=a66cf9998d2c70f3
+[zc-verify] DIAG ekey il=3 kind=2 expert=115 cksum=b8c52dfe0790e995
+[zc-verify] DIAG ekey il=3 kind=1 expert=115 cksum=48a3f6300ad9d906
+[zc-verify] DIAG ekey il=3 kind=0 expert=115 cksum=f0118c58804ddfa9
+[zc-verify] DIAG ekey il=2 kind=2 expert=164 cksum=77b4d5692f39bcdf
+[zc-verify] DIAG ekey il=2 kind=1 expert=164 cksum=b301d3ed946ca0f9
+[zc-verify] DIAG ekey il=2 kind=0 expert=164 cksum=a319429113e690be
+[zc-verify] DIAG ekey il=1 kind=2 expert=38 cksum=5214406dc15644ef
+[zc-verify] DIAG ekey il=1 kind=1 expert=38 cksum=a1c559606b593d28
+[zc-verify] DIAG ekey il=1 kind=0 expert=38 cksum=a3ad643d6eaddb6d
+[zc-verify] DIAG ekey il=1 kind=2 expert=231 cksum=da8a4080321bdf9b
+[zc-verify] DIAG ekey il=1 kind=1 expert=231 cksum=7622a810a8991317
+[zc-verify] DIAG ekey il=1 kind=0 expert=231 cksum=07cf31ad71c65268
+[zc-verify] DIAG ekey il=26 kind=0 expert=119 cksum=80aabf3160d0e50c
+[zc-verify] DIAG ekey il=22 kind=1 expert=228 cksum=c9c3f1e986278e53
+[zc-verify] DIAG ekey il=21 kind=2 expert=68 cksum=81c76f5a7b59ba38
+[zc-verify] DIAG ekey il=21 kind=1 expert=68 cksum=c62c141112c7a79d
+[zc-verify] DIAG ekey il=21 kind=0 expert=68 cksum=45baff04906f3555
+[zc-verify] DIAG ekey il=21 kind=0 expert=232 cksum=7806e609b01fde0a
+[zc-verify] DIAG ekey il=21 kind=0 expert=225 cksum=24b42e39cd2f7adc
+[zc-verify] DIAG ekey il=20 kind=0 expert=179 cksum=4da5ce53107300fa
+[zc-verify] DIAG ekey il=18 kind=0 expert=238 cksum=04d3c9f71149c333
+[zc-verify] DIAG ekey il=15 kind=2 expert=121 cksum=de0e9865e614cb17
+[zc-verify] DIAG ekey il=15 kind=1 expert=121 cksum=d0ff3451e5a4d5c9
+[zc-verify] DIAG ekey il=15 kind=0 expert=121 cksum=b15197999f8a62ef
+[zc-verify] DIAG ekey il=12 kind=2 expert=167 cksum=b38a267bc2b65748
+[zc-verify] DIAG ekey il=12 kind=1 expert=167 cksum=03ec168ab96950ae
+[zc-verify] DIAG ekey il=12 kind=0 expert=167 cksum=b5d631c32383436a
+[zc-verify] DIAG ekey il=12 kind=2 expert=197 cksum=da43bba6db28888d
+[zc-verify] DIAG ekey il=12 kind=1 expert=197 cksum=4835a62441750b91
+[zc-verify] DIAG ekey il=12 kind=0 expert=197 cksum=c33736ab96ab6c24
+[zc-verify] DIAG ekey il=8 kind=0 expert=193 cksum=5277284f4d2eb465
+[zc-verify] DIAG ekey il=7 kind=0 expert=150 cksum=61d94dc8fcf7ec63
+[zc-verify] DIAG ekey il=6 kind=2 expert=215 cksum=8865e479bd97f603
+[zc-verify] DIAG ekey il=6 kind=1 expert=215 cksum=4b8a8f0632c9007b
+[zc-verify] DIAG ekey il=6 kind=0 expert=215 cksum=a84e3c699f3fe6ef
+[zc-verify] DIAG ekey il=5 kind=2 expert=245 cksum=01926f400265b2f2
+[zc-verify] DIAG ekey il=5 kind=1 expert=245 cksum=65a5504597af37f4
+[zc-verify] DIAG ekey il=5 kind=0 expert=245 cksum=e3156d76384ee544
+[zc-verify] DIAG ekey il=26 kind=2 expert=52 cksum=813f10a8f31bda02
+[zc-verify] DIAG ekey il=4 kind=2 expert=193 cksum=144aae581bdee04c
+[zc-verify] DIAG ekey il=26 kind=1 expert=52 cksum=df4147290c558f71
+[zc-verify] DIAG ekey il=4 kind=1 expert=193 cksum=1c2ae4e49c377d16
+[zc-verify] DIAG ekey il=26 kind=0 expert=52 cksum=c5d84dfe98444ef2
+[zc-verify] DIAG ekey il=4 kind=0 expert=193 cksum=3fea5810801795cd
+[zc-verify] DIAG ekey il=4 kind=2 expert=116 cksum=9a3083549ab5317e
+[zc-verify] DIAG ekey il=4 kind=1 expert=116 cksum=2cce42e5baf32271
+[zc-verify] DIAG ekey il=4 kind=0 expert=116 cksum=d70f7eb41903b9d8
+[zc-verify] DIAG ekey il=25 kind=2 expert=253 cksum=fa2d96ff0bcb6a95
+[zc-verify] DIAG ekey il=25 kind=1 expert=253 cksum=3261486e8ce27bb5
+[zc-verify] DIAG ekey il=25 kind=0 expert=253 cksum=1f58a68a2d108c1a
+[zc-verify] DIAG ekey il=24 kind=0 expert=215 cksum=15ac70c2db8d33d9
+[zc-verify] DIAG ekey il=23 kind=0 expert=150 cksum=17d8a34f38b7d66c
+[zc-verify] DIAG ekey il=23 kind=0 expert=155 cksum=f30da9ef47de6fb7
+[zc-verify] DIAG ekey il=22 kind=2 expert=53 cksum=0cd64478929cddff
+[zc-verify] DIAG ekey il=22 kind=1 expert=53 cksum=3a3fb0bb04d9fb1d
+[zc-verify] DIAG ekey il=22 kind=0 expert=53 cksum=46c0511229570629
+[zc-verify] DIAG ekey il=21 kind=2 expert=121 cksum=0d5bcd694c93d370
+[zc-verify] DIAG ekey il=21 kind=1 expert=121 cksum=ec0ef9b9c57a884f
+[zc-verify] DIAG ekey il=21 kind=0 expert=121 cksum=ec25abd5ecd795e3
+[zc-verify] DIAG ekey il=21 kind=0 expert=160 cksum=20892e96bf93687f
+[zc-verify] DIAG ekey il=20 kind=2 expert=94 cksum=bef736569afe442c
+[zc-verify] DIAG ekey il=20 kind=1 expert=94 cksum=98e5c79b704ca92a
+[zc-verify] DIAG ekey il=20 kind=0 expert=94 cksum=c0e4bacd9f31d327
+[zc-verify] DIAG ekey il=19 kind=2 expert=118 cksum=ed472014a39141ea
+[zc-verify] DIAG ekey il=18 kind=1 expert=242 cksum=8c00c9b4a8bcf552
+[zc-verify] DIAG ekey il=18 kind=0 expert=242 cksum=acac3ff27ff34864
+[zc-verify] DIAG ekey il=17 kind=0 expert=191 cksum=7381d27bfd0e9e29
+[zc-verify] DIAG ekey il=16 kind=0 expert=158 cksum=dff5b8beeb511689
+[zc-verify] DIAG ekey il=14 kind=0 expert=151 cksum=f59adcaaddb68f4b
+[zc-verify] DIAG ekey il=14 kind=2 expert=153 cksum=c332f204af61cf70
+[zc-verify] DIAG ekey il=14 kind=1 expert=153 cksum=1f1cffec5267bd7d
+[zc-verify] DIAG ekey il=14 kind=0 expert=153 cksum=7c5b885d1a270dca
+[zc-verify] DIAG ekey il=13 kind=2 expert=154 cksum=ddaf9155df02696c
+[zc-verify] DIAG ekey il=13 kind=1 expert=154 cksum=aeb70d55e0fdbee9
+[zc-verify] DIAG ekey il=13 kind=0 expert=154 cksum=0b0fcf20e3f9b554
+[zc-verify] DIAG ekey il=12 kind=2 expert=255 cksum=0e281295d58ece40
+[zc-verify] DIAG ekey il=12 kind=1 expert=255 cksum=fd8e6daafadf5b8f
+[zc-verify] DIAG ekey il=12 kind=0 expert=255 cksum=f3a120ee5f27ba76
+[zc-verify] DIAG ekey il=11 kind=1 expert=29 cksum=4672feaa5693b6d7
+[zc-verify] DIAG ekey il=11 kind=0 expert=29 cksum=100ccb6430a0cca4
+[zc-verify] DIAG ekey il=10 kind=2 expert=14 cksum=ec034b88938dd001
+[zc-verify] DIAG ekey il=10 kind=0 expert=241 cksum=b00d9bec19ba1a4e
+[zc-verify] DIAG ekey il=9 kind=2 expert=0 cksum=4c6c95b624136130
+[zc-verify] DIAG ekey il=8 kind=0 expert=248 cksum=d7829296d2e397e9
+[zc-verify] DIAG ekey il=7 kind=2 expert=3 cksum=0db6bd8086dd5a68
+[zc-verify] DIAG ekey il=7 kind=1 expert=3 cksum=bc99a4a13f1be732
+[zc-verify] DIAG ekey il=5 kind=2 expert=157 cksum=38b030c3e4cf79dc
+[zc-verify] DIAG ekey il=5 kind=1 expert=157 cksum=f2d6b53030f22a25
+[zc-verify] DIAG ekey il=5 kind=0 expert=157 cksum=ab64042cece02b8d
+[zc-verify] DIAG ekey il=4 kind=2 expert=250 cksum=2858bc45c9a0ee70
+[zc-verify] DIAG ekey il=4 kind=1 expert=250 cksum=d8ea713adc1f4815
+[zc-verify] DIAG ekey il=4 kind=0 expert=250 cksum=9df03d85091d67a8
+[zc-verify] DIAG ekey il=4 kind=2 expert=184 cksum=a10e987078a3b4f9
+[zc-verify] DIAG ekey il=4 kind=1 expert=184 cksum=d9de5d1f1b67b4ff
+[zc-verify] DIAG ekey il=4 kind=0 expert=184 cksum=94208d0f5e28a448
+[zc-verify] DIAG ekey il=3 kind=2 expert=47 cksum=e30ef9e55ca30ab8
+[zc-verify] DIAG ekey il=3 kind=1 expert=47 cksum=7de9255a8e2620dd
+[zc-verify] DIAG ekey il=3 kind=0 expert=47 cksum=f2eda7b1752becd9
+[zc-verify] DIAG ekey il=3 kind=2 expert=50 cksum=13f1dd3e7490b83c
+[zc-verify] DIAG ekey il=3 kind=1 expert=50 cksum=54a11b1e3ba823c8
+[zc-verify] DIAG ekey il=3 kind=0 expert=50 cksum=9d772ba0e319e339
+[zc-verify] DIAG ekey il=2 kind=2 expert=208 cksum=0ee6873fc8d15c4b
+[zc-verify] DIAG ekey il=2 kind=1 expert=208 cksum=d19014b086e5f3a4
+[zc-verify] DIAG ekey il=2 kind=0 expert=208 cksum=40df3b33824522e7
+[zc-verify] DIAG ekey il=1 kind=2 expert=194 cksum=97811f0271f2abd4
+[zc-verify] DIAG ekey il=1 kind=1 expert=194 cksum=bbc4a45946d1121b
+[zc-verify] DIAG ekey il=1 kind=0 expert=194 cksum=e9579c33c466afad
+[zc-verify] DIAG ekey il=26 kind=0 expert=195 cksum=f0a04eff5a5f54be
+[zc-verify] DIAG ekey il=26 kind=0 expert=122 cksum=1b8473b8c3b1a150
+[zc-verify] DIAG ekey il=26 kind=2 expert=141 cksum=8c609e9a72bb7ac5
+[zc-verify] DIAG ekey il=26 kind=1 expert=141 cksum=34d778041d74f888
+[zc-verify] DIAG ekey il=26 kind=0 expert=141 cksum=59a038e06a308123
+[zc-verify] DIAG ekey il=24 kind=1 expert=226 cksum=da0ba2ac28ef2d7b
+[zc-verify] DIAG ekey il=23 kind=0 expert=128 cksum=78067f2366b8b010
+[zc-verify] DIAG ekey il=22 kind=0 expert=121 cksum=8cb0b41f98bc33ad
+[zc-verify] DIAG ekey il=21 kind=1 expert=249 cksum=180b3107cd925a8d
+[zc-verify] DIAG ekey il=21 kind=0 expert=249 cksum=ffa0ddbb8b37a597
+[zc-verify] DIAG ekey il=21 kind=0 expert=140 cksum=da2c95e9dd6ab23c
+[zc-verify] DIAG ekey il=17 kind=0 expert=115 cksum=dcd4c170eb71bf23
+[zc-verify] DIAG ekey il=15 kind=2 expert=98 cksum=b1bded90af42c7a6
+[zc-verify] DIAG ekey il=10 kind=0 expert=188 cksum=aca4e6a1e6d9c9d3
+[zc-verify] DIAG ekey il=10 kind=2 expert=74 cksum=2023a35ac685bc1b
+[zc-verify] DIAG ekey il=8 kind=0 expert=173 cksum=87efb9af15f8f5c1
+[zc-verify] DIAG ekey il=6 kind=2 expert=163 cksum=eb29f68585b95b94
+[zc-verify] DIAG ekey il=6 kind=1 expert=163 cksum=64be10fecb60336b
+
+[ Prompt: 12.8 t/s | Generation: 0.6 t/s ]
+
+
+Exiting...
