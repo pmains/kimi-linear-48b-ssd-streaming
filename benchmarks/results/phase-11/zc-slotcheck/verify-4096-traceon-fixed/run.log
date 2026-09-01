@@ -1,12 +1,12 @@
 
 
-Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\llama_expert_streamer: expert cache enabled: 4096 MiB
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|llama_expert_streamer: expert cache enabled: 4096 MiB
 llama_expert_streamer: expert cache enabled: 4096 MiB zero-copy mode (per-layer capacity 43..44 slots)
 llama_expert_streamer: expert cache armed (4096 MiB, zero-copy mode)
-[zc-verify] ROUTE il=2 n_slots=16 n_occ=16 unique=[25,78,17,136,64,46,30,221]
-|/[zc-verify] ROUTE il=3 n_slots=16 n_occ=16 unique=[151,226,14,74,129,109,65,76]
--\[zc-verify] ROUTE il=4 n_slots=16 n_occ=16 unique=[9,126,167,237,17,35,111,153]
-|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\ 
+/[zc-verify] ROUTE il=2 n_slots=16 n_occ=16 unique=[25,78,17,136,64,46,30,221]
+-[zc-verify] ROUTE il=3 n_slots=16 n_occ=16 unique=[151,226,14,74,129,109,65,76]
+\|/[zc-verify] ROUTE il=4 n_slots=16 n_occ=16 unique=[9,126,167,237,17,35,111,153]
+-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\ 
 
 ▄▄ ▄▄
 ██ ██
@@ -17,7 +17,7 @@ llama_expert_streamer: expert cache armed (4096 MiB, zero-copy mode)
                                     ▀▀    ▀▀
 
 build      : b10446-932f8cad2
-model      : /Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+model      : models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
 ftype      : MXFP4 MoE
 modalities : text
 
@@ -275,8 +275,7 @@ llama_server_terminate: requested orderly shutdown
 [zc-verify] DIAG ekey il=6 kind=2 expert=163 cksum=eb29f68585b95b94
 [zc-verify] DIAG ekey il=6 kind=1 expert=163 cksum=64be10fecb60336b
 
-[ Prompt: 13.0 t/s | Generation: 0.8 t/s ]
+[ Prompt: 12.7 t/s | Generation: 0.6 t/s ]
 
 
 Exiting...
-EXIT=0 zc-slotcheck cache=4096MiB

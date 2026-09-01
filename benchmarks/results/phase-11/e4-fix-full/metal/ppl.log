@@ -1,0 +1,15 @@
+0.00.289.230 W common_fit_params: failed to fit params to free device memory: n_gpu_layers already set by user to 999, abort
+llama_expert_streamer: expert cache enabled: 4096 MiB
+llama_expert_streamer: expert cache enabled: 4096 MiB zero-copy mode (per-layer capacity 43..44 slots)
+llama_expert_streamer: expert cache armed (4096 MiB, zero-copy mode)
+0.09.534.816 I 
+0.09.534.830 I system_info: n_threads = 4 (n_threads_batch = 4) / 10 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | REPACK = 1 | 
+0.09.534.835 I perplexity: tokenizing the input ..
+0.09.708.166 I perplexity: tokenization took 173.326 ms
+0.09.708.204 I perplexity: calculating perplexity over 32 chunks, n_ctx=512, batch_size=2048, n_seq=4
+0.47.058.540 I perplexity: 37.35 seconds per pass - ETA 4.97 minutes
+[1]4.7721,[2]6.3676,[3]6.1119,[4]6.1625,[5]6.4232,[6]6.7064,[7]6.9396,[8]7.2601,[9]7.8027,[10]8.0844,[11]8.1569,[12]8.2302,[13]8.7071,[14]8.3558,[15]8.2877,[16]8.1960,[17]8.1632,[18]8.4725,[19]8.2041,[20]8.1368,[21]8.0837,[22]7.8502,[23]7.5114,[24]7.2766,[25]7.0693,[26]6.9289,[27]6.7744,[28]6.7017,[29]6.7042,[30]6.7098,[31]6.7569,[32]6.7528,
+5.06.326.236 I Final estimate: PPL = 6.7528 +/- 0.19247
+
+5.06.327.266 W ~llama_context:       MTL0 compute buffer size of 375.7720 MiB, does not match expectation of   0.0000 MiB
+5.06.327.267 W ~llama_context:        CPU compute buffer size of   9.0020 MiB, does not match expectation of   0.0000 MiB

@@ -1791,6 +1791,31 @@ fix would be a `ggml_backend_synchronize` after the ids get_async
 `benchmarks/results/phase-11/zc-slotcheck/`. STOPPED for review; E3
 not begun.
 
+**Routed-expert-ID synchronization fix — E4 root cause FIXED and
+validated (PASS, 2026-09-01):** one-line minimal fix in the fork
+(`llama-expert-stream-exec.cpp`): `ggml_backend_synchronize(backend)`
+after the routed-ids `ggml_backend_tensor_get_async`, mirroring the
+validated E1b pattern; CPU no-op (sync fallback); no kernels/math/
+quantization changes; E3 not begun. Validation on the fixed binary:
+(1) bounded trace-off slot-integrity config — routed IDs no longer
+zero (`unique=[25,78,17,136,64,46,30,221]` …), slot integrity 100%
+clean (44,136 checks / 17,076 reuses / 10,836 pread cross-checks, 0
+failures), coherent output, EXIT=0; (2) trace-off vs trace-on A/B —
+identical routing and identical slot-integrity summary: behavior no
+longer depends on KIMI_TRACE_ACT/MOE; (3) bounded E4 (8×512): cpu
+7.2777, metal 7.2601; (4) full E4 (32×512) vs frozen CPU reference:
+cpu 6.7596, **metal 6.7528** (abs Δ −0.0068, rel −0.101%; per-chunk
+ratios 0.997–1.002; max per-chunk |d| 0.0216) — **Metal perplexity
+returned to the CPU/K1 quality class**, replacing the ×218k
+catastrophe. Perf effect reported separately: full-E4 wall metal
+5.1 min (~37.4 s/pass) vs cpu 9.0 min (~63.3 s/pass), Metal ≈ 1.7×
+cpu; the pre-fix "fast" metal timing was the degenerate n_slots=1
+(all-expert-0) path, not a valid baseline. Report:
+`progress/phase-11-idsync-fix-report.md`; artifacts retained under
+`benchmarks/results/phase-11/e4-fix-bounded/`, `e4-fix-full/`,
+`zc-slotcheck/verify-4096/`, `zc-slotcheck/verify-4096-traceon-fixed/`.
+STOPPED for review; E3 not begun.
+
 ---
 
 # Progress Tracking

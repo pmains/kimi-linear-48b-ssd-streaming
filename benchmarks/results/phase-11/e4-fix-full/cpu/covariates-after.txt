@@ -1,0 +1,7 @@
+2026-09-01T19:48:44Z
+12:48  up 1 day, 12:54, 2 users, load averages: 2.96 2.87 2.49
+Mach Virtual Memory Statistics: (page size of 16384 bytes)
+Pages free:                                   598197.
+Pages active:                                  82642.
+Pages inactive:                               398278.
+Pages speculative:                              5012.

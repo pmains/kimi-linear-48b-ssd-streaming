@@ -1,0 +1,14 @@
+llama_expert_streamer: expert cache enabled: 4096 MiB
+llama_expert_streamer: expert cache enabled: 4096 MiB zero-copy mode (per-layer capacity 43..44 slots)
+llama_expert_streamer: expert cache armed (4096 MiB, zero-copy mode)
+0.08.793.619 I 
+0.08.793.642 I system_info: n_threads = 4 (n_threads_batch = 4) / 10 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | MATMUL_INT8 = 1 | DOTPROD = 1 | SME = 1 | ACCELERATE = 1 | REPACK = 1 | 
+0.08.793.647 I perplexity: tokenizing the input ..
+0.08.967.922 I perplexity: tokenization took 174.269 ms
+0.08.967.964 I perplexity: calculating perplexity over 32 chunks, n_ctx=512, batch_size=2048, n_seq=4
+1.12.241.288 I perplexity: 63.27 seconds per pass - ETA 8.43 minutes
+[1]4.7629,[2]6.3715,[3]6.1192,[4]6.1727,[5]6.4346,[6]6.7221,[7]6.9535,[8]7.2777,[9]7.8125,[10]8.0980,[11]8.1761,[12]8.2430,[13]8.7248,[14]8.3760,[15]8.3093,[16]8.2131,[17]8.1813,[18]8.4904,[19]8.2172,[20]8.1492,[21]8.0988,[22]7.8658,[23]7.5269,[24]7.2890,[25]7.0802,[26]6.9415,[27]6.7869,[28]6.7137,[29]6.7134,[30]6.7183,[31]6.7645,[32]6.7596,
+8.59.028.436 I Final estimate: PPL = 6.7596 +/- 0.19264
+
+8.59.029.493 W ~llama_context:       MTL0 compute buffer size of 382.6873 MiB, does not match expectation of   0.0000 MiB
+8.59.029.496 W ~llama_context:        CPU compute buffer size of 324.5000 MiB, does not match expectation of   0.0000 MiB
