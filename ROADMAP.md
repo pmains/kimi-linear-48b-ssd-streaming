@@ -1881,6 +1881,30 @@ directions (from evidence, in contribution order): overlap/hide SSD
 pread (async reads/prefetch), reduce per-step Metal compute/launch
 overhead, cache-density to cut 80 misses/step. STOPPED for review.
 
+**E3B — Metal expert-read throughput deficit explained (PASS, 2026-09-01):**
+no optimization; classification = read-interleaving / execution
+interaction (backend-agnostic); pattern AND Metal-vs-CPU exonerated. The
+E3A "Metal 1.86 vs CPU 4.96 GB/s" was a cross-session artifact (E5 live
+server vs K1 benchmark): controlled same-binary A/B (same prompt/config,
+only -ngl differs) shows live Metal ≈ live CPU (2.88 vs 2.95 GB/s by
+per-read sum; 3.50 vs 3.29 GB/s decode-step effective). Retained Metal
+decode read trace via existing Phase 9C per-pread instrumentation
+(KIMI_PHASE9C_TRACE; 26,721 reads, 33.49 GB, 16,875 distinct offsets,
+uniform 1.25 MB slices — identical offsets to CPU trace). Standalone
+no-inference/no-Metal replay of the exact (offset,length) sequence
+(tools/phase11_e3b_replay.py): **4.10 GB/s @ concurrency 1 — higher than
+live Metal 2.88** → read pattern not the cause; live-path overhead
+~1.4× = per-layer read/compute interleaving (reads issued between graph
+phases, not overlapped; CPU live shows the same ~1.36×). Bounded read
+concurrency recovers large headroom: **6.68 / 8.01 / 8.33 GB/s @ 2 / 4 /
+8** (2.0–2.9× serial). E3C not started; candidate directions (from
+evidence, in contribution order): overlap reads with compute
+(async/prefetch — recovers the 1.4× interleaving cost), bounded read
+concurrency (workers 2–4 → up to ~2× serial read throughput). Report:
+`progress/phase-11-e3b-report.md`; artifacts under
+`benchmarks/results/phase-11/e3b/`; driver `tools/phase11_e3b_replay.py`.
+STOPPED for review.
+
 ---
 
 # Progress Tracking

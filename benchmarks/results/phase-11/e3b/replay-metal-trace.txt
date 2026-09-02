@@ -1,0 +1,24 @@
+trace: 26721 reads, 33.49 GB total, 16875 distinct offsets
+--- concurrency 1 ---
+  wall=8.17s  eff=4.10GB/s  sum_read_us=8.16s  eff_by_sum=4104428.20GB/s  ok=26721/26721
+  lat us: mean=305 med=325 p90=361 p99=488 max=7311
+--- concurrency 2 ---
+  wall=5.01s  eff=6.68GB/s  sum_read_us=10.01s  eff_by_sum=3345788.35GB/s  ok=26721/26721
+  lat us: mean=375 med=378 p90=498 p99=662 max=5438
+--- concurrency 4 ---
+  wall=4.18s  eff=8.01GB/s  sum_read_us=16.71s  eff_by_sum=2004482.44GB/s  ok=26721/26721
+  lat us: mean=625 med=650 p90=880 p99=1095 max=2712
+--- concurrency 8 ---
+  wall=4.02s  eff=8.33GB/s  sum_read_us=32.12s  eff_by_sum=1042638.12GB/s  ok=26721/26721
+  lat us: mean=1202 med=1259 p90=1778 p99=2183 max=5057
+
+=== summary ===
+conc   wall_s  eff_GBs  sum_us_s eff_by_sum  mean_us  p99_us  max_us
+   1     8.17     4.10      8.16 4104428.20      305     488    7311
+   1     8.17     4.10      8.16 4104428.20      305     488    7311
+   2     5.01     6.68     10.01 3345788.35      375     662    5438
+   2     5.01     6.68     10.01 3345788.35      375     662    5438
+   4     4.18     8.01     16.71 2004482.44      625    1095    2712
+   4     4.18     8.01     16.71 2004482.44      625    1095    2712
+   8     4.02     8.33     32.12 1042638.12     1202    2183    5057
+   8     4.02     8.33     32.12 1042638.12     1202    2183    5057

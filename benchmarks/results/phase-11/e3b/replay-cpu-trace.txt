@@ -1,0 +1,14 @@
+trace: 26766 reads, 33.55 GB total, 16875 distinct offsets
+--- concurrency 1 ---
+  wall=8.38s  eff=4.00GB/s  sum_read_us=8.36s  eff_by_sum=4.01GB/s  ok=26766/26766
+  lat us: mean=312 med=328 p90=362 p99=492 max=5277
+--- concurrency 4 ---
+  wall=4.35s  eff=7.72GB/s  sum_read_us=17.36s  eff_by_sum=1.93GB/s  ok=26766/26766
+  lat us: mean=649 med=671 p90=899 p99=1129 max=4208
+
+=== summary ===
+conc   wall_s  eff_GBs  sum_us_s eff_by_sum  mean_us  p99_us  max_us
+   1     8.38     4.00      8.36      4.01      312     492    5277
+   1     8.38     4.00      8.36      4.01      312     492    5277
+   4     4.35     7.72     17.36      1.93      649    1129    4208
+   4     4.35     7.72     17.36      1.93      649    1129    4208
