@@ -1905,6 +1905,30 @@ concurrency (workers 2–4 → up to ~2× serial read throughput). Report:
 `benchmarks/results/phase-11/e3b/`; driver `tools/phase11_e3b_replay.py`.
 STOPPED for review.
 
+**E3C — parallel/overlapped expert reads on corrected Metal (PASS,
+2026-09-01):** bounded parallel expert reads **materially improve**
+corrected Metal decode using the existing env-gated Phase 9D/9F machinery
+(`KIMI_EXPERT_READ_WORKERS`, default 1 = frozen; no source changes). Arms
+(identical deterministic config, only workers differ): decode **6.41 →
+8.84 → 9.47 tok/s** (+38% / +48% at W2 / W4); read-phase wall
+(`pread_wall_us`, the honest overlap metric) **86.0 → 57.3 → 48.8
+ms/token** (−33% / −43%); effective read bandwidth by wall **3.50 →
+5.25 → 6.17 GB/s**, recovering most of E3B's interleaving gap (standalone
+ceiling 4.10 @1 / 6.68 @2 / 8.01 @4). Note: per-syscall pread_us sum
+inflates under parallelism (86 → 109 → 174 ms) because reads overlap —
+wall is the correct metric. SSD bytes/token (301 MB) and cache behavior
+(208 lookups, 61.5% hit, 80 misses/evictions) IDENTICAL across arms —
+scheduling-only change. Correctness: EXIT=0, 0 error/assert/MISMATCH,
+0/173,670 retr mismatches per arm, generated output byte-identical W1 vs
+W4, and bounded E4 (8×512) PPL **7.2601 at workers=1 AND workers=4**
+(exact E4-quality preservation; llama-cli Generation 6.4 → 8.8 → 9.4 t/s
+corroborates). Recommended operating point: **workers=2** (best
+gain-per-worker, +38%) or workers=4 (+48%) pending live-server validation
+(E5 server config still frozen at workers=1; promotion not done).
+Broader compute/kernel optimization NOT started. Report:
+`progress/phase-11-e3c-report.md`; artifacts under
+`benchmarks/results/phase-11/e3c/`. STOPPED for review.
+
 ---
 
 # Progress Tracking
