@@ -1873,13 +1873,22 @@ Metal-specific inefficiencies vs the same-quantization CPU reference
 (K1 cached MXFP4, 5.05 tok/s): effective read BW 1.86 vs 4.96 GB/s
 (2.7×, 101.7 ms/step gap) and per-step compute 99.8 vs 36.0 ms (2.8×,
 63.8 ms/step gap) — corrected Metal (315.9 ms/step) is now 1.6× slower
-than corrected CPU (198.0 ms/step). Analyzer retained:
+than corrected CPU (198.0 ms/step). **[E3G CORRECTION (2026-09-01): the
+"same-quantization CPU reference" here was actually Q4_K_M (b8-A-after
+provenance: k1-model.json/run.log = 30 GB Q4_K_M.gguf), NOT MXFP4 — the
+"2.8× compute" figure is cross-quantization and INVALID; retained true
+MXFP4 CPU compute (e1-cpu-ref 44.41 ms/token) is at parity with the
+promoted MXFP4 Metal baseline (43.82 ms/token, E3F). See
+progress/phase-11-e3g-report.md.]** Analyzer retained:
 `tools/phase11_e3a_analyze.py`; output:
 `benchmarks/results/phase-11/e3a/decode-decomposition.txt`; report:
 `progress/phase-11-e3a-report.md`. E3B not started; candidate future
 directions (from evidence, in contribution order): overlap/hide SSD
-pread (async reads/prefetch), reduce per-step Metal compute/launch
-overhead, cache-density to cut 80 misses/step. STOPPED for review.
+pread (async reads/prefetch), cache-density to cut 80 misses/step
+**[E3G correction: "reduce per-step Metal compute/launch overhead"
+withdrawn — it derived from the invalid 2.8× cross-quantization
+comparison; same-quantization compute is at parity (see above)]**.
+STOPPED for review.
 
 **E3B — Metal expert-read throughput deficit explained (PASS, 2026-09-01):**
 no optimization; classification = read-interleaving / execution
@@ -1928,6 +1937,105 @@ gain-per-worker, +38%) or workers=4 (+48%) pending live-server validation
 Broader compute/kernel optimization NOT started. Report:
 `progress/phase-11-e3c-report.md`; artifacts under
 `benchmarks/results/phase-11/e3c/`. STOPPED for review.
+
+**E3D — can expert reads overlap with useful Metal compute? (PASS,
+2026-09-01):** determination only, no code changes, no prototype needed —
+the dependency map + retained E3C measurements are conclusive. The
+per-token/per-layer chain is **strictly serial** (verified from code AND a
+bounded per-layer `KIMI_PHASE9C_TRACE` run): route subgraph (Metal) → ids
+readback → expert reads (I/O) → expert compute (Metal) → route(il+1), which
+consumes act(il) — so reads are sandwiched between the two Metal phases
+within a layer, and cross-layer overlap is impossible (next layer's routing
+needs this layer's compute output). Only genuinely overlap-able Metal work
+under exact semantics is the resident shared-expert FFN ≈ 2.2 ms/step
+(+2% ceiling, below run-to-run noise); the meaningful candidate
+(cache-hit expert compute ≈ 12 ms/step, +13% ceiling) requires a per-slot
+compute split that changes expert accumulation order → E4 PPL 7.2601 risk →
+forbidden. **Max realistically overlap-able read time ≈ 2.2 ms of the 48.8
+ms read wall (4.5%)**; decode ceiling ~9.67 tok/s (+2%) safe, ~10.7 tok/s
+(+13%) only with E4-risky surgery. Verdict: compute/I/O overlap NOT
+feasible; remaining decode levers are read-side (cache density — 80
+misses/step at the 4 GiB zerocopy budget — and residual read bandwidth
+6.17 vs 8.01 GB/s). Report: `progress/phase-11-e3d-report.md`; artifacts
+under `benchmarks/results/phase-11/e3d/`. STOPPED for review.
+
+**E3E — corrected-Metal expert-cache capacity curve (PASS, 2026-09-01):**
+budget-only arms (no source changes), `KIMI_EXPERT_READ_WORKERS=4` fixed,
+zerocopy cache 1024 → 8192 MiB. Curve: hit 31.8 → 75.0%, misses 141.8 →
+52.0/token, SSD traffic 509 → 186 MB/token, read-wall 46.0 → 35.5 ms/step,
+decode **9.79 → 11.45 tok/s** (best measured point: **8192 MiB**, +8% vs the
+4096 baseline arm, +21% vs frozen E3C 9.47; 4096 MiB best gain-per-GiB).
+RSS scales ~linearly (3.75 → 10.52 GB phys peak) — 8192 MiB is safe on the
+24 GB machine (~13.5 GB headroom). Correctness/quality: 0 retr mismatches,
+byte-identical output across all six arms, bounded E4 PPL **7.2601 at both
+1024 and 8192 MiB** (identical to the E3C reference); eviction policy and
+runtime behavior untouched. Decode curve flattens beyond ~6 GiB; SSD-traffic
+savings continue to the top of the tested range. Verdict: more cache is a
+mild, safe optimization; 8192 MiB recommended operating point (live E5
+promotion NOT done — config remains frozen). Report:
+`progress/phase-11-e3e-report.md`; artifacts under
+`benchmarks/results/phase-11/e3e/`; driver
+`tools/phase11_e3e_capacity.sh`. STOPPED for review.
+
+**E3E promotion (PASS, 2026-09-01):** the E3E operating point
+(`KIMI_EXPERT_READ_WORKERS=4`, `KIMI_EXPERT_CACHE_MB=8192`) was promoted to
+the live Kimi runtime (env-config only: launchd wrapper
+`tools/serve_kimi_local.launchd.sh` + plist; binary/COMMIT unchanged at
+`a895f6826`). Verified through the actual OpenClaw path (E5 protocol, 2
+cold + 2 warm): all turns rc=0, zero server errors/asserts/NaN, coherent
+responses. New live baseline: decode **9.0–11.1 tok/s** (was 3.0–3.3),
+hit 76.3–81.2% (was ~60), SSD 140–170 MB/tok (was ~300), RSS 11.3–11.9 GB
+(well inside 24 GB). B1 doubled as a stability soak (7,555 tokens at steady
+11.0 tok/s). Report: `progress/phase-11-e3e-promotion-report.md`; artifacts
+under `benchmarks/results/phase-11/e3e-promotion/`. STOPPED for review.
+
+**E3F — steady-state decode profile of the promoted W4/8 GiB live baseline
+(PASS, 2026-09-01):** attribution only, no optimization. Authoritative
+sample = live B1 soak (7,554 decode steps through the real server at the
+promoted point; 90.80 ms/step ≈ 11.0 tok/s). Component table: **expert
+reads (pread wall) 33.04 ms = 36.4%** (largest single component, but now
+per-miss-latency-dominated: 0.78 ms/miss × 39 misses, fixed overhead only
+7.9%; eff BW 4.23 GB/s); route/trunk compute 23.60 ms (26.0%); expert
+compute 20.22 ms (22.3%); other (ids readback/setup/trace) 8.15 ms (9.0%,
+mostly 26× per-layer routing-ids readback ≈5.4 ms); placement 3.58 ms;
+build 2.21 ms; sync/repack ≈0. Combined Metal compute = 43.82 ms (48.3%)
+= largest bucket **[E3G correction 2026-09-01: the "~2.8× CPU per-step
+compute" attribution from E3A is INVALID — E3A's CPU reference was
+Q4_K_M, not MXFP4; retained MXFP4 CPU compute (44.41 ms/token) is at
+parity with this bucket. This bucket is real Metal wall time but parity
+work, not a Metal-vs-CPU deficit — see progress/phase-11-e3g-report.md]**. Cross-check A2 cold (n=190) stable (reads 40%, compute
+44%). Largest remaining targets ranked **after the E3G correction
+(2026-09-01; compute shown to be parity work vs retained MXFP4 CPU
+reference, NOT a Metal deficit)**: (1) read per-miss latency (33.04 ms,
+36.4% — now the top target), (2) per-layer ids readback (≈5.4 ms of
+"other"), (3) compute efficiency withdrawn as a Metal-vs-CPU deficit
+(baseline-wide compute work would need separate authorization). Report:
+`progress/phase-11-e3f-report.md`; artifact:
+`benchmarks/results/phase-11/e3f/live-baseline-profile.txt`. STOPPED for
+review.
+
+**E3G — Metal compute deficit premise FALSIFIED; correction documented
+(STOPPED, 2026-09-01):** no optimization, no profiler built (halted at
+orientation per review). The E3G hypothesis — decompose the 43.82
+ms/token Metal compute (route/trunk 23.60 + expert 20.22 = 48.3% of the
+promoted live step) as a ~2.8× Metal-vs-CPU same-quantization compute
+deficit — is **invalid**: the E3A "same-quantization CPU reference"
+(b8-A-after) is, per its retained provenance, the 30 GB **Q4_K_M** GGUF
+(cross-quantization), while retained **true MXFP4 CPU** references show
+compute at **parity** with the promoted MXFP4 Metal baseline (CPU
+44.41 ms/token canonical e1-cpu-ref, range 35.4–68.5 across retained
+runs; Metal 43.82 ms/token live B1, controlled Metal arms 37.7–48.1).
+Metal compute is parity work, not a backend deficit → no op-level Metal
+profiler warranted. Remaining E3G measurement needed for next-target
+choice: **none** — E3F's live step attribution stands (reads 33.04 ms =
+36.4% is the largest reducible component; per-miss latency 0.78 ms/miss
+× 39 misses), and the next optimization target is **expert-read
+per-miss latency** (read-side), with per-layer ids readback (~5.4 ms of
+"other") second; compute efficiency is deferred as baseline-wide work
+requiring separate authorization. Invalid comparison flagged/superseded
+in E3A/E3F reports + this ROADMAP entry so it is not reused. Artifact:
+`benchmarks/results/phase-11/e3g/quant-reference-correction.txt`;
+report: `progress/phase-11-e3g-report.md`. STOPPED for review.
 
 ---
 
