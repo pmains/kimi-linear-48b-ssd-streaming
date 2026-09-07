@@ -2154,7 +2154,7 @@ Do not create additional service steps merely because further optimization oppor
 
 ## 13. Context Capacity Qualification and Production Promotion
 
-**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE (2026-09-07).**
+**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS (2026-09-07).**
 13A: 128K reproduced on the current runtime under the single-llama-server
 swap protocol (owner order 10:20:18): manual server healthy at n_ctx=131072
 (KV 1008 MiB, KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed,
@@ -2180,9 +2180,33 @@ and verified after each window (llama 200, n_ctx 65536, gw 200, 11B sha
 run3 harness 30-min exec timeout) — none were runtime failures. Evidence under
 `benchmarks/results/service-step-13/13a-128k/` and
 `benchmarks/results/service-step-13/13b-256k/`; tradeoff data in
-`service-progress/step-13-context-capacity.md`. 13C target selection is next
-(awaiting owner decision at the 13B gate — no production context selected or
-promoted).
+`service-progress/step-13-context-capacity.md`.
+
+### 13C Decision — SELECT 256K (owner, 2026-09-07 14:23 MST)
+
+Owner selected **256K (ctx 262144)** as the production target. Rationale:
+256K allocates safely (4/4 windows healthy), short-context performance
+unchanged (probe-a TTFT 0.012–0.013 s across 64K/128K/256K), the 146K probe
+correctly retrieved information beyond 128K (needle `NEEDLE-13B-6937` at
+~137K), and peak RSS was 12.73 GiB of 24 GiB (~21% host free). The severe
+long-context prefill cost is real (~26.9 tok/s at 146K; ~90 min prefill for a
+full-depth prompt) but choosing 128K does not solve it — it only caps usable
+context. Next: 13D aligns the production contract (llama-server ctx 262144 +
+OpenClaw contextWindow 262144), verifies resolution through the real agent
+path, and preserves rollback to the qualified 64K state.
+
+### 13D Status — PASS (2026-09-07 14:40 MST)
+
+Production contract promoted and verified: launchd job ctx 262144 (resolved
+n_ctx 262144, probe OK 1.57 s), openclaw.json contextWindow 262144 on both
+kimi-linear-48b provider entries (kimi-local + llama-server), gateway hot
+reload applied, real-path agent turn resolves `contextTokens 262144
+(contextTokensSource: resolved)`, 11B sha 8baf474684 unchanged, FK 0.
+Rollback artifacts retained under
+`benchmarks/results/service-step-13/13d-256k/rollback-64k/` (64K plists +
+procedure; openclaw.json backup `~/.openclaw/openclaw.json.bak-step13d-20260907`).
+Driver: `tools/service_step13d.sh`. Stopped at the 13D gate — 13E (real
+OpenClaw agent qualification at 256K) awaits owner go.
 
 ### Purpose
 

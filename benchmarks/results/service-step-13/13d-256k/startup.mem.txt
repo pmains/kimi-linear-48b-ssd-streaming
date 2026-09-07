@@ -1,0 +1,2 @@
+0.03.456.347 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 262144, kv_unified = 'false'
+0.03.457.640 I srv  llama_server: model loaded

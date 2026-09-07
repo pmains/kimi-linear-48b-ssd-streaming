@@ -1,0 +1,41 @@
+{
+  "ok": true,
+  "wall_s": 1.57,
+  "text": "OK",
+  "raw": {
+    "choices": [
+      {
+        "finish_reason": "stop",
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "OK"
+        }
+      }
+    ],
+    "created": 1788816985,
+    "model": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+    "system_fingerprint": "b10447-a895f6826",
+    "object": "chat.completion",
+    "usage": {
+      "completion_tokens": 2,
+      "prompt_tokens": 12,
+      "total_tokens": 14,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      }
+    },
+    "id": "chatcmpl-9kH9YobJuK6KiYcPCsGSbpZ09icyf8ud",
+    "timings": {
+      "cache_n": 0,
+      "prompt_n": 12,
+      "prompt_ms": 1416.213,
+      "prompt_per_token_ms": 118.01774999999999,
+      "prompt_per_second": 8.473301685551538,
+      "predicted_n": 2,
+      "predicted_ms": 91.25,
+      "predicted_per_token_ms": 91.25,
+      "predicted_per_second": 10.95890410958904
+    }
+  }
+}

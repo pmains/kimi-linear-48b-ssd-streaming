@@ -1,0 +1,21 @@
+[2026-09-07 14:36:16 -0700] === Step 13D: promote production context contract to 262144 (2026-09-07T21-36-16Z) ===
+[2026-09-07 14:36:16 -0700] --- phase 0 preflight ---
+[2026-09-07 14:36:16 -0700] gateway healthz=200  llama n_ctx=65536
+[2026-09-07 14:36:16 -0700] openclaw.json sha256(before)=efe1f7a29a96fce4af35e15ea57d1f4ccc744ce27c234f2466a5fb1a9daa0586
+[2026-09-07 14:36:16 -0700] backups retained: /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13d-256k/rollback-64k + /Users/pmains/.openclaw/openclaw.json.bak-step13d-20260907
+[2026-09-07 14:36:16 -0700] --- phase 1: plist KIMI_CTX -> 262144 ---
+[2026-09-07 14:36:16 -0700] plist KIMI_CTX now: 262144
+[2026-09-07 14:36:16 -0700] relaunching launchd job at ctx 262144
+[2026-09-07 14:36:21 -0700] GATE1 pass: *** healthy
+[2026-09-07 14:36:23 -0700] resolved n_ctx=262144 (expected 262144)
+[2026-09-07 14:36:25 -0700] GATE2 pass: *** probe ok at ctx 262144
+[2026-09-07 14:36:25 -0700] --- phase 2: openclaw.json contextWindow -> 262144 (kimi-local + llama-server entries) ---
+[2026-09-07 14:36:25 -0700] openclaw.json valid JSON
+[2026-09-07 14:36:25 -0700] openclaw.json sha256(after)=1d5c5afc3e8bd4c9610b9d45a26a397c0beef599fdc75fd5d40de2eddec16907 (backup at /Users/pmains/.openclaw/openclaw.json.bak-step13d-20260907)
+2026-09-07T14:36:26.248-07:00 [reload] config change detected; evaluating reload (models.providers.kimi-local.models, models.providers.llama-server.models)
+2026-09-07T14:36:29.294-07:00 [reload] config hot reload applied (models.providers.kimi-local.models, models.providers.llama-server.models)
+[2026-09-07 14:36:37 -0700] --- phase 3: real-path resolution check (agentMeta.contextTokens) ---
+turn rc=0
+[2026-09-07 14:39:58 -0700] GATE3 pass: *** agent path resolves contextTokens=262144
+[2026-09-07 14:39:58 -0700] --- phase 4: final verify + evidence ---
+[2026-09-07 14:40:00 -0700] === 13D driver complete: production promoted to ctx 262144 ===

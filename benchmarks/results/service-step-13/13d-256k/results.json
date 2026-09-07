@@ -1,0 +1,14 @@
+{
+  "step": "13D",
+  "decision": "13C: select 256K (ctx 262144) as production target (owner 2026-09-07)",
+  "ts": "2026-09-07T21-36-16Z",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "openclaw_sha_before": "efe1f7a29a96fce4af35e15ea57d1f4ccc744ce27c234f2466a5fb1a9daa0586",
+  "openclaw_sha_after": "1d5c5afc3e8bd4c9610b9d45a26a397c0beef599fdc75fd5d40de2eddec16907",
+  "openclaw_backup": "/Users/pmains/.openclaw/openclaw.json.bak-step13d-20260907",
+  "step11b_sha": "8baf474684",
+  "fk_violations": "0",
+  "rollback_dir": "/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13d-256k/rollback-64k"
+}

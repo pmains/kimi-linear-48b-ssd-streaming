@@ -2,14 +2,11 @@
 
 ## Status
 
-IN PROGRESS — **13A PASS, 13B PASS (2026-09-07)**. 128K reproduced on the
-current production runtime under the single-llama-server swap protocol
-(13A), then the 256K feasibility probe completed with classification
-**`256K FEASIBLE`** (13B): Stage-1 allocation healthy at ctx 262144, Stage-2
-needle at ~137K-token position retrieved exactly from a 145,824-token
-prompt. STOPPED at the 13B gate; 13C target selection (128K vs 256K) awaits
-the owner's decision. No production context selected or promoted; 64K
-launchd baseline restored and verified after every window.
+**13A PASS, 13B PASS, 13C: 256K SELECTED, 13D PASS (2026-09-07)**. Production
+context contract promoted to 262144 and verified through the real agent path
+(agentMeta.contextTokens 262144, resolved). 64K rollback artifacts retained.
+Stopped at the 13D gate awaiting owner go for 13E (real OpenClaw agent
+qualification at 256K).
 
 ## Objective
 
@@ -291,3 +288,103 @@ bash tools/service_step13b.sh
 # aborted attempts: 13b-256k-run1-stage1/ (OOM-gate false positive),
 #   13b-256k-run2-client-timeout/ (client bug), 13b-256k-run3-harness-timeout/
 #   (exec timeout) — each with a runN-note.md
+
+---
+
+# 13C/13D Addendum — 256K SELECTED; Production Contract Aligned (2026-09-07)
+
+## Status
+
+**13C: SELECT 256K (owner decision, 14:23 MST). 13D: PASS (14:40 MST).**
+Production context contract promoted to **262144** on both sides and verified
+through the real OpenClaw agent path: `agentMeta.contextTokens = 262144`
+(`contextTokensSource: resolved`). 64K rollback artifacts retained. Stopped at
+the 13D gate for owner go on 13E.
+
+## Objective
+
+13C: owner chooses 128K or 256K from the 13A/13B evidence. 13D: promote only
+the selected target — llama-server ctx 262144 AND OpenClaw contextWindow
+262144; identify every OpenClaw setting that could silently retain the former
+64K ceiling; verify the resolved runtime value through the real agent path
+(not config text alone); preserve rollback to the qualified 64K production
+state.
+
+## Changes
+
+- `SERVICE-ROADMAP.md` — §13 Status updated; 13C decision block added
+  (owner 2026-09-07 14:23: select 256K; rationale: safe allocation 4/4
+  windows, short-context unchanged, >128K retrieval proven, peak 12.73 GiB;
+  128K would not remove the prefill cost, only cap usable context).
+- `tools/service_step13d.sh` — new retained 13D driver: preflight →
+  plist KIMI_CTX 65536→262144 (repo + installed) → launchd relaunch →
+  gate (healthy, resolved n_ctx 262144, short probe OK) → openclaw.json
+  contextWindow 65536→262144 (kimi-local AND llama-server provider entries
+  for kimi-linear-48b; maxTokens untouched) → gateway hot-reload wait →
+  real-path resolution turn → final verify + evidence. EXIT trap restores
+  64K automatically if any gate fails (never leaves production half-aligned).
+- `tools/com.openclaw.kimi-llama-server.plist` — KIMI_CTX 65536 → 262144
+  (repo copy; installed copy updated by driver).
+- `~/.openclaw/openclaw.json` — production config, outside repo:
+  contextWindow 262144 on both kimi-linear-48b provider entries; backup
+  `~/.openclaw/openclaw.json.bak-step13d-20260907` (sha before
+  `efe1f7a2…`, after `1d5c5afc…`). Gateway hot-reloaded
+  (`[reload] config hot reload applied (models.providers.kimi-local.models,
+  models.providers.llama-server.models)`) — no gateway restart needed.
+- `benchmarks/results/service-step-13/13d-256k/` — driver.log, results.json,
+  probe-a.json, startup.mem.txt, realpath/ (resolve-262144.* incl. final
+  doc record), rollback-64k/ (plists + README with exact rollback commands).
+
+## Results
+
+| item | value |
+|---|---|
+| configured ctx (llama) | 262144 — launchd job `com.openclaw.kimi-llama-server` pid 7012 (14:36:18 START, ctx=262144 cache=8192) |
+| resolved n_ctx | 262144 (server /props) |
+| OpenClaw contextWindow | 262144 (kimi-local + llama-server → kimi-linear-48b) |
+| gateway hot reload | applied 14:36:29 (models.*.kimi-linear-48b), gateway healthz 200 |
+| short probe | OK, wall 1.57 s |
+| real-path resolution | headless agent turn (`openclaw agent --agent kimi --model llama-server/kimi-linear-48b`): **contextTokens 262144, contextTokensSource "resolved"**, promptTokens 12,726, doc ok, rc 0, server prefill 64.65 tok/s @12.7K |
+| 11B sha | 8baf474684 (unchanged) |
+| FK violations | 0 |
+| telemetry | e3e-promotion CSVs unchanged by this step (repo policy: not committed) |
+
+## Problems
+
+None. Driver ran clean on the first pass (contrast 13A/13B's aborted
+attempts). startup.mem.txt captures the launchd log, which is less verbose
+than the -lv 4 test-server logs, so KV-allocation lines from this boot are
+not in the highlight file — KV 2016 MiB @ 262144 was already measured in 13B
+(4/4 windows) and is unchanged by this promotion (same binary/model/ctx).
+
+## Decisions
+
+- 13C: **256K** selected by owner. Deep-context prefill cost (~26.9 tok/s at
+  146K) accepted as the operating cost of the chosen ceiling; not an
+  optimization target in this phase.
+- 13D changes are production-promotion, not swap-window: the launchd plist
+  itself now runs ctx 262144 permanently, and OpenClaw's provider config
+  declares 262144, so client admission/compaction resolves against the real
+  server window. Rollback to the qualified 64K state is a retained
+  procedure, not the routine restore path (13A/B drivers' restore step would
+  now restore the 262144 plist — future test windows must re-swap explicitly).
+- Verification is through the real agent path (contextTokens 262144 resolved
+  in an actual agent turn), per §13D "Do not rely only on configuration
+  text."
+
+## Next Phase
+
+13E — real OpenClaw agent qualification at 256K (short control, eng/tool
+turn, Poliscopic turn, >64K agent turn, and per 13E item 5 a >131072-token
+real-agent prompt). Requires owner go at the 13D gate.
+
+## Reproduction
+
+```bash
+# 13D promotion driver (idempotent; restores 64K on any gate failure)
+bash tools/service_step13d.sh
+# evidence: benchmarks/results/service-step-13/13d-256k/{results.json,
+#   driver.log, probe-a.json, startup.mem.txt, realpath/, rollback-64k/}
+# 64K rollback: procedure + artifacts in
+#   benchmarks/results/service-step-13/13d-256k/rollback-64k/README.md
+#   (openclaw.json backup: ~/.openclaw/openclaw.json.bak-step13d-20260907)
