@@ -14,10 +14,12 @@
     <dict>
         <key>KIMI_BIN</key>
         <string>/Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server</string>
-        <key>KIMI_CACHE_MB</key>
-        <string>4096</string>
+        <key>KIMI_EXPERT_CACHE_MB</key>
+        <string>8192</string>
+        <key>KIMI_EXPERT_READ_WORKERS</key>
+        <string>4</string>
         <key>KIMI_CTX</key>
-        <string>32768</string>
+        <string>65536</string>
         <key>KIMI_HOST</key>
         <string>127.0.0.1</string>
         <key>KIMI_PORT</key>

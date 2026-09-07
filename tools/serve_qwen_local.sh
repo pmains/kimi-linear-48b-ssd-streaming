@@ -41,6 +41,10 @@ start() {
         return 0
     fi
     echo "starting llama-server on $HOST:$PORT (ctx $CTX, ngl $NGL, slot-cache $SLOT_SAVE_PATH)"
+    # Mutual exclusion: qwen3 and kimi share the 24 GB unified-memory budget.
+    # Running both simultaneously caused 18+ GB of swap thrash (see
+    # goldenrod-progress/2026-08-25-diagnosis-hardening.md). One or the other.
+    "$(dirname "$0")/serve_kimi_local.sh" stop >/dev/null 2>&1 || true
     mkdir -p "$SLOT_SAVE_PATH"
     nohup "$BIN" -m "$MODEL" -ngl "$NGL" --ctx-size "$CTX" \
         --host "$HOST" --port "$PORT" --parallel 1 \

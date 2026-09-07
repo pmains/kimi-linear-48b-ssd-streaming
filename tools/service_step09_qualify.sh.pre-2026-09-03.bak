@@ -1,0 +1,303 @@
+#!/usr/bin/env bash
+# Step 9 — Response-quality qualification orchestrator (retained driver).
+#
+# Runs the fixed Step 9 probe suite against the LIVE OpenClaw kimi agent
+# (provider kimi-local -> live llama-server on 127.0.0.1:18080), one fresh
+# isolated session per probe, and records everything needed for the
+# service-progress/step-09-response-quality.md report.
+#
+# Freezes the baseline manifest BEFORE the first qualification probe and
+# refuses to run if the manifest already exists for this result dir (the
+# config must not change after qualification begins).
+#
+# Usage: tools/service_step09_qualify.sh [OUTDIR]
+#   OUTDIR default: benchmarks/results/service-step-09
+#
+# Env overrides (advanced; do not use during a qualification run):
+#   STEP09_AGENT   agent under test (default kimi)
+#   STEP09_SKIP    space-separated probes to skip (default: none)
+set -u
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+OUT="${1:-$ROOT/benchmarks/results/service-step-09}"
+AGENT="${STEP09_AGENT:-kimi}"
+TURN="$ROOT/tools/service_step09_turn.py"
+SRVLOG=/tmp/kimi-llama-server.launchd.log
+PIDFILE=/tmp/kimi-llama-server.pid
+MANIFEST="$OUT/manifest.json"
+PROBES="P1 P1b P2 P3 P4 P5 P6 P7"
+
+mkdir -p "$OUT"
+
+now() { date +%s.%N; }
+
+cov() { # cov <tag>
+    local tag="$1"
+    {
+        echo "=== $tag $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+        echo "--- loadavg ---"; sysctl -n vm.loadavg
+        echo "--- memory_pressure ---"; memory_pressure -Q 2>/dev/null | head -3
+        echo "--- vm_stat (free/inactive/compressed) ---"; vm_stat | grep -E "Pages free|Pages inactive|Pages occupied by compressor"
+        echo "--- server pid ---"; cat "$PIDFILE" 2>/dev/null || echo none
+        echo "--- server rss KB ---"; ps -o rss= -p "$(cat "$PIDFILE" 2>/dev/null)" 2>/dev/null | tr -d ' ' || echo none
+    } > "$OUT/cov-$tag.txt"
+}
+
+freeze_manifest() {
+    # capture frozen baseline; fails if manifest already exists UNLESS resume mode
+    if [ -f "$MANIFEST" ]; then
+        if [ "${STEP09_RESUME:-0}" = "1" ]; then
+            echo "resume: manifest exists ($MANIFEST); skipping re-freeze"
+            return 0
+        fi
+        echo "ERROR: manifest already exists ($MANIFEST) — refusing to re-freeze mid-qualification (set STEP09_RESUME=1 to resume)" >&2
+        exit 3
+    fi
+    python3 - "$OUT" "$AGENT" <<'PY'
+import hashlib, json, os, subprocess, sys
+out, agent = sys.argv[1], sys.argv[2]
+def sh(c):
+    try:
+        return subprocess.run(c, shell=True, capture_output=True, text=True, timeout=15).stdout.strip()
+    except Exception:
+        return "<error>"
+prompts = {}
+pexp = os.path.join(out, "prompts")
+for fn in sorted(os.listdir(pexp)):
+    p = os.path.join(pexp, fn)
+    prompts[fn] = hashlib.sha256(open(p, "rb").read()).hexdigest()
+model = "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+man = {
+    "step": "SERVICE-ROADMAP Step 9 — Qualify Response Quality",
+    "captured_at_utc": sh("date -u +%Y-%m-%dT%H:%M:%SZ"),
+    "agent_under_test": agent,
+    "model_pin": "llama-server/kimi-linear-48b",
+    "qualification_invocation": "openclaw agent --agent kimi --model llama-server/kimi-linear-48b --session-key agent:kimi:step09-<label> --message-file <prompt> --json --timeout 1200 (no --deliver); driver tools/service_step09_turn.py",
+    "model_gguf": model,
+    "model_bytes": os.path.getsize(model) if os.path.exists(model) else "missing",
+    "runtime_live_commit": sh("cat /Users/pmains/Code/openclaw/kimi/runtime/live/COMMIT | head -1"),
+    "openclaw_version": sh("openclaw --version 2>/dev/null | head -1"),
+    "live_env": {
+        "KIMI_STREAM_EXPERTS": "naive",
+        "KIMI_EXPERT_CACHE_MB": "8192",
+        "KIMI_EXPERT_READ_WORKERS": "4",
+        "KIMI_EXPERT_CACHE_MODE": "zerocopy",
+        "KIMI_STREAM_METAL_STAGE": "1",
+        "KIMI_STREAM_E2_DIRECT_PLACE": "1",
+        "KIMI_CTX": "65536",
+        "ngl": "999",
+        "port": "18080",
+        "source": "tools/serve_kimi_local.launchd.sh (authoritative live lifecycle)",
+    },
+    "server_health": sh("curl -s -m 3 http://127.0.0.1:18080/health"),
+    "probe_prompt_sha256": prompts,
+    "session_key_prefix": "agent:%s:step09-" % agent,
+    "fresh_session_per_probe": True,
+    "smoke_turn": "NON-QUALIFICATION (harness/routing diagnostics only; excluded from results)",
+    "validation_turn": "NON-QUALIFICATION (single authorized 'Respond only OK' validation, 2026-09-02)",
+    "acceptance": "per SERVICE-ROADMAP.md Step 9 + owner clarifications 2026-09-02",
+}
+with open(os.path.join(out, "manifest.json"), "w") as f:
+    json.dump(man, f, indent=2)
+print("manifest frozen ->", os.path.join(out, "manifest.json"))
+PY
+}
+
+snapshot_lines() { # <file> -> count
+    if [ -f "$1" ]; then wc -l < "$1" | tr -d ' '; else echo 0; fi
+}
+
+run_probe() { # run_probe <label>
+    local label="$1"
+    local dir="$OUT/$label"
+    local prompt="$OUT/prompts/$label.md"
+    local key="agent:$AGENT:step09-$label"
+    if [ ! -f "$prompt" ]; then
+        echo "[$label] SKIP (no prompt file $prompt)"; return 0
+    fi
+    if [ -f "$dir/summary.json" ]; then
+        echo "[$label] cached ($dir/summary.json exists)"; return 0
+    fi
+    mkdir -p "$dir"
+    local srv0 srv1
+    srv0=$(snapshot_lines "$SRVLOG")
+    local T0 T1
+    T0=$(now)
+    python3 "$TURN" "$dir" "$label" "$prompt" "$key" --agent "$AGENT" --timeout 1200 \
+        > "$dir/turn.stdout" 2> "$dir/turn.stderr"
+    local rc=$?
+    T1=$(now)
+    srv1=$(snapshot_lines "$SRVLOG")
+    if [ "$srv1" -gt "$srv0" ]; then
+        sed -n "$((srv0+1)),${srv1}p" "$SRVLOG" > "$dir/srvlog.delta"
+    else
+        : > "$dir/srvlog.delta"
+    fi
+    # fallback heuristic: client success with zero new llama-server activity
+    local client_rc fallback
+    client_rc=$(python3 -c "import json;print(json.load(open('$dir/$label.client.json'))['rc'])" 2>/dev/null || echo "$rc")
+    if [ "$client_rc" = "0" ] && [ "$(wc -l < "$dir/srvlog.delta" | tr -d ' ')" = "0" ]; then
+        fallback=true
+    else
+        fallback=false
+    fi
+    echo "[$label] rc=$client_rc wall=$(python3 -c "import json;print(json.load(open('$dir/$label.client.json'))['wall_s'])" 2>/dev/null || echo ?)s fallback=$fallback srvlog_delta=$(wc -l < "$dir/srvlog.delta" | tr -d ' ') lines"
+    python3 - "$dir" "$label" "$fallback" <<'PY'
+import json, os, sys
+d, label, fb = sys.argv[1], sys.argv[2], sys.argv[3]
+c = json.load(open(os.path.join(d, label + ".client.json")))
+rep = ""
+rp = os.path.join(d, label + ".reply.txt")
+if os.path.exists(rp):
+    rep = open(rp).read()
+s = {
+    "label": label,
+    "fallback_suspected": fb == "true",
+    "client": c,
+    "reply": rep,
+    "non_qualification": label == "smoke",
+}
+json.dump(s, open(os.path.join(d, "summary.json"), "w"), indent=2)
+PY
+}
+
+echo "=== Step 9 qualification $(date -u +%Y-%m-%dT%H:%M:%SZ) agent=$AGENT out=$OUT ==="
+freeze_manifest
+cov before
+
+SKIP="${STEP09_SKIP:-}"
+for p in $PROBES; do
+    case " $SKIP " in
+        *" $p "*) echo "[$p] skipped (STEP09_SKIP)"; continue ;;
+    esac
+    run_probe "$p"
+done
+
+cov after
+
+echo "=== Step 9 scoring $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+python3 - "$OUT" <<'PY'
+# Step 9 fixed scorer — runs against expected/<label>.json and <label>/summary.json.
+# Scoring rules are fixed here BEFORE the first qualification probe (owner
+# directive 2026-09-02: do not modify scoring after probes begin).
+import csv, json, os, re, subprocess, sys
+
+OUT = sys.argv[1]
+
+LABELS = ["P1", "P1b", "P2", "P3", "P4", "P5", "P6", "P7"]
+
+def today_utc():
+    return subprocess.run(["date", "-u", "+%Y-%m-%d"], capture_output=True, text=True).stdout.strip()
+
+def get_number(s):
+    m = re.search(r"-?\d+(?:\.\d+)?", s or "")
+    return float(m.group()) if m else None
+
+def score(label):
+    exp = json.load(open(os.path.join(OUT, "expected", label + ".json")))
+    try:
+        summ = json.load(open(os.path.join(OUT, label, "summary.json")))
+    except FileNotFoundError:
+        return None
+    reply = (summ.get("reply") or "").strip()
+    client = summ.get("client", {})
+    rc = client.get("rc")
+    fallback = summ.get("fallback_suspected", False)
+    m = exp["match"]
+
+    row = {
+        "probe": label,
+        "category": exp.get("category", ""),
+        "rc": rc,
+        "fallback_suspected": fallback,
+        "instruction_followed": "",
+        "format_followed": "",
+        "result_correct": "",
+        "task_completed": "",
+        "final_answer_emitted": "",
+        "notes": "",
+    }
+    if fallback or rc != 0:
+        row["instruction_followed"] = "INVALID"
+        row["result_correct"] = "INVALID"
+        row["task_completed"] = "INVALID"
+        row["notes"] = ("cloud fallback / Kimi not measured" if fallback else "client rc=%s" % rc)
+        return row
+
+    if m == "exact":
+        ok = reply == exp["value"]
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "PASS" if ok else "FAIL"
+        row["result_correct"] = "PASS" if ok else "FAIL"
+    elif m == "single_word_not":
+        toks = reply.split()
+        word = (toks[0].strip(". ,;:!?\"'()") if toks else "")
+        ok = len(toks) == 1 and word.lower() != exp["forbidden"].lower()
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "PASS" if len(toks) == 1 else "FAIL"
+        row["result_correct"] = "PASS" if ok else "FAIL"
+    elif m == "json_eq":
+        try:
+            parsed = json.loads(reply)
+            ok = parsed == exp["value"]
+        except (ValueError, TypeError):
+            ok = False
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "PASS" if ok else "FAIL"
+        row["result_correct"] = "PASS" if ok else "FAIL"
+    elif m == "number_eq":
+        n = get_number(reply)
+        ok = n is not None and abs(n - exp["value"]) < 1e-9
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "PASS" if ok and re.fullmatch(r"-?\d+(?:\.\d+)?", reply) else ("FAIL" if reply else "N/A")
+        row["result_correct"] = "PASS" if ok else "FAIL"
+    elif m == "count_eq":
+        n = get_number(reply)
+        ok = n is not None and abs(n - exp["expected_count"]) < 1e-9
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "PASS" if ok and re.fullmatch(r"-?\d+", reply) else ("FAIL" if reply else "N/A")
+        row["result_correct"] = "PASS" if ok else "FAIL"
+    elif m == "file_roundtrip":
+        fp = os.path.join(OUT, exp["path"])
+        content_ok = False
+        if os.path.exists(fp):
+            data = open(fp, "rb").read().decode("utf-8", "replace")
+            content_ok = data.rstrip("\n") == exp["content"] or data == exp["content"]
+        in_reply = exp["content"] in reply
+        ok = content_ok and in_reply
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "N/A"
+        row["result_correct"] = "PASS" if ok else "FAIL"
+        row["notes"] = "file_content_ok=%s reply_contains=%s" % (content_ok, in_reply)
+    elif m == "ends_complete_with_date":
+        lines = [ln for ln in reply.splitlines() if ln.strip()]
+        ends = bool(lines) and lines[-1].strip() == "COMPLETE"
+        has_date = today_utc() in reply
+        ok = ends and has_date
+        row["instruction_followed"] = "PASS" if ok else "FAIL"
+        row["format_followed"] = "PASS" if ends else "FAIL"
+        row["result_correct"] = "PASS" if ok else "FAIL"
+        row["notes"] = "ends_COMPLETE=%s has_utc_date=%s" % (ends, has_date)
+    else:
+        row["notes"] = "unknown matcher %s" % m
+
+    row["task_completed"] = row["result_correct"]
+    row["final_answer_emitted"] = "YES" if reply else "NO"
+    return row
+
+rows = [score(l) for l in LABELS]
+rows = [r for r in rows if r is not None]
+with open(os.path.join(OUT, "rubric.csv"), "w", newline="") as f:
+    w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["probe"])
+    w.writeheader()
+    for r in rows:
+        w.writerow(r)
+
+print("%-4s %-6s %-8s %-8s %-8s %-8s %s" % ("probe", "rc", "instr", "format", "result", "task", "notes"))
+for r in rows:
+    print("%-4s %-6s %-8s %-8s %-8s %-8s %s" % (
+        r["probe"], r["rc"], r["instruction_followed"], r["format_followed"],
+        r["result_correct"], r["task_completed"], r["notes"]))
+print("rubric -> %s" % os.path.join(OUT, "rubric.csv"))
+PY
+
+echo "=== Step 9 done: $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
