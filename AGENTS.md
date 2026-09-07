@@ -27,8 +27,7 @@ This project is explicitly inspired by:
 
 https://github.com/FareedKhan-dev/kimi-k3-in-c
 
-Study that implementation before designing or modifying the streaming
-architecture.
+Study that implementation when designing or modifying the streaming architecture.
 
 The relevant design pattern is:
 
@@ -199,6 +198,45 @@ Do not:
 
 ---
 
+## Project State and Resumption
+
+The repository is the authoritative source of project state.
+
+When resuming work, use this order:
+
+1. the user's current instruction;
+2. `ROADMAP.md`;
+3. the latest relevant `progress/` report;
+4. retained drivers, tools, benchmark artifacts, and test outputs;
+5. current git state and source code.
+
+Do not use Memory Search, Session Search, Session History, Slack history,
+shell history, or broad repository archaeology to reconstruct project
+state unless the authoritative repository state is insufficient and the
+missing information is required for the current task.
+
+Do not reconstruct prior experiments from conversational history when a
+retained report, driver, artifact, or test result exists.
+
+When the user gives a specific next experiment, begin from that
+experiment's retained report, driver, and relevant source files. Do not
+reconstruct the history of the project before acting.
+
+Temporary files under `/tmp` are not authoritative project state.
+
+If a tool, driver, configuration, or other state required to reproduce
+or continue an experiment was not retained in the repository, stop and
+report the missing state rather than searching historical conversations,
+sessions, or shell history to reconstruct it.
+
+Before running a new significant experiment, retain its exact executable
+driver or reproduction command in the repository.
+
+Prefer forward execution from reproducible state over historical
+reconstruction.
+
+---
+
 ## Before Coding
 
 For the current phase:
@@ -322,20 +360,22 @@ assuming the original roadmap expectations proved correct.
 
 ---
 
-## STOP Point
+## STOP Points
 
-After the roadmap's Memory Ladder phase, STOP.
+`ROADMAP.md` and the user's current instruction define the active phase
+and authorized work.
 
-Produce the required streaming results and Phase 8 report.
+Stop for review whenever:
 
-Do not proceed automatically into:
+* the current experiment or phase explicitly requires review;
+* an acceptance criterion fails without an authorized alternate path;
+* observed evidence contradicts an assumption required by the experiment;
+* continuing would require changing model mathematics, quantization,
+  compute kernels, or another frozen baseline not authorized by the
+  current phase;
+* required reproducible project state is missing;
+* the next action would begin a new roadmap phase or optimization not
+  explicitly authorized.
 
-- advanced streaming optimization;
-- MXFP4;
-- custom Metal kernels;
-- specialized native operations;
-- direct I/O;
-- a new inference runtime.
-
-Further work must be selected from the measured results of the initial
-streaming experiment.
+Do not interpret prior historical STOP points as prohibiting work that a
+later ROADMAP revision or explicit user instruction has authorized.

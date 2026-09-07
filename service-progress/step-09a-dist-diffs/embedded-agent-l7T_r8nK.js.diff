@@ -1,0 +1,18 @@
+--- embedded-agent-l7T_r8nK.js.bak
++++ embedded-agent-l7T_r8nK.js
+@@ -1,3 +1,4 @@
++import { a as stripInlineDirectiveTagsForDisplay } from "./directive-tags-D4YR8I_B.js";
+ import { r as truncateUtf16Safe } from "./utf16-slice-D_ngcYKd.js";
+ import { l as normalizeOptionalString } from "./string-coerce-CIXf7egm.js";
+ import { i as toErrorObject } from "./error-coercion-CKFmnpjH.js";
+@@ -5695,8 +5696,8 @@
+ 		...costUsd !== void 0 ? { costUsd } : {}
+ 	};
+ 	const attemptFinalText = attempt.assistantTexts.toReversed().map((text) => text.trim()).find((text) => text.length > 0);
+-	const finalAssistantVisibleText = terminalAssistantCanOwnFinalText ? resolveFinalAssistantVisibleText(terminalAssistant) ?? attemptFinalText : void 0;
+-	const finalAssistantRawText = terminalAssistantCanOwnFinalText ? resolveFinalAssistantRawText(terminalAssistant) ?? attemptFinalText : void 0;
++	const finalAssistantVisibleText = terminalAssistantCanOwnFinalText ? stripInlineDirectiveTagsForDisplay(resolveFinalAssistantVisibleText(terminalAssistant) ?? attemptFinalText).text : void 0;
++	const finalAssistantRawText = terminalAssistantCanOwnFinalText ? stripInlineDirectiveTagsForDisplay(resolveFinalAssistantRawText(terminalAssistant) ?? attemptFinalText).text : void 0;
+ 	const terminalTurnId = attempt.terminalTurnId;
+ 	const successfulToolNames = [...new Set(attempt.toolMetas.filter((entry) => entry.isError === false).map((entry) => entry.toolName.trim()).filter(Boolean))];
+ 	const missingNestedToolNames = [...new Set((attempt.successfulNestedToolNames ?? []).map((name) => name.trim()).filter(Boolean))].filter((name) => !successfulToolNames.includes(name)).toSorted();

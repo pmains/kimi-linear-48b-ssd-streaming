@@ -1,0 +1,26 @@
+--- /tmp/9d-builtin-pre.bak	2026-09-04 11:23:39
++++ /opt/homebrew/lib/node_modules/openclaw/dist/builtin-openclaw-nX1NfpmQ.js	2026-09-04 11:33:26
+@@ -17677,6 +17677,7 @@
+ 		preparedWatchedSessions: params.preparedWatchedSessions,
+ 		projectMemoryBootstrap: params.projectMemoryBootstrap,
+ 		activeProjectKeys: params.activeProjectKeys,
++		hasDeliverySurface: params.hasDeliverySurface,
+ 		promptContribution: params.promptContribution
+ 	});
+ }
+@@ -18893,6 +18894,7 @@
+ 	}
+ 	const machineName = await getMachineDisplayName();
+ 	const runtimeChannel = normalizeMessageChannel(attempt.messageChannel ?? attempt.messageProvider);
++	const hasDeliverySurface = runtimeChannel != null && runtimeChannel !== "webchat" || attempt.currentMessageId != null || attempt.currentChannelId != null || attempt.currentMessagingTarget != null;
+ 	const runtimeCapabilities = collectRuntimeChannelCapabilities({
+ 		cfg: attempt.config,
+ 		channel: runtimeChannel,
+@@ -19063,6 +19065,7 @@
+ 			promptMode: effectivePromptMode,
+ 			sourceReplyDeliveryMode: attempt.sourceReplyDeliveryMode,
+ 			silentReplyPromptMode: attempt.silentReplyPromptMode,
++			hasDeliverySurface,
+ 			proactiveSubagentOrchestration: params.proactiveSubagentOrchestration,
+ 			acpEnabled: isAcpRuntimeSpawnAvailable({
+ 				config: attempt.config,

@@ -1,0 +1,56 @@
+--- directive-tags-D4YR8I_B.js.bak
++++ directive-tags-D4YR8I_B.js
+@@ -4,8 +4,8 @@
+ import { n as isInsideCode, t as findCodeRegions } from "./code-regions-C2SF8Hgg.js";
+ //#region src/utils/directive-tags.ts
+ const AUDIO_TAG_RE = /\[\[\s*audio_as_voice\s*\]\]/gi;
+-const REPLY_TAG_RE = /\[\[\s*(?:reply_to_current|reply_to\s*:\s*([^\]\n]+))\s*\]\]/gi;
+-const INLINE_DIRECTIVE_TAG_WITH_PADDING_RE = /\s*(?:\[\[\s*audio_as_voice\s*\]\]|\[\[\s*(?:reply_to_current|reply_to\s*:\s*[^\]\n]+)\s*\]\])\s*/gi;
++const REPLY_TAG_RE = /\[\[\s*(?:reply_to_current|reply_to\s*:\s*([^\]\n]*))\s*\]\]/gi;
++const INLINE_DIRECTIVE_TAG_WITH_PADDING_RE = /\s*(?:\[\[\s*audio_as_voice\s*\]\]|\[\[\s*(?:reply_to_current|reply_to\s*:\s*[^\]\n]*)\s*\]\])\s*/gi;
+ const MAX_REPLY_DIRECTIVE_ID_LENGTH = 256;
+ const NO_INLINE_DIRECTIVES = {
+ 	audioAsVoice: false,
+@@ -50,15 +50,19 @@
+ 	});
+ 	return masked.replace(/\r\n/g, "\n").replace(/([^\s])[ \t]{2,}([^\s])/g, "$1 $2").replace(/^\n+/, "").replace(/^[ \t](?=\S)/, "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trimEnd().replace(blockPlaceholderRe, (_, i) => expectDefined(blocks[Number(i)], "blocks entry at number(i)"));
+ }
++function collapseLeadingReplySeparator(sourceText, strippedText) {
++	return /^\s*\[\[\s*(?:reply_to_current|reply_to\s*:|audio_as_voice)/i.test(sourceText) ? strippedText.replace(/^\s*[:：]\s*/, "") : strippedText;
++}
+ function stripInlineDirectiveTagsForDisplay(text) {
+ 	if (!text) return {
+ 		text,
+ 		changed: false
+ 	};
+ 	const stripped = replaceOutsideCodeRegions(replaceOutsideCodeRegions(text, AUDIO_TAG_RE, () => ""), REPLY_TAG_RE, () => "");
++	const collapsed = collapseLeadingReplySeparator(text, stripped);
+ 	return {
+-		text: stripped,
+-		changed: stripped !== text
++		text: collapsed,
++		changed: collapsed !== text
+ 	};
+ }
+ function stripUnsafeReplyDirectiveChars(value) {
+@@ -86,9 +90,10 @@
+ 	};
+ 	const stripped = replaceOutsideCodeRegions(text, INLINE_DIRECTIVE_TAG_WITH_PADDING_RE, () => " ");
+ 	const changed = stripped !== text;
++	const collapsed = changed ? collapseLeadingReplySeparator(text, stripped.trim()) : text;
+ 	return {
+-		text: changed ? stripped.trim() : text,
+-		changed
++		text: collapsed,
++		changed: collapsed !== text
+ 	};
+ }
+ function parseInlineDirectives(text, options = {}) {
+@@ -127,6 +132,7 @@
+ 		...NO_INLINE_DIRECTIVES
+ 	};
+ 	cleaned = normalizeDirectiveWhitespace(cleaned);
++	if (hasReplyTag) cleaned = collapseLeadingReplySeparator(text, cleaned);
+ 	const replyToId = lastExplicitId ?? (sawCurrent ? normalizeOptionalString(currentMessageId) : void 0);
+ 	return {
+ 		text: cleaned,

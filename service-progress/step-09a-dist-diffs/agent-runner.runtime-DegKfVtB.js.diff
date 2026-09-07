@@ -1,0 +1,21 @@
+--- agent-runner.runtime-DegKfVtB.js.bak
++++ agent-runner.runtime-DegKfVtB.js
+@@ -7331,7 +7331,8 @@
+ 		return result;
+ 	};
+ 	await typingSignals.signalRunStart();
+-	const memoryFlushResult = await traceAgentPhase("reply.memory_flush", () => runMemoryFlushIfNeeded({
++	const hasDeliveryOrChannelTarget = opts?.deliver === true || normalizeOptionalString(opts?.runContext?.messageChannel ?? opts?.messageChannel ?? opts?.channel) != null;
++	const memoryFlushResult = hasDeliveryOrChannelTarget ? await traceAgentPhase("reply.memory_flush", () => runMemoryFlushIfNeeded({
+ 		cfg,
+ 		followupRun,
+ 		promptForEstimate: followupRun.prompt,
+@@ -7349,7 +7350,7 @@
+ 		onVisibleErrorPayloads: (payloads) => {
+ 			logVerbose(`memory flush produced ${payloads.length} visible maintenance error payload(s); continuing user reply`);
+ 		}
+-	}));
++	})) : { sessionEntry: activeSessionEntry, outcome: "skipped" };
+ 	activeSessionEntry = memoryFlushResult.sessionEntry;
+ 	setActiveSessionEntry(activeSessionEntry);
+ 	if (replyOperation.result?.kind === "aborted") throw replyOperation.abortSignal.reason ?? /* @__PURE__ */ new Error("reply operation aborted");

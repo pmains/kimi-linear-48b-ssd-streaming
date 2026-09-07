@@ -1,0 +1,13 @@
+--- agent-runner-memory-CHicSjNz.js.bak
++++ agent-runner-memory-CHicSjNz.js
+@@ -957,7 +957,9 @@
+ 				const { embeddedContext, senderContext, runBaseParams } = buildEmbeddedRunExecutionParams({
+ 					run: {
+ 						...params.followupRun.run,
+-						thinkLevel: candidateThinkLevel
++						thinkLevel: candidateThinkLevel,
++						timeoutMs: Math.min(params.followupRun.run.timeoutMs ?? 120000, 120000),
++						runTimeoutOverrideMs: Math.min(params.followupRun.run.runTimeoutOverrideMs ?? 120000, 120000)
+ 					},
+ 					replyRoute: params.followupRun,
+ 					sessionCtx: params.sessionCtx,

@@ -1,0 +1,12 @@
+--- agent-command-BHLpevuF.js.bak
++++ agent-command-BHLpevuF.js
+@@ -2257,7 +2257,8 @@
+ 				runOwnedSessionId
+ 			});
+ 		}
+-		if ((transcriptPersistenceRunner === "embedded" || persistedCliTurnTranscript) && sessionEntry && sessionStore && sessionKey && !params.suppressVisibleSessionEffects) {
++		const hasDeliveryOrChannelTarget = params.opts.deliver === true || normalizeOptionalString(params.opts.runContext?.messageChannel ?? params.opts.messageChannel ?? params.opts.channel) != null;
++		if ((transcriptPersistenceRunner === "embedded" || persistedCliTurnTranscript) && sessionEntry && sessionStore && sessionKey && !params.suppressVisibleSessionEffects && hasDeliveryOrChannelTarget) {
+ 			const flushProvider = result.meta.agentMeta?.provider ?? fallbackProvider;
+ 			const flushModel = result.meta.agentMeta?.model ?? fallbackModel;
+ 			const followupRun = {

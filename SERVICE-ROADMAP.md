@@ -908,6 +908,1279 @@ only on explicit instruction. Full detail and per-rung evidence:
 `service-progress/step-08-context-capacity-ladder.md`; machine-readable
 results committed under `benchmarks/results/no-pe-ladder/`.
 
+## 9. Qualify Response Quality
+
+### Goal
+
+Determine whether the current Kimi Linear runtime produces responses of sufficient quality for productive use as a real OpenClaw agent.
+
+The runtime is already quality-qualified at the model level through perplexity testing. This step asks a different question:
+
+> Does Kimi behave correctly and reliably when operating through the actual OpenClaw agent path?
+
+Do not optimize inference performance, change the model, modify prompts, redesign the tool surface, or tune context behavior during this step.
+
+First measure the current behavior.
+
+### Baseline
+
+Freeze and record the exact production configuration before testing, including:
+
+* model and GGUF;
+* llama.cpp/runtime commit;
+* OpenClaw commit;
+* expert-cache size;
+* expert-read worker count;
+* Metal/CPU configuration;
+* context size;
+* agent bootstrap fingerprint;
+* effective tool catalog;
+* relevant runtime environment variables.
+
+The currently expected runtime is the promoted MXFP4 Metal configuration with:
+
+* corrected streamed Metal execution;
+* direct expert placement;
+* 4 expert-read workers;
+* 8 GiB expert cache;
+* approximately 9–11 decode tok/s;
+* 128K previously validated as a technical context milestone.
+
+The captured configuration is authoritative.
+
+### Work
+
+Build a small, fixed agent-quality suite representing the work this agent is actually expected to perform.
+
+At minimum include:
+
+1. **Literal instruction following**
+
+   Example:
+
+   ```
+   Respond only PLATANOS!
+   ```
+
+   The expected result is exact and unambiguous.
+
+2. **Constrained output**
+
+   Require a short response in an exact requested format.
+
+3. **Simple reasoning**
+
+   Use tasks with independently verifiable answers.
+
+4. **Repository comprehension**
+
+   Ask a narrow factual question answerable from explicitly identified project files.
+
+5. **Bounded tool use**
+
+   Require one appropriate tool operation and a concise answer based on the result.
+
+6. **Multi-step engineering work**
+
+   Give the agent a small realistic task requiring several operations while explicitly limiting its scope.
+
+7. **Final-answer behavior**
+
+   Verify that completed tool work reliably produces a final user-facing answer rather than ending in status/progress activity.
+
+Retain the exact prompts and expected behavior so the same suite can be reused against future runtime configurations.
+
+### Evaluation
+
+For each task record:
+
+* instruction followed: PASS / FAIL;
+* requested format followed: PASS / FAIL / N/A;
+* factual or task result correct: PASS / FAIL / UNCLEAR;
+* unnecessary clarification: YES / NO;
+* unnecessary tool use: YES / NO;
+* unnecessary repository/session/history archaeology: YES / NO;
+* task completed: PASS / FAIL;
+* final answer emitted: YES / NO;
+* fallback or model substitution: YES / NO;
+* actual final response.
+
+Preserve failed outputs verbatim.
+
+Perplexity does not override behavioral evidence.
+
+For example, a response that asks what `PLATANOS!` means after being instructed to `Respond only PLATANOS!` is a response-quality failure even if the underlying model has acceptable perplexity.
+
+### Diagnostic Control
+
+When a failure is important or systematic, use the minimum control necessary to determine whether the failure originates in:
+
+* the underlying Kimi model/runtime;
+* the OpenClaw bootstrap/system prompt;
+* tool definitions or agent configuration;
+* accumulated session context;
+* another measured component.
+
+A direct llama-server request may be used as a control.
+
+Do not treat the direct request as the primary qualification surface.
+
+Do not fix the problem during Step 9.
+
+### Acceptance
+
+Step 9 passes when the evidence is sufficient to answer:
+
+> Is the current Kimi agent behavior reliable enough for the kinds of OpenClaw work we intend to give it?
+
+Classify the result as:
+
+* `PASS`
+* `CONDITIONAL PASS`
+* `FAIL — RESPONSE QUALITY`
+
+If failures are found, identify their demonstrated scope and likely boundary, but do not begin remediation until the step is complete.
+
+### Report
+
+```
+service-progress/step-09-response-quality.md
+```
+
+Save retained test prompts and machine-readable results under:
+
+```
+benchmarks/results/service-step-09/
+```
+
+### Exit
+
+If response quality is fundamentally inadequate, stop before spending additional engineering effort on latency, context, or throughput unless the owner explicitly decides otherwise.
+
+If response quality is acceptable or conditionally acceptable, proceed to Step 10.
+
+#### 9 status (2026-09-04 — 9B/9C/9D close-out; supersedes the 2026-09-03 entry below)
+
+**Step 9-family determination under owner order (Pete, 2026-09-04): the
+response-quality thread is CONDITIONALLY CLOSED; the amended Step 10 below is
+authorized and current.** 9B (agent-trajectory quality localization,
+2026-09-03) executed the full approved ablation ladder (111 rows: C0..C4 +
+C1a-D/C1a-T/C2a-D/C2a-T x P1/P1b/P3/P2, R1/R2 replays) and attributed the
+retained families: reply-directive instruction lines → directive-tag/empty +
+fenced-JSON tendency (primary); sampler (llama defaults temp 0.8, which the
+agent path actually runs) → P1 `!`-drop and terse variance; tool catalog →
+prose dominance on tool-content probes and partial counteraction of fences.
+9C (narrow 128K validation, 2026-09-04) re-confirmed C1a-D eliminates the
+directive-tag/empty family at 128K with no window-size dependence; P1 `!`-drop
+and prose families persist at 128K. 9D (production fix, 2026-09-04) made the
+two reply-directive instruction lines conditional on an actual delivery
+surface (`hasDeliverySurface`), verified through the real OpenClaw path after a
+gateway restart (PASS on the 9D objective; directive/empty family 0/6 real
+path vs frozen 9A r2 P1 INVALID rc=1 empty from that family; no sampler/tool/
+prose/Step-10 changes). Residual strict-format families through the real path
+(P1 `!`-drop terse `PLATANOS`, P1/P2 prose-wrapped and fenced JSON; P1 0/3,
+P2 1/3 strict PASS at n=3) are carried into the amended Step 10 (below) as its
+authorized focus — determine why the full agent path degrades exact-format
+compliance relative to the reduced C1a-D baseline, keeping sampler effects and
+agent-environment effects experimentally separate. The roadmap's former
+Step 10 (TTFT) is deferred and renumbered Step 10A; the 9D long wall times
+(532 s / 371 s) are preserved as a separate latency issue for Step 10A, not
+analyzed in Step 10. Reports: `service-progress/step-09b-localization-report.md`,
+`service-progress/step-09c-128k-validation-report.md`,
+`service-progress/step-09d-report.md`; evidence:
+`benchmarks/results/service-step-09b-verify/`, `service-step-09c-verify/`,
+`service-step-09d-verify/`; 9D patch retained at
+`service-progress/step-09d-dist-diffs/`. Step 10 plan pre-registered at
+`service-progress/step-10-format-degradation-design.md`.
+
+#### 9 status (2026-09-03 — post-9A frozen-suite rerun; supersedes the 2026-09-02 baseline below)
+
+**FAIL — RESPONSE QUALITY (agent trajectory).** Step 9A remediation completed
+and patch set frozen (2026-09-03): reply-directive/separator leakage fixed,
+post-generation 630 s stall fixed, no cloud fallback on any probe, and the
+restored reply-directive instructions retained (removing them had caused a
+separate response-quality regression). P1's residual exact-output failure was
+localized to the agent trajectory (the model itself generated `PLATANOS` after
+an unnecessary failed `update_goal` tool round; no OpenClaw stage transforms
+`PLATANOS!` → `PLATANOS`) and is classified as Step 9 response-quality evidence,
+not a 9A mechanical defect. The complete frozen Step 9 suite was then rerun
+unchanged through the repaired agent path, one fresh isolated session per probe
+(`agent:kimi:step09-r2-<label>`; manifest re-frozen before probe 1; prompts
+SHA-256 identical to the frozen baseline; frozen scorer untouched). Rerun
+scoring (rubric.csv): P2 exact `{"ok": true}` PASS; P6 PASS; P5 count correct
+(5) but format FAIL (prose); P1b/P3/P4/P7 FAIL (clarifying question / prose
+instead of the required bare exact outputs); P1 INVALID (client rc=1 — empty
+visible reply in that fresh session). Mechanical layer clean on every probe:
+zero leakage, zero fallback, zero stall (all completions within 16–414 s).
+Direct llama-server controls still return the exact expected answers — the
+remaining boundary is the agent trajectory's strict-format compliance, not the
+Kimi model and not the repaired response path. Evidence:
+`benchmarks/results/service-step-09/` (rerun manifest, per-probe verbatim
+outputs, rubric.csv); pre-remediation FAIL baseline archived at
+`benchmarks/results/service-step-09-baseline-2026-09-02/`; 9A evidence at
+`benchmarks/results/service-step-09a-verify/`; reports:
+`service-progress/step-09-response-quality.md` and
+`service-progress/step-09a-agent-response-path.md`. STOPPED for review; Step 10
+not begun.
+
+#### 9 status (2026-09-02, pre-remediation — superseded)
+
+**FAIL — RESPONSE QUALITY (agent path).** Suite run exactly once through the
+actual OpenClaw agent path (agent `kimi`, model pinned to
+`llama-server/kimi-linear-48b`, fresh isolated session per probe; manifest
+frozen before probe 1; P1-P7/P1b). P1 (literal instruction following) and
+P2 (constrained output) FAILED with leaked `[[reply_to_current]]:` /
+`[[reply_to:]]` directive prefixes in the delivered agent text; P3 and P5
+PASSED; P1b/P4/P6/P7 INVALID (agent-path turns exceeded the 1200 s client
+timeout - no scorable completion). No cloud fallback on any probe; every
+probe exercised the live Kimi server. Direct llama-server controls
+(attribution only) return the exact expected answers (`PLATANOS!`,
+`{"ok": true}`) - the demonstrated failure boundary is the OpenClaw agent
+response path (directive-prefix leakage) plus agent-path per-turn latency
+(Step 10 territory), NOT the Kimi model/runtime. No remediation; Step 10
+not begun. Evidence: `benchmarks/results/service-step-09/` (manifest,
+prompts/expected, per-probe verbatim outputs, rubric.csv, validation/);
+report: `service-progress/step-09-response-quality.md`. STOPPED for
+review.
+
+---
+
+### Step 9A — Agent Response-Path Remediation
+
+**Status:** COMPLETE (2026-09-03) — patch set frozen; remediation verified
+(leakage fixed, stall fixed, no cloud fallback, directive instructions
+restored/retained); P2 passes exact output; P1's residual failure classified as
+Step 9 response-quality evidence (localized to the agent trajectory). Frozen
+Step 9 suite rerun through the repaired path completed; Step 9 determination:
+FAIL — RESPONSE QUALITY (agent trajectory). Reports:
+`service-progress/step-09a-agent-response-path.md`,
+`service-progress/step-09-response-quality.md`; evidence:
+`benchmarks/results/service-step-09a-verify/`,
+`benchmarks/results/service-step-09/`.
+
+Step 9 response-quality testing exposed failures in the OpenClaw agent response path rather than the underlying Kimi model. In the literal-instruction control, direct llama-server returned the expected `PLATANOS!`, while the OpenClaw path leaked an internal `[[reply_to_current]]` directive, altered the final output, and exhibited a severe post-generation stall despite model computation completing normally.
+
+**Goal:** Repair and validate the OpenClaw response path before completing Step 9 response-quality qualification.
+
+Scope is limited to the demonstrated agent-path defects:
+
+* prevent internal reply directives or separators from leaking into or altering final responses;
+* eliminate the post-generation stall that can leave completed headless agent runs blocked until gateway timeout;
+* preserve the frozen Kimi model, llama-server behavior, sampler, prompts, context configuration, and Step 9 test suite.
+
+**Acceptance:** P1 must return exactly `PLATANOS!` and P2 exactly `{"ok": true}` through the real OpenClaw agent path, without directive leakage, cloud fallback, or unexplained post-generation delay. Verify repeatedly in fresh sessions, then rerun the frozen Step 9 suite unchanged.
+
+Retain evidence in:
+
+```
+service-progress/step-09a-agent-response-path.md
+benchmarks/results/service-step-09a-verify/
+```
+
+After 9A passes, return to Step 9 and classify response quality against the repaired agent path. Do not begin Step 10 until Step 9 is complete.
+
+---
+
+## 10. Localize Real-Path Exact-Format Degradation (amended 2026-09-04)
+
+**Status: COMPLETE — determination PASS (2026-09-04); STOPPED for review.**
+Report: `service-progress/step-10-format-degradation-report.md`; design:
+`service-progress/step-10-format-degradation-design.md`; evidence:
+`benchmarks/results/service-step-10/{offline,realpath,analysis}/`. All three
+pre-registered legs executed against the live agent endpoint (127.0.0.1:18080,
+64K): offline Legs 1+2 180/180 rows (env ladder C0/C1/C1a-D/E2/E2T at the
+agent's real default sampler + temp sweep 0.0/0.8/1.6 at C0/E2, n=10/cell,
+determinism assertion passed: all temp-0 cells 10/10 byte-identical); real-
+path Leg 3 (3 fresh headless step10 sessions/probe merged with frozen 9D n=3
+-> n=6). Determination: P2 H-S1 sampler-primary (greedy floor exact 10/10 at
+E2; offline E2/E2T at default 8/10/5/10 indistinguishable from real path 4/6,
+Fisher p=0.60/0.63; reduced-baseline 3/3 exact was small-n luck at a favorable
+draw; lever = per-model sampler configuration, recommendation only). P1
+ATTRIBUTED model+prompt at the E2 payload (`!`-drop deterministic at greedy:
+10/10 identical `PLATANOS`, 0/10 exact; real path 0/6 == offline E2/E2T 0/10,
+p=1.0; NOT sampler-fixable). The 9D-gated two lines (C1->E2) remove the
+directive-leak family offline with no exact-rate change — 9D gate semantics
+confirmed. NO production patch made. Real-path liveness note carried to Step
+10A: three client context-overflow failures (walls 581.8/715.3/823.9 s)
+preserved at `realpath/failures/`. Former Step 10 (TTFT) is deferred to Step
+10A below.
+
+Former status (superseded): ACTIVE (2026-09-04). Owner-authorized (Pete) as the current step;
+Step 9D treated as PASS and its patch retained. Scope: the remaining real-path
+response-quality failures — P1 punctuation loss (`PLATANOS` vs `PLATANOS!`)
+and P1/P2 prose/fenced-output behavior. Deliverable is a determination with
+retained evidence; NO production patch is authorized by this step (stop for
+review first). Former Step 10 (TTFT) is deferred to Step 10A below.
+
+### Goal
+
+Determine why the full OpenClaw agent path degrades exact-format compliance
+relative to the reduced baseline (frozen 9B/9C C1a-D offline cell: P1 3 terse
+bare `PLATANOS`, P2 3 exact), with sampler effects and agent-environment
+effects kept experimentally separate.
+
+### Work
+
+Keep the frozen model, prompts, expected outputs, scorer, sampler defaults,
+and the 9D patch unchanged. Run three legs against the same live llama-server
+endpoint the agent uses (127.0.0.1:18080, 64K):
+
+1. Sampler axis (offline): payloads {C0, E2} x {P1, P2} at temperature
+   {0.0 fixed-seed, 0.8 server default, 1.6}, n=10 — quantifies the sampler's
+   variance contribution and the greedy floor at the environment-equivalent
+   payload. Request-scoped `temperature`/`seed` fields only; the production
+   agent path sends no sampler fields, so production behavior is untouched.
+2. Environment axis (offline, at the real path's default temp 0.8, n=10):
+   payload ladder C0 → C1 (full system) → C1a-D (whole directives section
+   removed = the reduced baseline) → E2 (only the two 9D-gated reply-directive
+   lines removed = the true current headless probe prompt) → E2T (E2 + the
+   29-tool catalog). E2 is the previously-unmeasured bridge between the
+   reduced baseline and the real path.
+3. Real-path reference (3 fresh headless sessions per probe, no --deliver,
+   64K pinned, same dist state as 9D), combined with the frozen 9D n=3 → n=6.
+
+Wall times are recorded as covariates only; the 9D long wall times are a
+separate Step 10A (TTFT) issue. See the pre-registered design:
+`service-progress/step-10-format-degradation-design.md`.
+
+### Acceptance
+
+Step 10 is complete when the evidence answers:
+
+1. At the environment-equivalent payload, is the greedy (temp 0) floor exact
+   for P1/P2? (determinism assertion, 10/10 identical)
+2. At the real path's default temp 0.8, how high is exact-format compliance
+   offline at C1a-D, E2, and E2T, with what Wilson CI — and does the real
+   path's n=6 distribution fall inside or outside that interval?
+3. Which layer contributes what: the two gated lines (C1 vs E2), the
+   surviving directive-section lines (E2 vs C1a-D), the tool catalog
+   (E2 vs E2T), or the sampler mode itself (temp ladder)?
+4. Is the real-vs-reduced delta sampling noise at n=3, a sampler-mode effect,
+   or an unmodeled agent-environment layer (trajectory/multi-call)?
+
+Classify the result as:
+
+* `PASS` — delta attributed with CI support;
+* `PARTIAL` — layers ranked but one leg underpowered;
+* `FAIL` — evidence cannot separate the effects.
+
+No production patch. If the evidence identifies a lever (e.g., per-model
+sampler configuration), record it as a recommendation for owner decision.
+
+### Report
+
+```
+service-progress/step-10-format-degradation-report.md
+```
+
+Design/plan retained at:
+
+```
+service-progress/step-10-format-degradation-design.md
+```
+
+Machine-readable artifacts under:
+
+```
+benchmarks/results/service-step-10/
+```
+
+### Exit
+
+Stopped for review with the report. If TTFT is needed next, proceed to
+Step 10A; otherwise continue to Step 11 after owner review.
+
+---
+
+## 10A. Qualify Time to First Token (deferred — formerly Step 10; superseded as the active step by the amended Step 10 above, 2026-09-04)
+
+**Status: COMPLETE — determination PARTIAL (2026-09-04 21:xx MST); STOPPED for
+review.** Report: `service-progress/step-10a-latency-overflow-report.md`;
+design: `service-progress/step-10a-latency-overflow-design.md`; evidence:
+`benchmarks/results/service-step-10a/{64k,128k,analysis}/`. 64K leg (valid
+18/18 instrumented real-path turns, P1/P2 x 9): zero precheck overflows; all
+17 parsed docs report `contextTokens = 32768 (resolved)` while the server runs
+65536 (GGUF n_ctx_train 1M) — overflow family localized to a CLIENT-SIDE
+precheck against the provider-config-resolved context window
+(openclaw.json `llama-server` entry `contextWindow: 32768`), NOT server
+capacity. Why 582–824 s: walls are accumulated multi-round llama cost
+(13–44 tok/s prefill, 5–9 tok/s decode per task; 2–17 tasks/turn), not the
+instant precheck refusal. Compaction evidence: P2-r7 (882 s, 17 tasks)
+aborted via the auto-compaction loop-guard — second long-wall failure family.
+128K empirical comparison NOT EXECUTABLE on this host: three temp-server
+attempts (expert cache 8192/4096/2048 MB) all Metal-OOM'd
+(`kIOGPUCommandBufferCallbackErrorOutOfMemory` / `failed to fit params`);
+9C precedent shows 128K runs when host memory is free — leg driver retained
+for re-run. Recommendation (not applied): align the `llama-server` provider
+`contextWindow` (32768 → 65536) or pin the real path to the `kimi-local`
+65536 entry. No production patch/config/sampler/prompt change. Dominant 64K
+latency phase: llama prefill+decode across multi-round trajectories
+(~12.7K-token prompt re-sent per round); TTFT for trivial probes
+27 s–14 min → latency workstream after review.
+
+### Goal
+
+Determine whether the current Kimi OpenClaw agent can begin responding quickly enough for productive interactive use and identify exactly where first-response latency is spent.
+
+The primary question is:
+
+> What determines user-visible time to first token in the current production agent?
+
+Do not optimize TTFT during this step.
+
+Measure and attribute it first.
+
+### Work
+
+Measure the complete first-response path through the actual OpenClaw agent:
+
+```
+user dispatch
+    ↓
+OpenClaw request construction / admission
+    ↓
+provider dispatch
+    ↓
+llama-server request receipt
+    ↓
+prefix/cache handling
+    ↓
+prompt evaluation
+    ↓
+first decoded token
+    ↓
+first user-visible token
+```
+
+At minimum test:
+
+* genuinely cold/unprefilled state where practical;
+* explicitly prefilled state;
+* warm same-server state with expected prefix reuse;
+* a tiny user request;
+* a representative ordinary agent request.
+
+The existing `/prefill` mechanism and warm-state registry should be used as currently implemented.
+
+Do not redesign them during qualification.
+
+### Measurements
+
+For each run record at minimum:
+
+* final prompt/input token count;
+* cached/reused tokens;
+* newly evaluated prompt tokens;
+* prompt-eval duration;
+* prompt-eval tok/s;
+* OpenClaw dispatch time;
+* llama-server request receipt time;
+* prompt-eval start and completion;
+* first decoded-token time;
+* first user-visible-token time;
+* total TTFT;
+* server PID;
+* bootstrap fingerprint;
+* warm-state status;
+* compaction, retry, fallback, restart, or error events.
+
+Decompose TTFT into measured components rather than reporting only one wall-clock number.
+
+Determine whether the dominant contribution is:
+
+* OpenClaw overhead;
+* uncached bootstrap/prompt evaluation;
+* failed or incomplete prefix reuse;
+* expected suffix evaluation;
+* inference-server initialization;
+* post-prefill/first-token transition;
+* another measured source.
+
+### Existing Evidence
+
+Earlier service work proved that explicit prefill and same-server prefix reuse can dramatically reduce evaluated prompt tokens.
+
+Those historical results establish capability, not current production TTFT.
+
+Step 10 must measure the current promoted runtime and current OpenClaw agent configuration.
+
+### Acceptance
+
+Step 10 is complete when we can answer:
+
+1. What is current user-visible TTFT?
+2. How does it differ between cold, prefilled, and warm conditions?
+3. How many prompt tokens are actually evaluated in each condition?
+4. Where is the dominant latency?
+5. Is the current behavior practical for interactive agent use?
+
+Classify the result as:
+
+* `PASS`
+* `CONDITIONAL PASS`
+* `FAIL — TTFT`
+
+Do not invent a runtime optimization merely because a component is measurable.
+
+If TTFT is unacceptable, route the demonstrated bottleneck to the appropriate workstream after this step is complete.
+
+### Report
+
+```
+service-progress/step-10-ttft.md
+```
+
+Save machine-readable timing artifacts under:
+
+```
+benchmarks/results/service-step-10/
+```
+
+### Exit
+
+If the limiting factor is OpenClaw bootstrap, prefix reuse, prefill, session handling, or service behavior, continue service work with a bounded remediation step.
+
+If the limiting factor is raw inference-runtime prompt processing, route that measured problem to `ROADMAP.md`.
+
+If TTFT is acceptable, proceed to Step 11.
+
+---
+
+## 10B. Validate the 65536-Aligned Provider Context Window (owner order 2026-09-05)
+
+**Status: COMPLETE — PASS (determination) (2026-09-05); STOPPED for review.**
+Config change applied and validated: openclaw.json
+`models.providers.llama-server` model `kimi-linear-48b` `contextWindow`
+32768 → 65536 (qwen entries untouched; backup
+`~/.openclaw/openclaw.json.bak-step10b-20260905`). Gateway restarted via
+detached supervisor `tools/service_step10b_supervise.sh` (new PID 47134,
+08:20:45 MST); llama-server untouched (64K). Retained Step 10A liveness
+workload rerun into a NEW tree (`benchmarks/results/service-step-10b`, fresh
+`step10b` session keys): 18/18 real-path turns, all docs report
+`contextTokens: 65536 (resolved)` (frozen 32K baseline: 32768 ×17) — the
+precheck bound is now server-aligned. Results: precheck `context_overflow`
+0/18 (baseline 0/18; bound moved 32768→65536 and assembled prompts stayed far
+below it, max promptTokens 28,964); rc=0 17/18 (baseline 17/18); rc=1 1/18 —
+P1-r5 1202.5 s client timeout (read-tool loop, 130 llama tasks, NOT a precheck
+refusal) vs baseline P2-r7 882.5 s compaction loop-guard abort (same
+runaway-tool-loop family, different terminator); wall min/median/max
+13.0/22.5/1202.5 s (baseline 26.8/110.1/882.5); prompt tokens at last OK call
+median 12,736 (baseline 12,734); llama tasks mostly 1/turn vs baseline 2+.
+Analyzer fixed for single-leg trees (supervisor auto-analysis had crashed with
+KeyError '128k'; re-run clean). Report:
+`service-progress/step-10b-contextwindow-validation-report.md`. Evidence:
+`benchmarks/results/service-step-10b/{64k,analysis}/` + supervise.log. STOP
+for review before any further change.
+
+## 10C. Localize and Bound the Runaway-Tool-Loop Liveness Family (owner order 2026-09-05)
+
+**Status: COMPLETE — PASS (determination) (2026-09-05); STOPPED for review.**
+No production patch. No context/sampler/prompt/tool change. Anchors: 10A
+P2-r7 (882.5 s compaction-loop-guard abort) and 10B P1-r5 (1202.5 s client
+timeout, 130 llama tasks). Both decoded to the SAME loop: the model emits
+`read` of a nonexistent `/Users…DMAP.md` path (literal U+2026 ellipsis in the
+path, an apparent truncation artifact); every attempt is byte-identical and
+every failure is byte-identical (P1-r5: 117 identical read calls/results of
+129 total calls), so the model receives no discriminating feedback and
+re-emits the identical `(tool, args, result)` triple indefinitely.
+
+Why repeated calls continue: nothing counts identical no-progress triples
+except the post-compaction guard, which arms ONLY after auto-compaction. At
+aligned 64K, prompt context stays ~9–24K (P1-r5 `shouldCompact=false`),
+compaction never fires, the guard never arms, and the loop runs to the client
+timeout. Which guards fire today: only the post-compaction guard
+(default-on); it fired correctly in P2-r7 after auto-compaction. The shipped
+general rolling-history detector (`tools.loopDetection`, warn@10 / CRITICAL
+block@20 identical no-progress / global breaker@30 / unknown-tool@10,
+history 30, per-run scoped; docs/tools/loop-detection.md) is `enabled:false`
+by default and openclaw.json has no `tools.loopDetection` block → inert in
+both anchors. Idle-timeout breaker is paid-provider-only; provider fetch
+timeout is a backstop, not a loop guard.
+
+Boundary (shipped semantics): with `tools.loopDetection.enabled: true`, the
+first critical blocks the whole tool batch before execution; the model gets
+one more response; a second critical in the same run ends the run. Config
+schema is zod-strict with only `enabled` (thresholds hardcoded in
+`resolveLoopDetectionConfig`; dead-config-keys test confirms
+historySize/warningThreshold/detectors are not configurable).
+
+Validation (offline, actual shipped detector): replay of both retained real
+call streams through the installed dist module
+(`tool-loop-detection-CWrUtzrR.js`, `detectToolCallLoop`, `{enabled:true}`)
+via `tools/service_step10c_replay.mjs`. P1-r5: first warning ordinal 13
+(+122 s), first CRITICAL generic_repeat ordinal 24 (+235 s), second critical
+(run-end per docs) ordinal 27 (+286 s) — the 1202.5 s runaway would have been
+terminated at ~235–286 s. P2-r7: 0 warnings / 0 criticals — its in-window
+streak (≤8) stays below threshold, so the general detector would NOT fire
+there and the post-compaction guard remains the correct terminator for the
+compaction-cycle variant (no false-positive risk on that path).
+
+Smallest liveness safeguard (proposed, NOT applied): config-only
+`agents.entries.kimi.tools.loopDetection.enabled: true` (or global
+`tools.loopDetection.enabled: true`) — arms the shipped rolling-history
+detectors while the post-compaction guard stays armed. Design:
+`service-progress/step-10c-loop-liveness-design.md`. Report:
+`service-progress/step-10c-loop-liveness-report.md`. Evidence:
+`benchmarks/results/service-step-10c/` (anchor call streams, replay results).
+STOP for review before any production patch.
+
+## 10D. Apply + Live-Validate the LoopDetection Safeguard (owner order 2026-09-05)
+
+**Status: COMPLETE — PASS (live validation); STOPPED for review.**
+Config-only change applied and validated live: openclaw.json
+`agents.entries.kimi.tools.loopDetection.enabled: true` (single-line diff vs
+backup `~/.openclaw/openclaw.json.bak-step10d-20260905`; no other config or
+code change; context/sampler/prompts/tools/llama-server untouched). Gateway
+restarted via detached supervisor (new PID 59990, 12:34:21 MST); llama-server
+untouched/healthy 64K; every rep doc resolves `contextTokens: 65536`.
+
+Validation (12 real-path turns, fresh `step10d` sessions, single-slot 64K):
+
+(1) **Identical-read loop terminated by the general detector — PASS, live.**
+Deterministic LOOP-STRICT probes (instruct exactly 25 identical `read` calls
+on a nonexistent path) reproduced the P1-r5 family and the shipped detector
+fired at the hardcoded boundary: read #20 → `CRITICAL: Called read with
+identical outcomes 20 times. Session execution blocked to prevent runaway
+loops.`; reads #21–26 vetoed (`deniedReason: tool-loop`, batch blocked); run
+ended on the second critical. LOOP-STRICT-r1: rc=1, wall 165.6 s,
+`livenessState: blocked` (27 identical read calls, NOT the 600 s client cap);
+LOOP-STRICT-r2: rc=0, wall 189.8 s — detector fired at #20, model heeded the
+block and completed. Anchor comparison: P1-r5 ran 130 llama tasks / 1202.5 s
+with no guard; same loop now bounded at ~20 calls / ~2.8–3.2 min.
+
+(2) **Legitimate multi-step tool use completes — PASS.** P1 ×2 (33/118 s),
+P2 ×2 (14/15 s), NORM ×3 (240/220 s incl. absolute-path NORM-r3) all rc=0
+with ZERO loop events (no false positives). Anomaly NORM-r1 (rc=1, 427 s,
+"LLM request failed", 0 loop events) is probe-side: the NORM prompt used
+repo-relative paths while the headless session cwd is `~/.openclaw`, causing
+read/exec churn; not a detector action (absolute-path NORM-r3 rc=0 confirms).
+
+(3) **Post-compaction guard unchanged — PASS.** Config diff is exactly one
+added key; no compaction/post-compaction setting touched. Per shipped
+semantics the post-compaction guard stays armed unless `enabled` is
+explicitly `false` (docs/tools/loop-detection.md) — setting `true` keeps both
+guardrails on. No compaction occurred in these short reps; the P2-r7
+compaction-cycle path is untouched (its terminator remains the post-
+compaction guard).
+
+Also: engineered LOOP ×3 (non-deterministic) never fixated (model
+investigated + answered; rc=0, zero events) — additional no-false-positive
+evidence, which is why the deterministic LOOP-STRICT probes were added.
+
+Design: `service-progress/step-10d-loopdetection-validation-design.md`.
+Report: `service-progress/step-10d-loopdetection-validation-report.md`.
+Evidence: `benchmarks/results/service-step-10d/` (env, supervise.log, 64k/
+per-rep artifacts, analysis/summary.json, extra.log, prompts/). Drivers:
+`tools/service_step10d_{leg,analyze,supervise,extra}.sh`/
+`service_step10d_analyze.py`. STOP for review before any further change.
+
+## 11. Qualify Usable Agent Context
+
+### Goal
+
+Determine how much context the current Kimi OpenClaw agent can use productively.
+
+Stage 8 already established a different result:
+
+> The native NoPE Kimi runtime can allocate, prefill, generate, preserve state, and retrieve a synthetic needle correctly through 128K context.
+
+Do not repeat that capacity experiment.
+
+Step 11 asks:
+
+> Does the real OpenClaw agent remain useful as its working context grows?
+
+### Baseline
+
+Treat:
+
+```
+128K
+```
+
+as the current validated technical context milestone.
+
+Treat:
+
+```
+256K and above
+```
+
+as untested, not failed.
+
+Do not attempt 256K merely because the model can theoretically support it.
+
+First establish whether the agent benefits from and behaves correctly within the already validated range.
+
+### Work
+
+Exercise the actual OpenClaw agent with progressively larger realistic working contexts.
+
+At minimum compare:
+
+* a fresh/small context;
+* a representative established working session;
+* a large context approaching the range required for real agent work.
+
+Where practical, use retained conversation history, tool results, repository information, instructions, and other realistic agent material rather than synthetic filler.
+
+Test whether the agent can:
+
+* retain the current user instruction;
+* retrieve relevant earlier information;
+* distinguish current instructions from obsolete earlier instructions;
+* use relevant tool results;
+* avoid unnecessary repetition;
+* avoid irrelevant historical archaeology;
+* complete the requested task;
+* emit a correct final answer.
+
+### Measurements
+
+At each tested context size record:
+
+* total input tokens;
+* cached tokens;
+* newly evaluated tokens;
+* prompt-eval time;
+* TTFT;
+* decode tok/s;
+* total turn time;
+* compaction behavior;
+* memory where useful;
+* task result;
+* retrieval result;
+* instruction-following result;
+* tool-use behavior;
+* final-answer behavior.
+
+Distinguish:
+
+* **technical context ceiling** — runtime cannot provision or execute;
+* **useful-context ceiling** — runtime executes, but agent behavior becomes unreliable;
+* **practical context ceiling** — behavior remains correct, but latency or resource cost makes the context operationally unattractive.
+
+These ceilings need not be the same.
+
+### 256K Decision Gate
+
+Do not automatically continue the Stage 8 ladder.
+
+Attempt 256K only if Step 11 demonstrates a concrete reason that more than the currently validated 128K context would materially improve the intended agent workload.
+
+If 128K is already sufficient, record that result and leave 256K untested.
+
+If 256K is authorized, treat it as a new measured rung using the Stage 8 native NoPE rules and the Step 11 agent-usability criteria.
+
+### Acceptance
+
+Step 11 is complete when we can answer:
+
+1. How much working context does the agent actually need?
+2. Does response quality remain acceptable as context grows?
+3. Does the agent reliably retrieve and prioritize relevant information?
+4. What latency cost does larger context impose?
+5. What is the current useful/practical context ceiling?
+6. Is there evidence that testing 256K would provide meaningful value?
+
+Classify the result as:
+
+* `PASS`
+* `CONDITIONAL PASS`
+* `FAIL — CONTEXT`
+
+### Report
+
+```
+service-progress/step-11-usable-context.md
+```
+
+Save machine-readable results under:
+
+```
+benchmarks/results/service-step-11/
+```
+
+### Exit
+
+If the agent is reliable through the context range actually required, do not pursue larger context merely because larger values are technically possible.
+
+If context behavior is inadequate, classify whether the problem is:
+
+* response quality;
+* OpenClaw context/session construction;
+* compaction;
+* prompt-processing performance;
+* runtime capacity;
+* another measured boundary.
+
+Route remediation only after classification.
+
+Proceed to Step 12 once the usable-context requirement is understood.
+
+---
+
+## 11 status (2026-09-05 — sustained leg executed, owner order)
+
+**Status: CONDITIONAL PASS (determination); STOPPED for review. No production
+change.** Production config unchanged (aligned 64K + loop detection on).
+
+Executed 30 realistic same-key multi-turn turns across three sustained
+sessions (R research conversation ×10, C coding ×8, G growth-to-compaction
+×12) at the single-slot 64K server, full per-turn instrumentation. Design:
+`service-progress/step-11-usable-context-design.md`. Evidence:
+`benchmarks/results/service-step-11/{env.txt,leg.log,64k,analysis,work}`;
+analyzer: `tools/service_step11_analyze.py`; report:
+`service-progress/step-11-usable-context.md`.
+
+Headline results:
+- Context accumulation works: same-key promptTokens grew R 17.4K→27.2K,
+  C to 33.9K, G to 31.2K; auto-compaction fired successfully at ~30-34K
+  (G5: 31.2K→17.1K with post-compaction guard armed; C5→C7 33.9K→22.7K) and
+  sessions continued after compaction (G5/G10-12, C7/C8 rc=0). No technical
+  ceiling hit in any turn (max assembled promptTokens ~34K, far under 64K).
+- Research conversation (representative sustained workload): 10/10 rc=0,
+  correct cross-turn recall at 27K (AGENTS phase-completion rule, report
+  naming, step-10D status), zero loop/compaction events.
+- Coding: 6/8 rc=0 with real artifacts (text_stats.py + tests compile);
+  C2 and C6 hit the 1200s client cap on legitimate sustained multi-step
+  turns (C2: 33 calls, 0 failures) — not runaways, not detector events.
+- Growth session G: 5/12 rc=0. Failures were NOT context-capacity limits:
+  the model repeatedly emitted U+2026-truncated absolute paths in read
+  calls (same artifact family as the P1-r5/P2-r7 anchors: e.g.
+  "/Users…VICE-ROADMAP.md"), causing File-not-found churn, argument churn
+  (not identical, so the loop detector correctly did NOT fire), and runs
+  ending blocked/"LLM request failed" at 17-28K context. Tool-call
+  reliability issue under sustained multi-file workloads, not a 64K
+  capacity boundary.
+- Stability: llama-server + gateway stayed up for the entire 3.3h leg;
+  zero real loop-detector events on legitimate work (no false positives);
+  zero OOM/context overflow.
+- Latency: decode steady 6.4-8.9 tok/s; TTFT (first prompt eval) grows
+  with context — seconds at small context, ~100-350s first-eval at
+  25-31K assembled (prefill ~43 tok/s) — the dominant latency cost;
+  cache reuse high (cacheRead 20K-920K tokens/turn).
+- 256K gate: NOT triggered — no evidence more context would help; the
+  binding limits are per-turn latency, the 1200s client cap on long
+  sustained turns, and the model path-truncation reliability artifact.
+
+Classification per §11 acceptance: usable context ≥ ~30K assembled with
+working auto-compaction; practical ceiling set by latency/TTFT and the
+1200s per-turn cap; useful ceiling not reached in research/coding workloads.
+Residual issues (U+2026 path artifact, client-cap timeouts) are model/
+config-limit issues, not context-window capacity. Full classification in
+`service-progress/step-11-usable-context.md`. STOPPED for review before any
+production change.
+
+
+---
+
+## 11A. Localize the U+2026 Path-Truncation Failure (owner order 2026-09-05)
+
+**Status: COMPLETE — determination delivered; STOPPED for review. No patch,
+no config/prompt/sampler/tool change.** The U+2026 artifact family (Step 11
+Session G + step-10/10A-era anchors: `/Users…VICE-ROADMAP.md`) was traced from
+raw model output through OpenClaw's message/transcript layer.
+
+Determination: the corruption is **OpenClaw-side and PRE-MODEL** — it enters
+in the message-file ingestion → transcript-store path, not the model:
+- **Authoring refuted:** corrected byte-accurate U+2026 inventory (python
+  `"\u2026" in s` + od spot checks) shows ALL step-11/10d/10c/09 prompt files
+  byte-clean (0 U+2026); only assistant report/design docs quote the artifact.
+  The earlier "prompts contain U+2026" claim was a defective zsh `$'\u2026'`
+  grep artifact.
+- **Model refuted for clean input:** 8 raw llama-server control trials with
+  the same read-tool schema + full clean path → model emits the clean path
+  8/8, zero U+2026 (retained `raw-control-{0..7}.json`).
+- **Clean-file probe:** byte-clean `probe-clean.md` → real `openclaw agent
+  --message-file` run → the stored transcript user message (seq=1, written at
+  session start BEFORE the model's first output) already contains real U+2026
+  bytes (verified in the LIVE gateway DB
+  `~/.openclaw/agents/kimi/agent/openclaw-agent.sqlite`, session
+  `agent:kimi:step11a-probe-64k`). The model then copied the corrupted path
+  into read args byte-identically → File-not-found churn → 200s cap (15
+  calls / 13 failures). `finalPromptText` in the doc record is CLEAN while
+  stored content is corrupted → a clean copy exists in the doc/prompt-text
+  layer but the message content used for prompt assembly carries U+2026.
+- **Not a pure length rule:** 88-char path (LOOP-STRICT-r1) and 75-char path
+  (C-session) stored clean in the same live DB; 51-char SERVICE-ROADMAP paths
+  (G1, probe) corrupted. Trigger condition unresolved (open question).
+- **Exact dist function NOT isolated:** exhaustive minified-tolerant scan of
+  dist for U+2026 middle-truncate helpers found many truncators
+  (coerceDisplayValue 79/80@160, compactRawCommand half/half@120,
+  compactProgressLineDetail 45%/rest, maskLifecycleIdentifier 4+4,
+  redactSessionKey 6+6, shortId 8+4, ASCII-`...` truncateMiddle/
+  middleTruncatePath, etc.) but NONE matches the observed token-level
+  signature (sentence byte-identical, only the long path token shortened to
+  head-6 `…` tail-7..15). Runtime tracing of the steer→store boundary is the
+  identified follow-up; not executed here.
+
+Step-11's "model tool-call reliability issue" label is refined: the symptom
+is model-side faithful copying; the root is an OpenClaw-side content rewrite
+upstream of the model. Service mitigation already in effect: prefer
+repo-relative paths in workload prompts (standing practice from the
+2026-09-02 memory note). Loop detection does not catch this family (varied
+args). Report: `service-progress/step-11a-u2026-path-truncation-report.md`;
+design: `service-progress/step-11a-u2026-path-truncation-design.md`;
+evidence: `benchmarks/results/service-step-11a/` incl.
+`11a-forensics-summary.md`; drivers: `tools/service_step11a_raw_control.py`.
+STOPPED for review before any patch.
+
+
+---
+
+## 11B. Fix the Pre-Model U+2026 Path-Content Corruption (owner order 2026-09-05; fix authorization 2026-09-06)
+
+**Status: PASS — 11B FIX LIVE IN PRODUCTION after requalification 2
+(2026-09-06 21:22-21:23). Run 1 (12:02): test-oracle FAIL with correct
+runtime behavior (5/6 legs byte-identical; leg-5 stored bytes identical to
+isolated PASS). Run 2 (15:01): formal requalification, inconclusive at
+harness level (legs-driver FK cleanup defect; all legs timeout-no-stored-row;
+rollback). Run 3 requalification 2 (21:22): ALL SIX PRODUCTION LEGS PASS,
+0 FK violations, patch retained. Active sha 8baf4746..., gateway healthy on
+:18789. Corrected history: prior "production applied" claim was FALSE;
+production stayed pristine until run 1.**
+
+Root cause (Gate 2 localization): the default AWS-secret bare-value heuristic
+(`AWS_SECRET_ACCESS_KEY_VALUE_PATTERN`, dist `redact-CquADQ9-.js` line 831)
+matched exactly-40 maximal runs of `[A-Za-z0-9/+=]` containing upper + lower
++ digit/slash/plus/equal + a non-hex char. Benign absolute-path runs of 40
+contiguous letters+slashes false-positived because `/` satisfied the symbol
+test; `maskToken` then rewrote the run to head-6 + U+2026 + tail-4
+(e.g. `/Users` + U+2026 + `VICE-ROADMAP.md`), corrupting stored message
+content before the model ever saw it.
+
+Fix (smallest change; single constant at dist line 831; isolated
+`/tmp/oc11b-pkg` replica only): the symbol lookahead now requires a real
+digit `[0-9]` (slash, plus, equals no longer count); a run beginning with
+`/` is rejected `(?!\/)`; a run containing 3+ slashes is rejected. Labeled
+AWS patterns, the prefilter, and every other redaction default are
+untouched. No model, sampler, context, or tool configuration change.
+
+Validation (all on the patched isolated replica :18791; production dist sha
+`5505b775...` verified untouched):
+1. Regex unit harness, 111-entry corpus: every path false positive matched
+   by OLD is rejected by NEW; every true AWS-secret shape still matches
+   OLD and NEW; labeled-form behavior unchanged; harness file byte-clean.
+2. E2E storage byte-proofs through the real CLI and the isolated transcript
+   DB (seq=1, fresh session keys): original clean-file discriminator
+   byte-identical with 0 U+2026; retained G-style path cases byte-identical
+   with 0 U+2026; long benign paths (old-heuristic-matching and
+   non-matching shapes) byte-identical with 0 U+2026; long-message
+   regression (44,520 B) byte-identical with 0 U+2026; representative true
+   AWS-secret-shaped values still redacted (raw value absent, masked
+   head-6 + U+2026 + tail-4 form present).
+3. Accepted trade-off (recorded in the design doc): standalone-value
+   detection retained on real-digit keys (~99.9%), keys without a leading
+   slash (~98.4%), keys with at most 2 slashes (~97.7%); rare true keys
+   starting with `/` or containing 3+ slashes remain redacted in labeled
+   contexts because the labeled AWS patterns are separate and unchanged.
+
+Evidence: `benchmarks/results/service-step-11b/fix/` (`line831.diff`,
+`patch-record.txt`, `fix-results.json`, per-leg `.msg` inputs, all
+byte-clean). Design and Gate 1/2 records:
+`service-progress/step-11b-u2026-trace-fix-design.md`,
+`benchmarks/results/service-step-11b/{gate1-isolated-reproduction,localization-boundary-trace}.md`.
+Report: `service-progress/step-11b-u2026-trace-fix-report.md`. Drivers
+retained under `/tmp/oc11b-env` (replica env): `fix-regexcheck.mjs`,
+`fix-legs.py`, `patch831.mjs` (all byte-clean).
+
+STOPPED for review before applying the fix to production.
+
+## 11B Production Application Record (2026-09-06 12:02-12:13)
+
+Executed per owner authorization (12:02:40) via the retained detached
+orchestrator `benchmarks/results/service-step-11b/prod-apply/
+orchestrate-prod-restart.sh` (log `orchestrator.log`; marker
+`orchestrator.marker` = FAIL):
+
+1. Archived the pristine active file:
+   `prod-apply/pristine-redact-CquADQ9-.js.pre-apply-20260906-1202`
+   (sha 5505b775...; record `prod-apply-record.txt`).
+2. Replaced the ACTIVE `/opt/homebrew/lib/node_modules/openclaw/dist/
+   redact-CquADQ9-.js` with the validated replica fix (byte copy).
+3. Verified the ACTIVE pathname: sha 8baf4746... MATCH; new pattern confirmed.
+4. Removed the stray sidecar `redact-CquADQ9-.js.patched-20260906-1002`
+   (retained in `prod-apply/` evidence).
+5. Detached `launchctl kickstart -k gui/501/ai.openclaw.gateway`: gateway
+   59990 -> 13064, healthz 200, post-restart sha 8baf4746..., llama 200.
+6. Six production E2E legs (real CLI -> production kimi transcript DB):
+   legs 1, 2, 3, 4, 6 PASS byte-identical with 0 U+2026; leg 5 FAIL
+   (raw_absent True, masked_present False, 12 U+2026, 12 secrets) ->
+   authorized rollback: pristine restored (5505b775...), gateway restarted,
+   healthz 200.
+7. Updated SERVICE-ROADMAP.md + 11B report with corrected history.
+
+Leg-5 diagnosis (`prod-apply/leg5-diagnosis.txt`): the production stored
+transcript for leg 5 is BYTE-IDENTICAL to the isolated stored transcript
+that PASSED (both 400 B, 12 U+2026, mask shapes [(6,4),(10,4)]). The prod
+driver regex-extracts 12 windows from the raw .msg (6 true secrets + 6
+label-prefixed phantom windows such as `key=`+secret[:36]) and requires a
+head-6 masked form for each; the validated isolated driver checks only the
+6 known secrets. Re-running the 12-window method against the isolated PASS
+bytes also yields masked_present False, proving the leg-5 FAIL is a checker
+artifact, not a production regression: patched code redacts identically in
+production and replica, and true-secret redaction is preserved.
+
+State after run: production dist pristine (5505b775...), gateway healthy on
+:18789 (launchd PID 13395), llama untouched, no config/plist/prompt changes.
+Isolated replica gateway :18791 (PID 5846) died with the production restart's
+process-tree teardown; replica package and DB remain intact under
+/tmp/oc11b-env and can be relaunched with its launch script. STOPPED before
+Step 12 pending owner decision on the leg-5 checker discrepancy.
+
+
+---
+
+## 11B Requalification Run (2026-09-06 15:00-15:40, owner order 13:29:51)
+
+Corrected only the production E2E leg-5 checker to the isolated driver's
+known-secret method (`prod-apply/prod-fix-legs-req.py`; diff vs run-1
+driver = leg-5 block only). Proof PASS (`prod-apply/requal-checker-proof.json`):
+corrected checker passes the retained isolated PASS transcript (6 secrets,
+raw-absent, masked head-6/tail-4, 400 B) and fails an unredacted control.
+
+Patch reapplied to the ACTIVE pathname (sha 8baf4746... verified); detached
+kickstart (gateway PID 17346, healthz 200, post-restart sha 8baf4746...,
+llama 200); six production legs ran with the corrected checker 15:01:51-
+15:38:29: ALL SIX FAILED timeout-no-stored-row. Per-leg CLI stderr: leg 1
+"agent turn was not durably admitted"; legs 2-6 SqliteIntegrityError
+(foreign_key_check failed: session_transcript_active_events row 56168
+references transcript_events). Root cause: the legs driver's reset_session
+deletes probe transcript_events/session_windows rows but leaves
+session_transcript_active_events references; against the live production DB
+with FK enforcement this orphaned rows and blocked every new admission, so
+no stored transcript existed to compare. Harness defect, not a redaction
+regression.
+
+Authorized rollback executed: pristine restored (5505b775...), gateway
+restarted, healthz 200. Marker FAIL. Run distinction: run 1 = test-oracle
+FAIL with correct runtime behavior; run 2 = formal requalification,
+inconclusive at harness level. Production pristine and healthy; fix not
+live. STOPPED before Step 12.
+
+## 11B Requalification 2 Record (2026-09-06 21:05-21:23, owner order 21:05:46)
+
+Root cause of the prior database corruption: the production-legs harness
+reset_session deleted probe parents (transcript_events, session_windows)
+with PRAGMA foreign_keys OFF (python sqlite3 default), so the declared ON
+DELETE CASCADE never fired; dependent rows (session_transcript_active_events,
+transcript_event_identities, session_transcript_index_state,
+transcript_rewrite_watermarks, trajectory_runtime_events, session_nodes
+subtree, board_tabs/board_widgets) were orphaned, and the OpenClaw agent's
+foreign_key_check failed on the next admission (run 2: all six legs
+timeout-no-stored-row) and disrupted a gateway startup.
+
+Repair (harness only; no OpenClaw production DB logic changed): new
+fk_reset.py deletes probe-owned dependents explicitly child-first across
+the full inspected FK graph, enables PRAGMA foreign_keys=ON, then asserts
+PRAGMA foreign_key_check is empty. Driver prod-fix-legs-req2.py imports it
+and adds a per-leg FK gate (exit 3 on any violation, evidence written
+first). The leg-5 known-secret checker is byte-identical to the run-2
+corrected checker; the validated one-line redaction patch is unchanged.
+
+Independent proof (requirement 2, on a backup copy of the production DB;
+prod-apply/fkproof.json): reset of the six leftover probe sessions removed
+all probe rows, PRAGMA foreign_key_check returned zero rows, and every
+non-probe table digest was byte-unchanged.
+
+Requalification run (exactly once, detached orchestrator; log
+prod-apply/requal2-orchestrator.log, marker PASS): patch applied to the
+active pathname (sha 8baf4746... verified); kickstart -> gateway PID 56719,
+healthz 200, post-restart sha 8baf4746..., llama 200; six production legs
+ran 21:22:41-21:22:59 with the FK-safe driver, all six OK:
+  1-discriminator byte_identical 126 B / 0 U+2026
+  2-gstyle byte_identical 808 B / 0 U+2026
+  3-longpath-match byte_identical 710 B / 0 U+2026
+  4-longpath-nomatch byte_identical 528 B / 0 U+2026
+  5-true-secret raw_absent True, masked_present True, 6 secrets
+  6-long-message byte_identical 44,520 B / 0 U+2026
+Final production PRAGMA foreign_key_check: 0 rows. Patch retained and live.
+Evidence: benchmarks/results/service-step-11b/fix-prod-requal2/ and
+prod-apply/ (fkproof.json, requal2-record.txt, requal2-orchestrator.log).
+STOPPED at the Step 12 gate.
+
+## 12. Qualify Decode Throughput
+
+**Status: PASS (2026-09-06). Decode throughput qualified through the real
+OpenClaw agent path on representative Step 9-11 workloads; runtime
+remains frozen; no decode-optimization problem opened. Measured decode
+tok/s medians (llama eval windows): short-answer 10.54 (n=2), engineering
+9.29 (n=3, the decode-bound productive class, inside the promoted 9-11
+band at its low edge), research 8.27 (n=2, prefill-bound 75-78% of wall -
+not decode-limited), long tool-heavy 7.43 (n=1 partial; runner-capped at
+900 s; prefill-bound 76%). Decode is the dominant wall-time share only for
+engineering turns (68-70%); short turns are TTFT/prefill-bound (48-59%)
+and research/long turns are prefill-bound (75-78%), so decode work would
+not change their latency. Long-g1 (94 KB read) exceeded the 900 s runner
+cap while still processing - recorded as a prefill/context-bound
+observation, not a decode failure. Report:
+service-progress/step-12-decode-throughput.md; evidence:
+benchmarks/results/service-step-12/ (decode-summary-final.json,
+step12-verdict.json, parse_decode.py, per-leg client/llama/gateway
+windows). Production state unchanged: 11B sha 8baf4746... live, FK 0,
+gateway :18789 healthz 200, llama :18080 200. STOPPED at the
+Post-Step-12 gate.**
+
+### Goal
+
+Determine whether the current Kimi generation speed is sufficient for productive OpenClaw use and whether further decode optimization is justified by measured user impact.
+
+The primary question is:
+
+> Is decode throughput still a meaningful usability bottleneck after response quality, TTFT, and usable context have been qualified?
+
+### Baseline
+
+The current promoted runtime is expected to produce approximately:
+
+```
+9–11 decode tok/s
+```
+
+under the live W4 / 8 GiB expert-cache configuration.
+
+Capture the actual current baseline before qualification.
+
+Do not use archived measurements as the acceptance comparison.
+
+### Work
+
+Use representative successful tasks from Steps 9–11.
+
+Measure generation behavior through the real OpenClaw agent rather than relying only on isolated llama-cli benchmarks.
+
+For each workload record:
+
+* generated tokens;
+* decode duration;
+* decode tok/s;
+* TTFT;
+* total model wall time;
+* tool-execution time;
+* total turn wall time;
+* response length;
+* whether response length was appropriate to the task.
+
+Separate:
+
+```
+waiting for first token
+```
+
+from:
+
+```
+waiting for generation
+```
+
+from:
+
+```
+waiting for tools
+```
+
+from:
+
+```
+unnecessary model verbosity
+```
+
+A 90-second turn is not evidence of a decode-throughput problem unless decode actually accounts for the relevant portion of those 90 seconds.
+
+### Attribution
+
+Determine the contribution of decode to real user-visible latency.
+
+Answer:
+
+1. What fraction of representative turn time is decode?
+2. How long does a short answer take after the first token?
+3. How long does a normal engineering answer take?
+4. How long does a long tool-heavy answer take?
+5. Would a plausible throughput improvement materially change the user experience?
+
+Use the current runtime profile as supporting evidence where appropriate, but qualify the live production behavior directly.
+
+### Optimization Decision
+
+Do not continue runtime optimization merely because higher tok/s is technically possible.
+
+Further optimization is justified only if Step 12 shows that decode throughput materially limits productive use.
+
+If approximately 9–11 tok/s is adequate in practice, Step 12 should PASS and the runtime should remain frozen.
+
+If decode is a meaningful limitation, route the problem to `ROADMAP.md` with a measured target and current attribution.
+
+The runtime roadmap should then begin from the current production baseline rather than reopening superseded experiments.
+
+Known measured runtime opportunities may inform that work, but they do not authorize it automatically.
+
+### Acceptance
+
+Step 12 is complete when we can answer:
+
+> Is the current decode throughput sufficient for productive use, and if not, how much user-visible latency is actually attributable to decode?
+
+Classify the result as:
+
+* `PASS`
+* `CONDITIONAL PASS`
+* `FAIL — DECODE THROUGHPUT`
+
+A FAIL should include enough measurement to define the next bounded runtime problem.
+
+### Report
+
+```
+service-progress/step-12-decode-throughput.md
+```
+
+Save machine-readable results under:
+
+```
+benchmarks/results/service-step-12/
+```
+
+### Exit
+
+If decode throughput is adequate, stop.
+
+If decode throughput is inadequate, hand the measured problem to `ROADMAP.md` for bounded inference-runtime optimization.
+
+Do not create additional service steps merely because further optimization opportunities exist.
+
+---
+
+## Post-Step-12 Decision
+
+Steps 9–12 constitute production usability qualification of the Kimi OpenClaw agent:
+
+```
+Step 9  — Is it good enough? (response quality; 9A–9D remediation; close-out 2026-09-04)
+    ↓
+Step 10 — Why does the real agent path degrade exact-format compliance? (localization; active 2026-09-04)
+    ↓
+Step 10A — Does it start responding quickly enough? (TTFT; deferred from former Step 10)
+    ↓
+Step 11 — Can it use enough context?
+    ↓
+Step 12 — Does it generate quickly enough?
+```
+
+After Step 12, summarize the production state as:
+
+* response quality;
+* cold / prefilled / warm TTFT;
+* practical usable context;
+* decode throughput;
+* total-turn behavior;
+* known limitations.
+
+The service is production-qualified when those measurements demonstrate that the agent is useful for its intended work.
+
+Further engineering must be justified by a measured limitation rather than by the existence of another possible optimization.
+
 #### Completed outside this plan (2026-08-17)
 
 Per explicit operator task, a Qwen3-8B interactive/manager tier was wired

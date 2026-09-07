@@ -1,0 +1,22 @@
+--- /tmp/9d-pre.bak	2026-09-04 10:06:07
++++ /opt/homebrew/lib/node_modules/openclaw/dist/system-prompt-params-7goAPY5o.js	2026-09-04 11:33:54
+@@ -378,8 +378,7 @@
+ 		"- Media attachment: own line `MEDIA:<path-or-url>` per item; path is not prose.",
+ 		"- Directive starts line, plain text, outside fences/Markdown; never inline or wrapped.",
+ 		"- Attached voice note: `[[audio_as_voice]]`.",
+-		"- Native reply starts with `[[reply_to_current]]`; explicit id only: `[[reply_to:<id>]]`.",
+-		"- Directives stripped before render; channel config controls delivery.",
++		...(params.hasDeliverySurface === false ? [] : ["- Native reply starts with `[[reply_to_current]]`; explicit id only: `[[reply_to:<id>]]`.", "- Directives stripped before render; channel config controls delivery."]),
+ 		""
+ 	];
+ }
+@@ -911,7 +910,8 @@
+ 				isMinimal,
+ 				sourceMessageToolOnly,
+ 				messageToolAvailable,
+-				runtimeChannel
++				runtimeChannel,
++				hasDeliverySurface: params.hasDeliverySurface
+ 			})
+ 		];
+ 		if (reasoningHint) lines.push("## Reasoning Format", reasoningHint, "");

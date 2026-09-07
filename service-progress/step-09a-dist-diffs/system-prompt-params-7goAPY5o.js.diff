@@ -1,0 +1,22 @@
+--- system-prompt-params-7goAPY5o.js.bak
++++ system-prompt-params-7goAPY5o.js
+@@ -378,8 +378,7 @@
+ 		"- Media attachment: own line `MEDIA:<path-or-url>` per item; path is not prose.",
+ 		"- Directive starts line, plain text, outside fences/Markdown; never inline or wrapped.",
+ 		"- Attached voice note: `[[audio_as_voice]]`.",
+-		"- Native reply starts with `[[reply_to_current]]`; explicit id only: `[[reply_to:<id>]]`.",
+-		"- Directives stripped before render; channel config controls delivery.",
++		...(params.runtimeChannel && !["http", "cli"].includes(params.runtimeChannel) ? ["- Native reply starts with `[[reply_to_current]]`; explicit id only: `[[reply_to:<id>]]`.", "- Directives stripped before render; channel config controls delivery."] : []),
+ 		""
+ 	];
+ }
+@@ -910,7 +909,8 @@
+ 			...buildAssistantOutputDirectivesSection({
+ 				isMinimal,
+ 				sourceMessageToolOnly,
+-				messageToolAvailable
++				messageToolAvailable,
++				runtimeChannel
+ 			})
+ 		];
+ 		if (reasoningHint) lines.push("## Reasoning Format", reasoningHint, "");
