@@ -1,0 +1,11 @@
+{
+  "label": "capture-smoke",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step09b-capture-test",
+  "rc": 1,
+  "wall_s": 231.0062,
+  "n_lines": 7,
+  "extraction": "json:key=message",
+  "reply_chars": 151,
+  "timed_out": true
+}

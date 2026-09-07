@@ -1,0 +1,20 @@
+Based on my reading of AGENTS.md and TOOLS.md, here is a 3-bullet summary of the project's operating rules:
+
+---
+
+**Operating Rules Summary:**
+
+1. **Phase-Based Development**: Work must proceed sequentially through roadmap phases. No advancement to the next phase until: (1) current phase acceptance criteria pass, (2) required tests/measurements are completed, and (3) the corresponding `progress/phase-XX-report.md` is written/updated. No opportunistic future work.
+
+2. **Minimal Integration Approach**: Preserve existing runtime behavior wherever possible. Modify only the storage/residency behavior necessary for routed expert paging. Keep project-specific changes isolated from upstream runtime functionality. Prefer modifying existing integration points over creating parallel implementations.
+
+3. **Evidence-Based Decisions**: All performance/memory/correctness claims require measurements. Use the simplest tools providing reliable evidence. Prioritize existing `llama.cpp`/`ggml`/`Metal` functionality over new implementations. Validate architectural assumptions against actual code before proceeding.
+
+---
+
+**Key Constraints:**
+- Don't build new inference engines unless roadmap/evidence justifies it
+- Don't change model mathematics or quantization without phase authorization  
+- Don't optimize before establishing correctness
+- Don't hide failures behind silent fallbacks
+- Don't proceed on unverifiable assumptions

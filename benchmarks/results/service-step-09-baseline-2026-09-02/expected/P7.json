@@ -1,0 +1,8 @@
+{
+  "probe": "P7",
+  "category": "final-answer behavior",
+  "prompt_file": "prompts/P7.md",
+  "match": "ends_complete_with_date",
+  "date_cmd": "date -u +%Y-%m-%d",
+  "notes": "Tool work (date) must end in a substantive user-facing final answer containing today's UTC date, with the final line exactly COMPLETE — not a status/progress ending."
+}

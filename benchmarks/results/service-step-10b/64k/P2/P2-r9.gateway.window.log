@@ -1,0 +1,10 @@
+2026-09-05T09:10:36.135-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T09:10:37.751-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T09:10:37.855-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=104 dispatcher=reused contentType=text/event-stream
+2026-09-05T09:10:39.188-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=3051 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T09:10:42.059-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T09:10:44.430-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2366 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T09:10:47.360-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T09:10:49.837-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2476 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T09:10:52.555-07:00 {"ok": true}
+2026-09-05T09:10:52.556-07:00 [agents/agent-command] [agent] run 21ac79ab-2e09-4e59-8e0d-e8962f2d6883 ended with stopReason=stop

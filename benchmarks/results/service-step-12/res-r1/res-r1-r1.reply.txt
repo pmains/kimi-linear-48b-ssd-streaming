@@ -1,0 +1,9 @@
+Based on my reading of AGENTS.md and TOOLS.md, here are the three key operating rules for this project:
+
+## Project Operating Rules Summary
+
+1. **Phase-Based Development**: Work must proceed sequentially through roadmap phases, with each phase only completing when acceptance criteria are met, required tests run, and a `progress/phase-XX-report.md` is written. No opportunistic future work or skipping phases.
+
+2. **Runtime Preservation**: The implementation must preserve existing `llama.cpp`/`ggml`/Metal functionality wherever possible. Only modify storage and residency behavior needed for routed expert paging, keeping project-specific changes isolated from upstream runtime functionality.
+
+3. **Evidence-Based Decisions**: All performance and memory claims require measurements and reproducible tests. No optimizations or custom implementations should be introduced without measured evidence demonstrating necessity, and all changes must be documented in phase reports.

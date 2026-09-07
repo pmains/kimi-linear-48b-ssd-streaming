@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "G11",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step11-64k-growth",
+  "rc": 0,
+  "wall_s": 66.4512,
+  "t0_utc": "2026-09-06T00:04:55Z",
+  "t1_utc": "2026-09-06T00:06:01Z",
+  "n_lines": 504,
+  "extraction": "json:key=text",
+  "reply_chars": 306,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 28801,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 59875
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 29700,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 60336
+  },
+  "llama_window_chars": 3983,
+  "gateway_window_chars": 2330
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 64892,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 29640,
+  "usage": {
+   "input": 662,
+   "output": 241,
+   "cacheRead": 116185,
+   "total": 117088
+  },
+  "lastCallUsage": {
+   "input": 264,
+   "output": 61,
+   "cacheRead": 29376,
+   "cacheWrite": 0,
+   "total": 29701
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29742,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": true,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Use the exec tool to run: tail -3 /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10d/64k/LOOP-STRICT/LOOP-STRICT-r1.client.json  Then reply with the rc/wall of that rep and what the transcript showed terminated it (recall from G3/G4 if needed)."
+}

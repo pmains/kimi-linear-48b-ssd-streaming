@@ -1,0 +1,20 @@
+{
+ "cond": "C2a-T",
+ "probe": "P3",
+ "rep": 1,
+ "wall_s": 16.2,
+ "text": "I need to calculate the average speed of a train that covers 60 miles in 1.5 hours.\n\nAverage speed = distance \u00f7 time\nAverage speed = 60 miles \u00f7 1.5 hours\nAverage speed = 40 miles per hour\n\n40",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 55,
+  "prompt_tokens": 11467,
+  "total_tokens": 11522,
+  "prompt_tokens_details": {
+   "cached_tokens": 10929
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "053ae6cc12040534"
+}

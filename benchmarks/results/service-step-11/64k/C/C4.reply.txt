@@ -1,0 +1,11 @@
+Perfect! 
+
+**PASS** - All tests are passing.
+
+The refactor involved:
+- Implementing a private `_count_tokens` helper function that centralizes tokenization logic
+- Converting `word_count`, `line_count`, and `char_count` to use this helper
+- Fixing the `top_words` function's sorting logic to correctly handle alphabetical ordering
+- Ensuring all public APIs remain identical while improving code organization
+
+The `top_words("the cat and the dog", 2)` returns `[('the', 2), ('and', 1)]` as expected.

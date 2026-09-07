@@ -1,0 +1,44 @@
+{
+ "phase": "0",
+ "date": "2026-09-03",
+ "status": "COMPLETE",
+ "source": "~/.openclaw/agents/kimi/agent/openclaw-agent.sqlite (trajectory_runtime_events, context.compiled/prompt.submitted/model.completed)",
+ "pinned_sampler_profile": {
+  "what_agent_path_sends": "No sampler fields in openclaw.json llama-server model entry; dist request builder sends temperature/top_p only when defined -> agent path sent NO sampler overrides",
+  "effective": "llama-server defaults per /props default_generation_settings",
+  "temperature": 0.8,
+  "top_p": 0.95,
+  "min_p": 0.05,
+  "top_k": 40,
+  "note": "Retained direct controls used temperature 0 (deterministic). Agent path ran at llama defaults (temp 0.8). C0..C4 ladder requests omit sampler fields (agent-path identical) so llama defaults apply -> sampler-comparable with agent path.",
+  "provenance": [
+   "openclaw.json models.providers.llama-server (params: extra_body only)",
+   "dist inference-runtime-s_EmviYw.js buildStreamOptions (conditional temperature)",
+   "llama-server /props (retrieved live)"
+  ]
+ },
+ "mechanism_candidates": [
+  {
+   "id": "r2-p1-empty",
+   "finding": "r2-p1 model.completed assistantTexts=['[[reply_to_current]]'] -> a lone reply-directive tag, stripped pre-render -> empty_result (INVALID). System prompt includes 'Native reply starts with [[reply_to_current]]' + 'Directives stripped before render' (lines restored unconditionally by 9A option1-restore).",
+   "implicates": "H1/H3 reply-directive instruction lines"
+  },
+  {
+   "id": "p1b-clarify",
+   "finding": "r2-p1b first call produced clarifying question, no tool round before it",
+   "implicates": "context/system, not trajectory"
+  },
+  {
+   "id": "p3-prose",
+   "finding": "r2-p3 first call produced prose ending in 40 (first number 60 -> FAIL), no tool round before",
+   "implicates": "context/system"
+  }
+ ],
+ "payloads": {
+  "artifact": "payloads/*.compiled.json (per run: prompt, systemPrompt, messages, tools)",
+  "system_prompt": "system-prompt-r2-p1.txt (29795 chars, sha256 9c3172a42f720895...)",
+  "tools": "tools-r2-p1.json (29 tools, first calls)",
+  "note": "compiled[0] = first call (msgCount 0, 29 tools); compiled[1] = 'Continue' calls (2 tools, shorter system 27282). Scored FAIL replies for P1b/P3/P2/P7/P5 came from first call where no tool round preceded; P4/P6 used tool rounds."
+ },
+ "capture_needed": false
+}

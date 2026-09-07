@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-D",
+ "probe": "P3",
+ "rep": 1,
+ "wall_s": 12.3,
+ "text": "read:40<|tool_call_argument_begin|>{\"location\": \"/Users/pmains/Code/openclaw/kimi\"}<|tool_call_end|><|tool_calls_section_end|>",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 22,
+  "prompt_tokens": 6632,
+  "total_tokens": 6654,
+  "prompt_tokens_details": {
+   "cached_tokens": 6094
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "a50f427f09ad9437"
+}

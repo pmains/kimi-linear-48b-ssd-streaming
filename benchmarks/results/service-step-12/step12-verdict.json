@@ -1,0 +1,83 @@
+{
+  "step": 12,
+  "title": "Qualify Decode Throughput",
+  "classification": "PASS",
+  "date": "2026-09-06",
+  "determination": "Decode throughput is adequate at the promoted baseline: the decode-limited workload classes measure inside/at the 9-11 tok/s band through the real agent (engineering median 9.29, short-answer 10.54). Below-band decode appears only on prefill/TTFT-limited classes (research 8.27, long tool-heavy 7.43) where decode is 20-23% of wall time, not the limiting factor. Runtime remains frozen; no decode optimization is opened by this step.",
+  "promoted_baseline_tps": "9-11 (live W4 / 8 GiB expert cache)",
+  "measured_decode_tps_by_class": {
+    "short-p3": {
+      "median": 10.54,
+      "n": 2,
+      "reps": [
+        10.69,
+        10.39
+      ]
+    },
+    "res-r1": {
+      "median": 8.27,
+      "n": 2,
+      "reps": [
+        8.4,
+        8.14
+      ]
+    },
+    "eng-c1s12": {
+      "median": 9.29,
+      "n": 3,
+      "reps": [
+        8.61,
+        9.29,
+        9.33
+      ]
+    },
+    "long-g1": {
+      "median": 7.43,
+      "n": 1,
+      "reps": [
+        7.43
+      ],
+      "note": "rc=1 timed_out at 900s runner cap; partial"
+    }
+  },
+  "attribution": {
+    "decode_frac_of_wall": {
+      "short": "29-42%",
+      "research": "21-23%",
+      "engineering": "68-70%",
+      "long_tool_heavy": "20%"
+    },
+    "prefill_frac_of_wall": {
+      "short": "48-59%",
+      "research": "75-78%",
+      "engineering": "26-28%",
+      "long_tool_heavy": "76%"
+    },
+    "ttft_proxy_s": "11.6-15.8s across reps (first-task prompt eval + one token)",
+    "waiting_for_first_token": "TTFT/prefill dominates short Q&A (48-59%) and research (75-78%)",
+    "waiting_for_generation": "decode dominates engineering turns: 68-70% of wall",
+    "waiting_for_tools": "tool-loop llama calls are the engine of prefill growth; not separately the bottleneck",
+    "verbosity": "reply_chars 202-613 (short/eng), 976-1428 (res) \u2014 proportionate to task"
+  },
+  "answers": {
+    "q1_fraction_decode": "short 29-42%; research 21-23%; engineering 68-70%; long tool-heavy 20%",
+    "q2_short_answer_after_first_token": "~6-11s decode (59-114 tok at ~10.5 tps) after ~12s TTFT; total ~20-25s",
+    "q3_engineering_answer": "92-162s total turn; decode 63-114s at 8.6-9.3 tps (68-70% of wall)",
+    "q4_long_tool_heavy": ">900s (did not complete within runner cap); decode ~190s (20%), prefill 709s (76%); decode at ~30k ctx = 7.4 tps",
+    "q5_would_improvement_matter": "Engineering: yes, decode is ~70% of turn \u2014 ~1.5x decode would cut ~20-35s/turn. Short: modest (TTFT-dominated). Research/long: little (prefill-limited)."
+  },
+  "optimization_decision": "No further decode optimization opened: measured decode meets the promoted 9-11 band on decode-limited classes; heavier classes are TTFT/prefill-limited (Steps 10A/11 territory), not decode-limited. Runtime remains frozen.",
+  "limitations": [
+    "long-g1 (94KB SERVICE-ROADMAP read) exceeded the 900s runner cap (rc=1) while still processing; decode was only 20% of elapsed time, prefill 76% \u2014 a context/tool-loop limitation for the production-state summary, not a decode failure.",
+    "Research (8.27) and long-context (7.43) decode measure below the promoted band but those turns are prefill-limited; decode improvements would not change their wall time.",
+    "Engineering decode sits at the low edge of the band (median 9.29, reps 8.61-9.33): decode is the largest single lever on coding-turn latency if interactive speed ever becomes the limiting factor."
+  ],
+  "environment": {
+    "gateway": "127.0.0.1:18789 healthz 200",
+    "llama": "127.0.0.1:18080 health 200, n_ctx 65536",
+    "redact_sha": "8baf47468478e930 (11B fix live)",
+    "fk_violations": 0,
+    "unchanged": "config, plist, llama-server, model weights, 11B patch, plugins"
+  },
+  "evidence": "benchmarks/results/service-step-12/decode-summary-final.json, parse_decode.py, per-leg client.json/llama.window.log/gateway.window.log under short-p3|res-r1|eng-c1s12|long-g1/"
+}

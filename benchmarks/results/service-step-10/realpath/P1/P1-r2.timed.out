@@ -1,0 +1,493 @@
+398.583930	{
+398.584269	  "runId": "5cd5d17a-1c6a-4f54-95b2-c6e357f68a57",
+398.584400	  "status": "ok",
+398.584405	  "summary": "completed",
+398.584405	  "result": {
+398.584406	    "payloads": [
+398.584406	      {
+398.584406	        "text": "PLATANOS",
+398.584406	        "mediaUrl": null
+398.584409	      }
+398.584409	    ],
+398.584409	    "meta": {
+398.584410	      "durationMs": 11242,
+398.584410	      "agentMeta": {
+398.584416	        "sessionId": "d2ca0c14-43d1-4a15-9f8a-7188e92c4660",
+398.584416	        "sessionFile": "agent:kimi:step10-r2c-p1-r2",
+398.584419	        "provider": "llama-server",
+398.584419	        "model": "kimi-linear-48b",
+398.584419	        "contextTokens": 32768,
+398.584419	        "contextTokensSource": "resolved",
+398.584421	        "agentHarnessId": "openclaw",
+398.584421	        "usage": {
+398.584421	          "input": 479,
+398.584422	          "output": 5,
+398.584422	          "cacheRead": 12252,
+398.584426	          "total": 12736
+398.584426	        },
+398.584538	        "lastCallUsage": {
+398.584538	          "input": 479,
+398.584538	          "output": 5,
+398.584538	          "cacheRead": 12252,
+398.584538	          "cacheWrite": 0,
+398.584539	          "total": 12736
+398.584539	        },
+398.584539	        "promptTokens": 12731,
+398.584539	        "contextBudgetStatus": {
+398.584539	          "schemaVersion": 1,
+398.584542	          "source": "pre-prompt-estimate",
+398.584542	          "updatedAt": 1788573562441,
+398.584542	          "provider": "llama-server",
+398.584542	          "model": "kimi-linear-48b",
+398.584545	          "route": "fits",
+398.584545	          "shouldCompact": false,
+398.584545	          "estimatedPromptTokens": 8968,
+398.584545	          "contextTokenBudget": 32768,
+398.584545	          "promptBudgetBeforeReserve": 12768,
+398.584545	          "reserveTokens": 20000,
+398.584549	          "effectiveReserveTokens": 20000,
+398.584549	          "remainingPromptBudgetTokens": 3800,
+398.584550	          "overflowTokens": 0,
+398.584550	          "toolResultReducibleChars": 0,
+398.584550	          "messageCount": 0,
+398.584550	          "unwindowedMessageCount": 0,
+398.584554	          "sessionId": "d2ca0c14-43d1-4a15-9f8a-7188e92c4660"
+398.584555	        },
+398.584555	        "codeModeEngaged": false,
+398.584555	        "assistantTurns": 1,
+398.584555	        "costUsd": 0,
+398.584555	        "terminalReceipt": {
+398.584555	          "runId": "5cd5d17a-1c6a-4f54-95b2-c6e357f68a57",
+398.584555	          "sessionId": "d2ca0c14-43d1-4a15-9f8a-7188e92c4660",
+398.584556	          "turnId": "5cd5d17a-1c6a-4f54-95b2-c6e357f68a57",
+398.584556	          "requested": {
+398.584556	            "provider": "llama-server",
+398.584556	            "model": "kimi-linear-48b"
+398.584563	          },
+398.584563	          "effective": {
+398.584563	            "provider": "llama-server",
+398.584563	            "model": "kimi-linear-48b",
+398.584565	            "responseModel": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+398.584565	          },
+398.584565	          "successfulToolNames": [],
+398.584566	          "rerouted": true
+398.584566	        }
+398.584566	      },
+398.584566	      "aborted": false,
+398.584566	      "systemPromptReport": {
+398.584579	        "source": "run",
+398.584580	        "generatedAt": 1788573562423,
+398.584580	        "sessionId": "d2ca0c14-43d1-4a15-9f8a-7188e92c4660",
+398.584580	        "sessionKey": "agent:kimi:step10-r2c-p1-r2",
+398.584580	        "provider": "llama-server",
+398.584580	        "model": "kimi-linear-48b",
+398.584580	        "workspaceDir": "/Users/pmains/Code/openclaw/kimi",
+398.584580	        "bootstrapMaxChars": 20000,
+398.584581	        "bootstrapTotalMaxChars": 60000,
+398.584581	        "bootstrapTruncation": {
+398.584581	          "warningMode": "always",
+398.584581	          "warningShown": false,
+398.584581	          "truncatedFiles": 0,
+398.584581	          "nearLimitFiles": 0,
+398.584581	          "totalNearLimit": false
+398.584582	        },
+398.584586	        "sandbox": {
+398.584586	          "mode": "off",
+398.584586	          "sandboxed": false
+398.584586	        },
+398.584586	        "systemPrompt": {
+398.584586	          "chars": 29741,
+398.584586	          "hash": "1c448b48ab517737f3c684d8f21b71820890950154437aba2098245504b08ec7",
+398.584586	          "projectContextChars": 13246,
+398.584587	          "nonProjectContextChars": 16495
+398.584587	        },
+398.584587	        "injectedWorkspaceFiles": [
+398.584587	          {
+398.584587	            "name": "AGENTS.md",
+398.584587	            "path": "/Users/pmains/Code/openclaw/kimi/AGENTS.md",
+398.584587	            "missing": false,
+398.584588	            "rawChars": 9634,
+398.584588	            "injectedChars": 9634,
+398.584588	            "truncated": false
+398.584588	          },
+398.584588	          {
+398.584588	            "name": "SOUL.md",
+398.584589	            "path": "/Users/pmains/Code/openclaw/kimi/SOUL.md",
+398.584589	            "missing": false,
+398.584589	            "rawChars": 1797,
+398.584589	            "injectedChars": 1797,
+398.584589	            "truncated": false
+398.584589	          },
+398.584589	          {
+398.584589	            "name": "IDENTITY.md",
+398.584590	            "path": "/Users/pmains/Code/openclaw/kimi/IDENTITY.md",
+398.584590	            "missing": false,
+398.584590	            "rawChars": 566,
+398.584590	            "injectedChars": 566,
+398.584590	            "truncated": false
+398.584590	          },
+398.584590	          {
+398.584593	            "name": "USER.md",
+398.584593	            "path": "/Users/pmains/Code/openclaw/kimi/USER.md",
+398.584593	            "missing": false,
+398.584593	            "rawChars": 831,
+398.584593	            "injectedChars": 831,
+398.584594	            "truncated": false
+398.584594	          }
+398.584594	        ],
+398.584594	        "skills": {
+398.584594	          "promptChars": 5900,
+398.584596	          "hash": "f13885a32bdb2faafcba47c40f844911f56476b7635db33a261bf0cd0588e0cb",
+398.584596	          "entries": [
+398.584597	            {
+398.584597	              "name": "browser-automation",
+398.584597	              "blockChars": 324
+398.584597	            },
+398.584597	            {
+398.584597	              "name": "canvas",
+398.584597	              "blockChars": 243
+398.584597	            },
+398.584602	            {
+398.584602	              "name": "diagram-maker",
+398.584602	              "blockChars": 266
+398.584602	            },
+398.584603	            {
+398.584603	              "name": "healthcheck",
+398.584603	              "blockChars": 278
+398.584603	            },
+398.584603	            {
+398.584603	              "name": "kimi-stats-attribution",
+398.584603	              "blockChars": 290
+398.584603	            },
+398.584605	            {
+398.584605	              "name": "meme-maker",
+398.584605	              "blockChars": 251
+398.584605	            },
+398.584605	            {
+398.584605	              "name": "metal-numeric-localization",
+398.584605	              "blockChars": 343
+398.584605	            },
+398.584606	            {
+398.584606	              "name": "node-connect",
+398.584606	              "blockChars": 335
+398.584606	            },
+398.584606	            {
+398.584607	              "name": "node-inspect-debugger",
+398.584607	              "blockChars": 277
+398.584607	            },
+398.584607	            {
+398.584607	              "name": "openai-whisper-api",
+398.584607	              "blockChars": 275
+398.584607	            },
+398.584607	            {
+398.584608	              "name": "perplexity-quality-gate",
+398.584608	              "blockChars": 312
+398.584608	            },
+398.584608	            {
+398.584608	              "name": "phase07-invariant-gate-triage",
+398.584608	              "blockChars": 331
+398.584608	            },
+398.584608	            {
+398.584608	              "name": "python-debugpy",
+398.584609	              "blockChars": 265
+398.584609	            },
+398.584609	            {
+398.584609	              "name": "resume-bracket-harness",
+398.584609	              "blockChars": 291
+398.584609	            },
+398.584609	            {
+398.584609	              "name": "skill-creator",
+398.584610	              "blockChars": 284
+398.584610	            },
+398.584610	            {
+398.584610	              "name": "spike",
+398.584610	              "blockChars": 251
+398.584610	            },
+398.584611	            {
+398.584611	              "name": "taskflow",
+398.584611	              "blockChars": 281
+398.584611	            },
+398.584611	            {
+398.584611	              "name": "taskflow-inbox-triage",
+398.584611	              "blockChars": 291
+398.584611	            },
+398.584612	            {
+398.584612	              "name": "weather",
+398.584612	              "blockChars": 289
+398.584612	            }
+398.584612	          ]
+398.584612	        },
+398.584612	        "tools": {
+398.584612	          "listChars": 0,
+398.584612	          "schemaChars": 16108,
+398.584613	          "entries": [
+398.584613	            {
+398.584613	              "name": "read",
+398.584613	              "summaryChars": 164,
+398.584616	              "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+398.584616	              "schemaChars": 481,
+398.584617	              "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+398.584617	              "propertiesCount": 5
+398.584617	            },
+398.584617	            {
+398.584617	              "name": "edit",
+398.584622	              "summaryChars": 130,
+398.584622	              "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+398.584622	              "schemaChars": 501,
+398.584622	              "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+398.584623	              "propertiesCount": 2
+398.584623	            },
+398.584623	            {
+398.584623	              "name": "write",
+398.584623	              "summaryChars": 49,
+398.584623	              "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+398.584623	              "schemaChars": 191,
+398.584623	              "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+398.584623	              "propertiesCount": 2
+398.584624	            },
+398.584624	            {
+398.584624	              "name": "apply_patch",
+398.584624	              "summaryChars": 71,
+398.584624	              "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+398.584624	              "schemaChars": 153,
+398.584624	              "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+398.584624	              "propertiesCount": 1
+398.584625	            },
+398.584625	            {
+398.584625	              "name": "exec",
+398.584625	              "summaryChars": 366,
+398.584984	              "summaryHash": "6a41ebbc7cd1fae376a497c1bb1662c40a5faa87e5f811bff3ae37e04fb20973",
+398.584984	              "schemaChars": 1204,
+398.584984	              "schemaHash": "199d907ca5ebaf153a09b3cb9f1d1115d9d9cbb3bf4fada73d9be41a2134e4f7",
+398.584984	              "propertiesCount": 12
+398.584984	            },
+398.584985	            {
+398.584985	              "name": "process",
+398.584985	              "summaryChars": 190,
+398.584985	              "summaryHash": "75fd9c7b8d560599081ab2621e4f897babc118254cf439bd8329a60a905a9ef1",
+398.584985	              "schemaChars": 1164,
+398.584985	              "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+398.584986	              "propertiesCount": 12
+398.584986	            },
+398.584986	            {
+398.584986	              "name": "sessions",
+398.584986	              "summaryChars": 366,
+398.584986	              "summaryHash": "6b77afec2124edbe020f0eafc898b9194422d377e0bf9461b50660bd258de762",
+398.584986	              "schemaChars": 2383,
+398.584986	              "schemaHash": "af341b7297a7c8bab3fd320ee27acce50972d92effd1adfce98362a20194b8dc",
+398.584986	              "propertiesCount": 19
+398.584987	            },
+398.584987	            {
+398.584987	              "name": "get_goal",
+398.584987	              "summaryChars": 37,
+398.584987	              "summaryHash": "210e66713982f9fb94b37654a7aef01007f0e769395905ad57ebb7b206657b28",
+398.584987	              "schemaChars": 33,
+398.584987	              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+398.584987	              "propertiesCount": 0
+398.584988	            },
+398.584989	            {
+398.584989	              "name": "create_goal",
+398.584989	              "summaryChars": 145,
+398.584989	              "summaryHash": "7919e13323854315bcba96b318994fa383966500a2cf80b86bba6c015ddb30bb",
+398.584989	              "schemaChars": 240,
+398.584989	              "schemaHash": "347689d0f03cab77ded9e646bd95f495f29f5c93e5ad7a93f7c4d8670ffa428f",
+398.584989	              "propertiesCount": 2
+398.584989	            },
+398.584989	            {
+398.584990	              "name": "update_goal",
+398.584990	              "summaryChars": 277,
+398.584990	              "summaryHash": "e65e79cd292f3c7472d41fb894a89a6daf0a610015010f62cd934997f6f281df",
+398.584990	              "schemaChars": 207,
+398.584990	              "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+398.584990	              "propertiesCount": 2
+398.584990	            },
+398.584990	            {
+398.584990	              "name": "progress_card",
+398.584991	              "summaryChars": 1057,
+398.584991	              "summaryHash": "846c0095686b427523a290242733dcd4cf2017dd0a76caed3dbca57d589a6a45",
+398.584991	              "schemaChars": 401,
+398.584991	              "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+398.584991	              "propertiesCount": 2
+398.584991	            },
+398.584992	            {
+398.584992	              "name": "secrets",
+398.584992	              "summaryChars": 1151,
+398.584992	              "summaryHash": "26dc68ef0e842290327c200e0527fd392c12d6dcb1da2a354c9c51aba6982593",
+398.584992	              "schemaChars": 1157,
+398.584992	              "schemaHash": "97511048a79d7b4ec21bc593ec5d80d73b0a69015c9bbea8131afd68555c4f72",
+398.584992	              "propertiesCount": 6
+398.584992	            },
+398.584993	            {
+398.584993	              "name": "sessions_list",
+398.584993	              "summaryChars": 248,
+398.584993	              "summaryHash": "08f1e7b8d09976fdb235e24357287939ebf8729ce34abc2cb6d8096e8fbd5d0f",
+398.584993	              "schemaChars": 518,
+398.584994	              "schemaHash": "e878e741a7122c61cfd46c97828e7281414afb487b2e9f0c718578bdf9bf30e5",
+398.584994	              "propertiesCount": 10
+398.584994	            },
+398.584995	            {
+398.584995	              "name": "sessions_history",
+398.584995	              "summaryChars": 152,
+398.584995	              "summaryHash": "e60a4b2fbfba94ba8773cbfb92db5c36fa8bdd9d425869057c8b0e11b92313b2",
+398.584995	              "schemaChars": 290,
+398.584995	              "schemaHash": "8e710b8b7264bc7fcaa6d60411b30d4a0fe8974d426919c1abd6a997039b43b3",
+398.584995	              "propertiesCount": 6
+398.584995	            },
+398.584996	            {
+398.584996	              "name": "sessions_search",
+398.584996	              "summaryChars": 178,
+398.584996	              "summaryHash": "9b730e613c04139f2cbb974d73ec89c191d1be42ff4a2e7181a38e11f022a907",
+398.584996	              "schemaChars": 179,
+398.584996	              "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+398.584996	              "propertiesCount": 3
+398.584996	            },
+398.584996	            {
+398.584997	              "name": "conversations_list",
+398.584997	              "summaryChars": 159,
+398.584997	              "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+398.584997	              "schemaChars": 182,
+398.584997	              "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+398.584997	              "propertiesCount": 3
+398.584997	            },
+398.584998	            {
+398.584998	              "name": "conversations_send",
+398.585001	              "summaryChars": 152,
+398.585001	              "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+398.585001	              "schemaChars": 212,
+398.585001	              "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+398.585001	              "propertiesCount": 2
+398.585002	            },
+398.585002	            {
+398.585002	              "name": "conversations_turn",
+398.585002	              "summaryChars": 190,
+398.585002	              "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+398.585002	              "schemaChars": 274,
+398.585002	              "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+398.585002	              "propertiesCount": 3
+398.585002	            },
+398.585003	            {
+398.585003	              "name": "sessions_send",
+398.585003	              "summaryChars": 619,
+398.585003	              "summaryHash": "e95357292b0c7e5131eca26a9ed65732755cf5f83be1d8da98e5f5dce8e8c017",
+398.585003	              "schemaChars": 302,
+398.585003	              "schemaHash": "204249b04e35552d80609d8e7c40c461cf550564dc4ee6e573d0e00f05af84e2",
+398.585003	              "propertiesCount": 6
+398.585003	            },
+398.585004	            {
+398.585004	              "name": "sessions_spawn",
+398.585004	              "summaryChars": 1468,
+398.585004	              "summaryHash": "b77b5ed236f551097a02101eabdd319977170cd835ce8478364958db12fa1bad",
+398.585004	              "schemaChars": 2634,
+398.585004	              "schemaHash": "3619d67dbbb3b773d482ed5bf443c1dfe8bea11520961336715dad917aaf5cc9",
+398.585004	              "propertiesCount": 21
+398.585004	            },
+398.585004	            {
+398.585005	              "name": "sessions_yield",
+398.585005	              "summaryChars": 149,
+398.585005	              "summaryHash": "54c3073a05fc6c0d2cfaec6a7aa0d9ed732a932a80f760e06083535584cca63e",
+398.585005	              "schemaChars": 259,
+398.585005	              "schemaHash": "affee0fae7ad36a16fa1e339d4fe9e1e80351178f1023af65e3d1240f700935d",
+398.585005	              "propertiesCount": 2
+398.585005	            },
+398.585005	            {
+398.585005	              "name": "subagents",
+398.585006	              "summaryChars": 68,
+398.585006	              "summaryHash": "7143cfe20a0f143f0559924a80735a7efa2e52e60997d835ee2bff7e8c5e050e",
+398.585006	              "schemaChars": 182,
+398.585006	              "schemaHash": "476c1f5821ec8d8bd2b001dbf64fa5c8242b8a2bb87d064ee00abbf66d4a4ea9",
+398.585006	              "propertiesCount": 3
+398.585006	            },
+398.585006	            {
+398.585006	              "name": "session_status",
+398.585007	              "summaryChars": 192,
+398.585007	              "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+398.585007	              "schemaChars": 135,
+398.585007	              "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+398.585007	              "propertiesCount": 3
+398.585007	            },
+398.585008	            {
+398.585008	              "name": "web_search",
+398.585008	              "summaryChars": 164,
+398.585008	              "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+398.585008	              "schemaChars": 991,
+398.585008	              "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+398.585008	              "propertiesCount": 12
+398.585008	            },
+398.585008	            {
+398.585009	              "name": "web_fetch",
+398.585009	              "summaryChars": 78,
+398.585009	              "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+398.585010	              "schemaChars": 317,
+398.585010	              "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+398.585010	              "propertiesCount": 3
+398.585010	            },
+398.585010	            {
+398.585010	              "name": "view_image",
+398.585010	              "summaryChars": 224,
+398.585010	              "summaryHash": "3a63dc0690ca7a56e3b874eae05df56b4d797f10dcdb4b394daea27219d9e375",
+398.585011	              "schemaChars": 386,
+398.585011	              "schemaHash": "ae82c0ce6fa137243afd92341a9978ef6d3beb58174e7248a8a17666cca4d5a8",
+398.585011	              "propertiesCount": 6
+398.585011	            },
+398.585011	            {
+398.585011	              "name": "memory_search",
+398.585011	              "summaryChars": 729,
+398.585011	              "summaryHash": "4f28bc5c030d2a510ba9fedcda9110814454726a24dc9e2185136935f1cb7702",
+398.585012	              "schemaChars": 250,
+398.585012	              "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+398.585019	              "propertiesCount": 4
+398.585019	            },
+398.585019	            {
+398.585019	              "name": "memory_get",
+398.585019	              "summaryChars": 503,
+398.585020	              "summaryHash": "47415c135138bae947a258b31a684d8dce14cb5945e290057323ba5d044a357f",
+398.585020	              "schemaChars": 241,
+398.585020	              "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+398.585020	              "propertiesCount": 4
+398.585020	            },
+398.585020	            {
+398.585020	              "name": "intent",
+398.585020	              "summaryChars": 266,
+398.585021	              "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+398.585021	              "schemaChars": 641,
+398.585021	              "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+398.585021	              "propertiesCount": 10
+398.585021	            }
+398.585021	          ]
+398.585021	        },
+398.585024	        "currentTurn": {
+398.585024	          "promptChars": 22,
+398.585024	          "runtimeContextChars": 0,
+398.585024	          "modelOnlyPromptChars": 0
+398.585024	        }
+398.585024	      },
+398.585025	      "finalPromptText": "Respond only PLATANOS!",
+398.585025	      "finalAssistantVisibleText": "PLATANOS",
+398.585025	      "finalAssistantRawText": "PLATANOS",
+398.585025	      "replayInvalid": false,
+398.585025	      "livenessState": "working",
+398.585025	      "stopReason": "stop",
+398.585025	      "executionTrace": {
+398.585025	        "winnerProvider": "llama-server",
+398.586473	        "winnerModel": "kimi-linear-48b",
+398.586474	        "attempts": [
+398.586474	          {
+398.586474	            "provider": "llama-server",
+398.586474	            "model": "kimi-linear-48b",
+398.586475	            "result": "success",
+398.586475	            "stage": "assistant"
+398.586475	          }
+398.586475	        ],
+398.586475	        "fallbackUsed": false,
+398.586476	        "runner": "embedded"
+398.586476	      },
+398.586476	      "requestShaping": {
+398.586476	        "thinking": "off"
+398.586476	      },
+398.586476	      "completion": {
+398.586476	        "stopReason": "stop",
+398.586477	        "finishReason": "stop"
+398.586477	      }
+398.586477	    }
+398.586477	  }
+398.586477	}

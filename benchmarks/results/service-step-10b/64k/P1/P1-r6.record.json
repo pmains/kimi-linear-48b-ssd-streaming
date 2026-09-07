@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "P1-r6",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step10b-64k-P1-r6",
+  "rc": 0,
+  "wall_s": 25.7486,
+  "t0_utc": "2026-09-05T15:46:01Z",
+  "t1_utc": "2026-09-05T15:46:27Z",
+  "n_lines": 493,
+  "extraction": "json:key=text",
+  "reply_chars": 482,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": true,
+   "n_prompt_tokens": 23890,
+   "n_prompt_tokens_cache": 23846,
+   "id_task": 4668
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 12837,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 4674
+  },
+  "llama_window_chars": 1089,
+  "gateway_window_chars": 1244
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 23964,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 12731,
+  "usage": {
+   "input": 519,
+   "output": 107,
+   "cacheRead": 12212,
+   "total": 12838
+  },
+  "lastCallUsage": {
+   "input": 519,
+   "output": 107,
+   "cacheRead": 12212,
+   "cacheWrite": 0,
+   "total": 12838
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29742,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Respond only PLATANOS!"
+}

@@ -1,0 +1,7 @@
+[C0/P1b] rep1 wall=1.6s fam=exact pass=True text='Acknowledged.'
+[C0/P1b] rep2 wall=0.1s fam=exact pass=True text='Accepted'
+[C0/P1b] rep3 wall=0.1s fam=exact pass=True text='Confirmed'
+[C1a-D/P1b] rep1 wall=8.7s fam=exact pass=True text='reply'
+[C1a-D/P1b] rep2 wall=0.4s fam=exact pass=True text='Alkaline'
+[C1a-D/P1b] rep3 wall=4.6s fam=prose-wrapped pass=False text='Hello Peter, I’m Alkaline, your AI assistant built to help with your Kimi Linear'
+DONE: 6 rows -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-09c-verify/ladder-summary.csv

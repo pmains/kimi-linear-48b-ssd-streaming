@@ -1,0 +1,492 @@
+316.083872	{
+316.084158	  "runId": "defd141c-d296-4784-b86b-4bed8c2123fe",
+316.084171	  "status": "ok",
+316.084179	  "summary": "completed",
+316.084179	  "result": {
+316.084180	    "payloads": [
+316.084180	      {
+316.084180	        "text": "OK",
+316.084181	        "mediaUrl": null
+316.084186	      }
+316.084187	    ],
+316.084187	    "meta": {
+316.084196	      "durationMs": 196434,
+316.084198	      "agentMeta": {
+316.084205	        "sessionId": "2a54a268-0964-4183-9877-e1bd830b577b",
+316.084206	        "sessionFile": "agent:kimi:step09-validation",
+316.084206	        "provider": "llama-server",
+316.084210	        "model": "kimi-linear-48b",
+316.084210	        "contextTokens": 32768,
+316.084210	        "contextTokensSource": "resolved",
+316.084211	        "agentHarnessId": "openclaw",
+316.084211	        "usage": {
+316.084211	          "input": 12750,
+316.084211	          "output": 2,
+316.084222	          "total": 12752
+316.084229	        },
+316.084230	        "lastCallUsage": {
+316.084234	          "input": 12750,
+316.084234	          "output": 2,
+316.084234	          "cacheRead": 0,
+316.084234	          "cacheWrite": 0,
+316.084234	          "total": 12752
+316.084235	        },
+316.084235	        "promptTokens": 12750,
+316.084235	        "contextBudgetStatus": {
+316.084235	          "schemaVersion": 1,
+316.084239	          "source": "pre-prompt-estimate",
+316.084239	          "updatedAt": 1788367256840,
+316.084239	          "provider": "llama-server",
+316.084239	          "model": "kimi-linear-48b",
+316.084239	          "route": "fits",
+316.084244	          "shouldCompact": false,
+316.084244	          "estimatedPromptTokens": 9011,
+316.084244	          "contextTokenBudget": 32768,
+316.084245	          "promptBudgetBeforeReserve": 12768,
+316.084245	          "reserveTokens": 20000,
+316.084247	          "effectiveReserveTokens": 20000,
+316.084247	          "remainingPromptBudgetTokens": 3757,
+316.084248	          "overflowTokens": 0,
+316.084248	          "toolResultReducibleChars": 0,
+316.084248	          "messageCount": 0,
+316.084248	          "unwindowedMessageCount": 0,
+316.084260	          "sessionId": "2a54a268-0964-4183-9877-e1bd830b577b"
+316.084267	        },
+316.084267	        "codeModeEngaged": false,
+316.084268	        "assistantTurns": 1,
+316.084268	        "costUsd": 0,
+316.084268	        "terminalReceipt": {
+316.084269	          "runId": "defd141c-d296-4784-b86b-4bed8c2123fe",
+316.084269	          "sessionId": "2a54a268-0964-4183-9877-e1bd830b577b",
+316.084269	          "turnId": "defd141c-d296-4784-b86b-4bed8c2123fe",
+316.084269	          "requested": {
+316.084270	            "provider": "llama-server",
+316.084270	            "model": "kimi-linear-48b"
+316.084270	          },
+316.084291	          "effective": {
+316.084292	            "provider": "llama-server",
+316.084293	            "model": "kimi-linear-48b",
+316.084297	            "responseModel": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+316.084297	          },
+316.084297	          "successfulToolNames": [],
+316.084298	          "rerouted": true
+316.084298	        }
+316.084298	      },
+316.084298	      "aborted": false,
+316.084298	      "systemPromptReport": {
+316.084299	        "source": "run",
+316.084306	        "generatedAt": 1788367256820,
+316.084306	        "sessionId": "2a54a268-0964-4183-9877-e1bd830b577b",
+316.084306	        "sessionKey": "agent:kimi:step09-validation",
+316.084306	        "provider": "llama-server",
+316.084307	        "model": "kimi-linear-48b",
+316.084307	        "workspaceDir": "/Users/pmains/Code/openclaw/kimi",
+316.084307	        "bootstrapMaxChars": 20000,
+316.084307	        "bootstrapTotalMaxChars": 60000,
+316.084307	        "bootstrapTruncation": {
+316.084307	          "warningMode": "always",
+316.084308	          "warningShown": false,
+316.084308	          "truncatedFiles": 0,
+316.084308	          "nearLimitFiles": 0,
+316.084308	          "totalNearLimit": false
+316.084308	        },
+316.084308	        "sandbox": {
+316.084318	          "mode": "off",
+316.084318	          "sandboxed": false
+316.084318	        },
+316.084318	        "systemPrompt": {
+316.084318	          "chars": 29893,
+316.084319	          "hash": "dfe7ef507c21c00477143155d44a0108ef8ab07c4e8d2e46e7b5f4946cc3422d",
+316.084319	          "projectContextChars": 13246,
+316.084319	          "nonProjectContextChars": 16647
+316.084319	        },
+316.084319	        "injectedWorkspaceFiles": [
+316.084320	          {
+316.084320	            "name": "AGENTS.md",
+316.084320	            "path": "/Users/pmains/Code/openclaw/kimi/AGENTS.md",
+316.084320	            "missing": false,
+316.084320	            "rawChars": 9634,
+316.084320	            "injectedChars": 9634,
+316.084327	            "truncated": false
+316.084327	          },
+316.084327	          {
+316.084327	            "name": "SOUL.md",
+316.084328	            "path": "/Users/pmains/Code/openclaw/kimi/SOUL.md",
+316.084328	            "missing": false,
+316.084328	            "rawChars": 1797,
+316.084328	            "injectedChars": 1797,
+316.084328	            "truncated": false
+316.084328	          },
+316.084329	          {
+316.084329	            "name": "IDENTITY.md",
+316.084329	            "path": "/Users/pmains/Code/openclaw/kimi/IDENTITY.md",
+316.084329	            "missing": false,
+316.084329	            "rawChars": 566,
+316.084329	            "injectedChars": 566,
+316.084330	            "truncated": false
+316.084330	          },
+316.084330	          {
+316.084330	            "name": "USER.md",
+316.084335	            "path": "/Users/pmains/Code/openclaw/kimi/USER.md",
+316.084335	            "missing": false,
+316.084335	            "rawChars": 831,
+316.084335	            "injectedChars": 831,
+316.084336	            "truncated": false
+316.084336	          }
+316.084336	        ],
+316.084336	        "skills": {
+316.084336	          "promptChars": 5900,
+316.084344	          "hash": "f13885a32bdb2faafcba47c40f844911f56476b7635db33a261bf0cd0588e0cb",
+316.084344	          "entries": [
+316.084344	            {
+316.084344	              "name": "browser-automation",
+316.084344	              "blockChars": 324
+316.084344	            },
+316.084345	            {
+316.084345	              "name": "canvas",
+316.084345	              "blockChars": 243
+316.084345	            },
+316.084345	            {
+316.084349	              "name": "diagram-maker",
+316.084349	              "blockChars": 266
+316.084349	            },
+316.084350	            {
+316.084350	              "name": "healthcheck",
+316.084350	              "blockChars": 278
+316.084350	            },
+316.084351	            {
+316.084351	              "name": "kimi-stats-attribution",
+316.084352	              "blockChars": 290
+316.084352	            },
+316.084352	            {
+316.084352	              "name": "meme-maker",
+316.084352	              "blockChars": 251
+316.084352	            },
+316.084352	            {
+316.084353	              "name": "metal-numeric-localization",
+316.084353	              "blockChars": 343
+316.084353	            },
+316.084353	            {
+316.084353	              "name": "node-connect",
+316.084353	              "blockChars": 335
+316.084353	            },
+316.084354	            {
+316.084359	              "name": "node-inspect-debugger",
+316.084359	              "blockChars": 277
+316.084359	            },
+316.084359	            {
+316.084360	              "name": "openai-whisper-api",
+316.084360	              "blockChars": 275
+316.084360	            },
+316.084360	            {
+316.084360	              "name": "perplexity-quality-gate",
+316.084360	              "blockChars": 312
+316.084360	            },
+316.084361	            {
+316.084361	              "name": "phase07-invariant-gate-triage",
+316.084361	              "blockChars": 331
+316.084361	            },
+316.084361	            {
+316.084361	              "name": "python-debugpy",
+316.084361	              "blockChars": 265
+316.084362	            },
+316.084362	            {
+316.084362	              "name": "resume-bracket-harness",
+316.084362	              "blockChars": 291
+316.084362	            },
+316.084362	            {
+316.084362	              "name": "skill-creator",
+316.084363	              "blockChars": 284
+316.084363	            },
+316.084363	            {
+316.084368	              "name": "spike",
+316.084369	              "blockChars": 251
+316.084369	            },
+316.084369	            {
+316.084369	              "name": "taskflow",
+316.084369	              "blockChars": 281
+316.084369	            },
+316.084369	            {
+316.084370	              "name": "taskflow-inbox-triage",
+316.084370	              "blockChars": 291
+316.084370	            },
+316.084370	            {
+316.084370	              "name": "weather",
+316.084370	              "blockChars": 289
+316.084371	            }
+316.084371	          ]
+316.084371	        },
+316.084371	        "tools": {
+316.084371	          "listChars": 0,
+316.084371	          "schemaChars": 16108,
+316.084372	          "entries": [
+316.084372	            {
+316.084372	              "name": "read",
+316.084372	              "summaryChars": 164,
+316.084376	              "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+316.084376	              "schemaChars": 481,
+316.084376	              "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+316.084376	              "propertiesCount": 5
+316.084376	            },
+316.084376	            {
+316.084377	              "name": "edit",
+316.084377	              "summaryChars": 130,
+316.084383	              "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+316.084383	              "schemaChars": 501,
+316.084383	              "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+316.084383	              "propertiesCount": 2
+316.084383	            },
+316.084384	            {
+316.084384	              "name": "write",
+316.084384	              "summaryChars": 49,
+316.084384	              "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+316.084384	              "schemaChars": 191,
+316.084384	              "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+316.084385	              "propertiesCount": 2
+316.084385	            },
+316.084385	            {
+316.084385	              "name": "apply_patch",
+316.084385	              "summaryChars": 71,
+316.084385	              "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+316.084385	              "schemaChars": 153,
+316.084386	              "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+316.084386	              "propertiesCount": 1
+316.084386	            },
+316.084386	            {
+316.084386	              "name": "exec",
+316.084386	              "summaryChars": 366,
+316.084387	              "summaryHash": "6a41ebbc7cd1fae376a497c1bb1662c40a5faa87e5f811bff3ae37e04fb20973",
+316.084444	              "schemaChars": 1204,
+316.084444	              "schemaHash": "199d907ca5ebaf153a09b3cb9f1d1115d9d9cbb3bf4fada73d9be41a2134e4f7",
+316.084444	              "propertiesCount": 12
+316.084444	            },
+316.084444	            {
+316.084444	              "name": "process",
+316.084445	              "summaryChars": 190,
+316.084445	              "summaryHash": "75fd9c7b8d560599081ab2621e4f897babc118254cf439bd8329a60a905a9ef1",
+316.084445	              "schemaChars": 1164,
+316.084445	              "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+316.084445	              "propertiesCount": 12
+316.084445	            },
+316.084446	            {
+316.084446	              "name": "sessions",
+316.084446	              "summaryChars": 366,
+316.084446	              "summaryHash": "6b77afec2124edbe020f0eafc898b9194422d377e0bf9461b50660bd258de762",
+316.084446	              "schemaChars": 2383,
+316.084446	              "schemaHash": "af341b7297a7c8bab3fd320ee27acce50972d92effd1adfce98362a20194b8dc",
+316.084446	              "propertiesCount": 19
+316.084447	            },
+316.084447	            {
+316.084447	              "name": "get_goal",
+316.084447	              "summaryChars": 37,
+316.084447	              "summaryHash": "210e66713982f9fb94b37654a7aef01007f0e769395905ad57ebb7b206657b28",
+316.084447	              "schemaChars": 33,
+316.084448	              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+316.084448	              "propertiesCount": 0
+316.084448	            },
+316.084449	            {
+316.084449	              "name": "create_goal",
+316.084449	              "summaryChars": 145,
+316.084450	              "summaryHash": "7919e13323854315bcba96b318994fa383966500a2cf80b86bba6c015ddb30bb",
+316.084450	              "schemaChars": 240,
+316.084450	              "schemaHash": "347689d0f03cab77ded9e646bd95f495f29f5c93e5ad7a93f7c4d8670ffa428f",
+316.084450	              "propertiesCount": 2
+316.084450	            },
+316.084450	            {
+316.084450	              "name": "update_goal",
+316.084451	              "summaryChars": 277,
+316.084451	              "summaryHash": "e65e79cd292f3c7472d41fb894a89a6daf0a610015010f62cd934997f6f281df",
+316.084451	              "schemaChars": 207,
+316.084451	              "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+316.084451	              "propertiesCount": 2
+316.084451	            },
+316.084451	            {
+316.084452	              "name": "progress_card",
+316.084452	              "summaryChars": 1057,
+316.084452	              "summaryHash": "846c0095686b427523a290242733dcd4cf2017dd0a76caed3dbca57d589a6a45",
+316.084452	              "schemaChars": 401,
+316.084452	              "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+316.084452	              "propertiesCount": 2
+316.084458	            },
+316.084458	            {
+316.084458	              "name": "secrets",
+316.084458	              "summaryChars": 1151,
+316.084458	              "summaryHash": "26dc68ef0e842290327c200e0527fd392c12d6dcb1da2a354c9c51aba6982593",
+316.084458	              "schemaChars": 1157,
+316.084459	              "schemaHash": "97511048a79d7b4ec21bc593ec5d80d73b0a69015c9bbea8131afd68555c4f72",
+316.084459	              "propertiesCount": 6
+316.084459	            },
+316.084459	            {
+316.084459	              "name": "sessions_list",
+316.084459	              "summaryChars": 248,
+316.084459	              "summaryHash": "08f1e7b8d09976fdb235e24357287939ebf8729ce34abc2cb6d8096e8fbd5d0f",
+316.084460	              "schemaChars": 518,
+316.084460	              "schemaHash": "e878e741a7122c61cfd46c97828e7281414afb487b2e9f0c718578bdf9bf30e5",
+316.084460	              "propertiesCount": 10
+316.084461	            },
+316.084461	            {
+316.084461	              "name": "sessions_history",
+316.084461	              "summaryChars": 152,
+316.084461	              "summaryHash": "e60a4b2fbfba94ba8773cbfb92db5c36fa8bdd9d425869057c8b0e11b92313b2",
+316.084461	              "schemaChars": 290,
+316.084462	              "schemaHash": "8e710b8b7264bc7fcaa6d60411b30d4a0fe8974d426919c1abd6a997039b43b3",
+316.084462	              "propertiesCount": 6
+316.084462	            },
+316.084462	            {
+316.084462	              "name": "sessions_search",
+316.084462	              "summaryChars": 178,
+316.084462	              "summaryHash": "9b730e613c04139f2cbb974d73ec89c191d1be42ff4a2e7181a38e11f022a907",
+316.084463	              "schemaChars": 179,
+316.084463	              "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+316.084463	              "propertiesCount": 3
+316.084463	            },
+316.084463	            {
+316.084463	              "name": "conversations_list",
+316.084463	              "summaryChars": 159,
+316.084464	              "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+316.084464	              "schemaChars": 182,
+316.084465	              "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+316.084465	              "propertiesCount": 3
+316.084465	            },
+316.084466	            {
+316.084466	              "name": "conversations_send",
+316.084466	              "summaryChars": 152,
+316.084472	              "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+316.084472	              "schemaChars": 212,
+316.084472	              "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+316.084472	              "propertiesCount": 2
+316.084472	            },
+316.084473	            {
+316.084473	              "name": "conversations_turn",
+316.084473	              "summaryChars": 190,
+316.084473	              "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+316.084473	              "schemaChars": 274,
+316.084473	              "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+316.084473	              "propertiesCount": 3
+316.084474	            },
+316.084474	            {
+316.084474	              "name": "sessions_send",
+316.084474	              "summaryChars": 619,
+316.084474	              "summaryHash": "e95357292b0c7e5131eca26a9ed65732755cf5f83be1d8da98e5f5dce8e8c017",
+316.084474	              "schemaChars": 302,
+316.084475	              "schemaHash": "204249b04e35552d80609d8e7c40c461cf550564dc4ee6e573d0e00f05af84e2",
+316.084475	              "propertiesCount": 6
+316.084475	            },
+316.084475	            {
+316.084475	              "name": "sessions_spawn",
+316.084475	              "summaryChars": 1468,
+316.084475	              "summaryHash": "b77b5ed236f551097a02101eabdd319977170cd835ce8478364958db12fa1bad",
+316.084475	              "schemaChars": 2634,
+316.084476	              "schemaHash": "3619d67dbbb3b773d482ed5bf443c1dfe8bea11520961336715dad917aaf5cc9",
+316.084476	              "propertiesCount": 21
+316.084476	            },
+316.084476	            {
+316.084476	              "name": "sessions_yield",
+316.084476	              "summaryChars": 149,
+316.084476	              "summaryHash": "54c3073a05fc6c0d2cfaec6a7aa0d9ed732a932a80f760e06083535584cca63e",
+316.084477	              "schemaChars": 259,
+316.084477	              "schemaHash": "affee0fae7ad36a16fa1e339d4fe9e1e80351178f1023af65e3d1240f700935d",
+316.084477	              "propertiesCount": 2
+316.084477	            },
+316.084477	            {
+316.084477	              "name": "subagents",
+316.084477	              "summaryChars": 68,
+316.084478	              "summaryHash": "7143cfe20a0f143f0559924a80735a7efa2e52e60997d835ee2bff7e8c5e050e",
+316.084478	              "schemaChars": 182,
+316.084478	              "schemaHash": "476c1f5821ec8d8bd2b001dbf64fa5c8242b8a2bb87d064ee00abbf66d4a4ea9",
+316.084478	              "propertiesCount": 3
+316.084478	            },
+316.084478	            {
+316.084478	              "name": "session_status",
+316.084479	              "summaryChars": 192,
+316.084483	              "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+316.084483	              "schemaChars": 135,
+316.084483	              "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+316.084483	              "propertiesCount": 3
+316.084483	            },
+316.084483	            {
+316.084484	              "name": "web_search",
+316.084484	              "summaryChars": 164,
+316.084484	              "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+316.084484	              "schemaChars": 991,
+316.084484	              "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+316.084484	              "propertiesCount": 12
+316.084484	            },
+316.084485	            {
+316.084485	              "name": "web_fetch",
+316.084485	              "summaryChars": 78,
+316.084485	              "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+316.084485	              "schemaChars": 317,
+316.084485	              "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+316.084485	              "propertiesCount": 3
+316.084486	            },
+316.084486	            {
+316.084486	              "name": "view_image",
+316.084486	              "summaryChars": 224,
+316.084486	              "summaryHash": "3a63dc0690ca7a56e3b874eae05df56b4d797f10dcdb4b394daea27219d9e375",
+316.084486	              "schemaChars": 386,
+316.084486	              "schemaHash": "ae82c0ce6fa137243afd92341a9978ef6d3beb58174e7248a8a17666cca4d5a8",
+316.084487	              "propertiesCount": 6
+316.084487	            },
+316.084487	            {
+316.084487	              "name": "memory_search",
+316.084487	              "summaryChars": 729,
+316.084487	              "summaryHash": "4f28bc5c030d2a510ba9fedcda9110814454726a24dc9e2185136935f1cb7702",
+316.084487	              "schemaChars": 250,
+316.084487	              "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+316.084488	              "propertiesCount": 4
+316.084488	            },
+316.084504	            {
+316.084504	              "name": "memory_get",
+316.084504	              "summaryChars": 503,
+316.084504	              "summaryHash": "47415c135138bae947a258b31a684d8dce14cb5945e290057323ba5d044a357f",
+316.084505	              "schemaChars": 241,
+316.084505	              "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+316.084505	              "propertiesCount": 4
+316.084505	            },
+316.084505	            {
+316.084505	              "name": "intent",
+316.084505	              "summaryChars": 266,
+316.084505	              "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+316.084506	              "schemaChars": 641,
+316.084506	              "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+316.084506	              "propertiesCount": 10
+316.084506	            }
+316.084506	          ]
+316.084506	        },
+316.084524	        "currentTurn": {
+316.084536	          "promptChars": 15,
+316.084536	          "runtimeContextChars": 0,
+316.084536	          "modelOnlyPromptChars": 0
+316.084536	        }
+316.084536	      },
+316.084537	      "finalPromptText": "Respond only OK",
+316.084537	      "finalAssistantVisibleText": "OK",
+316.084537	      "finalAssistantRawText": "OK",
+316.084537	      "replayInvalid": false,
+316.084537	      "livenessState": "working",
+316.084537	      "stopReason": "stop",
+316.084537	      "executionTrace": {
+316.084538	        "winnerProvider": "llama-server",
+316.084538	        "winnerModel": "kimi-linear-48b",
+316.085528	        "attempts": [
+316.085529	          {
+316.085530	            "provider": "llama-server",
+316.085530	            "model": "kimi-linear-48b",
+316.085530	            "result": "success",
+316.085530	            "stage": "assistant"
+316.085530	          }
+316.085531	        ],
+316.085531	        "fallbackUsed": false,
+316.085531	        "runner": "embedded"
+316.085531	      },
+316.085531	      "requestShaping": {
+316.085532	        "thinking": "off"
+316.085532	      },
+316.085532	      "completion": {
+316.085532	        "stopReason": "stop",
+316.085532	        "finishReason": "stop"
+316.085532	      }
+316.085533	    }
+316.085533	  }
+316.085533	}

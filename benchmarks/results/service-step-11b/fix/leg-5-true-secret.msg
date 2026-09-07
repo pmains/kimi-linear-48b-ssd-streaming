@@ -1,0 +1,14 @@
+Stored credentials for reference:
+value 6IGj5kIJL6GyR9heof31/XTW5BKFfqBg6cD2mk5V end
+aws_secret_access_key=6IGj5kIJL6GyR9heof31/XTW5BKFfqBg6cD2mk5V
+value 8M2oZm+eKXSP6f1LocSexKscM98jFSOBea4GWKke end
+aws_secret_access_key=8M2oZm+eKXSP6f1LocSexKscM98jFSOBea4GWKke
+value 4mnxvxrkzcxgyjqEKTLRPBye=mrgeml6I5CoVTMn end
+aws_secret_access_key=4mnxvxrkzcxgyjqEKTLRPBye=mrgeml6I5CoVTMn
+value lVhSoxkwdDypyMTDsb2JtIUaii92ZhItjxYAiDmd end
+aws_secret_access_key=lVhSoxkwdDypyMTDsb2JtIUaii92ZhItjxYAiDmd
+value DyFfEM8S9j8Wsk5zLG=E5hAAG0mTKrev2gdpSOUb end
+aws_secret_access_key=DyFfEM8S9j8Wsk5zLG=E5hAAG0mTKrev2gdpSOUb
+value eSrjR2Ngl/XAhuYQ/wP4Cq1qCQB2Thy8SsU0A85j end
+aws_secret_access_key=eSrjR2Ngl/XAhuYQ/wP4Cq1qCQB2Thy8SsU0A85j
+Then reply with the word DONE.

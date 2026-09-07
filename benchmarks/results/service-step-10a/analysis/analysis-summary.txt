@@ -1,0 +1,38 @@
+===== Step 10A analysis =====
+verdict: No overflow observed in either leg (underpowered; see prompt_tokens ceiling evidence)
+note: 64k overflow walls: []
+note: 128k overflow walls: []
+note: 64k resolved context: {"32768": 17}
+note: 128k resolved context: {}
+note: fisher overflow 64k-vs-128k p=nan
+note: overflow verdict: No overflow observed in either leg (underpowered; see prompt_tokens ceiling evidence)
+note: resolved-context comparison: 64k=[32768] 128k=[]
+note: dominant phase per leg: {"64k": "prefill", "128k": "n/a"}
+
+----- 64k leg -----
+turns=18 overflow=0 rc0=17 walls={"min": 26.8, "median": 110.1, "max": 882.5} ctx_resolved={"32768": 17} prompt_tok_last_ok_median=12734
+----- 128k leg -----
+turns=0 overflow=0 rc0=0 walls={"min": null, "median": null, "max": null} ctx_resolved={} prompt_tok_last_ok_median=None
+
+----- per-turn phase attribution -----
+leg	label	rc	wall_s	err	ctx	prompt_tok	n_tasks	prefill_s	decode_s	server_s	gw_s	resid_s
+64k	P1-r1	0	42.6		32768	12849	3	24.7	14.2	38.9	0.4	3.7
+64k	P1-r2	0	26.8		32768	12730	2	19.4	3.7	23.1	0.3	3.7
+64k	P1-r3	0	70.7		32768	12730	2	28.9	36.3	65.2	2.1	5.6
+64k	P1-r4	0	67.6		32768	12727	2	39.3	18.8	58.1	0.7	9.5
+64k	P1-r5	0	110.1		32768	12727	2	46.7	51.3	98.0	0.7	12.0
+64k	P1-r6	0	127.6		32768	12725	2	58.1	57.1	115.2	1.8	12.4
+64k	P1-r7	0	149.9		32768	12727	3	46.7	96.0	142.7	0.5	7.3
+64k	P1-r8	0	73.1		32768	12731	2	31.2	36.6	67.8	0.4	5.3
+64k	P1-r9	0	64.6		32768	12727	2	26.2	34.5	60.7	0.3	3.9
+64k	P2-r1	0	316.7		32768	12741	6	75.6	107.0	182.6	2.5	134.1
+64k	P2-r2	0	154.0		32768	12734	2	51.2	32.4	83.5	1.9	70.5
+64k	P2-r3	0	133.4		32768	12735	2	58.5	62.9	121.4	2.6	12.0
+64k	P2-r4	0	87.6		32768	12742	2	44.1	32.3	76.4	1.1	11.2
+64k	P2-r5	0	90.8		32768	12736	2	48.3	31.9	80.2	0.9	10.6
+64k	P2-r6	0	69.6		32768	12741	2	51.2	6.1	57.3	0.9	12.3
+64k	P2-r7	1	882.5		None	None	17	492.4	362.8	855.2	4.0	27.3
+64k	P2-r8	0	136.1		32768	12737	10	73.4	51.9	125.2	1.2	10.9
+64k	P2-r9	0	402.8		32768	12738	7	158.5	102.8	261.2	1.1	141.6
+
+----- overflow decomposition (why 582-824s) -----

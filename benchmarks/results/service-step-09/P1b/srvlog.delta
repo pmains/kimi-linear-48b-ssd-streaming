@@ -1,0 +1,17 @@
+2665.55.407.106 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.984 (> 0.100 thold), f_keep = 0.985
+2665.55.411.135 I slot launch_slot_: id  0 | task 27296 | processing task, is_child = 0
+2666.11.451.351 I slot print_timing: id  0 | task 27296 | prompt processing, n_tokens =    520, progress = 1.00, t =  16.04 s / 32.42 tokens per second
+2666.15.376.804 I slot print_timing: id  0 | task 27296 | prompt eval time =   16590.40 ms /   524 tokens (   31.66 ms per token,    31.58 tokens per second)
+2666.15.376.806 I slot print_timing: id  0 | task 27296 |        eval time =    3375.24 ms /    20 tokens (  177.64 ms per token,     5.63 tokens per second)
+2666.15.376.807 I slot print_timing: id  0 | task 27296 |       total time =   19965.63 ms /   544 tokens
+2666.15.376.807 I slot print_timing: id  0 | task 27296 |    graphs reused =          0
+2666.15.379.090 I slot      release: id  0 | task 27296 | stop processing: n_tokens = 12788, truncated = 0
+2666.16.895.715 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 322472939111
+2666.17.015.950 I slot launch_slot_: id  0 | task 27319 | processing task, is_child = 0
+2666.30.038.168 I slot print_timing: id  0 | task 27319 | prompt processing, n_tokens =    523, progress = 1.00, t =  13.02 s / 40.16 tokens per second
+2666.43.773.754 I slot print_timing: id  0 | task 27319 | n_gen =    100, tg =   7.55 t/s, tg_3s =   7.63 t/s
+2666.44.255.530 I slot print_timing: id  0 | task 27319 | prompt eval time =   13651.75 ms /   527 tokens (   25.90 ms per token,    38.60 tokens per second)
+2666.44.255.534 I slot print_timing: id  0 | task 27319 |        eval time =   13587.81 ms /   104 tokens (  131.92 ms per token,     7.58 tokens per second)
+2666.44.255.536 I slot print_timing: id  0 | task 27319 |       total time =   27239.56 ms /   631 tokens
+2666.44.255.536 I slot print_timing: id  0 | task 27319 |    graphs reused =          0
+2666.44.257.887 I slot      release: id  0 | task 27319 | stop processing: n_tokens = 6623, truncated = 0

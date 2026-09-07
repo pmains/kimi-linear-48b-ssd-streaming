@@ -1,0 +1,871 @@
+{
+ "out_root": "benchmarks/results/service-step-11",
+ "sessions": {
+  "R": {
+   "R1": {
+    "session": "R",
+    "label": "R1",
+    "rc": 0,
+    "wall_s": 141.8201,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 17379,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 5089,
+     "output": 337,
+     "cacheRead": 25060,
+     "total": 30486
+    },
+    "llama": {
+     "prompt_eval_tasks": 2,
+     "first_prompt_eval_ms": 13994.22,
+     "first_prompt_eval_tokens": 558,
+     "total_prefill_tokens": 5089,
+     "decode_tokens_per_s": 8.9,
+     "eval_lines": 2
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 1456,
+    "reply_head": "Now I'll provide you with a 3-bullet summary of the project's operating rules based on AGENTS.md:\n\n## Project Operating Rules Summary\n\n**1. Phase-Based Development with Strict Acceptance Criteria**\n- "
+   },
+   "R10": {
+    "session": "R",
+    "label": "R10",
+    "rc": 0,
+    "wall_s": 24.8659,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 27218,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 83,
+     "output": 97,
+     "cacheRead": 27135,
+     "total": 27315
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 7095.73,
+     "first_prompt_eval_tokens": 83,
+     "total_prefill_tokens": 83,
+     "decode_tokens_per_s": 6.45,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 420,
+    "reply_head": "(1) Work on one roadmap phase at a time until acceptance criteria pass, required tests run, and progress report is written before proceeding to the next phase.\n\n(2) The three context ceilings are: 128"
+   },
+   "R2": {
+    "session": "R",
+    "label": "R2",
+    "rc": 0,
+    "wall_s": 14.1889,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 17707,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 71,
+     "output": 46,
+     "cacheRead": 17636,
+     "total": 17753
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 5945.52,
+     "first_prompt_eval_tokens": 71,
+     "total_prefill_tokens": 71,
+     "decode_tokens_per_s": 8.18,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 204,
+    "reply_head": "From memory of the AGENTS.md content, every phase must end with `progress/phase-XX-report.md`, and the section of the report that lists exact reproduction commands is under the **\"Reproduction\"** sect"
+   },
+   "R3": {
+    "session": "R",
+    "label": "R3",
+    "rc": 0,
+    "wall_s": 265.4542,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 21102,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 2972,
+     "output": 1079,
+     "cacheRead": 289627,
+     "total": 293678
+    },
+    "llama": {
+     "prompt_eval_tasks": 15,
+     "first_prompt_eval_ms": 6333.14,
+     "first_prompt_eval_tokens": 75,
+     "total_prefill_tokens": 2972,
+     "decode_tokens_per_s": 7.93,
+     "eval_lines": 15
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 743,
+    "reply_head": "Based on the file names and content, I can identify:\n\n1. **Step 10D** - `service-progress/step-10d-loopdetection-validation-report.md` - Covers loop detection validation\n2. **Step 10C** - `service-pro"
+   },
+   "R4": {
+    "session": "R",
+    "label": "R4",
+    "rc": 0,
+    "wall_s": 667.9147,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 25271,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 11490,
+     "output": 1965,
+     "cacheRead": 778967,
+     "total": 792422
+    },
+    "llama": {
+     "prompt_eval_tasks": 34,
+     "first_prompt_eval_ms": 196005.15,
+     "first_prompt_eval_tokens": 9111,
+     "total_prefill_tokens": 11490,
+     "decode_tokens_per_s": 6.99,
+     "eval_lines": 34
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 785,
+    "reply_head": "Based on my reading of the SERVICE-ROADMAP.md file, I can see that Step 11 distinguishes **two** context ceilings, not three:\n\n1. **128K** - current validated technical context milestone\n2. **256K and"
+   },
+   "R5": {
+    "session": "R",
+    "label": "R5",
+    "rc": 0,
+    "wall_s": 187.4679,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 26004,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 5119,
+     "output": 232,
+     "cacheRead": 72052,
+     "total": 77403
+    },
+    "llama": {
+     "prompt_eval_tasks": 3,
+     "first_prompt_eval_ms": 128328.46,
+     "first_prompt_eval_tokens": 4692,
+     "total_prefill_tokens": 5119,
+     "decode_tokens_per_s": 6.66,
+     "eval_lines": 3
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 280,
+    "reply_head": "Based on the Status section of the step-10D report, the live validation **PASSED**. The status shows \"PASS \u2014 COMPLETE (live validation)\" indicating that the loop detection safeguard was successfully a"
+   },
+   "R6": {
+    "session": "R",
+    "label": "R6",
+    "rc": 0,
+    "wall_s": 219.5939,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 26507,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 5513,
+     "output": 295,
+     "cacheRead": 99838,
+     "total": 105646
+    },
+    "llama": {
+     "prompt_eval_tasks": 4,
+     "first_prompt_eval_ms": 142516.86,
+     "first_prompt_eval_tokens": 5332,
+     "total_prefill_tokens": 5513,
+     "decode_tokens_per_s": 7.0,
+     "eval_lines": 4
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 434,
+    "reply_head": "Perfect! So my memory was correct:\n\n1. **TOOLS.md** - The file that documents tool drivers is located at `/Users/pmains/Code/openclaw/kimi/TOOLS.md`\n2. **SERVICE-ROADMAP.md** - The service roadmap fil"
+   },
+   "R7": {
+    "session": "R",
+    "label": "R7",
+    "rc": 0,
+    "wall_s": 30.1913,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 26677,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 203,
+     "output": 116,
+     "cacheRead": 26474,
+     "total": 26793
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 10500.24,
+     "first_prompt_eval_tokens": 203,
+     "total_prefill_tokens": 203,
+     "decode_tokens_per_s": 6.85,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 550,
+    "reply_head": "Based on the AGENTS.md operating rules I summarized earlier, every phase must end with a progress/phase-XX-report.md file, and from the Step 11 section I read, reports live in the service-progress/ di"
+   },
+   "R8": {
+    "session": "R",
+    "label": "R8",
+    "rc": 0,
+    "wall_s": 26.6083,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 26866,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 74,
+     "output": 128,
+     "cacheRead": 26792,
+     "total": 26994
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 6587.52,
+     "first_prompt_eval_tokens": 74,
+     "total_prefill_tokens": 74,
+     "decode_tokens_per_s": 7.29,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 522,
+    "reply_head": "1. Summarized project operating rules from AGENTS.md\n2. Read and analyzed AGENTS.md and TOOLS.md files\n3. Ran shell command to list step-10 reports\n4. Identified three most recent step-10 report files"
+   },
+   "R9": {
+    "session": "R",
+    "label": "R9",
+    "rc": 0,
+    "wall_s": 18.9038,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 27118,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 90,
+     "output": 54,
+     "cacheRead": 54090,
+     "total": 54234
+    },
+    "llama": {
+     "prompt_eval_tasks": 2,
+     "first_prompt_eval_ms": 6425.3,
+     "first_prompt_eval_tokens": 69,
+     "total_prefill_tokens": 90,
+     "decode_tokens_per_s": 7.2,
+     "eval_lines": 2
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 69,
+    "reply_head": "The health status is **ok** and it reports service on port **18080**."
+   }
+  },
+  "C": {
+   "C1": {
+    "session": "C",
+    "label": "C1",
+    "rc": 0,
+    "wall_s": 143.6602,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 13907,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 1007,
+     "output": 775,
+     "cacheRead": 65889,
+     "total": 67671
+    },
+    "llama": {
+     "prompt_eval_tasks": 5,
+     "first_prompt_eval_ms": 17650.44,
+     "first_prompt_eval_tokens": 617,
+     "total_prefill_tokens": 1007,
+     "decode_tokens_per_s": 7.78,
+     "eval_lines": 5
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 392,
+    "reply_head": "Perfect! The Python text-analysis module has been successfully created and tested. The functions work as expected:\n\n- **word_count**: Returns 9 words for the test text\n- **line_count**: Returns 3 line"
+   },
+   "C2": {
+    "session": "C",
+    "label": "C2",
+    "rc": 1,
+    "wall_s": 1202.7571,
+    "timed_out": true,
+    "doc_status": "timeout",
+    "promptTokens": 24433,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 4023,
+     "output": 6500,
+     "cacheRead": 630493,
+     "total": 641016
+    },
+    "llama": {
+     "prompt_eval_tasks": 33,
+     "first_prompt_eval_ms": 8234.46,
+     "first_prompt_eval_tokens": 141,
+     "total_prefill_tokens": 4023,
+     "decode_tokens_per_s": 6.99,
+     "eval_lines": 33
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 129,
+    "reply_head": "Request timed out before a response was generated. Please try again, or increase `agents.defaults.timeoutSeconds` in your config."
+   },
+   "C3": {
+    "session": "C",
+    "label": "C3",
+    "rc": 0,
+    "wall_s": 426.3401,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 28047,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 643,
+     "output": 2776,
+     "cacheRead": 214623,
+     "total": 218042
+    },
+    "llama": {
+     "prompt_eval_tasks": 8,
+     "first_prompt_eval_ms": 9197.15,
+     "first_prompt_eval_tokens": 205,
+     "total_prefill_tokens": 643,
+     "decode_tokens_per_s": 7.36,
+     "eval_lines": 8
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 7,
+    "reply_head": "success"
+   },
+   "C4": {
+    "session": "C",
+    "label": "C4",
+    "rc": 0,
+    "wall_s": 482.162,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 32201,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 1435,
+     "output": 2693,
+     "cacheRead": 486923,
+     "total": 491051
+    },
+    "llama": {
+     "prompt_eval_tasks": 16,
+     "first_prompt_eval_ms": 10491.58,
+     "first_prompt_eval_tokens": 181,
+     "total_prefill_tokens": 1435,
+     "decode_tokens_per_s": 7.08,
+     "eval_lines": 16
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 499,
+    "reply_head": "Perfect! \n\n**PASS** - All tests are passing.\n\nThe refactor involved:\n- Implementing a private `_count_tokens` helper function that centralizes tokenization logic\n- Converting `word_count`, `line_count"
+   },
+   "C5": {
+    "session": "C",
+    "label": "C5",
+    "rc": 0,
+    "wall_s": 105.2451,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 33937,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 1376,
+     "output": 314,
+     "cacheRead": 164105,
+     "total": 165795
+    },
+    "llama": {
+     "prompt_eval_tasks": 5,
+     "first_prompt_eval_ms": 9568.42,
+     "first_prompt_eval_tokens": 139,
+     "total_prefill_tokens": 1376,
+     "decode_tokens_per_s": 6.44,
+     "eval_lines": 5
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 233,
+    "reply_head": "Perfect! \n\n**Printed outputs:**\n- Test results: `\u2713 word_count tests passed\\n\u2713 line_count tests passed\\n\u2713 char_count tests passed\\n\u2713 top_words tests passed\\n\ud83c\udf89 ALL TESTS PASSED!`\n- Function call result:"
+   },
+   "C6": {
+    "session": "C",
+    "label": "C6",
+    "rc": 1,
+    "wall_s": 1231.0095,
+    "timed_out": true,
+    "doc_status": null,
+    "promptTokens": null,
+    "contextTokens": null,
+    "usage": null,
+    "llama": {
+     "prompt_eval_tasks": 26,
+     "first_prompt_eval_ms": 8710.98,
+     "first_prompt_eval_tokens": 178,
+     "total_prefill_tokens": 25823,
+     "decode_tokens_per_s": 8.01,
+     "eval_lines": 26
+    },
+    "compaction_events": 2,
+    "compaction_first": "2026-09-05T15:00:17.436-07:00 [agent/embedded] [context-pressure-diagnostic] admitted provider attempt for llama-server/kimi-linear-48b route=compact_only estim",
+    "loop_events": 1,
+    "reply_chars": 152,
+    "reply_head": "gateway timeout after 1230000ms\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/pmains/.openclaw/openclaw.json\nBind: loopback"
+   },
+   "C7": {
+    "session": "C",
+    "label": "C7",
+    "rc": 0,
+    "wall_s": 155.0451,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 22664,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 1833,
+     "output": 421,
+     "cacheRead": 65005,
+     "total": 67259
+    },
+    "llama": {
+     "prompt_eval_tasks": 5,
+     "first_prompt_eval_ms": 5226.53,
+     "first_prompt_eval_tokens": 53,
+     "total_prefill_tokens": 1926,
+     "decode_tokens_per_s": 8.19,
+     "eval_lines": 5
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 1213,
+    "reply_head": "## Test Result and File List\n\n\u2705 **Test Result**: ALL TESTS PASSED!\n\n\u2705 **Functionality Verified**:\n- `top_words(\"the cat and the dog\", 2)` returns `[('the', 2), ('and', 1)]` - matches expected result\n-"
+   },
+   "C8": {
+    "session": "C",
+    "label": "C8",
+    "rc": 0,
+    "wall_s": 110.7309,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 22978,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 2226,
+     "output": 441,
+     "cacheRead": 20752,
+     "total": 23419
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 51360.16,
+     "first_prompt_eval_tokens": 2226,
+     "total_prefill_tokens": 2226,
+     "decode_tokens_per_s": 7.78,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 1842,
+    "reply_head": "## Final Turn Report\n\n### (1) Files Created in This Coding Session\n\n- **`text_stats.py`** (3999 bytes) - Main module file containing:\n  - Module docstring added at beginning\n  - `__main__` block added"
+   }
+  },
+  "G": {
+   "G1": {
+    "session": "G",
+    "label": "G1",
+    "rc": 1,
+    "wall_s": 350.6644,
+    "timed_out": false,
+    "doc_status": "error",
+    "promptTokens": 17554,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 4830,
+     "output": 1123,
+     "cacheRead": 450159,
+     "total": 456112
+    },
+    "llama": {
+     "prompt_eval_tasks": 29,
+     "first_prompt_eval_ms": 14190.24,
+     "first_prompt_eval_tokens": 572,
+     "total_prefill_tokens": 4830,
+     "decode_tokens_per_s": 8.28,
+     "eval_lines": 29
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 19,
+    "reply_head": "LLM request failed."
+   },
+   "G10": {
+    "session": "G",
+    "label": "G10",
+    "rc": 0,
+    "wall_s": 214.0845,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 28535,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 8095,
+     "output": 267,
+     "cacheRead": 20440,
+     "total": 28802
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 175280.45,
+     "first_prompt_eval_tokens": 8095,
+     "total_prefill_tokens": 8095,
+     "decode_tokens_per_s": 7.37,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 1284,
+    "reply_head": "Based on the conversation memory, I can answer from the session:\n\n(1) I read three step-10 reports:\n- **10C**: The 10C safeguard implementation was successful - both LOOP-STRICT-r1 and LOOP-STRICT-r2 "
+   },
+   "G11": {
+    "session": "G",
+    "label": "G11",
+    "rc": 0,
+    "wall_s": 66.4512,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 29640,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 662,
+     "output": 241,
+     "cacheRead": 116185,
+     "total": 117088
+    },
+    "llama": {
+     "prompt_eval_tasks": 4,
+     "first_prompt_eval_ms": 6849.92,
+     "first_prompt_eval_tokens": 97,
+     "total_prefill_tokens": 662,
+     "decode_tokens_per_s": 7.17,
+     "eval_lines": 4
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 306,
+    "reply_head": "Based on the transcript from G3/G4, the termination was due to the **batch veto mechanism** triggered at call 20, which prevented runaway tool usage loops. The 10C safeguard successfully detected and "
+   },
+   "G12": {
+    "session": "G",
+    "label": "G12",
+    "rc": 0,
+    "wall_s": 31.1065,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 29793,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 93,
+     "output": 152,
+     "cacheRead": 29700,
+     "total": 29945
+    },
+    "llama": {
+     "prompt_eval_tasks": 1,
+     "first_prompt_eval_ms": 6573.71,
+     "first_prompt_eval_tokens": 93,
+     "total_prefill_tokens": 93,
+     "decode_tokens_per_s": 6.89,
+     "eval_lines": 1
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 1,
+    "reply_chars": 736,
+    "reply_head": "Based on the session memory, here's my concise summary:\n\n**Large files read:** 3 files - TOOLS.md, step-09d-report.md analysis, and the service-step-10a turn driver\n\n**Conversation growth impact:** No"
+   },
+   "G2": {
+    "session": "G",
+    "label": "G2",
+    "rc": 1,
+    "wall_s": 561.4206,
+    "timed_out": false,
+    "doc_status": "error",
+    "promptTokens": 23138,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 9430,
+     "output": 1892,
+     "cacheRead": 646934,
+     "total": 658256
+    },
+    "llama": {
+     "prompt_eval_tasks": 32,
+     "first_prompt_eval_ms": 99704.07,
+     "first_prompt_eval_tokens": 5486,
+     "total_prefill_tokens": 9430,
+     "decode_tokens_per_s": 7.8,
+     "eval_lines": 32
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 19,
+    "reply_head": "LLM request failed."
+   },
+   "G3": {
+    "session": "G",
+    "label": "G3",
+    "rc": 1,
+    "wall_s": 601.1574,
+    "timed_out": false,
+    "doc_status": "error",
+    "promptTokens": 27560,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 13974,
+     "output": 1633,
+     "cacheRead": 622522,
+     "total": 638129
+    },
+    "llama": {
+     "prompt_eval_tasks": 25,
+     "first_prompt_eval_ms": 209979.36,
+     "first_prompt_eval_tokens": 11093,
+     "total_prefill_tokens": 13974,
+     "decode_tokens_per_s": 7.36,
+     "eval_lines": 25
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 19,
+    "reply_head": "LLM request failed."
+   },
+   "G4": {
+    "session": "G",
+    "label": "G4",
+    "rc": 0,
+    "wall_s": 351.2678,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 31165,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 8114,
+     "output": 835,
+     "cacheRead": 264021,
+     "total": 272970
+    },
+    "llama": {
+     "prompt_eval_tasks": 9,
+     "first_prompt_eval_ms": 113996.85,
+     "first_prompt_eval_tokens": 4955,
+     "total_prefill_tokens": 8114,
+     "decode_tokens_per_s": 7.08,
+     "eval_lines": 9
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 3,
+    "reply_chars": 1425,
+    "reply_head": "Based on the analysis I performed, I can provide you with the information requested:\n\n## Summary of Analysis\n\nFrom the benchmark results and file analysis:\n\n### Line Counts (10C files):\n- **step-10c-l"
+   },
+   "G5": {
+    "session": "G",
+    "label": "G5",
+    "rc": 0,
+    "wall_s": 707.2862,
+    "timed_out": false,
+    "doc_status": "ok",
+    "promptTokens": 17064,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 13576,
+     "output": 721,
+     "cacheRead": 35001,
+     "total": 49298
+    },
+    "llama": {
+     "prompt_eval_tasks": 4,
+     "first_prompt_eval_ms": 198362.46,
+     "first_prompt_eval_tokens": 8724,
+     "total_prefill_tokens": 28333,
+     "decode_tokens_per_s": 8.48,
+     "eval_lines": 4
+    },
+    "compaction_events": 1,
+    "compaction_first": "2026-09-05T16:05:19.806-07:00 [agent/embedded] auto-compaction succeeded for llama-server/kimi-linear-48b; retrying prompt",
+    "loop_events": 1,
+    "reply_chars": 3301,
+    "reply_head": "Based on my reading of the TOOLS.md file and the service_step10a_turn.py script, here are the 2 bullets you requested:\n\n**What TOOLS.md says to read before coding:**\n- Use the simplest tool that provi"
+   },
+   "G6": {
+    "session": "G",
+    "label": "G6",
+    "rc": 1,
+    "wall_s": 818.1561,
+    "timed_out": false,
+    "doc_status": "error",
+    "promptTokens": 28580,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 9863,
+     "output": 3125,
+     "cacheRead": 920186,
+     "total": 933174
+    },
+    "llama": {
+     "prompt_eval_tasks": 38,
+     "first_prompt_eval_ms": 28333.15,
+     "first_prompt_eval_tokens": 1205,
+     "total_prefill_tokens": 9863,
+     "decode_tokens_per_s": 7.22,
+     "eval_lines": 38
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 19,
+    "reply_head": "LLM request failed."
+   },
+   "G7": {
+    "session": "G",
+    "label": "G7",
+    "rc": 1,
+    "wall_s": 1231.05,
+    "timed_out": true,
+    "doc_status": null,
+    "promptTokens": null,
+    "contextTokens": null,
+    "usage": null,
+    "llama": {
+     "prompt_eval_tasks": 26,
+     "first_prompt_eval_ms": 350101.45,
+     "first_prompt_eval_tokens": 16569,
+     "total_prefill_tokens": 35077,
+     "decode_tokens_per_s": 7.78,
+     "eval_lines": 26
+    },
+    "compaction_events": 1,
+    "compaction_first": "2026-09-05T16:39:23.984-07:00 [agent/embedded] auto-compaction succeeded for llama-server/kimi-linear-48b; retrying prompt",
+    "loop_events": 1,
+    "reply_chars": 152,
+    "reply_head": "gateway timeout after 1230000ms\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/pmains/.openclaw/openclaw.json\nBind: loopback"
+   },
+   "G8": {
+    "session": "G",
+    "label": "G8",
+    "rc": 1,
+    "wall_s": 667.093,
+    "timed_out": false,
+    "doc_status": "error",
+    "promptTokens": 22869,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 8604,
+     "output": 2262,
+     "cacheRead": 559960,
+     "total": 570826
+    },
+    "llama": {
+     "prompt_eval_tasks": 34,
+     "first_prompt_eval_ms": 5622.68,
+     "first_prompt_eval_tokens": 71,
+     "total_prefill_tokens": 10412,
+     "decode_tokens_per_s": 7.51,
+     "eval_lines": 34
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 19,
+    "reply_head": "LLM request failed."
+   },
+   "G9": {
+    "session": "G",
+    "label": "G9",
+    "rc": 1,
+    "wall_s": 477.7957,
+    "timed_out": false,
+    "doc_status": "error",
+    "promptTokens": 28253,
+    "contextTokens": 65536,
+    "usage": {
+     "input": 3844,
+     "output": 1936,
+     "cacheRead": 612344,
+     "total": 618124
+    },
+    "llama": {
+     "prompt_eval_tasks": 24,
+     "first_prompt_eval_ms": 9212.77,
+     "first_prompt_eval_tokens": 230,
+     "total_prefill_tokens": 3844,
+     "decode_tokens_per_s": 7.1,
+     "eval_lines": 24
+    },
+    "compaction_events": 0,
+    "compaction_first": null,
+    "loop_events": 0,
+    "reply_chars": 19,
+    "reply_head": "LLM request failed."
+   }
+  }
+ }
+}

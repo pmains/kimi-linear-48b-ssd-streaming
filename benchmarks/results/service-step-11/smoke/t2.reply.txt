@@ -1,0 +1,1 @@
+TOOLS.md states: "Before coding, read ROADMAP.md and progress/phase-XX-report.md files."

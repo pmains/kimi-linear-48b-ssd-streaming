@@ -1,0 +1,53 @@
+{
+ "summary": {
+  "label": "P2-r2",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step10a-128k-P2-r2",
+  "rc": 1,
+  "wall_s": 2.0898,
+  "t0_utc": "2026-09-05T05:38:00Z",
+  "t1_utc": "2026-09-05T05:38:02Z",
+  "n_lines": 7,
+  "extraction": "json:key=message",
+  "reply_chars": 14,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 0,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 97
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 0,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 111
+  },
+  "llama_window_chars": 10548,
+  "gateway_window_chars": 2200
+ },
+ "doc_status": null,
+ "doc_summary": null,
+ "duration_ms": null,
+ "agentMeta": {
+  "contextTokens": null,
+  "contextTokensSource": null,
+  "promptTokens": null,
+  "usage": null,
+  "lastCallUsage": null
+ },
+ "systemPromptReport": {
+  "systemPromptChars": null,
+  "projectContextChars": null,
+  "toolsSchemaChars": null,
+  "toolsListChars": null,
+  "skillsPromptChars": null,
+  "bootstrapMaxChars": null,
+  "bootstrapTotalMaxChars": null
+ },
+ "error": null,
+ "replayInvalid": null,
+ "livenessState": null,
+ "executionTrace": null,
+ "finalPromptText": null
+}

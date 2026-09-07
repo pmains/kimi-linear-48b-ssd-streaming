@@ -1,0 +1,26 @@
+{
+ "cond": "C1a-D",
+ "probe": "P1",
+ "rep": 6,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I understand you're instructing me to respond only with \"PLATANOS!\". I will follow your directive.\n\nPLATANOS!",
+ "family": "prose-wrapped",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 3.1,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 29,
+  "prompt_tokens": 6610,
+  "total_tokens": 6639,
+  "prompt_tokens_details": {
+   "cached_tokens": 6606
+  }
+ },
+ "payload_sha": "53a44916c9fdb2da",
+ "ts": "2026-09-05T00:52:00Z"
+}

@@ -1,0 +1,22 @@
+=== Step 9 qualification 2026-09-04T00:28:13Z agent=kimi out=/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-09 ===
+manifest frozen -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-09/manifest.json
+[P1] rc=1 wall=15.9915s fallback=false srvlog_delta=8 lines
+[P1b] rc=0 wall=52.4606s fallback=false srvlog_delta=17 lines
+[P2] rc=0 wall=42.3135s fallback=false srvlog_delta=16 lines
+[P3] rc=0 wall=163.3058s fallback=false srvlog_delta=59 lines
+[P4] rc=0 wall=318.4929s fallback=false srvlog_delta=35 lines
+[P5] rc=0 wall=154.6318s fallback=false srvlog_delta=49 lines
+[P6] rc=0 wall=414.0347s fallback=false srvlog_delta=98 lines
+[P7] rc=0 wall=173.7574s fallback=false srvlog_delta=61 lines
+=== Step 9 scoring 2026-09-04T00:50:31Z ===
+probe rc     instr    format   result   task     notes
+P1   1      INVALID           INVALID  INVALID  client rc=1
+P1b  0      FAIL     FAIL     FAIL     FAIL     
+P2   0      PASS     PASS     PASS     PASS     
+P3   0      FAIL     FAIL     FAIL     FAIL     
+P4   0      FAIL     FAIL     FAIL     FAIL     
+P5   0      PASS     FAIL     PASS     PASS     
+P6   0      PASS     N/A      PASS     PASS     file_content_ok=True reply_contains=True
+P7   0      FAIL     FAIL     FAIL     FAIL     ends_COMPLETE=False has_utc_date=True
+rubric -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-09/rubric.csv
+=== Step 9 done: 2026-09-04T00:50:31Z ===

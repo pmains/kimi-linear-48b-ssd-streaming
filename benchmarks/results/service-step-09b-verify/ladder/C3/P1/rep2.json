@@ -1,0 +1,11 @@
+{
+ "cond": "C3",
+ "probe": "P1",
+ "rep": 2,
+ "note": "no tool round triggered",
+ "text": "PLATANOS",
+ "tool_calls": null,
+ "family": "terse-wrong",
+ "pass": false,
+ "wall_s": 0.9
+}

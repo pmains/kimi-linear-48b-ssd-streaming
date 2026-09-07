@@ -1,0 +1,8 @@
+{
+  "probe": "P1",
+  "category": "literal instruction following",
+  "prompt_file": "prompts/P1.md",
+  "match": "exact",
+  "value": "PLATANOS!",
+  "notes": "PASS requires the exact response PLATANOS! including the exclamation mark and no additional substantive text (Pete clarification 1)."
+}

@@ -1,0 +1,29 @@
+{
+ "cond": "R2",
+ "probe": "P4",
+ "rep": 1,
+ "wall_s": 119.0,
+ "text": "I need to read the TOOLS.md file to find the default port for the Kimi server.",
+ "tool_calls": [
+  {
+   "type": "function",
+   "function": {
+    "name": "read",
+    "arguments": "{\"path\": \"/Users/pmains/Code/openclaw/kimi/TOOLS.md\"}"
+   },
+   "id": "functions.read:1"
+  }
+ ],
+ "finish": "tool_calls",
+ "usage": {
+  "completion_tokens": 48,
+  "prompt_tokens": 7527,
+  "total_tokens": 7575,
+  "prompt_tokens_details": {
+   "cached_tokens": 0
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "0ea4d2edf0482281"
+}

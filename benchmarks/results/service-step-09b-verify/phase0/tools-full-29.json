@@ -1,0 +1,1093 @@
+[
+ {
+  "name": "apply_patch",
+  "description": "Patch one/many files. Input requires *** Begin Patch and *** End Patch.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "input"
+   ],
+   "properties": {
+    "input": {
+     "type": "string",
+     "description": "Patch content using the *** Begin Patch/End Patch format."
+    }
+   }
+  }
+ },
+ {
+  "name": "conversations_list",
+  "description": "List external conversations as stable conversationRef values. Sessions hold local model context; conversationRef selects an exact external channel destination.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "channel": {
+     "type": "string",
+     "minLength": 1
+    },
+    "query": {
+     "type": "string",
+     "minLength": 1
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "conversations_send",
+  "description": "Send directly through a conversationRef from conversations_list. This performs channel delivery; it does not run the local agent in the backing session.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "conversationRef",
+    "message"
+   ],
+   "properties": {
+    "conversationRef": {
+     "type": "string",
+     "pattern": "^conv_[a-f0-9]{32}$"
+    },
+    "message": {
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "conversations_turn",
+  "description": "Send through a conversationRef and wait for its correlated inbound reply. The reply returns here instead of starting a second local agent turn; unsolicited messages still start normal turns.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "conversationRef",
+    "message"
+   ],
+   "properties": {
+    "conversationRef": {
+     "type": "string",
+     "pattern": "^conv_[a-f0-9]{32}$"
+    },
+    "message": {
+     "type": "string",
+     "minLength": 1
+    },
+    "timeoutSeconds": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 300
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "create_goal",
+  "description": "Create goal only explicit user/system request. Optional token_budget caps goal token usage. Existing goal => fail; user-facing controls clear it.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "objective"
+   ],
+   "properties": {
+    "objective": {
+     "type": "string",
+     "description": "Concrete objective; explicit request only."
+    },
+    "token_budget": {
+     "type": "integer",
+     "minimum": 1,
+     "description": "Optional positive token budget."
+    }
+   }
+  }
+ },
+ {
+  "name": "edit",
+  "description": "Exact single-file replacements. oldText unique/non-overlapping against original. Merge nearby changes; omit large unchanged spans.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "path",
+    "edits"
+   ],
+   "properties": {
+    "path": {
+     "type": "string",
+     "description": "File path; relative/absolute."
+    },
+    "edits": {
+     "type": "array",
+     "items": {
+      "truncated": true,
+      "reason": "trajectory-depth-limit",
+      "limitDepth": 6
+     },
+     "description": "Targeted replacements against original file; no overlap/nesting. Merge nearby changes."
+    }
+   }
+  }
+ },
+ {
+  "name": "exec",
+  "description": "Run shell now; background continuation supported. Use yieldMs/background, then process for logs/status/input/intervention. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "command"
+   ],
+   "properties": {
+    "command": {
+     "type": "string",
+     "description": "Shell command to execute"
+    },
+    "workdir": {
+     "type": "string",
+     "description": "Working directory; omit for default. An empty string means omitted; whitespace-only is invalid."
+    },
+    "env": {
+     "type": "object",
+     "patternProperties": {
+      "truncated": true,
+      "reason": "trajectory-depth-limit",
+      "limitDepth": 6
+     }
+    },
+    "yieldMs": {
+     "type": "number",
+     "description": "Milliseconds before backgrounding; default 10000."
+    },
+    "background": {
+     "type": "boolean",
+     "description": "Run in background immediately"
+    },
+    "timeoutSeconds": {
+     "type": "number",
+     "description": "Timeout in seconds."
+    },
+    "pty": {
+     "type": "boolean",
+     "description": "Use PTY for TTY-required CLIs and coding agents."
+    },
+    "elevated": {
+     "type": "boolean",
+     "description": "Run on host with elevated permissions if allowed."
+    },
+    "host": {
+     "enum": {
+      "truncated": true,
+      "reason": "trajectory-depth-limit",
+      "limitDepth": 6
+     },
+     "type": "string",
+     "description": "Exec host/target (auto|sandbox|gateway|node)."
+    },
+    "security": {
+     "type": "string",
+     "description": "Ignored per call; tools.exec.security and host approvals decide."
+    },
+    "ask": {
+     "type": "string",
+     "description": "Uses tools.exec.ask and host approvals; channel-origin calls cannot override host ask=off."
+    },
+    "node": {
+     "type": "string",
+     "description": "Node id/name for host=node."
+    }
+   }
+  }
+ },
+ {
+  "name": "get_goal",
+  "description": "Get thread goal, status, token usage.",
+  "parameters": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "intent",
+  "description": "Create, list, or explicitly cancel event-conditioned standing intents. A created intent is armed; the system injects the reminder automatically when it triggers. Do not deliver it early or cancel it unless the user asks. Use scheduled tasks for time-based reminders.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "action"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "action": {
+     "type": "string",
+     "enum": [
+      "create",
+      "list",
+      "cancel"
+     ]
+    },
+    "id": {
+     "type": "string"
+    },
+    "description": {
+     "type": "string",
+     "maxLength": 500
+    },
+    "triggerKeywords": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "maxLength": 120
+     },
+     "maxItems": 24
+    },
+    "scope": {
+     "type": "string",
+     "enum": [
+      "conversation",
+      "channel",
+      "anywhere"
+     ],
+     "default": "channel"
+    },
+    "senderScope": {
+     "type": "string",
+     "enum": [
+      "sender",
+      "anyone"
+     ],
+     "default": "sender"
+    },
+    "expiresAt": {
+     "type": "string"
+    },
+    "maxFires": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "cooldownSeconds": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "status": {
+     "type": "string",
+     "enum": [
+      "pending",
+      "armed",
+      "fired",
+      "done",
+      "cancelled",
+      "expired"
+     ]
+    }
+   }
+  }
+ },
+ {
+  "name": "memory_get",
+  "description": "Safe exact excerpt read from MEMORY.md, USER.md, Markdown files recursively under memory/. Defaults to a bounded excerpt when lines are omitted and includes truncation/continuation info when more content exists. `corpus=wiki` reads registered compiled-wiki supplements. status=ok means the requested excerpt was read; status=not_found means every requested available corpus missed. If low confidence after search, say you checked. Citations: include Source: <path#line> when it helps the user verify memory snippets.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "path": {
+     "type": "string"
+    },
+    "from": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "lines": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "corpus": {
+     "type": "string",
+     "enum": [
+      "memory",
+      "wiki",
+      "all"
+     ]
+    }
+   },
+   "required": [
+    "path"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "memory_search",
+  "description": "Mandatory recall step: semantically search MEMORY.md, USER.md, Markdown files recursively under memory/ before answering questions about prior work, decisions, dates, people, preferences, or todos. Optional `corpus=wiki` or `corpus=all` also searches registered compiled-wiki supplements. `corpus=memory` restricts hits to indexed memory files (excludes session transcript chunks from ranking). `corpus=sessions` restricts hits to the session corpus under the same visibility rules as session history tools. Corpus outcomes cover each requested corpus; a corpus warning means results are partial and must be surfaced to the user. If response has disabled=true or stale=true, tell the user and include the warning/action guidance.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "query": {
+     "type": "string"
+    },
+    "maxResults": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "minScore": {
+     "type": "number"
+    },
+    "corpus": {
+     "type": "string",
+     "enum": [
+      "memory",
+      "wiki",
+      "all",
+      "sessions"
+     ]
+    }
+   },
+   "required": [
+    "query"
+   ],
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "process",
+  "description": "Control background exec: list, poll, log, write, send-keys, submit, paste, kill, clear, remove.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "action",
+    "sessionId"
+   ],
+   "properties": {
+    "action": {
+     "type": "string",
+     "enum": [
+      "list",
+      "poll",
+      "log",
+      "write",
+      "send-keys",
+      "submit",
+      "paste",
+      "kill",
+      "clear",
+      "remove"
+     ],
+     "description": "Process action (list|poll|log|write|send-keys|submit|paste|kill|clear|remove)"
+    },
+    "sessionId": {
+     "type": "string",
+     "description": "Required for every action except list."
+    },
+    "data": {
+     "type": "string",
+     "description": "Data to write for write"
+    },
+    "keys": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Key tokens to send for send-keys"
+    },
+    "hex": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Hex bytes to send for send-keys"
+    },
+    "literal": {
+     "type": "string",
+     "description": "Literal string for send-keys"
+    },
+    "text": {
+     "type": "string",
+     "description": "Text to paste for paste"
+    },
+    "bracketed": {
+     "type": "boolean",
+     "description": "Wrap paste in bracketed mode"
+    },
+    "eof": {
+     "type": "boolean",
+     "description": "Close stdin after write"
+    },
+    "offset": {
+     "type": "integer",
+     "description": "Log offset"
+    },
+    "limit": {
+     "type": "integer",
+     "description": "Log length"
+    },
+    "timeout": {
+     "type": "integer",
+     "description": "For poll: wait up to this many milliseconds before returning; max 30000 ms, higher values are clamped to 30000",
+     "minimum": 0
+    }
+   }
+  }
+ },
+ {
+  "name": "progress_card",
+  "description": "Maintain this session's progress card: the single durable status surface shown next to the session in OpenClaw's UIs, for someone who is not reading the transcript. Keep it current on any task that takes more than a moment \u2014 it is how the user watches you work without scrolling. Each call replaces the whole card. Pick the representation that fits the work, using either or both parts: `markdown` \u2014 a compact note; tables for comparisons or metrics, <progress value=\"3\" max=\"7\"></progress> bars for one long operation, a bold one-liner for simple state; other raw HTML is stripped. Known URL? Link it. Don\u2019t leave PRs or issues as bare IDs. And `plan` \u2014 an ordered step checklist (pending | in_progress | completed, at most one in_progress) for genuinely sequential work. The checklist is optional: omit it whenever a table, bar, or sentence says it better, and never repeat the same facts in both parts. Call with both parts empty to clear. Update on meaningful change \u2014 a step done, a blocker, results in \u2014 not every message. Max 8 KB markdown, 50 steps.",
+  "parameters": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "markdown": {
+     "type": "string"
+    },
+    "plan": {
+     "type": "array",
+     "maxItems": 50,
+     "items": {
+      "type": "object",
+      "properties": {
+       "status": {
+        "type": "string",
+        "enum": [
+         "pending",
+         "in_progress",
+         "completed"
+        ]
+       },
+       "step": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "step",
+       "status"
+      ]
+     }
+    }
+   }
+  }
+ },
+ {
+  "name": "read",
+  "description": "Read text/image file (jpg/png/gif/webp/bmp); images attach to model context. Text caps 2000 lines or 50KB. Continue with offset/limit, or cursor within a long line.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "path"
+   ],
+   "properties": {
+    "path": {
+     "type": "string",
+     "description": "File path; relative/absolute."
+    },
+    "offset": {
+     "type": "integer",
+     "minimum": 1,
+     "description": "Start line; 1-based."
+    },
+    "limit": {
+     "type": "number",
+     "description": "Max lines."
+    },
+    "cursor": {
+     "type": "integer",
+     "minimum": 0,
+     "description": "Character position within the start line; 0-based."
+    },
+    "optional": {
+     "type": "boolean",
+     "const": true,
+     "description": "Missing paths return structured not_found instead of failing."
+    }
+   }
+  }
+ },
+ {
+  "name": "secrets",
+  "description": "Request and manage write-only credentials",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "action"
+   ],
+   "properties": {
+    "action": {
+     "type": "string",
+     "enum": [
+      "request",
+      "list",
+      "delete"
+     ],
+     "description": "`request` a value from the human, `list` entry metadata, or `delete` an entry."
+    },
+    "name": {
+     "type": "string",
+     "maxLength": 128,
+     "pattern": "^[A-Z][A-Z0-9_]{0,127}$",
+     "description": "Entry name in uppercase environment-variable form, also its SecretRef id (STRIPE_API_KEY). Required for request and delete."
+    },
+    "kind": {
+     "type": "string",
+     "enum": [
+      "secret"
+     ],
+     "description": "Only `secret` may be requested; requested values are never readable back."
+    },
+    "allowedHosts": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Exact hostnames allowed to receive a secret, without scheme or port (api.stripe.com). Secret entries only; leaving this empty stores a secret that can never be substituted."
+    },
+    "reason": {
+     "type": "string",
+     "maxLength": 200,
+     "description": "One line shown to the human explaining why the credential is needed."
+    },
+    "timeoutSeconds": {
+     "type": "integer",
+     "minimum": 30,
+     "maximum": 3600,
+     "description": "Seconds to wait for the human on request; defaults to 900."
+    }
+   }
+  }
+ },
+ {
+  "name": "sessions",
+  "description": "Session settings, ownership, reset, delete, and sidebar categories: patch label/icon/category/status, pin, archive/restore, model/thinking override; category assigns one session while group_set replaces the ordered category catalog; assign_owner hands responsibility to a human or agent; reset/delete visible sessions; group_list/group_set/group_rename/group_delete.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "action": {
+     "type": "string",
+     "enum": [
+      "patch",
+      "reset",
+      "delete",
+      "assign_owner",
+      "group_list",
+      "group_set",
+      "group_rename",
+      "group_delete"
+     ],
+     "description": "Action"
+    },
+    "sessionKey": {
+     "type": "string",
+     "description": "Target session. Default: current"
+    },
+    "expectedSessionId": {
+     "type": "string",
+     "description": "Durable identity returned by sessions_list; required for archive, restore, or delete of another session."
+    },
+    "deleteTranscript": {
+     "type": "boolean",
+     "description": "Archive the deleted session transcript. Default: true."
+    },
+    "label": {
+     "type": "string",
+     "description": "Sidebar title override. Empty string clears it."
+    },
+    "icon": {
+     "type": "string",
+     "description": "Persistent sidebar icon: a single emoji, or a named icon: braces, book, monitor, bot, kanban, coins. Empty string clears it. Distinct from attention, which is temporary."
+    },
+    "category": {
+     "type": [
+      "string",
+      "null"
+     ],
+     "description": "Sidebar category membership. Null or an empty string clears it. This assigns one session; group_set only replaces the ordered category catalog."
+    },
+    "statusNote": {
+     "type": "string",
+     "maxLength": 120,
+     "description": "Short sidebar status line. Empty string clears it and declared attention. Clears automatically when the user reads or replies, or when its TTL expires."
+    },
+    "attention": {
+     "type": "string",
+     "enum": [
+      "clear",
+      "hand",
+      "key",
+      "alert",
+      "flag",
+      "lock",
+      "hourglass"
+     ],
+     "description": "Request user attention with a curated icon; requires an active statusNote. 'clear' clears both attention and statusNote."
+    },
+    "ttlMinutes": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 120,
+     "description": "Status/attention lifetime in minutes. Default 30; maximum 120."
+    },
+    "pinned": {
+     "type": "boolean",
+     "description": "Pin session"
+    },
+    "archived": {
+     "type": "boolean",
+     "description": "True archives without deleting; false restores the session."
+    },
+    "model": {
+     "type": "string",
+     "description": "Model override"
+    },
+    "thinkingLevel": {
+     "type": "string",
+     "description": "Thinking override"
+    },
+    "ownerType": {
+     "type": "string",
+     "enum": [
+      "human",
+      "agent"
+     ],
+     "description": "New owner kind for assign_owner"
+    },
+    "ownerId": {
+     "type": "string",
+     "description": "New owner id for assign_owner"
+    },
+    "names": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Ordered sidebar category catalog; does not assign sessions."
+    },
+    "name": {
+     "type": "string",
+     "description": "Group name"
+    },
+    "to": {
+     "type": "string",
+     "description": "New group name"
+    }
+   },
+   "required": [
+    "action"
+   ]
+  }
+ },
+ {
+  "name": "sessions_history",
+  "description": "Read sanitized visible-session history. Before reply/debug/resume. Supports limit, offset, search-result sessionId/messageId anchors, and tool messages.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "sessionKey": {
+     "type": "string"
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "offset": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "messageId": {
+     "type": "string",
+     "minLength": 1
+    },
+    "sessionId": {
+     "type": "string",
+     "minLength": 1
+    },
+    "includeTools": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "sessionKey"
+   ]
+  }
+ },
+ {
+  "name": "sessions_list",
+  "description": "List visible sessions and sidebar categories; filter kind/label/agentId/search/activity/archive. Preview recent messages inline via includeLastMessage/messageLimit; includeDerivedTitles adds derived titles. Use before history/send target selection.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "kinds": {
+     "type": "array",
+     "items": {
+      "type": "string",
+      "enum": [
+       "main",
+       "group",
+       "cron",
+       "hook",
+       "node",
+       "other"
+      ]
+     }
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "activeMinutes": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "messageLimit": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "label": {
+     "type": "string",
+     "minLength": 1
+    },
+    "agentId": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 64
+    },
+    "search": {
+     "type": "string",
+     "minLength": 1
+    },
+    "archived": {
+     "type": "boolean"
+    },
+    "includeDerivedTitles": {
+     "type": "boolean"
+    },
+    "includeLastMessage": {
+     "type": "boolean"
+    }
+   }
+  }
+ },
+ {
+  "name": "sessions_search",
+  "description": "Search your own past sessions for matching user and assistant text. Follow up with sessions_history using a returned sessionKey, sessionId, and messageId for neighboring context.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "query"
+   ],
+   "properties": {
+    "query": {
+     "type": "string",
+     "maxLength": 4096
+    },
+    "sessionKey": {
+     "type": "string"
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 25
+    }
+   }
+  }
+ },
+ {
+  "name": "sessions_send",
+  "description": "Send a message to an authorized parent, child, or sibling cloud session. Cross-tree and stale-incarnation targets are denied by the Gateway. Status \\\"no_reply\\\" is terminal, so do not wait for an announcement.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "sessionKey",
+    "message"
+   ],
+   "properties": {
+    "sessionKey": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 1024
+    },
+    "message": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 1000000
+    },
+    "timeoutSeconds": {
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 86400
+    }
+   }
+  }
+ },
+ {
+  "name": "sessions_spawn",
+  "description": "Spawn a visible cloud child session in a fresh managed worktree. The child inherits the current cloud placement profile and attenuated tool policy.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "task"
+   ],
+   "properties": {
+    "task": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 1000000
+    },
+    "label": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 256
+    },
+    "agentId": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 256
+    },
+    "model": {
+     "type": "string",
+     "minLength": 1,
+     "maxLength": 256
+    },
+    "runTimeoutSeconds": {
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 86400
+    }
+   }
+  }
+ },
+ {
+  "name": "sessions_yield",
+  "description": "End turn after subagent spawn; results arrive next message. For an otherwise-silent interactive parent turn, acknowledgment can send a waiting reply.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "message": {
+     "type": "string",
+     "description": "Private context for the resumed turn; not sent to the user."
+    },
+    "acknowledgment": {
+     "type": "string",
+     "description": "Optional waiting reply for an otherwise-silent interactive parent turn."
+    }
+   }
+  }
+ },
+ {
+  "name": "session_status",
+  "description": "Show visible-session model/usage/time/cost/tasks. `sessionKey=\\\"current\\\"` for current; UI labels are not keys. `model` overrides; `model=default` resets. Use for active model/session questions.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "sessionKey": {
+     "type": "string"
+    },
+    "model": {
+     "type": "string"
+    },
+    "changesSince": {
+     "type": "integer",
+     "minimum": 0
+    }
+   }
+  }
+ },
+ {
+  "name": "subagents",
+  "description": "Background work: subagents, media gen, automation runs. list/cancel.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "action": {
+     "type": "string",
+     "enum": [
+      "list",
+      "cancel"
+     ]
+    },
+    "recentMinutes": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "taskId": {
+     "type": "string",
+     "description": "Task id"
+    }
+   }
+  }
+ },
+ {
+  "name": "update_goal",
+  "description": "Update the session goal status (complete | blocked) with an optional note. complete only achieved. blocked only same blocker 3+ consecutive goal turns; never ordinary difficulty/polish. Updating a goal does not reply to the user; provide the requested final response afterward.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "status"
+   ],
+   "properties": {
+    "status": {
+     "type": "string",
+     "enum": [
+      "complete",
+      "blocked"
+     ],
+     "description": "complete | blocked."
+    },
+    "note": {
+     "type": "string",
+     "description": "Short status note."
+    }
+   }
+  }
+ },
+ {
+  "name": "view_image",
+  "description": "Inspect image(s) in private model context with available vision: path accepts one local image path or permitted URL; paths accepts up to maxImages entries (20 by default). Does not display, attach, or send files to the user.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "prompt": {
+     "type": "string"
+    },
+    "path": {
+     "type": "string",
+     "description": "One local image path or permitted URL."
+    },
+    "paths": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Local image paths or permitted URLs; maxImages default 20."
+    },
+    "model": {
+     "type": "string"
+    },
+    "maxBytesMb": {
+     "type": "number",
+     "exclusiveMinimum": 0
+    },
+    "maxImages": {
+     "type": "integer",
+     "exclusiveMinimum": 0
+    }
+   }
+  }
+ },
+ {
+  "name": "web_fetch",
+  "description": "Fetch URL; extract readable markdown/text. Lightweight; no browser automation.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "url"
+   ],
+   "properties": {
+    "url": {
+     "type": "string",
+     "description": "HTTP(S) URL."
+    },
+    "extractMode": {
+     "type": "string",
+     "enum": [
+      "markdown",
+      "text"
+     ],
+     "description": "Extract as markdown/text.",
+     "default": "markdown"
+    },
+    "maxChars": {
+     "type": "integer",
+     "description": "Max chars returned; truncates.",
+     "minimum": 100
+    }
+   }
+  }
+ },
+ {
+  "name": "web_search",
+  "description": "Search current web; normalized provider results. Supports freshness and date-range filters (freshness, date_after/date_before) and domain filtering (domain_filter).",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "query"
+   ],
+   "properties": {
+    "query": {
+     "type": "string",
+     "description": "Search query."
+    },
+    "count": {
+     "type": "number",
+     "description": "Result count.",
+     "minimum": 1,
+     "maximum": 10
+    },
+    "country": {
+     "type": "string",
+     "description": "2-letter country code."
+    },
+    "language": {
+     "type": "string",
+     "description": "ISO 639-1 language."
+    },
+    "freshness": {
+     "type": "string",
+     "description": "Time filter: day/week/month/year."
+    },
+    "date_after": {
+     "type": "string",
+     "description": "Published after YYYY-MM-DD."
+    },
+    "date_before": {
+     "type": "string",
+     "description": "Published before YYYY-MM-DD."
+    },
+    "domain_filter": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Perplexity domain filter."
+    },
+    "search_lang": {
+     "type": "string",
+     "description": "Brave result language."
+    },
+    "ui_lang": {
+     "type": "string",
+     "description": "Brave UI locale."
+    },
+    "max_tokens": {
+     "type": "integer",
+     "description": "Perplexity total token budget.",
+     "minimum": 1,
+     "maximum": 1000000
+    },
+    "max_tokens_per_page": {
+     "type": "integer",
+     "description": "Perplexity tokens per page.",
+     "minimum": 1
+    }
+   }
+  }
+ },
+ {
+  "name": "write",
+  "description": "Write/overwrite file; creates parent directories. During memory flush, this tool may only append to memory/2026-09-03.md.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "path",
+    "content"
+   ],
+   "properties": {
+    "path": {
+     "type": "string",
+     "description": "File path; relative/absolute."
+    },
+    "content": {
+     "type": "string",
+     "description": "File content."
+    }
+   }
+  }
+ }
+]

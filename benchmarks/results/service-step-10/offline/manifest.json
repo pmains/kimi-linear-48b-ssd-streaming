@@ -1,0 +1,26 @@
+{
+ "started": "2026-09-05T00:51:16Z",
+ "reps": 10,
+ "smoke": false,
+ "model": "kimi-linear-48b",
+ "url": "http://127.0.0.1:18080/v1/chat/completions",
+ "sampler_note": "default cells send no sampler fields (agent-identical; llama defaults temp 0.8/top_p 0.95/min_p 0.05/top_k 40); temp cells send only temperature",
+ "env_conds": [
+  "C0",
+  "C1",
+  "C1a-D",
+  "E2",
+  "E2T"
+ ],
+ "temp_conds": [
+  "C0",
+  "E2"
+ ],
+ "probes": [
+  "P1",
+  "P2"
+ ],
+ "sys_text_source": "phase0/system-prompt-r2-p1.txt (9A-era verbatim = current full text; 9D changed no text, only the gate)",
+ "finished": "2026-09-05T01:06:39Z",
+ "n_rows": 180
+}

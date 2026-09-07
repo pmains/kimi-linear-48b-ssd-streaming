@@ -1,0 +1,9 @@
+{
+ "started": "2026-09-04T08:59:05Z",
+ "reps": 3,
+ "sampler": "agent-path identical (no sampler fields; llama defaults temp 0.8/top_p 0.95/min_p 0.05/top_k 40)",
+ "tools": "tools-full-29.json (11/29 byte-exact from retention; 18/29 from frozen dist factories)",
+ "model": "kimi-linear-48b",
+ "url": "http://127.0.0.1:18080/v1/chat/completions",
+ "finished": "2026-09-04T08:59:05Z"
+}

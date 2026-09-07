@@ -1,0 +1,17 @@
+9.979386	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+10.006055	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=27 dispatcher=new contentType=text/event-stream
+40.797783	model.run via local
+40.797888	provider: kimi-local
+40.797891	model: kimi-linear-48b
+40.797892	outputs: 1
+40.797904	- **Correctness Risk 1: No `lseek` between slices**  
+40.798137	  `pread` keeps file offset; if caller iterates layer→expert→slot, the same region is reread, corrupting the cache slot with stale data.  
+40.798150	  Fix: `lseek(fd, off, SEEK_SET)` before every `pread`.
+40.798152	
+40.798153	- **Correctness Risk 2: No size validation**  
+40.798159	  `PER_EXPERT` may exceed the actual slice length if routing trims or padding varies. `pread` then over-reads, corrupting adjacent memory.  
+40.798160	  Fix: Check `pread` return == `PER_EXPERT`; abort or raise error on short read.
+40.798163	
+40.798165	- **Performance Risk: Redundant memcpy**  
+40.798166	  `pread` already copies into `staging`; second `memcpy` duplicates the transfer.  
+40.798180	  Fix: Remove `memcpy`; let `pread` directly into `slot_ptr(slot)` if `staging` is alias-safe (or use `mmap`).

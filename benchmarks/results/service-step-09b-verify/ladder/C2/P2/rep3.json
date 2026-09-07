@@ -1,0 +1,29 @@
+{
+ "cond": "C2",
+ "probe": "P2",
+ "rep": 3,
+ "wall_s": 6.6,
+ "text": "I need to respond with exactly one JSON object: {\"ok\": true}. This is a system message indicating I should respond with just that JSON object and no other text.\n\nLet me check the current session status first:",
+ "tool_calls": [
+  {
+   "type": "function",
+   "function": {
+    "name": "session_status",
+    "arguments": "{\"sessionKey\": \"current\"}"
+   },
+   "id": "functions.session_status:0"
+  }
+ ],
+ "finish": "tool_calls",
+ "usage": {
+  "completion_tokens": 61,
+  "prompt_tokens": 11584,
+  "total_tokens": 11645,
+  "prompt_tokens_details": {
+   "cached_tokens": 11580
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "3c77b373779024b0"
+}

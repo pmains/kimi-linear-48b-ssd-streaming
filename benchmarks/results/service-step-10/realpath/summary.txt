@@ -1,0 +1,10 @@
+===== Step 9D real-path per-rep classification =====
+P1 P1-r1 rc=0 wall=75.1665 family=terse-wrong instr=FAIL fmt=FAIL res=FAIL leaks=0 | I'll respond with only "PLATANOS! 🌽" as requested.
+P1 P1-r2 rc=0 wall=398.6088 family=terse-wrong instr=FAIL fmt=FAIL res=FAIL leaks=0 | PLATANOS
+P1 P1-r3 rc=0 wall=75.6692 family=clarifying instr=FAIL fmt=FAIL res=FAIL leaks=0 | I understand you're asking me to respond only with "PLATANOS!" but I need to clarify - I'm an AI assistant designed to help with the Kimi Linear 48B-A3B streaming inference project on Apple Silicon that you're working on
+P2 P2-r1 rc=0 wall=48.5237 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+P2 P2-r2 rc=0 wall=373.4913 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+P2 P2-r3 rc=0 wall=96.7833 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+----- P1  PASS=0/3  leaky=0  families={'terse-wrong': 2, 'clarifying': 1}
+----- P2  PASS=3/3  leaky=0  families={'exact': 3}
+classified.csv -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10/realpath/classified.csv

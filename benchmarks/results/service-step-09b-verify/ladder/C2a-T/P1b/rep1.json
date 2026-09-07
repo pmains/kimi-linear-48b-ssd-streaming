@@ -1,0 +1,29 @@
+{
+ "cond": "C2a-T",
+ "probe": "P1b",
+ "rep": 1,
+ "wall_s": 15.5,
+ "text": "I understand. I should reply with exactly one word that is not 'model'.",
+ "tool_calls": [
+  {
+   "type": "function",
+   "function": {
+    "name": "create_goal",
+    "arguments": "{\"objective\": \"Reply with exactly one word that is not 'model'\"}"
+   },
+   "id": "functions.create_goal:0"
+  }
+ ],
+ "finish": "tool_calls",
+ "usage": {
+  "completion_tokens": 44,
+  "prompt_tokens": 11452,
+  "total_tokens": 11496,
+  "prompt_tokens_details": {
+   "cached_tokens": 10929
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "37dec1c5826dda65"
+}

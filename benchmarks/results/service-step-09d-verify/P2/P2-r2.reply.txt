@@ -1,0 +1,5 @@
+I'll respond with exactly one JSON object as requested.
+
+```json
+{"ok": true}
+```

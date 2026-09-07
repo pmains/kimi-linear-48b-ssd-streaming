@@ -1,0 +1,23 @@
+=== orchestrator start Sun Sep  6 12:11:25 MST 2026 ===
+pre-restart sha: 8baf47468478e930
+sleeping 60s for current turn to flush...
+--- kickstart gateway Sun Sep  6 12:12:25 MST 2026 ---
+kickstart rc=0
+health OK at attempt 6
+gateway pid now: 13064 /opt/homebrew/opt/node/bin/node /opt/homebrew/lib/node_modules/openclaw/dist/index.js gateway --port 18789
+post-restart sha: 8baf47468478e930
+llama health: 200
+--- running six production legs Sun Sep  6 12:12:39 MST 2026 ---
+1-discriminator OK | byte_identical: True | u2026_zero: True | stored_len: 126 | input_len: 126
+2-gstyle OK | byte_identical: True | u2026_zero: True | stored_len: 808 | input_len: 808
+3-longpath-match OK | byte_identical: True | u2026_zero: True | stored_len: 710 | input_len: 710
+4-longpath-nomatch OK | byte_identical: True | u2026_zero: True | stored_len: 528 | input_len: 528
+5-true-secret FAIL | raw_absent: True | masked_present: False | u2026 count: 12 | secrets: 12
+6-long-message OK | byte_identical: True | u2026_zero: True | stored_len: 44520 | input_len: 44520
+SUMMARY all_ok: False
+legs rc=1 Sun Sep  6 12:12:57 MST 2026
+--- LEGS FAILED: restoring pristine archive ---
+restored sha: 5505b775545c7d39
+rollback kickstart rc=0
+rollback health OK at attempt 5
+=== orchestrator end Sun Sep  6 12:13:25 MST 2026 ===

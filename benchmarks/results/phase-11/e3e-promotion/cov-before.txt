@@ -1,0 +1,14 @@
+=== before 2026-09-02T03:49:47Z ===
+--- loadavg ---
+{ 3.34 2.81 2.49 }
+--- memory_pressure ---
+The system has 25769803776 (1572864 pages with a page size of 16384).
+System-wide memory free percentage: 31%
+--- vm_stat (free/inactive/compressed) ---
+Pages free:                                     3783.
+Pages inactive:                               230125.
+Pages occupied by compressor:                 233190.
+--- server pid ---
+64473
+--- server rss KB ---
+5300960

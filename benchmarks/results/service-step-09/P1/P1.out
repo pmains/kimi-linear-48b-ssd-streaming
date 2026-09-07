@@ -1,0 +1,7 @@
+{
+  "ok": false,
+  "error": {
+    "type": "cli_error",
+    "message": "llama-server/kimi-linear-48b ended without a visible assistant reply | empty_result"
+  }
+}

@@ -1,0 +1,16 @@
+2836.05.991.565 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.940 (> 0.100 thold), f_keep = 0.731
+2836.05.996.335 I slot launch_slot_: id  0 | task 61768 | processing task, is_child = 0
+2836.50.241.989 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =   2048, progress = 0.16, t =  44.24 s / 46.29 tokens per second
+2837.19.777.635 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =   4096, progress = 0.32, t =  73.78 s / 55.52 tokens per second
+2837.50.932.263 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =   6144, progress = 0.48, t = 104.94 s / 58.55 tokens per second
+2838.22.055.248 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =   8192, progress = 0.64, t = 136.06 s / 60.21 tokens per second
+2838.56.327.450 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =  10240, progress = 0.80, t = 170.33 s / 60.12 tokens per second
+2839.32.283.381 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =  12208, progress = 0.96, t = 206.29 s / 59.18 tokens per second
+2839.40.701.237 I slot print_timing: id  0 | task 61768 | prompt processing, n_tokens =  12720, progress = 1.00, t = 214.70 s / 59.24 tokens per second
+2839.48.887.016 I slot print_timing: id  0 | task 61768 | prompt eval time =  215351.62 ms / 12724 tokens (   16.92 ms per token,    59.08 tokens per second)
+2839.48.887.020 I slot print_timing: id  0 | task 61768 |        eval time =    7538.80 ms /    63 tokens (  121.59 ms per token,     8.22 tokens per second)
+2839.48.887.022 I slot print_timing: id  0 | task 61768 |       total time =  222890.42 ms / 12787 tokens
+2839.48.887.022 I slot print_timing: id  0 | task 61768 |    graphs reused =          0
+2839.48.910.175 I slot      release: id  0 | task 61768 | stop processing: n_tokens = 12786, truncated = 0
+2839.49.105.884 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.777 (> 0.100 thold), f_keep = 1.000
+2839.49.108.561 I slot launch_slot_: id  0 | task 61839 | processing task, is_child = 0

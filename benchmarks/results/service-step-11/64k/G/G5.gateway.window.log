@@ -1,0 +1,41 @@
+2026-09-05T15:56:20.808-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T15:56:20.941-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=133 dispatcher=reused contentType=text/event-stream
+2026-09-05T15:59:52.610-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T15:59:52.729-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=119 dispatcher=reused contentType=text/event-stream
+2026-09-05T16:04:52.403-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T16:04:52.578-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=176 dispatcher=reused contentType=text/event-stream
+2026-09-05T16:05:19.805-07:00 [agents/post-compaction-guard] post-compaction guard armed for 3 attempts
+2026-09-05T16:05:19.806-07:00 [agent/embedded] auto-compaction succeeded for llama-server/kimi-linear-48b; retrying prompt
+2026-09-05T16:05:19.884-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T16:05:21.559-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=1673 dispatcher=reused contentType=text/event-stream
+2026-09-05T16:08:05.544-07:00 Based on my reading of the TOOLS.md file and the service_step10a_turn.py script, here are the 2 bullets you requested:
+
+**What TOOLS.md says to read before coding:**
+- Use the simplest tool that provides reliable, reproducible evidence
+- Prefer existing runtime functionality over new implementation
+- Use llama.cpp/ggml as the presumptive implementation base for model execution, GGUF loading, tensor handling, MoE routing, quantized tensor operations, inference and generation, and Apple Silicon execution through Metal
+- Before modifying runtime behavior, inspect the existing implementation and identify the smallest integration point that satisfies the current roadmap phase
+- Prefer localized, upstream-compatible changes over parallel implementations
+- Do not rewrite functionality already provided by llama.cpp or ggml without measured evidence
+- Use Metal backend for Apple Silicon acceleration unless custom Metal work is specifically authorized by roadmap
+- Study kimi-k3-in-c as architectural reference for expert paging and memory management, but don't port its complete runtime
+- Use Python for supporting analysis and tooling (checkpoint inspection, tensor inventories, GGUF/model analysis, benchmark analysis, correctness comparisons, experiment orchestration, structured result generation)
+- Use MLX as reference tool for known-working behavior, correctness comparisons, inspecting Apple Silicon model behavior, validating outputs
+- Use Hugging Face as authoritative source for checkpoint files, model configuration, tokenizer/metadata, architecture metadata
+- Use C/C++ for modifications within llama.cpp/ggml integration surface
+- Use Shell for repository inspection, builds, file operations, environment inspection, running inference, tests, benchmarks, profiling
+- Use Git to preserve experimental state and make changes auditable
+- Performance and memory claims require recorded measurements stored in benchmarks/results/
+- Do not introduce new quantization formats, custom Metal kernels, specialized kernels, direct I/O, major ggml architectural changes, or standalone inference runtime during initial streaming experiment
+
+**What the turn driver captures per turn:**
+The service_step10a_turn.py script captures several pieces of evidence per turn:
+- client.json with response extraction (rc, wall_s, reply extraction)
+- final doc (CLI stdout JSON) containing durationMs, agentMeta (contextTokens, contextTokensSource, usage, lastCallUsage, promptTokens), systemPromptReport (chars: system/project/tools/skills, bootstrap limits), error (kind, message), executionTrace (attempts, fallbackUsed), replayInvalid, livenessState
+- llama-server log window with all lines appended during the turn (slot launch, print_timing prompt-eval+eval ms, token counts, release) showing prefill vs decode per server task
+- gateway log window with all lines appended during the turn (model-fetch start/response with elapsedMs) showing client-side per-call dispatch/response timing
+- /slots snapshots before/after showing cache state covariates
+- record.json with parsed per-turn summary
+
+The script runs one headless agent turn through the REAL OpenClaw path (openclaw agent --agent kimi --model llama-server/kimi-linear-48b, no --deliver, fresh session key) while attributing wall time to phases.
+2026-09-05T16:08:05.546-07:00 [agents/agent-command] [agent] run 824682c7-6826-4014-b71a-97bf5a5c27b4 ended with stopReason=stop

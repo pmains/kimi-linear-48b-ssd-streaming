@@ -1,0 +1,20 @@
+{
+ "cond": "C2",
+ "probe": "P1",
+ "rep": 2,
+ "wall_s": 1.4,
+ "text": "[[reply_to:current]]PLATANOS",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 11,
+  "prompt_tokens": 11575,
+  "total_tokens": 11586,
+  "prompt_tokens_details": {
+   "cached_tokens": 11571
+  }
+ },
+ "family": "terse-wrong",
+ "pass": false,
+ "payload_sha": "00f2b92857d0d606"
+}

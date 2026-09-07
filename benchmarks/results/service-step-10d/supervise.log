@@ -1,0 +1,40 @@
+[2026-09-05T19:33:27Z] supervise start (openclaw=/opt/homebrew/bin/openclaw)
+[2026-09-05T19:33:27Z] config loopDetection={'enabled': True}
+[2026-09-05T19:33:57Z] openclaw gateway restart
+  "message": "restart scheduled, gateway will restart momentarily",
+  "service": {
+    "label": "LaunchAgent",
+    "loaded": true,
+    "loadedText": "loaded",
+    "notLoadedText": "not loaded"
+  }
+}
+[2026-09-05T19:34:39Z] gateway healthy after 13 tries
+[2026-09-05T19:34:44Z] llama-server health: {"status":"ok"}
+[2026-09-05T19:34:44Z] n_ctx=65536
+awk: syntax error at source line 1
+ context is
+	 >>> $3==\ <<< "ai.openclaw.gateway\" {print $1}
+awk: bailing out at source line 1
+[LOOP-r1] running 19:34:44Z
+[LOOP-r1] rc=0 wall=259.0133s
+[LOOP-r2] running 19:39:03Z
+[LOOP-r2] rc=0 wall=237.2581s
+[LOOP-r3] running 19:43:00Z
+[LOOP-r3] rc=0 wall=58.446s
+[P1-r1] running 19:43:59Z
+[P1-r1] rc=0 wall=33.2029s
+[P2-r1] running 19:44:32Z
+[P2-r1] rc=0 wall=13.7513s
+[P1-r2] running 19:44:46Z
+[P1-r2] rc=0 wall=118.3667s
+[P2-r2] running 19:46:45Z
+[P2-r2] rc=0 wall=14.5831s
+[NORM-r1] running 19:47:00Z
+[NORM-r1] rc=1 wall=427.4875s
+[NORM-r2] running 19:54:07Z
+[NORM-r2] rc=0 wall=239.6421s
+DONE: 10D leg -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10d/64k
+[2026-09-05T19:58:07Z] leg rc=0
+[2026-09-05T19:58:07Z] analysis rc=0
+[2026-09-05T19:58:07Z] supervise DONE leg_rc=0

@@ -1,0 +1,26 @@
+{
+ "cond": "E2",
+ "probe": "P1",
+ "rep": 3,
+ "temp": null,
+ "temp_key": "default",
+ "text": "[[audio_as_voice]] PLATANOS: I\u2019m here, Peter. Ready to begin the SSD-backed streaming implementation for Kimi-Linear-48B-A3B-Instruct. Let\u2019s start with the roadmap.",
+ "family": "directive-prefixed",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 1,
+ "wall_s": 6.7,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 46,
+  "prompt_tokens": 6669,
+  "total_tokens": 6715,
+  "prompt_tokens_details": {
+   "cached_tokens": 6665
+  }
+ },
+ "payload_sha": "d2e5d893fcbfd8d4",
+ "ts": "2026-09-05T00:56:36Z"
+}

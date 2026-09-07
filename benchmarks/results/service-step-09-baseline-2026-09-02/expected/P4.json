@@ -1,0 +1,9 @@
+{
+  "probe": "P4",
+  "category": "repository comprehension",
+  "prompt_file": "prompts/P4.md",
+  "match": "number_eq",
+  "value": 18080.0,
+  "ground_truth_source": "TOOLS.md line 311: KIMI_PORT=18080 (live server default)",
+  "notes": "TOOLS.md documents KIMI_PORT=18080 as the live server port. Answer should be only the number."
+}

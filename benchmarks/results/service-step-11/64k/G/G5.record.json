@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "G5",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step11-64k-growth",
+  "rc": 0,
+  "wall_s": 707.2862,
+  "t0_utc": "2026-09-05T22:56:18Z",
+  "t1_utc": "2026-09-05T23:08:05Z",
+  "n_lines": 498,
+  "extraction": "json:key=text",
+  "reply_chars": 3301,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 31487,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 46956
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 17696,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 48102
+  },
+  "llama_window_chars": 10582,
+  "gateway_window_chars": 5553
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 705420,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 17064,
+  "usage": {
+   "input": 13576,
+   "output": 721,
+   "cacheRead": 35001,
+   "total": 49298
+  },
+  "lastCallUsage": {
+   "input": 4852,
+   "output": 633,
+   "cacheRead": 12212,
+   "cacheWrite": 0,
+   "total": 17697
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29742,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Use the read tool to read /Users/pmains/Code/openclaw/kimi/TOOLS.md, then read /Users/pmains/Code/openclaw/kimi/tools/service_step10a_turn.py (first ~80 lines is fine; the read tool returns the file, truncation ok). Reply with 2 bullets on what TOOLS.md says to read before coding and what the turn driver captures per turn."
+}

@@ -1,0 +1,274 @@
+{
+ "out_root": "benchmarks/results/service-step-10d",
+ "reps": {
+  "LOOP/LOOP-r1": {
+   "probe": "LOOP",
+   "label": "LOOP-r1",
+   "rc": 0,
+   "wall_s": 259.0133,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": true,
+   "toolSummary": {
+    "calls": 16,
+    "tools": [
+     "read",
+     "sessions_search",
+     "exec"
+    ],
+    "failures": 8
+   },
+   "contextTokens": 65536,
+   "promptTokens": 15399,
+   "llama_tasks": 51,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-no-runaway (bounded, no loop event; verify wall/tasks)"
+  },
+  "LOOP/LOOP-r2": {
+   "probe": "LOOP",
+   "label": "LOOP-r2",
+   "rc": 0,
+   "wall_s": 237.2581,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": true,
+   "toolSummary": {
+    "calls": 7,
+    "tools": [
+     "read",
+     "sessions_search",
+     "sessions_history",
+     "exec"
+    ],
+    "failures": 2
+   },
+   "contextTokens": 65536,
+   "promptTokens": 18865,
+   "llama_tasks": 24,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-no-runaway (bounded, no loop event; verify wall/tasks)"
+  },
+  "LOOP/LOOP-r3": {
+   "probe": "LOOP",
+   "label": "LOOP-r3",
+   "rc": 0,
+   "wall_s": 58.446,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": false,
+   "toolSummary": {
+    "calls": 2,
+    "tools": [
+     "read"
+    ],
+    "failures": 2
+   },
+   "contextTokens": 65536,
+   "promptTokens": 13074,
+   "llama_tasks": 9,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-no-runaway (bounded, no loop event; verify wall/tasks)"
+  },
+  "LOOP-STRICT/LOOP-STRICT-r1": {
+   "probe": "LOOP-STRICT",
+   "label": "LOOP-STRICT-r1",
+   "rc": 1,
+   "wall_s": 165.6376,
+   "timed_out": false,
+   "doc_status": "error",
+   "doc_liveness": "blocked",
+   "doc_replayInvalid": false,
+   "toolSummary": {
+    "calls": 27,
+    "tools": [
+     "read"
+    ],
+    "failures": 27
+   },
+   "contextTokens": 65536,
+   "promptTokens": 14767,
+   "llama_tasks": 6,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-bounded (transcript shows CRITICAL@20 + batch veto; run ended well under cap)"
+  },
+  "LOOP-STRICT/LOOP-STRICT-r2": {
+   "probe": "LOOP-STRICT",
+   "label": "LOOP-STRICT-r2",
+   "rc": 0,
+   "wall_s": 189.7839,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": false,
+   "toolSummary": {
+    "calls": 26,
+    "tools": [
+     "read"
+    ],
+    "failures": 26
+   },
+   "contextTokens": 65536,
+   "promptTokens": 14842,
+   "llama_tasks": 9,
+   "loop_event_count": 2,
+   "first_loop_event": "2026-09-05T13:25:13.299-07:00 I have now called the `read` tool exactly 25 times consecutively with the same arguments as requested. However, the tool execution was blocked after 20 calls due to critical tool-loop recove",
+   "classification": "PASS-bounded (transcript shows CRITICAL@20 + batch veto; run ended well under cap)"
+  },
+  "P1/P1-r1": {
+   "probe": "P1",
+   "label": "P1-r1",
+   "rc": 0,
+   "wall_s": 33.2029,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": false,
+   "toolSummary": {},
+   "contextTokens": 65536,
+   "promptTokens": 12728,
+   "llama_tasks": 3,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-normal-completion"
+  },
+  "P1/P1-r2": {
+   "probe": "P1",
+   "label": "P1-r2",
+   "rc": 0,
+   "wall_s": 118.3667,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": false,
+   "toolSummary": {
+    "calls": 1,
+    "tools": [
+     "read"
+    ],
+    "failures": 1
+   },
+   "contextTokens": 65536,
+   "promptTokens": 12827,
+   "llama_tasks": 6,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-normal-completion"
+  },
+  "P2/P2-r1": {
+   "probe": "P2",
+   "label": "P2-r1",
+   "rc": 0,
+   "wall_s": 13.7513,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": false,
+   "toolSummary": {},
+   "contextTokens": 65536,
+   "promptTokens": 12733,
+   "llama_tasks": 3,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-normal-completion"
+  },
+  "P2/P2-r2": {
+   "probe": "P2",
+   "label": "P2-r2",
+   "rc": 0,
+   "wall_s": 14.5831,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": false,
+   "toolSummary": {},
+   "contextTokens": 65536,
+   "promptTokens": 12738,
+   "llama_tasks": 3,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-normal-completion"
+  },
+  "NORM/NORM-r1": {
+   "probe": "NORM",
+   "label": "NORM-r1",
+   "rc": 1,
+   "wall_s": 427.4875,
+   "timed_out": false,
+   "doc_status": "error",
+   "doc_liveness": "blocked",
+   "doc_replayInvalid": true,
+   "toolSummary": {
+    "calls": 35,
+    "tools": [
+     "progress_card",
+     "read",
+     "exec"
+    ],
+    "failures": 27
+   },
+   "contextTokens": 65536,
+   "promptTokens": 20241,
+   "llama_tasks": 87,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "CHECK rc=1 loop_events=0"
+  },
+  "NORM/NORM-r2": {
+   "probe": "NORM",
+   "label": "NORM-r2",
+   "rc": 0,
+   "wall_s": 239.6421,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": true,
+   "toolSummary": {
+    "calls": 16,
+    "tools": [
+     "read",
+     "exec",
+     "progress_card"
+    ],
+    "failures": 9
+   },
+   "contextTokens": 65536,
+   "promptTokens": 16324,
+   "llama_tasks": 51,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-normal-completion"
+  },
+  "NORM/NORM-r3": {
+   "probe": "NORM",
+   "label": "NORM-r3",
+   "rc": 0,
+   "wall_s": 219.951,
+   "timed_out": false,
+   "doc_status": "ok",
+   "doc_liveness": "working",
+   "doc_replayInvalid": true,
+   "toolSummary": {
+    "calls": 6,
+    "tools": [
+     "read",
+     "exec",
+     "progress_card"
+    ],
+    "failures": 0
+   },
+   "contextTokens": 65536,
+   "promptTokens": 18332,
+   "llama_tasks": 21,
+   "loop_event_count": 0,
+   "first_loop_event": null,
+   "classification": "PASS-normal-completion"
+  }
+ }
+}

@@ -1,0 +1,20 @@
+{
+ "cond": "R1",
+ "probe": "P4",
+ "rep": 2,
+ "wall_s": 12.4,
+ "text": "Looking at the TOOLS.md file, I can see the port configuration for the live Kimi server.\n\nIn the serving section, it states:\n```\ntools/serve_kimi_local.sh [start|stop|status]\n    KIMI_CACHE_MB=4096   expert cache budget (Phase 8 default)\n    KIMI_PORT=18080      server port\n    KIMI_CTX=8192        context size\n```\n\nThis shows that the live Kimi server listens on port 18080 by default.\n\n18080",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 107,
+  "prompt_tokens": 14219,
+  "total_tokens": 14326,
+  "prompt_tokens_details": {
+   "cached_tokens": 14215
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "39f19392e9416544"
+}

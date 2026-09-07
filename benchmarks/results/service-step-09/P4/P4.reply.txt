@@ -1,0 +1,12 @@
+I found the port information in TOOLS.md. Looking at the serving section, I can see:
+
+```
+tools/serve_kimi_local.sh [start|stop|status]
+    KIMI_CACHE_MB=4096   expert cache budget (Phase 8 default)
+    KIMI_PORT=18080      server port
+    KIMI_CTX=8192        context size
+```
+
+The live server listens on port **18080** by default.
+
+**18080**

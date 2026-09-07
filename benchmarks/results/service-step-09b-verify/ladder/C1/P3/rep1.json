@@ -1,0 +1,20 @@
+{
+ "cond": "C1",
+ "probe": "P3",
+ "rep": 1,
+ "wall_s": 11.7,
+ "text": "[[reply_to_current]] train average speed is 40\n\nAnswer: 40",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 17,
+  "prompt_tokens": 6728,
+  "total_tokens": 6745,
+  "prompt_tokens_details": {
+   "cached_tokens": 6199
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "f0b43f89f6a1c4b6"
+}

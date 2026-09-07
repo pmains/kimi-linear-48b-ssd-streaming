@@ -1,0 +1,22 @@
+{
+  "label": "B2",
+  "cold": false,
+  "client_rc": 0,
+  "client_wall_s": 27.4755,
+  "client_ttft_s": 27.4502,
+  "server_prompt_eval_ms": 7432.74,
+  "server_prompt_tokens": 289,
+  "server_eval_ms": 14949.34,
+  "server_eval_tokens": 166,
+  "server_cached_tokens": null,
+  "stats_rows": 167,
+  "cache_lookups": 34916,
+  "cache_hits": 26820,
+  "cache_misses": 8096,
+  "cache_evictions": 9863,
+  "pread_bytes": 35532580,
+  "retr_rows": 195940,
+  "retr_bytes": 245585240064,
+  "server_rss_peak_kb": 12452368,
+  "wall_s": 27.524
+}

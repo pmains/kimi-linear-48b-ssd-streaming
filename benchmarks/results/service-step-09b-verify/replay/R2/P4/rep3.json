@@ -1,0 +1,20 @@
+{
+ "cond": "R2",
+ "probe": "P4",
+ "rep": 3,
+ "wall_s": 0.4,
+ "text": "18080",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 3,
+  "prompt_tokens": 7527,
+  "total_tokens": 7530,
+  "prompt_tokens_details": {
+   "cached_tokens": 7523
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "0ea4d2edf0482281"
+}

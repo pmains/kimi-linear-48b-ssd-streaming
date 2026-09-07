@@ -1,0 +1,17 @@
+4.970706	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+4.988561	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=26 dispatcher=new contentType=text/event-stream
+30.204955	model.run via local
+30.204985	provider: kimi-local
+30.204986	model: kimi-linear-48b
+30.204987	outputs: 1
+30.204992	- **Data-path correctness risks**  
+30.205004	  1. **EOF / short read**: `pread` may return < PER_EXPERT → `memcpy` copies garbage.  
+30.205006	  2. **Overlap / aliasing**: `staging` and `slot_ptr(slot)` can alias when the expert is mapped into the same buffer as the slot itself.
+30.205007	
+30.205007	- **Performance risk**  
+30.205016	  1. **Synchronous I/O stall**: `pread` blocks the CPU while the page is fetched from disk.
+30.205016	
+30.205024	- **Minimal fixes**  
+30.205025	  1. Check `pread` return; if < PER_EXPERT, trigger error or re-read.  
+30.205038	  2. Add `std::memcpy` `__builtin_memcpy` with non-overlapping check (`memmove`) or ensure `staging` and slot buffers are distinct.  
+30.205052	  3. Issue `pread` in non-blocking mode or background thread; poll / await completion before proceeding.

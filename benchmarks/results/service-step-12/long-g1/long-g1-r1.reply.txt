@@ -1,0 +1,5 @@
+gateway timeout after 930000ms
+Gateway target: ws://127.0.0.1:18789
+Source: local loopback
+Config: /Users/pmains/.openclaw/openclaw.json
+Bind: loopback

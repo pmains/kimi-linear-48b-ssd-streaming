@@ -1,0 +1,15 @@
+Step 11B production application record (second, corrected run)
+authorized: 2026-09-06 12:02 MST (Pete)
+file: /opt/homebrew/lib/node_modules/openclaw/dist/redact-CquADQ9-.js
+change: single constant AWS_SECRET_ACCESS_KEY_VALUE_PATTERN (line 831) from
+  validated isolated replica /tmp/oc11b-pkg (sha 8baf4746...)
+sha256 pre : 5505b775545c7d39ee88916fb80d559a7cd4a916154680baf1fdfc53ca32e2f6
+sha256 post: 8baf47468478e930ad5b54cd5f8deda49164141d4069bb7c0418cb849ab179ce
+archive    : benchmarks/results/service-step-11b/prod-apply/pristine-redact-CquADQ9-.js.pre-apply-20260906-1202
+note       : prior prod-patch-record.txt claim of "applied" (09:40) was FALSE;
+             active file remained pristine (5505b775...) until this run at 12:02.
+             The earlier attempt left the fixed bytes in a never-loaded sidecar
+             redact-CquADQ9-.js.patched-20260906-1002 (removed after this run's
+             active-file verification).
+gateway    : launchd gui/501/ai.openclaw.gateway (restart = launchctl kickstart -k)
+llama      : untouched (127.0.0.1:18080, launchd com.openclaw.kimi-llama-server)

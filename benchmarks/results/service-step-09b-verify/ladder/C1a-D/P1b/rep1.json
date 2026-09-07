@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-D",
+ "probe": "P1b",
+ "rep": 1,
+ "wall_s": 9.0,
+ "text": "approval-pending",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 4,
+  "prompt_tokens": 6617,
+  "total_tokens": 6621,
+  "prompt_tokens_details": {
+   "cached_tokens": 6094
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "ddf79249eaea5100"
+}

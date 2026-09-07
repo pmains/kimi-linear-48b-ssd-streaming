@@ -1,0 +1,37 @@
+{
+  "step": "SERVICE-ROADMAP Step 9 \u2014 Qualify Response Quality",
+  "captured_at_utc": "2026-09-02T15:57:50Z",
+  "agent_under_test": "kimi",
+  "model_gguf": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+  "model_bytes": 27205376672,
+  "runtime_live_commit": "a895f68266fb28cd84bcf353559246ae70e805e6",
+  "openclaw_version": "OpenClaw 2026.9.1-beta.1 (1d96e5a)",
+  "live_env": {
+    "KIMI_STREAM_EXPERTS": "naive",
+    "KIMI_EXPERT_CACHE_MB": "8192",
+    "KIMI_EXPERT_READ_WORKERS": "4",
+    "KIMI_EXPERT_CACHE_MODE": "zerocopy",
+    "KIMI_STREAM_METAL_STAGE": "1",
+    "KIMI_STREAM_E2_DIRECT_PLACE": "1",
+    "KIMI_CTX": "65536",
+    "ngl": "999",
+    "port": "18080",
+    "source": "tools/serve_kimi_local.launchd.sh (authoritative live lifecycle)"
+  },
+  "server_health": "{\"status\":\"ok\"}",
+  "probe_prompt_sha256": {
+    "P1.md": "1c5a90540ecca2115ba27a0ffb0be9679caddbe482b9ad78f174a0ca4ad28279",
+    "P1b.md": "5b16b82cedb81adbbceaf22abae81e78bd652aed82722ca0de64802a6c34f7f4",
+    "P2.md": "c0944c9e99d7220994dceb5893ab8d2605dbdc950c8f899ada5281012a5edea3",
+    "P3.md": "4803503bfa3d456810ae564123fcb0112cdc2d08cadca81cdfeb300cbd94b2f0",
+    "P4.md": "cae85eb6727d52b2166b0666f60c95a8f02cd0c051f2b02e209eb4e49a95f8ba",
+    "P5.md": "b506055931a70bb450bc171476e7fddbe511e9160a36ee33a550ca8d2d389245",
+    "P6.md": "48977f4346a12729b856f6fedd6809aa76e0bf6bceaac79ad3ea202083c60364",
+    "P7.md": "6f508683a8176e31c2a5f5269822a827be24438d2c91dfab31cfd1e79fbda8b3",
+    "smoke.md": "dc34fe93fb2b50cebc09ab5c7b841d4dc14f77cd130da35471c40f9341ae6d66"
+  },
+  "session_key_prefix": "agent:kimi:step09-",
+  "fresh_session_per_probe": true,
+  "smoke_turn": "NON-QUALIFICATION (harness validation only; excluded from results)",
+  "acceptance": "per SERVICE-ROADMAP.md Step 9 + owner clarifications 2026-09-02"
+}

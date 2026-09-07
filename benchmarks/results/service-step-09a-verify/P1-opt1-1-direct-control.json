@@ -1,0 +1,13 @@
+{
+ "text": "PLATANOS!",
+ "finish_reason": "stop",
+ "usage": {
+  "completion_tokens": 6,
+  "prompt_tokens": 14,
+  "total_tokens": 20,
+  "prompt_tokens_details": {
+   "cached_tokens": 10
+  }
+ },
+ "wall_s": 3.1
+}

@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-D",
+ "probe": "P3",
+ "rep": 1,
+ "wall_s": 10.0,
+ "text": "40",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 2,
+  "prompt_tokens": 6632,
+  "total_tokens": 6634,
+  "prompt_tokens_details": {
+   "cached_tokens": 6094
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "a50f427f09ad9437"
+}

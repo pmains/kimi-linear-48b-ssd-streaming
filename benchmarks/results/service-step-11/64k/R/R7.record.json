@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "R7",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step11-64k-research",
+  "rc": 0,
+  "wall_s": 30.1913,
+  "t0_utc": "2026-09-05T21:19:12Z",
+  "t1_utc": "2026-09-05T21:19:43Z",
+  "n_lines": 493,
+  "extraction": "json:key=text",
+  "reply_chars": 550,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 26611,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 21198
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 26792,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 21307
+  },
+  "llama_window_chars": 1097,
+  "gateway_window_chars": 1176
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 28429,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 26677,
+  "usage": {
+   "input": 203,
+   "output": 116,
+   "cacheRead": 26474,
+   "total": 26793
+  },
+  "lastCallUsage": {
+   "input": 203,
+   "output": 116,
+   "cacheRead": 26474,
+   "cacheWrite": 0,
+   "total": 26793
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29744,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "From R1 you summarized AGENTS.md, and in R4 you read the Step 11 section which says reports live in service-progress/. In two sentences, explain what the Step 11 report file should be named and where its machine-readable results should be saved, citing what you read earlier."
+}

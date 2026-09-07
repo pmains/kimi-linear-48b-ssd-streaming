@@ -1,0 +1,11 @@
+{
+  "label": "P1-gated-1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step09a-verify-p1",
+  "rc": 0,
+  "wall_s": 179.6431,
+  "n_lines": 493,
+  "extraction": "json:key=text",
+  "reply_chars": 343,
+  "timed_out": false
+}

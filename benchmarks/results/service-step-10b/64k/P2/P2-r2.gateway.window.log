@@ -1,0 +1,4 @@
+2026-09-05T09:00:15.213-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T09:00:15.340-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=126 dispatcher=reused contentType=text/event-stream
+2026-09-05T09:00:26.238-07:00 {"ok": true}
+2026-09-05T09:00:26.240-07:00 [agents/agent-command] [agent] run 3d85c10e-5060-45ac-9350-d28578f37bde ended with stopReason=stop

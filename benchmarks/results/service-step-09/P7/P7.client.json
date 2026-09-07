@@ -1,0 +1,11 @@
+{
+  "label": "P7",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step09-r2-P7",
+  "rc": 0,
+  "wall_s": 173.7574,
+  "n_lines": 502,
+  "extraction": "json:key=text",
+  "reply_chars": 87,
+  "timed_out": false
+}

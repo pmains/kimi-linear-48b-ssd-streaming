@@ -1,0 +1,26 @@
+{
+ "cond": "E2T",
+ "probe": "P1",
+ "rep": 6,
+ "temp": null,
+ "temp_key": "default",
+ "text": "PLATANOS\n\nI need more context to help you with the Kimi Linear 48B-A3B streaming inference project. Could you provide:\n\n1. The current roadmap phase you're working on\n2. The specific acceptance criteria that need to be met\n3. Any existing test failures or blockers\n4. The missing project state you mentioned (reproducible drivers, tools, or test outputs)\n\nOnce I have this information, I can properly assess the situation and provide the most helpful response.",
+ "family": "clarifying",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 14.1,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 104,
+  "prompt_tokens": 11538,
+  "total_tokens": 11642,
+  "prompt_tokens_details": {
+   "cached_tokens": 11534
+  }
+ },
+ "payload_sha": "d2e5d893fcbfd8d4",
+ "ts": "2026-09-05T00:58:18Z"
+}

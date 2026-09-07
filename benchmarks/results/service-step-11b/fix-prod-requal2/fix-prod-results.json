@@ -1,0 +1,47 @@
+{
+  "all_ok": true,
+  "results": {
+    "1-discriminator": {
+      "ok": true,
+      "byte_identical": true,
+      "u2026_zero": true,
+      "stored_len": 126,
+      "input_len": 126
+    },
+    "2-gstyle": {
+      "ok": true,
+      "byte_identical": true,
+      "u2026_zero": true,
+      "stored_len": 808,
+      "input_len": 808
+    },
+    "3-longpath-match": {
+      "ok": true,
+      "byte_identical": true,
+      "u2026_zero": true,
+      "stored_len": 710,
+      "input_len": 710
+    },
+    "4-longpath-nomatch": {
+      "ok": true,
+      "byte_identical": true,
+      "u2026_zero": true,
+      "stored_len": 528,
+      "input_len": 528
+    },
+    "5-true-secret": {
+      "ok": true,
+      "raw_absent": true,
+      "masked_present": true,
+      "u2026_count": 12,
+      "secrets": 6
+    },
+    "6-long-message": {
+      "ok": true,
+      "byte_identical": true,
+      "u2026_zero": true,
+      "stored_len": 44520,
+      "input_len": 44520
+    }
+  }
+}

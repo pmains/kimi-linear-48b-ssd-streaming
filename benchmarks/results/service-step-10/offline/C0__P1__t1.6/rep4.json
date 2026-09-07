@@ -1,0 +1,26 @@
+{
+ "cond": "C0",
+ "probe": "P1",
+ "rep": 4,
+ "temp": 1.6,
+ "temp_key": "1.6",
+ "text": "PLATANOS PLATANOS PLATANOS!",
+ "family": "terse-wrong",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 1.0,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 14,
+  "prompt_tokens": 14,
+  "total_tokens": 28,
+  "prompt_tokens_details": {
+   "cached_tokens": 10
+  }
+ },
+ "payload_sha": "71f60304802453c6",
+ "ts": "2026-09-05T00:58:49Z"
+}

@@ -1,0 +1,7 @@
+1231.164339	{
+1231.164392	  "ok": false,
+1231.164398	  "error": {
+1231.164402	    "type": "cli_error",
+1231.164403	    "message": "gateway timeout after 1230000ms\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/pmains/.openclaw/openclaw.json\nBind: loopback"
+1231.164403	  }
+1231.164403	}

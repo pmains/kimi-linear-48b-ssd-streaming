@@ -1,0 +1,21 @@
+2026-09-04T21:33:47.985-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1909 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:33:48.332-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-04T21:33:48.513-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=180 dispatcher=reused contentType=text/event-stream
+2026-09-04T21:34:02.278-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:34:03.754-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-04T21:34:03.832-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=77 dispatcher=reused contentType=text/event-stream
+2026-09-04T21:34:04.661-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2383 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-04T21:34:06.540-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:34:09.278-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2737 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:34:09.632-07:00 [agent/embedded] embedded run auto-compaction start: runId=2c3c7b14-2082-41e5-a894-4220b0c8dc2a reason=threshold
+2026-09-04T21:34:09.634-07:00 [agent/embedded] embedded run auto-compaction skipped: runId=2c3c7b14-2082-41e5-a894-4220b0c8dc2a reason=no_compactable_entries
+2026-09-04T21:34:10.607-07:00 [agent/embedded] embedded run auto-compaction start: runId=53ec2ae3-2674-4383-8aeb-940c362cb8b7 reason=threshold
+2026-09-04T21:34:10.607-07:00 [agent/embedded] embedded run auto-compaction skipped: runId=53ec2ae3-2674-4383-8aeb-940c362cb8b7 reason=no_compactable_entries
+2026-09-04T21:34:10.613-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-04T21:34:10.749-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=136 dispatcher=reused contentType=text/event-stream
+2026-09-04T21:34:19.407-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:34:21.154-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1748 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:34:24.050-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:34:26.123-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2072 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:34:28.681-07:00 PLATANOS
+2026-09-04T21:34:28.682-07:00 [agents/agent-command] [agent] run 2c3c7b14-2082-41e5-a894-4220b0c8dc2a ended with stopReason=stop

@@ -1,0 +1,26 @@
+{
+ "cond": "C1a-D",
+ "probe": "P1",
+ "rep": 10,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I cannot comply with this request.",
+ "family": "terse-wrong",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 1.7,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 8,
+  "prompt_tokens": 6610,
+  "total_tokens": 6618,
+  "prompt_tokens_details": {
+   "cached_tokens": 6606
+  }
+ },
+ "payload_sha": "53a44916c9fdb2da",
+ "ts": "2026-09-05T00:53:51Z"
+}

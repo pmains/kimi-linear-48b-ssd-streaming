@@ -1,0 +1,26 @@
+{
+ "cond": "E2",
+ "probe": "P1",
+ "rep": 8,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I need more context to understand what you're asking for. Could you clarify what you mean by \"Respond only PLATANOS!\"? Are you asking me to:\n\n1. Respond only with the word \"PLATANOS!\"?\n2. Respond only about PLATANOS (whatever that refers to)?\n3. Something else entirely?\n\nPlease provide more details so I can help you appropriately.",
+ "family": "clarifying",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 10.5,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 80,
+  "prompt_tokens": 6669,
+  "total_tokens": 6749,
+  "prompt_tokens_details": {
+   "cached_tokens": 6665
+  }
+ },
+ "payload_sha": "d2e5d893fcbfd8d4",
+ "ts": "2026-09-05T00:57:04Z"
+}

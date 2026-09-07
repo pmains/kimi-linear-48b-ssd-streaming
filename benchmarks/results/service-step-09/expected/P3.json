@@ -1,0 +1,8 @@
+{
+  "probe": "P3",
+  "category": "simple reasoning",
+  "prompt_file": "prompts/P3.md",
+  "match": "number_eq",
+  "value": 40.0,
+  "notes": "60 miles / 1.5 hours = 40 mph. Reply should be only the number (40 or 40.0)."
+}

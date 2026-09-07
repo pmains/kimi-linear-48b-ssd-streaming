@@ -1,0 +1,5 @@
+[openclaw] The CLI command failed.
+[openclaw] Reason: Model override "kimi-local/kimi-linear-48b" is not allowed for agent "kimi" by agents.defaults.modelPolicy.allow. Add "kimi-local/kimi-linear-48b" or "kimi-local/*" to agents.defaults.modelPolicy.allow, or remove/empty the list to allow any model.
+[openclaw] Debug: set OPENCLAW_DEBUG=1 to include the stack trace.
+[openclaw] Try: openclaw doctor
+[openclaw] Help: openclaw --help

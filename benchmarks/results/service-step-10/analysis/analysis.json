@@ -1,0 +1,934 @@
+{
+ "inputs": {
+  "offline_rows": 180,
+  "realpath_step10_rows": 6,
+  "realpath_frozen9d_rows": 6,
+  "realpath_total_per_probe": {
+   "P1": 6,
+   "P2": 6
+  },
+  "frozen_9b_c1ad_reference_rows": 6
+ },
+ "cells": {
+  "C0/P1/0.0": {
+   "cond": "C0",
+   "probe": "P1",
+   "temp": "0.0",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "terse-wrong": 10
+   },
+   "wall_s": {
+    "min": 0.3,
+    "median": 0.4,
+    "max": 20.5
+   }
+  },
+  "C0/P1/1.6": {
+   "cond": "C0",
+   "probe": "P1",
+   "temp": "1.6",
+   "n": 10,
+   "exact": 2,
+   "rate": 0.2,
+   "ci_low": 0.0567,
+   "ci_high": 0.5098,
+   "families": {
+    "exact": 2,
+    "terse-wrong": 7,
+    "prose-wrapped": 1
+   },
+   "wall_s": {
+    "min": 0.3,
+    "median": 0.4,
+    "max": 3.0
+   }
+  },
+  "C0/P1/default": {
+   "cond": "C0",
+   "probe": "P1",
+   "temp": "default",
+   "n": 10,
+   "exact": 5,
+   "rate": 0.5,
+   "ci_low": 0.2366,
+   "ci_high": 0.7634,
+   "families": {
+    "terse-wrong": 5,
+    "exact": 5
+   },
+   "wall_s": {
+    "min": 0.3,
+    "median": 0.3,
+    "max": 2.5
+   }
+  },
+  "C0/P2/0.0": {
+   "cond": "C0",
+   "probe": "P2",
+   "temp": "0.0",
+   "n": 10,
+   "exact": 10,
+   "rate": 1.0,
+   "ci_low": 0.7225,
+   "ci_high": 1.0,
+   "families": {
+    "exact": 10
+   },
+   "wall_s": {
+    "min": 0.4,
+    "median": 0.5,
+    "max": 0.7
+   }
+  },
+  "C0/P2/1.6": {
+   "cond": "C0",
+   "probe": "P2",
+   "temp": "1.6",
+   "n": 10,
+   "exact": 10,
+   "rate": 1.0,
+   "ci_low": 0.7225,
+   "ci_high": 1.0,
+   "families": {
+    "exact": 10
+   },
+   "wall_s": {
+    "min": 0.4,
+    "median": 0.5,
+    "max": 0.8
+   }
+  },
+  "C0/P2/default": {
+   "cond": "C0",
+   "probe": "P2",
+   "temp": "default",
+   "n": 10,
+   "exact": 10,
+   "rate": 1.0,
+   "ci_low": 0.7225,
+   "ci_high": 1.0,
+   "families": {
+    "exact": 10
+   },
+   "wall_s": {
+    "min": 0.4,
+    "median": 0.5,
+    "max": 2.2
+   }
+  },
+  "C1/P1/default": {
+   "cond": "C1",
+   "probe": "P1",
+   "temp": "default",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "terse-wrong": 6,
+    "empty/directive-only": 3,
+    "directive-prefixed": 1
+   },
+   "wall_s": {
+    "min": 0.3,
+    "median": 0.4,
+    "max": 13.4
+   }
+  },
+  "C1/P2/default": {
+   "cond": "C1",
+   "probe": "P2",
+   "temp": "default",
+   "n": 10,
+   "exact": 8,
+   "rate": 0.8,
+   "ci_low": 0.4902,
+   "ci_high": 0.9433,
+   "families": {
+    "exact": 8,
+    "directive-prefixed": 1,
+    "terse-wrong": 1
+   },
+   "wall_s": {
+    "min": 0.5,
+    "median": 0.7,
+    "max": 150.4
+   }
+  },
+  "C1a-D/P1/default": {
+   "cond": "C1a-D",
+   "probe": "P1",
+   "temp": "default",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "clarifying": 6,
+    "terse-wrong": 2,
+    "prose-wrapped": 2
+   },
+   "wall_s": {
+    "min": 0.7,
+    "median": 6.2,
+    "max": 119.3
+   }
+  },
+  "C1a-D/P2/default": {
+   "cond": "C1a-D",
+   "probe": "P2",
+   "temp": "default",
+   "n": 10,
+   "exact": 6,
+   "rate": 0.6,
+   "ci_low": 0.3127,
+   "ci_high": 0.8318,
+   "families": {
+    "exact": 6,
+    "terse-wrong": 4
+   },
+   "wall_s": {
+    "min": 0.5,
+    "median": 0.9,
+    "max": 13.8
+   }
+  },
+  "E2/P1/0.0": {
+   "cond": "E2",
+   "probe": "P1",
+   "temp": "0.0",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "terse-wrong": 10
+   },
+   "wall_s": {
+    "min": 0.4,
+    "median": 0.5,
+    "max": 108.2
+   }
+  },
+  "E2/P1/1.6": {
+   "cond": "E2",
+   "probe": "P1",
+   "temp": "1.6",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "terse-wrong": 6,
+    "clarifying": 2,
+    "prose-wrapped": 2
+   },
+   "wall_s": {
+    "min": 0.5,
+    "median": 1.9,
+    "max": 21.2
+   }
+  },
+  "E2/P1/default": {
+   "cond": "E2",
+   "probe": "P1",
+   "temp": "default",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "terse-wrong": 5,
+    "directive-prefixed": 1,
+    "prose-wrapped": 2,
+    "clarifying": 2
+   },
+   "wall_s": {
+    "min": 0.5,
+    "median": 6.7,
+    "max": 157.2
+   }
+  },
+  "E2/P2/0.0": {
+   "cond": "E2",
+   "probe": "P2",
+   "temp": "0.0",
+   "n": 10,
+   "exact": 10,
+   "rate": 1.0,
+   "ci_low": 0.7225,
+   "ci_high": 1.0,
+   "families": {
+    "exact": 10
+   },
+   "wall_s": {
+    "min": 0.6,
+    "median": 0.6,
+    "max": 0.7
+   }
+  },
+  "E2/P2/1.6": {
+   "cond": "E2",
+   "probe": "P2",
+   "temp": "1.6",
+   "n": 10,
+   "exact": 6,
+   "rate": 0.6,
+   "ci_low": 0.3127,
+   "ci_high": 0.8318,
+   "families": {
+    "terse-wrong": 4,
+    "exact": 6
+   },
+   "wall_s": {
+    "min": 0.6,
+    "median": 0.6,
+    "max": 1.0
+   }
+  },
+  "E2/P2/default": {
+   "cond": "E2",
+   "probe": "P2",
+   "temp": "default",
+   "n": 10,
+   "exact": 8,
+   "rate": 0.8,
+   "ci_low": 0.4902,
+   "ci_high": 0.9433,
+   "families": {
+    "exact": 8,
+    "terse-wrong": 2
+   },
+   "wall_s": {
+    "min": 0.4,
+    "median": 0.6,
+    "max": 130.6
+   }
+  },
+  "E2T/P1/default": {
+   "cond": "E2T",
+   "probe": "P1",
+   "temp": "default",
+   "n": 10,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.2775,
+   "families": {
+    "prose-wrapped": 1,
+    "terse-wrong": 6,
+    "clarifying": 3
+   },
+   "wall_s": {
+    "min": 0.5,
+    "median": 5.2,
+    "max": 20.1
+   }
+  },
+  "E2T/P2/default": {
+   "cond": "E2T",
+   "probe": "P2",
+   "temp": "default",
+   "n": 10,
+   "exact": 5,
+   "rate": 0.5,
+   "ci_low": 0.2366,
+   "ci_high": 0.7634,
+   "families": {
+    "exact": 5,
+    "terse-wrong": 3,
+    "prose-wrapped": 2
+   },
+   "wall_s": {
+    "min": 0.6,
+    "median": 1.4,
+    "max": 226.4
+   }
+  }
+ },
+ "contrasts": {
+  "P1": {
+   "sampler_C0": {
+    "0.0": 0.0,
+    "default": 0.5,
+    "1.6": 0.2
+   },
+   "sampler_E2": {
+    "0.0": 0.0,
+    "default": 0.0,
+    "1.6": 0.0
+   },
+   "C0_vs_C1": {
+    "rate_a": 0.0,
+    "rate_b": 0.5,
+    "diff": -0.5,
+    "ci_a": [
+     0.0,
+     0.2775
+    ],
+    "ci_b": [
+     0.2366,
+     0.7634
+    ]
+   },
+   "C1_vs_E2": {
+    "rate_a": 0.0,
+    "rate_b": 0.0,
+    "diff": 0.0,
+    "ci_a": [
+     0.0,
+     0.2775
+    ],
+    "ci_b": [
+     0.0,
+     0.2775
+    ]
+   },
+   "E2_vs_C1aD": {
+    "rate_a": 0.0,
+    "rate_b": 0.0,
+    "diff": 0.0,
+    "ci_a": [
+     0.0,
+     0.2775
+    ],
+    "ci_b": [
+     0.0,
+     0.2775
+    ]
+   },
+   "E2_vs_E2T": {
+    "rate_a": 0.0,
+    "rate_b": 0.0,
+    "diff": 0.0,
+    "ci_a": [
+     0.0,
+     0.2775
+    ],
+    "ci_b": [
+     0.0,
+     0.2775
+    ]
+   }
+  },
+  "P2": {
+   "sampler_C0": {
+    "0.0": 1.0,
+    "default": 1.0,
+    "1.6": 1.0
+   },
+   "sampler_E2": {
+    "0.0": 1.0,
+    "default": 0.8,
+    "1.6": 0.6
+   },
+   "C0_vs_C1": {
+    "rate_a": 0.8,
+    "rate_b": 1.0,
+    "diff": -0.2,
+    "ci_a": [
+     0.4902,
+     0.9433
+    ],
+    "ci_b": [
+     0.7225,
+     1.0
+    ]
+   },
+   "C1_vs_E2": {
+    "rate_a": 0.8,
+    "rate_b": 0.8,
+    "diff": 0.0,
+    "ci_a": [
+     0.4902,
+     0.9433
+    ],
+    "ci_b": [
+     0.4902,
+     0.9433
+    ]
+   },
+   "E2_vs_C1aD": {
+    "rate_a": 0.8,
+    "rate_b": 0.6,
+    "diff": 0.2,
+    "ci_a": [
+     0.4902,
+     0.9433
+    ],
+    "ci_b": [
+     0.3127,
+     0.8318
+    ]
+   },
+   "E2_vs_E2T": {
+    "rate_a": 0.5,
+    "rate_b": 0.8,
+    "diff": -0.3,
+    "ci_a": [
+     0.2366,
+     0.7634
+    ],
+    "ci_b": [
+     0.4902,
+     0.9433
+    ]
+   }
+  }
+ },
+ "realpath": {
+  "P1": {
+   "n": 6,
+   "exact": 0,
+   "rate": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.3903,
+   "families": {
+    "terse-wrong": 4,
+    "clarifying": 1,
+    "prose-wrapped": 1
+   },
+   "by_source": {
+    "step10": {
+     "n": 3,
+     "exact": 0,
+     "rate": 0.0,
+     "families": {
+      "terse-wrong": 2,
+      "clarifying": 1
+     }
+    },
+    "frozen-9d": {
+     "n": 3,
+     "exact": 0,
+     "rate": 0.0,
+     "families": {
+      "terse-wrong": 2,
+      "prose-wrapped": 1
+     }
+    }
+   }
+  },
+  "P2": {
+   "n": 6,
+   "exact": 4,
+   "rate": 0.6667,
+   "ci_low": 0.3,
+   "ci_high": 0.9032,
+   "families": {
+    "exact": 4,
+    "prose-wrapped": 1,
+    "terse-wrong": 1
+   },
+   "by_source": {
+    "step10": {
+     "n": 3,
+     "exact": 3,
+     "rate": 1.0,
+     "families": {
+      "exact": 3
+     }
+    },
+    "frozen-9d": {
+     "n": 3,
+     "exact": 1,
+     "rate": 0.3333,
+     "families": {
+      "exact": 1,
+      "prose-wrapped": 1,
+      "terse-wrong": 1
+     }
+    }
+   }
+  }
+ },
+ "determinism": {
+  "C0/P1/0.0": {
+   "n": 10,
+   "n_unique_texts": 1,
+   "identical": true,
+   "exact_rate": 0.0,
+   "text": "PLATANOS"
+  },
+  "C0/P2/0.0": {
+   "n": 10,
+   "n_unique_texts": 1,
+   "identical": true,
+   "exact_rate": 1.0,
+   "text": "{\"ok\": true}"
+  },
+  "E2/P1/0.0": {
+   "n": 10,
+   "n_unique_texts": 1,
+   "identical": true,
+   "exact_rate": 0.0,
+   "text": "PLATANOS"
+  },
+  "E2/P2/0.0": {
+   "n": 10,
+   "n_unique_texts": 1,
+   "identical": true,
+   "exact_rate": 1.0,
+   "text": "{\"ok\": true}"
+  }
+ },
+ "determination": {
+  "greedy_floor_exact_E2": {
+   "P1": 0.0,
+   "P2": 1.0
+  },
+  "determinism_ok": true,
+  "per_probe_verdict": {
+   "P1": "ATTRIBUTED-model+prompt-at-E2 (greedy floor not exact; real path indistinguishable from offline E2/E2T default -> failure fully reproduced offline at the env-equivalent payload; no unmodeled agent-environment layer; sampler config alone would not fix)",
+   "P2": "H-S1:sampler-primary (greedy floor exact; offline E2/E2T at default low and indistinguishable from real path)"
+  },
+  "classification": "PASS",
+  "notes": [
+   "determinism(temp0 identical 10/10)=True",
+   "greedy floor exact at E2: {\"P1\": 0.0, \"P2\": 1.0}",
+   "P1 real-vs-offline: C1a-D=overlap-partial(off 0.0 real 0.0 p=1.0) E2=overlap-partial(off 0.0 real 0.0 p=1.0) E2T=overlap-partial(off 0.0 real 0.0 p=1.0)",
+   "P2 real-vs-offline: C1a-D=overlap-partial(off 0.6 real 0.6667 p=1.0) E2=overlap-partial(off 0.8 real 0.6667 p=0.6044) E2T=overlap-partial(off 0.5 real 0.6667 p=0.6329)",
+   "verdicts: {\"P1\": \"ATTRIBUTED-model+prompt-at-E2 (greedy floor not exact; real path indistinguishable from offline E2/E2T default -> failure fully reproduced offline at the env-equivalent payload; no unmodeled agent-environment layer; sampler config alone would not fix)\", \"P2\": \"H-S1:sampler-primary (greedy floor exact; offline E2/E2T at default low and indistinguishable from real path)\"}",
+   "CLASS: PASS - delta attributed with CI support.",
+   "  Attribution: per-probe verdicts (see above); any H-S1/H-S2/ATTRIBUTED mix keeps the delta attributed, with P1 amended: the `!`-drop is deterministic at the greedy floor under E2 (0/10 identical), so the env-equivalent payload+model is the P1 boundary; the real path adds no measurable degradation beyond offline E2/E2T."
+  ]
+ },
+ "env_ladder_default": {
+  "P1": {
+   "C0": {
+    "cond": "C0",
+    "probe": "P1",
+    "temp": "default",
+    "n": 10,
+    "exact": 5,
+    "rate": 0.5,
+    "ci_low": 0.2366,
+    "ci_high": 0.7634,
+    "families": {
+     "terse-wrong": 5,
+     "exact": 5
+    },
+    "wall_s": {
+     "min": 0.3,
+     "median": 0.3,
+     "max": 2.5
+    }
+   },
+   "C1": {
+    "cond": "C1",
+    "probe": "P1",
+    "temp": "default",
+    "n": 10,
+    "exact": 0,
+    "rate": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.2775,
+    "families": {
+     "terse-wrong": 6,
+     "empty/directive-only": 3,
+     "directive-prefixed": 1
+    },
+    "wall_s": {
+     "min": 0.3,
+     "median": 0.4,
+     "max": 13.4
+    }
+   },
+   "C1a-D": {
+    "cond": "C1a-D",
+    "probe": "P1",
+    "temp": "default",
+    "n": 10,
+    "exact": 0,
+    "rate": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.2775,
+    "families": {
+     "clarifying": 6,
+     "terse-wrong": 2,
+     "prose-wrapped": 2
+    },
+    "wall_s": {
+     "min": 0.7,
+     "median": 6.2,
+     "max": 119.3
+    }
+   },
+   "E2": {
+    "cond": "E2",
+    "probe": "P1",
+    "temp": "default",
+    "n": 10,
+    "exact": 0,
+    "rate": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.2775,
+    "families": {
+     "terse-wrong": 5,
+     "directive-prefixed": 1,
+     "prose-wrapped": 2,
+     "clarifying": 2
+    },
+    "wall_s": {
+     "min": 0.5,
+     "median": 6.7,
+     "max": 157.2
+    }
+   },
+   "E2T": {
+    "cond": "E2T",
+    "probe": "P1",
+    "temp": "default",
+    "n": 10,
+    "exact": 0,
+    "rate": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.2775,
+    "families": {
+     "prose-wrapped": 1,
+     "terse-wrong": 6,
+     "clarifying": 3
+    },
+    "wall_s": {
+     "min": 0.5,
+     "median": 5.2,
+     "max": 20.1
+    }
+   }
+  },
+  "P2": {
+   "C0": {
+    "cond": "C0",
+    "probe": "P2",
+    "temp": "default",
+    "n": 10,
+    "exact": 10,
+    "rate": 1.0,
+    "ci_low": 0.7225,
+    "ci_high": 1.0,
+    "families": {
+     "exact": 10
+    },
+    "wall_s": {
+     "min": 0.4,
+     "median": 0.5,
+     "max": 2.2
+    }
+   },
+   "C1": {
+    "cond": "C1",
+    "probe": "P2",
+    "temp": "default",
+    "n": 10,
+    "exact": 8,
+    "rate": 0.8,
+    "ci_low": 0.4902,
+    "ci_high": 0.9433,
+    "families": {
+     "exact": 8,
+     "directive-prefixed": 1,
+     "terse-wrong": 1
+    },
+    "wall_s": {
+     "min": 0.5,
+     "median": 0.7,
+     "max": 150.4
+    }
+   },
+   "C1a-D": {
+    "cond": "C1a-D",
+    "probe": "P2",
+    "temp": "default",
+    "n": 10,
+    "exact": 6,
+    "rate": 0.6,
+    "ci_low": 0.3127,
+    "ci_high": 0.8318,
+    "families": {
+     "exact": 6,
+     "terse-wrong": 4
+    },
+    "wall_s": {
+     "min": 0.5,
+     "median": 0.9,
+     "max": 13.8
+    }
+   },
+   "E2": {
+    "cond": "E2",
+    "probe": "P2",
+    "temp": "default",
+    "n": 10,
+    "exact": 8,
+    "rate": 0.8,
+    "ci_low": 0.4902,
+    "ci_high": 0.9433,
+    "families": {
+     "exact": 8,
+     "terse-wrong": 2
+    },
+    "wall_s": {
+     "min": 0.4,
+     "median": 0.6,
+     "max": 130.6
+    }
+   },
+   "E2T": {
+    "cond": "E2T",
+    "probe": "P2",
+    "temp": "default",
+    "n": 10,
+    "exact": 5,
+    "rate": 0.5,
+    "ci_low": 0.2366,
+    "ci_high": 0.7634,
+    "families": {
+     "exact": 5,
+     "terse-wrong": 3,
+     "prose-wrapped": 2
+    },
+    "wall_s": {
+     "min": 0.6,
+     "median": 1.4,
+     "max": 226.4
+    }
+   }
+  }
+ },
+ "real_vs_offline": {
+  "P1": {
+   "C1a-D": {
+    "real_n": 6,
+    "real_exact": 0,
+    "real_rate": 0.0,
+    "offline_n": 10,
+    "offline_exact": 0,
+    "offline_rate": 0.0,
+    "offline_ci": [
+     0.0,
+     0.2775
+    ],
+    "real_ci": [
+     0.0,
+     0.3903
+    ],
+    "offline_ci_entirely_above_real": false,
+    "real_rate_inside_offline_ci": false,
+    "ci_overlap": true,
+    "fisher_two_sided_p": 1.0
+   },
+   "E2": {
+    "real_n": 6,
+    "real_exact": 0,
+    "real_rate": 0.0,
+    "offline_n": 10,
+    "offline_exact": 0,
+    "offline_rate": 0.0,
+    "offline_ci": [
+     0.0,
+     0.2775
+    ],
+    "real_ci": [
+     0.0,
+     0.3903
+    ],
+    "offline_ci_entirely_above_real": false,
+    "real_rate_inside_offline_ci": false,
+    "ci_overlap": true,
+    "fisher_two_sided_p": 1.0
+   },
+   "E2T": {
+    "real_n": 6,
+    "real_exact": 0,
+    "real_rate": 0.0,
+    "offline_n": 10,
+    "offline_exact": 0,
+    "offline_rate": 0.0,
+    "offline_ci": [
+     0.0,
+     0.2775
+    ],
+    "real_ci": [
+     0.0,
+     0.3903
+    ],
+    "offline_ci_entirely_above_real": false,
+    "real_rate_inside_offline_ci": false,
+    "ci_overlap": true,
+    "fisher_two_sided_p": 1.0
+   }
+  },
+  "P2": {
+   "C1a-D": {
+    "real_n": 6,
+    "real_exact": 4,
+    "real_rate": 0.6667,
+    "offline_n": 10,
+    "offline_exact": 6,
+    "offline_rate": 0.6,
+    "offline_ci": [
+     0.3127,
+     0.8318
+    ],
+    "real_ci": [
+     0.3,
+     0.9032
+    ],
+    "offline_ci_entirely_above_real": false,
+    "real_rate_inside_offline_ci": false,
+    "ci_overlap": true,
+    "fisher_two_sided_p": 1.0
+   },
+   "E2": {
+    "real_n": 6,
+    "real_exact": 4,
+    "real_rate": 0.6667,
+    "offline_n": 10,
+    "offline_exact": 8,
+    "offline_rate": 0.8,
+    "offline_ci": [
+     0.4902,
+     0.9433
+    ],
+    "real_ci": [
+     0.3,
+     0.9032
+    ],
+    "offline_ci_entirely_above_real": false,
+    "real_rate_inside_offline_ci": false,
+    "ci_overlap": true,
+    "fisher_two_sided_p": 0.6044
+   },
+   "E2T": {
+    "real_n": 6,
+    "real_exact": 4,
+    "real_rate": 0.6667,
+    "offline_n": 10,
+    "offline_exact": 5,
+    "offline_rate": 0.5,
+    "offline_ci": [
+     0.2366,
+     0.7634
+    ],
+    "real_ci": [
+     0.3,
+     0.9032
+    ],
+    "offline_ci_entirely_above_real": false,
+    "real_rate_inside_offline_ci": false,
+    "ci_overlap": true,
+    "fisher_two_sided_p": 0.6329
+   }
+  }
+ }
+}

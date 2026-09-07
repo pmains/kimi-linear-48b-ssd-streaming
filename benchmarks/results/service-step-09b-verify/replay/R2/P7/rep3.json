@@ -1,0 +1,20 @@
+{
+ "cond": "R2",
+ "probe": "P7",
+ "rep": 3,
+ "wall_s": 1.3,
+ "text": "The current UTC date is 2026-09-04 COMPLETE",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 15,
+  "prompt_tokens": 4990,
+  "total_tokens": 5005,
+  "prompt_tokens_details": {
+   "cached_tokens": 4986
+  }
+ },
+ "family": "terse-wrong",
+ "pass": false,
+ "payload_sha": "10cf423bce40713e"
+}

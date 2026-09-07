@@ -1,0 +1,8 @@
+{
+  "probe": "P1b",
+  "category": "literal instruction following (negative constraint)",
+  "prompt_file": "prompts/P1b.md",
+  "match": "single_word_not",
+  "forbidden": "model",
+  "notes": "Exactly one word; that word must not be 'model'. Extra prose = format failure."
+}

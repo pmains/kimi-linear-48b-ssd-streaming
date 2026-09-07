@@ -1,0 +1,26 @@
+{
+ "cond": "C1",
+ "probe": "P1",
+ "rep": 7,
+ "temp": null,
+ "temp_key": "default",
+ "text": "PLATANOS",
+ "family": "terse-wrong",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 0.3,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 5,
+  "prompt_tokens": 6706,
+  "total_tokens": 6711,
+  "prompt_tokens_details": {
+   "cached_tokens": 6702
+  }
+ },
+ "payload_sha": "00f2b92857d0d606",
+ "ts": "2026-09-05T00:51:38Z"
+}

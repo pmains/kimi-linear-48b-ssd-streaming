@@ -1,0 +1,18 @@
+901.51.639.760 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.996 (> 0.100 thold), f_keep = 1.000
+901.51.641.066 I slot launch_slot_: id  0 | task 17126 | processing task, is_child = 0
+901.56.645.848 I slot print_timing: id  0 | task 17126 | prompt processing, n_tokens =     49, progress = 1.00, t =   5.00 s / 9.79 tokens per second
+902.02.286.447 I slot print_timing: id  0 | task 17126 | prompt eval time =    5362.48 ms /    53 tokens (  101.18 ms per token,     9.88 tokens per second)
+902.02.286.449 I slot print_timing: id  0 | task 17126 |        eval time =    5282.89 ms /    48 tokens (  112.40 ms per token,     8.90 tokens per second)
+902.02.286.450 I slot print_timing: id  0 | task 17126 |       total time =   10645.37 ms /   101 tokens
+902.02.286.450 I slot print_timing: id  0 | task 17126 |    graphs reused =          0
+902.02.287.816 I slot      release: id  0 | task 17126 | stop processing: n_tokens = 14879, truncated = 0
+902.02.358.691 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.852 (> 0.100 thold), f_keep = 1.000
+902.02.359.980 I slot launch_slot_: id  0 | task 17176 | processing task, is_child = 0
+902.38.802.189 I slot print_timing: id  0 | task 17176 | prompt processing, n_tokens =   2048, progress = 0.97, t =  36.44 s / 56.20 tokens per second
+902.40.067.252 I slot print_timing: id  0 | task 17176 | prompt processing, n_tokens =   2062, progress = 0.97, t =  37.71 s / 54.68 tokens per second
+902.49.717.571 I slot print_timing: id  0 | task 17176 | prompt processing, n_tokens =   2574, progress = 1.00, t =  47.36 s / 54.35 tokens per second
+902.53.477.380 I slot print_timing: id  0 | task 17176 | prompt eval time =   47925.78 ms /  2578 tokens (   18.59 ms per token,    53.79 tokens per second)
+902.53.477.382 I slot print_timing: id  0 | task 17176 |        eval time =    3191.61 ms /    24 tokens (  138.77 ms per token,     7.21 tokens per second)
+902.53.477.382 I slot print_timing: id  0 | task 17176 |       total time =   51117.38 ms /  2602 tokens
+902.53.477.383 I slot print_timing: id  0 | task 17176 |    graphs reused =          0
+902.53.478.654 I slot      release: id  0 | task 17176 | stop processing: n_tokens = 17480, truncated = 0

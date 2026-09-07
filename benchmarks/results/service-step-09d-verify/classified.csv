@@ -1,0 +1,7 @@
+probe,rep,rc,wall_s,family,instruction,format,result,leaks,note,text
+P1,P1-r1,0,158.9002,terse-wrong,FAIL,FAIL,FAIL,0,,PLATANOS
+P1,P1-r2,0,532.1305,prose-wrapped,FAIL,FAIL,FAIL,0,,"I'll respond only with the word ""PLATANOS"" as requested."
+P1,P1-r3,0,54.2467,terse-wrong,FAIL,FAIL,FAIL,0,,PLATANOS
+P2,P2-r1,0,41.5978,exact,PASS,PASS,PASS,0,,"{""ok"": true}"
+P2,P2-r2,0,371.2525,prose-wrapped,FAIL,FAIL,FAIL,0,,"I'll respond with exactly one JSON object as requested.  ```json {""ok"": true} ```"
+P2,P2-r3,0,34.6937,terse-wrong,FAIL,FAIL,FAIL,0,,"```json {""ok"": true} ```"

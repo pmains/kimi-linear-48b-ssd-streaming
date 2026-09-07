@@ -1,0 +1,26 @@
+{
+ "cond": "E2T",
+ "probe": "P2",
+ "rep": 6,
+ "temp": null,
+ "temp_key": "default",
+ "text": "{\"ok\": true}",
+ "family": "exact",
+ "instruction": "PASS",
+ "format": "PASS",
+ "result": "PASS",
+ "leaks": 0,
+ "wall_s": 0.9,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 6,
+  "prompt_tokens": 11547,
+  "total_tokens": 11553,
+  "prompt_tokens_details": {
+   "cached_tokens": 11543
+  }
+ },
+ "payload_sha": "d59562b69ad881c2",
+ "ts": "2026-09-05T01:05:42Z"
+}

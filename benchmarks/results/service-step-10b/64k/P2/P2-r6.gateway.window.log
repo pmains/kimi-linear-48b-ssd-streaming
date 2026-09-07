@@ -1,0 +1,13 @@
+2026-09-05T09:09:39.282-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2389 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T09:09:41.797-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T09:09:42.055-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T09:09:42.155-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=99 dispatcher=reused contentType=text/event-stream
+2026-09-05T09:09:44.797-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2993 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-05T09:09:47.288-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T09:09:50.169-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2875 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T09:09:52.749-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T09:09:55.265-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2512 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T09:09:59.027-07:00 ```json
+{"ok": true}
+```
+2026-09-05T09:09:59.028-07:00 [agents/agent-command] [agent] run 39f25d8d-dc4a-4002-b1b6-276b98dff5c2 ended with stopReason=stop

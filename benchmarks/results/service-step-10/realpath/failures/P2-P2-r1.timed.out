@@ -1,0 +1,446 @@
+715.310572	{
+715.310624	  "runId": "91aeca3c-96f3-4a1e-a384-a66933622ffb",
+715.310634	  "status": "error",
+715.310634	  "summary": "failed",
+715.310635	  "result": {
+715.310635	    "payloads": [
+715.310635	      {
+715.310635	        "text": "Context overflow: prompt too large for the model. Try /reset (or /new) to start a fresh session, or use a larger-context model.",
+715.310637	        "mediaUrl": null
+715.310640	      }
+715.310640	    ],
+715.310640	    "meta": {
+715.310640	      "durationMs": 713002,
+715.310641	      "agentMeta": {
+715.310645	        "sessionId": "956e0037-bb5e-465b-aac3-061688ae5cef",
+715.310645	        "sessionFile": "agent:kimi:step10-p2-r1",
+715.310645	        "provider": "llama-server",
+715.310648	        "model": "kimi-linear-48b",
+715.310648	        "contextTokens": 32768,
+715.310648	        "contextTokensSource": "resolved",
+715.310648	        "usage": {
+715.310648	          "input": 13055,
+715.310649	          "output": 434,
+715.310650	          "cacheRead": 63109,
+715.310650	          "total": 76598
+715.310656	        },
+715.310656	        "lastCallUsage": {
+715.310656	          "input": 5185,
+715.310656	          "output": 48,
+715.310657	          "cacheRead": 12252,
+715.310657	          "cacheWrite": 0,
+715.310657	          "total": 17485
+715.310657	        },
+715.310657	        "promptTokens": 17437
+715.310658	      },
+715.310658	      "systemPromptReport": {
+715.310658	        "source": "run",
+715.310658	        "generatedAt": 1788571963843,
+715.310662	        "sessionId": "956e0037-bb5e-465b-aac3-061688ae5cef",
+715.310664	        "sessionKey": "agent:kimi:step10-p2-r1",
+715.310664	        "provider": "llama-server",
+715.310667	        "model": "kimi-linear-48b",
+715.310667	        "workspaceDir": "/Users/pmains/Code/openclaw/kimi",
+715.310667	        "bootstrapMaxChars": 20000,
+715.310667	        "bootstrapTotalMaxChars": 60000,
+715.310668	        "bootstrapTruncation": {
+715.310668	          "warningMode": "always",
+715.310668	          "warningShown": false,
+715.310668	          "truncatedFiles": 0,
+715.310668	          "nearLimitFiles": 0,
+715.310668	          "totalNearLimit": false
+715.310668	        },
+715.310668	        "sandbox": {
+715.310673	          "mode": "off",
+715.310673	          "sandboxed": false
+715.310673	        },
+715.310673	        "systemPrompt": {
+715.310673	          "chars": 29737,
+715.310673	          "hash": "055ddb324fd68b2de63fec6cfe97d84c3c613c9a9cee1af68a6c0971b3c6f3ae",
+715.310673	          "projectContextChars": 13246,
+715.310676	          "nonProjectContextChars": 16491
+715.310676	        },
+715.310676	        "injectedWorkspaceFiles": [
+715.310677	          {
+715.310677	            "name": "AGENTS.md",
+715.310686	            "path": "/Users/pmains/Code/openclaw/kimi/AGENTS.md",
+715.310686	            "missing": false,
+715.310686	            "rawChars": 9634,
+715.310687	            "injectedChars": 9634,
+715.310687	            "truncated": false
+715.310687	          },
+715.310687	          {
+715.310687	            "name": "SOUL.md",
+715.310687	            "path": "/Users/pmains/Code/openclaw/kimi/SOUL.md",
+715.310687	            "missing": false,
+715.310688	            "rawChars": 1797,
+715.310688	            "injectedChars": 1797,
+715.310700	            "truncated": false
+715.310700	          },
+715.310700	          {
+715.310700	            "name": "IDENTITY.md",
+715.310700	            "path": "/Users/pmains/Code/openclaw/kimi/IDENTITY.md",
+715.310700	            "missing": false,
+715.310701	            "rawChars": 566,
+715.310701	            "injectedChars": 566,
+715.310701	            "truncated": false
+715.310701	          },
+715.310701	          {
+715.310701	            "name": "USER.md",
+715.310701	            "path": "/Users/pmains/Code/openclaw/kimi/USER.md",
+715.310702	            "missing": false,
+715.310702	            "rawChars": 831,
+715.310702	            "injectedChars": 831,
+715.310704	            "truncated": false
+715.310704	          }
+715.310704	        ],
+715.310705	        "skills": {
+715.310705	          "promptChars": 5900,
+715.310710	          "hash": "f13885a32bdb2faafcba47c40f844911f56476b7635db33a261bf0cd0588e0cb",
+715.310710	          "entries": [
+715.310710	            {
+715.310711	              "name": "browser-automation",
+715.310711	              "blockChars": 324
+715.310711	            },
+715.310711	            {
+715.310711	              "name": "canvas",
+715.310711	              "blockChars": 243
+715.310711	            },
+715.310712	            {
+715.310712	              "name": "diagram-maker",
+715.310712	              "blockChars": 266
+715.310712	            },
+715.310712	            {
+715.310712	              "name": "healthcheck",
+715.310713	              "blockChars": 278
+715.310713	            },
+715.310713	            {
+715.310713	              "name": "kimi-stats-attribution",
+715.310713	              "blockChars": 290
+715.310713	            },
+715.310713	            {
+715.310713	              "name": "meme-maker",
+715.310714	              "blockChars": 251
+715.310714	            },
+715.310714	            {
+715.310714	              "name": "metal-numeric-localization",
+715.310714	              "blockChars": 343
+715.310714	            },
+715.310714	            {
+715.310718	              "name": "node-connect",
+715.310718	              "blockChars": 335
+715.310718	            },
+715.310718	            {
+715.310718	              "name": "node-inspect-debugger",
+715.310718	              "blockChars": 277
+715.310718	            },
+715.310719	            {
+715.310719	              "name": "openai-whisper-api",
+715.310719	              "blockChars": 275
+715.310719	            },
+715.310719	            {
+715.310719	              "name": "perplexity-quality-gate",
+715.310719	              "blockChars": 312
+715.310720	            },
+715.310720	            {
+715.310720	              "name": "phase07-invariant-gate-triage",
+715.310720	              "blockChars": 331
+715.310720	            },
+715.310720	            {
+715.310725	              "name": "python-debugpy",
+715.310725	              "blockChars": 265
+715.310726	            },
+715.310727	            {
+715.310727	              "name": "resume-bracket-harness",
+715.310727	              "blockChars": 291
+715.310727	            },
+715.310727	            {
+715.310727	              "name": "skill-creator",
+715.310727	              "blockChars": 284
+715.310728	            },
+715.310728	            {
+715.310728	              "name": "spike",
+715.310728	              "blockChars": 251
+715.310728	            },
+715.310728	            {
+715.310728	              "name": "taskflow",
+715.310728	              "blockChars": 281
+715.310729	            },
+715.310729	            {
+715.310729	              "name": "taskflow-inbox-triage",
+715.310729	              "blockChars": 291
+715.310729	            },
+715.310729	            {
+715.310730	              "name": "weather",
+715.310730	              "blockChars": 289
+715.310730	            }
+715.310730	          ]
+715.310730	        },
+715.310730	        "tools": {
+715.310730	          "listChars": 0,
+715.310730	          "schemaChars": 16108,
+715.310731	          "entries": [
+715.310731	            {
+715.310731	              "name": "read",
+715.310731	              "summaryChars": 164,
+715.310734	              "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+715.310734	              "schemaChars": 481,
+715.310734	              "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+715.310734	              "propertiesCount": 5
+715.310735	            },
+715.310735	            {
+715.310735	              "name": "edit",
+715.310735	              "summaryChars": 130,
+715.310735	              "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+715.310735	              "schemaChars": 501,
+715.310735	              "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+715.310735	              "propertiesCount": 2
+715.310736	            },
+715.310736	            {
+715.310736	              "name": "write",
+715.310736	              "summaryChars": 49,
+715.310736	              "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+715.310736	              "schemaChars": 191,
+715.310737	              "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+715.310737	              "propertiesCount": 2
+715.310737	            },
+715.310737	            {
+715.310737	              "name": "apply_patch",
+715.310737	              "summaryChars": 71,
+715.310737	              "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+715.310737	              "schemaChars": 153,
+715.310737	              "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+715.310738	              "propertiesCount": 1
+715.310738	            },
+715.310738	            {
+715.310738	              "name": "exec",
+715.310738	              "summaryChars": 366,
+715.310738	              "summaryHash": "6a41ebbc7cd1fae376a497c1bb1662c40a5faa87e5f811bff3ae37e04fb20973",
+715.310738	              "schemaChars": 1204,
+715.310738	              "schemaHash": "199d907ca5ebaf153a09b3cb9f1d1115d9d9cbb3bf4fada73d9be41a2134e4f7",
+715.310739	              "propertiesCount": 12
+715.310739	            },
+715.310739	            {
+715.310739	              "name": "process",
+715.310739	              "summaryChars": 190,
+715.310739	              "summaryHash": "75fd9c7b8d560599081ab2621e4f897babc118254cf439bd8329a60a905a9ef1",
+715.310739	              "schemaChars": 1164,
+715.310739	              "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+715.310740	              "propertiesCount": 12
+715.310740	            },
+715.310740	            {
+715.310740	              "name": "sessions",
+715.310740	              "summaryChars": 366,
+715.310743	              "summaryHash": "6b77afec2124edbe020f0eafc898b9194422d377e0bf9461b50660bd258de762",
+715.310743	              "schemaChars": 2383,
+715.310743	              "schemaHash": "af341b7297a7c8bab3fd320ee27acce50972d92effd1adfce98362a20194b8dc",
+715.310743	              "propertiesCount": 19
+715.310744	            },
+715.310744	            {
+715.310744	              "name": "get_goal",
+715.310744	              "summaryChars": 37,
+715.310744	              "summaryHash": "210e66713982f9fb94b37654a7aef01007f0e769395905ad57ebb7b206657b28",
+715.310744	              "schemaChars": 33,
+715.310744	              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+715.310744	              "propertiesCount": 0
+715.310744	            },
+715.310745	            {
+715.310745	              "name": "create_goal",
+715.310745	              "summaryChars": 145,
+715.310776	              "summaryHash": "7919e13323854315bcba96b318994fa383966500a2cf80b86bba6c015ddb30bb",
+715.310777	              "schemaChars": 240,
+715.310777	              "schemaHash": "347689d0f03cab77ded9e646bd95f495f29f5c93e5ad7a93f7c4d8670ffa428f",
+715.310777	              "propertiesCount": 2
+715.310777	            },
+715.310777	            {
+715.310777	              "name": "update_goal",
+715.310777	              "summaryChars": 277,
+715.310777	              "summaryHash": "e65e79cd292f3c7472d41fb894a89a6daf0a610015010f62cd934997f6f281df",
+715.310778	              "schemaChars": 207,
+715.310778	              "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+715.310778	              "propertiesCount": 2
+715.310778	            },
+715.310778	            {
+715.310778	              "name": "progress_card",
+715.310778	              "summaryChars": 1057,
+715.310778	              "summaryHash": "846c0095686b427523a290242733dcd4cf2017dd0a76caed3dbca57d589a6a45",
+715.310779	              "schemaChars": 401,
+715.310779	              "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+715.310779	              "propertiesCount": 2
+715.310779	            },
+715.310779	            {
+715.310779	              "name": "secrets",
+715.310779	              "summaryChars": 1151,
+715.310780	              "summaryHash": "26dc68ef0e842290327c200e0527fd392c12d6dcb1da2a354c9c51aba6982593",
+715.310780	              "schemaChars": 1157,
+715.310780	              "schemaHash": "97511048a79d7b4ec21bc593ec5d80d73b0a69015c9bbea8131afd68555c4f72",
+715.310780	              "propertiesCount": 6
+715.310780	            },
+715.310780	            {
+715.310780	              "name": "sessions_list",
+715.310780	              "summaryChars": 248,
+715.310781	              "summaryHash": "08f1e7b8d09976fdb235e24357287939ebf8729ce34abc2cb6d8096e8fbd5d0f",
+715.310781	              "schemaChars": 518,
+715.310782	              "schemaHash": "e878e741a7122c61cfd46c97828e7281414afb487b2e9f0c718578bdf9bf30e5",
+715.310782	              "propertiesCount": 10
+715.310782	            },
+715.310783	            {
+715.310783	              "name": "sessions_history",
+715.310783	              "summaryChars": 152,
+715.310784	              "summaryHash": "e60a4b2fbfba94ba8773cbfb92db5c36fa8bdd9d425869057c8b0e11b92313b2",
+715.310784	              "schemaChars": 290,
+715.310784	              "schemaHash": "8e710b8b7264bc7fcaa6d60411b30d4a0fe8974d426919c1abd6a997039b43b3",
+715.310784	              "propertiesCount": 6
+715.310784	            },
+715.310784	            {
+715.310784	              "name": "sessions_search",
+715.310784	              "summaryChars": 178,
+715.310784	              "summaryHash": "9b730e613c04139f2cbb974d73ec89c191d1be42ff4a2e7181a38e11f022a907",
+715.310785	              "schemaChars": 179,
+715.310785	              "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+715.310785	              "propertiesCount": 3
+715.310785	            },
+715.310785	            {
+715.310785	              "name": "conversations_list",
+715.310785	              "summaryChars": 159,
+715.310785	              "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+715.310786	              "schemaChars": 182,
+715.310786	              "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+715.310786	              "propertiesCount": 3
+715.310786	            },
+715.310786	            {
+715.310786	              "name": "conversations_send",
+715.310787	              "summaryChars": 152,
+715.310787	              "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+715.310787	              "schemaChars": 212,
+715.310787	              "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+715.310787	              "propertiesCount": 2
+715.310787	            },
+715.310787	            {
+715.310787	              "name": "conversations_turn",
+715.310788	              "summaryChars": 190,
+715.310788	              "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+715.310788	              "schemaChars": 274,
+715.310788	              "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+715.310788	              "propertiesCount": 3
+715.310788	            },
+715.310788	            {
+715.310788	              "name": "sessions_send",
+715.310789	              "summaryChars": 619,
+715.310789	              "summaryHash": "e95357292b0c7e5131eca26a9ed65732755cf5f83be1d8da98e5f5dce8e8c017",
+715.310789	              "schemaChars": 302,
+715.310789	              "schemaHash": "204249b04e35552d80609d8e7c40c461cf550564dc4ee6e573d0e00f05af84e2",
+715.310789	              "propertiesCount": 6
+715.310789	            },
+715.310789	            {
+715.310789	              "name": "sessions_spawn",
+715.310789	              "summaryChars": 1468,
+715.310790	              "summaryHash": "b77b5ed236f551097a02101eabdd319977170cd835ce8478364958db12fa1bad",
+715.310790	              "schemaChars": 2634,
+715.310790	              "schemaHash": "3619d67dbbb3b773d482ed5bf443c1dfe8bea11520961336715dad917aaf5cc9",
+715.310790	              "propertiesCount": 21
+715.310790	            },
+715.310790	            {
+715.310790	              "name": "sessions_yield",
+715.310790	              "summaryChars": 149,
+715.310791	              "summaryHash": "54c3073a05fc6c0d2cfaec6a7aa0d9ed732a932a80f760e06083535584cca63e",
+715.310791	              "schemaChars": 259,
+715.310791	              "schemaHash": "affee0fae7ad36a16fa1e339d4fe9e1e80351178f1023af65e3d1240f700935d",
+715.310792	              "propertiesCount": 2
+715.310792	            },
+715.310792	            {
+715.310792	              "name": "subagents",
+715.310793	              "summaryChars": 68,
+715.310793	              "summaryHash": "7143cfe20a0f143f0559924a80735a7efa2e52e60997d835ee2bff7e8c5e050e",
+715.310793	              "schemaChars": 182,
+715.310793	              "schemaHash": "476c1f5821ec8d8bd2b001dbf64fa5c8242b8a2bb87d064ee00abbf66d4a4ea9",
+715.310793	              "propertiesCount": 3
+715.310793	            },
+715.310794	            {
+715.310794	              "name": "session_status",
+715.310794	              "summaryChars": 192,
+715.310794	              "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+715.310794	              "schemaChars": 135,
+715.310794	              "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+715.310794	              "propertiesCount": 3
+715.310794	            },
+715.310795	            {
+715.310795	              "name": "web_search",
+715.310795	              "summaryChars": 164,
+715.310795	              "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+715.310795	              "schemaChars": 991,
+715.310795	              "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+715.310795	              "propertiesCount": 12
+715.310795	            },
+715.310796	            {
+715.310796	              "name": "web_fetch",
+715.310796	              "summaryChars": 78,
+715.310796	              "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+715.310796	              "schemaChars": 317,
+715.310796	              "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+715.310796	              "propertiesCount": 3
+715.310796	            },
+715.310797	            {
+715.310797	              "name": "view_image",
+715.310797	              "summaryChars": 224,
+715.310797	              "summaryHash": "3a63dc0690ca7a56e3b874eae05df56b4d797f10dcdb4b394daea27219d9e375",
+715.310797	              "schemaChars": 386,
+715.310797	              "schemaHash": "ae82c0ce6fa137243afd92341a9978ef6d3beb58174e7248a8a17666cca4d5a8",
+715.310797	              "propertiesCount": 6
+715.310797	            },
+715.310798	            {
+715.310798	              "name": "memory_search",
+715.310798	              "summaryChars": 729,
+715.310798	              "summaryHash": "4f28bc5c030d2a510ba9fedcda9110814454726a24dc9e2185136935f1cb7702",
+715.310798	              "schemaChars": 250,
+715.310798	              "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+715.310798	              "propertiesCount": 4
+715.310798	            },
+715.310799	            {
+715.310799	              "name": "memory_get",
+715.310799	              "summaryChars": 503,
+715.310804	              "summaryHash": "47415c135138bae947a258b31a684d8dce14cb5945e290057323ba5d044a357f",
+715.310804	              "schemaChars": 241,
+715.310804	              "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+715.310804	              "propertiesCount": 4
+715.310804	            },
+715.310804	            {
+715.310804	              "name": "intent",
+715.310805	              "summaryChars": 266,
+715.310805	              "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+715.310805	              "schemaChars": 641,
+715.310805	              "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+715.310805	              "propertiesCount": 10
+715.310805	            }
+715.310805	          ]
+715.310805	        },
+715.310805	        "currentTurn": {
+715.310806	          "promptChars": 191,
+715.310806	          "runtimeContextChars": 0,
+715.310806	          "modelOnlyPromptChars": 125
+715.310806	        }
+715.310806	      },
+715.310811	      "finalAssistantVisibleText": "Context overflow: prompt too large for the model. Try /reset (or /new) to start a fresh session, or use a larger-context model.",
+715.310811	      "finalAssistantRawText": "Context overflow: prompt too large for the model. Try /reset (or /new) to start a fresh session, or use a larger-context model.",
+715.310811	      "finalPromptText": "Respond with exactly one JSON object: {\"ok\": true}. No other text.",
+715.310811	      "replayInvalid": true,
+715.310819	      "livenessState": "blocked",
+715.310819	      "error": {
+715.310819	        "kind": "context_overflow",
+715.310820	        "message": "Context overflow: prompt too large for the model (precheck)."
+715.310820	      },
+715.310821	      "executionTrace": {
+715.310821	        "winnerProvider": "llama-server",
+715.310821	        "winnerModel": "kimi-linear-48b",
+715.310821	        "attempts": [
+715.310821	          {
+715.310821	            "provider": "llama-server",
+715.310821	            "model": "kimi-linear-48b",
+715.310821	            "result": "success"
+715.310822	          }
+715.310822	        ],
+715.310822	        "fallbackUsed": false
+715.310822	      }
+715.310822	    }
+715.310822	  }
+715.310822	}

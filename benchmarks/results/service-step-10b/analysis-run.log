@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/pmains/Code/openclaw/kimi/tools/service_step10a_analyze.py", line 375, in <module>
+    main()
+    ~~~~^^
+  File "/Users/pmains/Code/openclaw/kimi/tools/service_step10a_analyze.py", line 258, in main
+    ov_walls_128 = out["legs"]["128k"]["overflow_walls_s"]
+                   ~~~~~~~~~~~^^^^^^^^
+KeyError: '128k'

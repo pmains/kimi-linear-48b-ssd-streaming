@@ -13,9 +13,14 @@
     "ctx": "4096",
     "started_at_utc": "2026-08-28T18:14:40Z"
   },
+  "mode": "positive",
+  "pilot": true,
   "config": "coding-cap4",
   "a_workers": 1,
   "b_workers": 4,
+  "b_effective_workers": 4,
+  "bracket_orders": null,
+  "null_diagnostics": null,
   "checks": [
     {
       "name": "bracket execution",
@@ -25,7 +30,12 @@
     {
       "name": "manifest worker counts",
       "ok": true,
-      "detail": "A=1 B=4; bad: none"
+      "detail": "A=1 B=4 (mode=positive); bad: none"
+    },
+    {
+      "name": "recorded bracket order matches execution order",
+      "ok": true,
+      "detail": "b1: n/a; b2: n/a; b3: n/a; b4: n/a"
     },
     {
       "name": "paired speedup computed",
@@ -107,7 +117,25 @@
       1.3218161767557448,
       1.2267535610506293,
       1.3627334649481688
-    ]
+    ],
+    "b_positions": [
+      "middle",
+      "middle",
+      "middle",
+      "middle"
+    ],
+    "s_by_position": {
+      "middle": {
+        "n": 4,
+        "median": 1.3093353601309239,
+        "values": [
+          1.2969,
+          1.3218,
+          1.2268,
+          1.3627
+        ]
+      }
+    }
   },
   "a_spread_rel": [
     0.05406592227759767,
@@ -243,8 +271,10 @@
         "workers_ok": true,
         "invariants_ok": true
       },
+      "order_verified": "n/a (no recorded order)",
       "paired_speedup": 1.296854543506103,
-      "a_spread_rel": 0.05406592227759767
+      "a_spread_rel": 0.05406592227759767,
+      "b_position": "middle"
     },
     {
       "index": 2,
@@ -286,8 +316,10 @@
         "workers_ok": true,
         "invariants_ok": true
       },
+      "order_verified": "n/a (no recorded order)",
       "paired_speedup": 1.3218161767557448,
-      "a_spread_rel": 0.01692999333372794
+      "a_spread_rel": 0.01692999333372794,
+      "b_position": "middle"
     },
     {
       "index": 3,
@@ -329,8 +361,10 @@
         "workers_ok": true,
         "invariants_ok": true
       },
+      "order_verified": "n/a (no recorded order)",
       "paired_speedup": 1.2267535610506293,
-      "a_spread_rel": 0.04460353871246555
+      "a_spread_rel": 0.04460353871246555,
+      "b_position": "middle"
     },
     {
       "index": 4,
@@ -372,8 +406,10 @@
         "workers_ok": true,
         "invariants_ok": true
       },
+      "order_verified": "n/a (no recorded order)",
       "paired_speedup": 1.3627334649481688,
-      "a_spread_rel": 0.18964285550822446
+      "a_spread_rel": 0.18964285550822446,
+      "b_position": "middle"
     }
   ]
 }

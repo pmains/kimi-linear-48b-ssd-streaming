@@ -1,0 +1,4 @@
+gateway url override requires explicit credentials
+Fix: pass --token or --password *** --url (or gatewayToken in tools).
+Set OPENCLAW_GATEWAY_TOKEN or OPENCLAW_GATEWAY_PASSWORD alongside OPENCLAW_GATEWAY_URL; config credentials are intentionally not reused.
+Config: /tmp/oc11b-env/config/openclaw.json

@@ -1,0 +1,17 @@
+Based on my exploration, here's what AGENTS.md says a completed phase must end with, and the count of service_step10 files:
+
+**Phase Completion Requirements:**
+According to AGENTS.md, every phase MUST end with a `progress/phase-XX-report.md` file that includes:
+- Status (PASS / PARTIAL / FAIL)
+- Objective (what this phase attempted)
+- Changes (files created/modified and why)
+- Results (measured results and test outcomes)
+- Problems (failures, limitations)
+- Decisions (important architectural decisions)
+- Next Phase (information needed for next phase)
+- Reproduction (exact commands for tests/benchmarks)
+
+**Service Step10 Files Count:**
+There are **11 files** under the `tools/` directory that match the pattern `service_step10*.py`, `service_step10*.sh`, or `service_step10*.mjs`.
+
+I also updated the progress card with "step10d norm probe ok" as requested.

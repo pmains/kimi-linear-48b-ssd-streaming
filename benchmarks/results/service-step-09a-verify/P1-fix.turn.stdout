@@ -1,0 +1,1 @@
+{"label": "P1-fix", "agent": "kimi", "session_key": "agent:kimi:step09r-verify-p1", "rc": 1, "wall_s": 631.1907, "n_lines": 7, "extraction": "json:key=message", "reply_chars": 151, "timed_out": true}

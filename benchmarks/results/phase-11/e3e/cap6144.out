@@ -1,0 +1,53 @@
+
+
+Loading model... |-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\|/-\llama_expert_streamer: expert cache enabled: 6144 MiB
+llama_expert_streamer: parallel expert-read enabled: 4 workers
+llama_expert_streamer: expert cache enabled: 6144 MiB zero-copy mode (per-layer capacity 65..66 slots)
+llama_expert_streamer: expert cache armed (6144 MiB, zero-copy mode)
+|/-\|/-\|/-\| 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b10447-a895f6826
+model      : models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+ftype      : MXFP4 MoE
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> # Phase 11 E5 — realistic Alkaline-style engineering request (run A, cold)
+#
+# Bounded/deterministic so turn timing is interpretable. Mirrors the kind of
+# code-review/design task Alkaline handles. Response length bounded by the
+# instruction itself (no max-tokens flag on `openclaw infer model run`).
+
+Act as a senior C++ engineer reviewing a llama.cpp expert-streaming runtime.
+
+The following function loads one routed MoE expert slice into a zero-copy
+cache slot:
+
+    void load_expert(int layer ... (truncated)
+- **Data race / double-buffering**  
+  `pread` and `memcpy` can overlap if the caller invokes `load_expert` concurrently.  
+  Minimal fix: add a mutex or atomic flag around the pair.
+
+- **
+llama_server_terminate: requested orderly shutdown
+
+[ Prompt: 40.2 t/s | Generation: 10.1 t/s ]
+
+
+Exiting...

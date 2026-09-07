@@ -1,0 +1,20 @@
+{
+ "cond": "C1",
+ "probe": "P3",
+ "rep": 2,
+ "wall_s": 6.5,
+ "text": "I need to calculate the average speed of a train that covers 60 miles in 1.5 hours.\n\nUsing the formula: Average speed = Total distance / Total time\n\n- Distance = 60 miles\n- Time = 1.5 hours\n\nAverage speed = 60 \u00f7 1.5 = 40\n\n40",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 68,
+  "prompt_tokens": 6728,
+  "total_tokens": 6796,
+  "prompt_tokens_details": {
+   "cached_tokens": 6724
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "f0b43f89f6a1c4b6"
+}

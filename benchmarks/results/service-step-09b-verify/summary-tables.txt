@@ -1,0 +1,41 @@
+----- P1
+  C0      PASS=1  families={'exact': 1, 'terse-wrong': 2}
+  C1      PASS=0  families={'directive-prefixed': 2, 'empty/directive-only': 1}
+  C1a-D   PASS=0  families={'terse-wrong': 3}
+  C1a-T   PASS=0  families={'directive-prefixed': 2, 'prose-wrapped': 1}
+  C2      PASS=0  families={'prose-wrapped': 1, 'directive-prefixed': 1, 'terse-wrong': 1}
+  C2a-D   PASS=0  families={'prose-wrapped': 1, 'terse-wrong': 2}
+  C2a-T   PASS=0  families={'terse-wrong': 3}
+  C3      PASS=1  families={'clarifying': 1, 'terse-wrong': 1, 'exact': 1}
+----- P1b
+  C0      PASS=3  families={'exact': 3}
+  C1      PASS=3  families={'exact': 3}
+  C1a-D   PASS=3  families={'exact': 3}
+  C1a-T   PASS=2  families={'exact': 2, 'prose-wrapped': 1}
+  C2      PASS=2  families={'exact': 2, 'terse-wrong': 1}
+  C2a-D   PASS=0  families={'terse-wrong': 1, 'prose-wrapped': 2}
+  C2a-T   PASS=0  families={'prose-wrapped': 2, 'clarifying': 1}
+----- P2
+  C0      PASS=3  families={'exact': 3}
+  C1      PASS=1  families={'terse-wrong': 2, 'exact': 1}
+  C1a-D   PASS=3  families={'exact': 3}
+  C1a-T   PASS=1  families={'exact': 1, 'terse-wrong': 2}
+  C2      PASS=2  families={'exact': 2, 'prose-wrapped': 1}
+  C2a-D   PASS=2  families={'exact': 2, 'terse-wrong': 1}
+  C2a-T   PASS=1  families={'terse-wrong': 1, 'empty/directive-only': 1, 'exact': 1}
+----- P3
+  C0      PASS=3  families={'exact': 3}
+  C1      PASS=1  families={'prose-content-ok': 1, 'prose-wrapped': 2}
+  C1a-D   PASS=2  families={'prose-content-ok': 1, 'prose-wrapped': 1, 'exact': 1}
+  C1a-T   PASS=2  families={'exact': 2, 'prose-wrapped': 1}
+  C2      PASS=0  families={'prose-wrapped': 3}
+  C2a-D   PASS=0  families={'terse-wrong': 2, 'prose-wrapped': 1}
+  C2a-T   PASS=0  families={'prose-wrapped': 3}
+----- Class II replays
+  R1/P4  PASS=0  families={'prose-wrapped': 3}
+  R1/P5  PASS=3  families={'prose-content-ok': 3}
+  R1/P6  PASS=2  families={'prose-content-ok': 2, 'empty/directive-only': 1}
+  R1/P7  PASS=0  families={'prose-wrapped': 2, 'terse-wrong': 1}
+  R2/P4  PASS=1  families={'prose-wrapped': 2, 'exact': 1}
+  R2/P5  PASS=3  families={'prose-content-ok': 3}
+  R2/P7  PASS=0  families={'terse-wrong': 2, 'prose-wrapped': 1}

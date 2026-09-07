@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "short-p3-r1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step12-short-p3-r1",
+  "rc": 0,
+  "wall_s": 25.274,
+  "t0_utc": "2026-09-07T05:10:27Z",
+  "t1_utc": "2026-09-07T05:10:53Z",
+  "n_lines": 493,
+  "extraction": "json:key=text",
+  "reply_chars": 397,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 14834,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 61839
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 12861,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 61845
+  },
+  "llama_window_chars": 1106,
+  "gateway_window_chars": 1978
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 23738,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 12748,
+  "usage": {
+   "input": 540,
+   "output": 114,
+   "cacheRead": 12208,
+   "total": 12862
+  },
+  "lastCallUsage": {
+   "input": 540,
+   "output": 114,
+   "cacheRead": 12208,
+   "cacheWrite": 0,
+   "total": 12862
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29743,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "A train covers 60 miles in 1.5 hours. What is its average speed in miles per hour? Answer with only the number."
+}

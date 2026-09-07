@@ -1,0 +1,107 @@
+[agents/loop-detection] Loop warning: read called 10 times with identical arguments
+[agents/loop-detection] Loop warning: read called 11 times with identical arguments
+[agents/loop-detection] Loop warning: read called 12 times with identical arguments
+[agents/loop-detection] Loop warning: read called 13 times with identical arguments
+[agents/loop-detection] Loop warning: read called 14 times with identical arguments
+[agents/loop-detection] Loop warning: read called 15 times with identical arguments
+[agents/loop-detection] Loop warning: read called 16 times with identical arguments
+[agents/loop-detection] Loop warning: read called 17 times with identical arguments
+[agents/loop-detection] Loop warning: read called 18 times with identical arguments
+[agents/loop-detection] Loop warning: read called 19 times with identical arguments
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 22 times
+[agents/loop-detection] Critical generic loop detected: read repeated 23 times
+[agents/loop-detection] Critical generic loop detected: read repeated 23 times
+[agents/loop-detection] Critical generic loop detected: read repeated 23 times
+[agents/loop-detection] Critical generic loop detected: read repeated 22 times
+[agents/loop-detection] Critical generic loop detected: read repeated 22 times
+[agents/loop-detection] Critical generic loop detected: read repeated 22 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 20 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 21 times
+[agents/loop-detection] Critical generic loop detected: read repeated 22 times
+[agents/loop-detection] Critical generic loop detected: read repeated 23 times
+[agents/loop-detection] Critical generic loop detected: read repeated 23 times
+[agents/loop-detection] Critical generic loop detected: read repeated 24 times
+[agents/loop-detection] Critical generic loop detected: read repeated 25 times
+[agents/loop-detection] Critical generic loop detected: read repeated 25 times
+[agents/loop-detection] Critical generic loop detected: read repeated 25 times
+[agents/loop-detection] Critical generic loop detected: read repeated 26 times
+[agents/loop-detection] Critical generic loop detected: read repeated 27 times
+[agents/loop-detection] Critical generic loop detected: read repeated 27 times
+[agents/loop-detection] Critical generic loop detected: read repeated 27 times
+[agents/loop-detection] Critical generic loop detected: read repeated 28 times
+[agents/loop-detection] Critical generic loop detected: read repeated 28 times
+[agents/loop-detection] Critical generic loop detected: read repeated 28 times
+[agents/loop-detection] Critical generic loop detected: read repeated 28 times
+[agents/loop-detection] Critical generic loop detected: read repeated 29 times
+[agents/loop-detection] Critical generic loop detected: read repeated 29 times
+[agents/loop-detection] Critical generic loop detected: read repeated 29 times
+[agents/loop-detection] Critical generic loop detected: read repeated 29 times
+[agents/loop-detection] Critical generic loop detected: read repeated 29 times
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress
+[agents/loop-detection] Global circuit breaker triggered: read repeated 30 times with no progress

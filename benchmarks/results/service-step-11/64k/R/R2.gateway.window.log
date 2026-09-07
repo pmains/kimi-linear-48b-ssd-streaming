@@ -1,0 +1,6 @@
+2026-09-05T13:56:39.671-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T13:56:40.124-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=453 dispatcher=reused contentType=text/event-stream
+2026-09-05T13:56:43.865-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-05T13:56:45.793-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1927 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-05T13:56:51.467-07:00 From memory of the AGENTS.md content, every phase must end with `progress/phase-XX-report.md`, and the section of the report that lists exact reproduction commands is under the **"Reproduction"** section.
+2026-09-05T13:56:51.468-07:00 [agents/agent-command] [agent] run 28e5a5d3-5bdf-432e-ac0a-a9b400f2fde7 ended with stopReason=stop

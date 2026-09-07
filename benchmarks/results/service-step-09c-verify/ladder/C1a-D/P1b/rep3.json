@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-D",
+ "probe": "P1b",
+ "rep": 3,
+ "wall_s": 4.6,
+ "text": "Hello Peter, I\u2019m Alkaline, your AI assistant built to help with your Kimi Linear 48B-A3B streaming inference project on Apple Silicon. I\u2019m ready to dive in\u2014just let me know the next step.",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 49,
+  "prompt_tokens": 6617,
+  "total_tokens": 6666,
+  "prompt_tokens_details": {
+   "cached_tokens": 6613
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "ddf79249eaea5100"
+}

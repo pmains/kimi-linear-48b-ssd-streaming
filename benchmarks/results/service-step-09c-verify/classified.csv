@@ -1,0 +1,25 @@
+cond,probe,rep,family,instruction,format,result,wall_s,text
+C0,P1,1,exact,PASS,PASS,PASS,1.5,PLATANOS!
+C0,P1,2,terse-wrong,FAIL,FAIL,FAIL,0.2,PLATANOS
+C0,P1,3,exact,PASS,PASS,PASS,0.3,PLATANOS!
+C0,P1b,1,exact,PASS,PASS,PASS,1.6,Acknowledged.
+C0,P1b,2,exact,PASS,PASS,PASS,0.1,Accepted
+C0,P1b,3,exact,PASS,PASS,PASS,0.1,Confirmed
+C0,P2,1,exact,PASS,PASS,PASS,1.5,"{""ok"": true}"
+C0,P2,2,exact,PASS,PASS,PASS,0.3,"{""ok"": true}"
+C0,P2,3,exact,PASS,PASS,PASS,0.3,"{""ok"": true}"
+C0,P3,1,exact,PASS,PASS,PASS,2.8,40
+C0,P3,2,exact,PASS,PASS,PASS,0.1,40
+C0,P3,3,exact,PASS,PASS,PASS,0.1,40
+C1a-D,P1,1,terse-wrong,FAIL,FAIL,FAIL,95.9,PLATANOS
+C1a-D,P1,2,terse-wrong,FAIL,FAIL,FAIL,0.3,PLATANOS
+C1a-D,P1,3,terse-wrong,FAIL,FAIL,FAIL,0.3,NO_REPLY
+C1a-D,P1b,1,exact,PASS,PASS,PASS,8.7,reply
+C1a-D,P1b,2,exact,PASS,PASS,PASS,0.4,Alkaline
+C1a-D,P1b,3,prose-wrapped,FAIL,FAIL,FAIL,4.6,"Hello Peter, I’m Alkaline, your AI assistant built to help with your Kimi Linear 48B-A3B streaming inference project on Apple Silicon. I’m ready to dive in—just let me know the next step."
+C1a-D,P2,1,exact,PASS,PASS,PASS,9.2,"{""ok"":true}"
+C1a-D,P2,2,exact,PASS,PASS,PASS,0.4,"{""ok"": true}"
+C1a-D,P2,3,terse-wrong,FAIL,FAIL,FAIL,0.7,"```json {""ok"": true} ```"
+C1a-D,P3,1,exact,PASS,PASS,PASS,10.0,40
+C1a-D,P3,2,exact,PASS,PASS,PASS,0.1,40
+C1a-D,P3,3,prose-wrapped,FAIL,FAIL,FAIL,3.2,"I'll calculate the average speed using the basic formula: speed = distance / time.<|tool_calls_section_begin|><|tool_call_begin|>memory_get:0<|tool_call_argument_begin|>{""status"": ""not_found""}<|tool_call_end|><|tool_call"

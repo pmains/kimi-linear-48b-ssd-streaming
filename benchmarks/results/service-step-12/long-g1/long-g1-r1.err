@@ -1,0 +1,6 @@
+Gateway agent call timed out; the Gateway may still be running this turn. Check `openclaw gateway status` and the session transcript before retrying or rerunning with --local, so the turn does not execute twice.
+gateway timeout after 930000ms
+Gateway target: ws://127.0.0.1:18789
+Source: local loopback
+Config: /Users/pmains/.openclaw/openclaw.json
+Bind: loopback

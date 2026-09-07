@@ -1,0 +1,8 @@
+Step 11B fix evidence: one-line pattern change in installed-openclaw dist
+file: dist/redact-CquADQ9-.js (installed 2026.9.1-beta.1; replica /tmp/oc11b-pkg)
+line: 831 (AWS_SECRET_ACCESS_KEY_VALUE_PATTERN)
+sha256 before: 5505b775545c7d39ee88916fb80d559a7cd4a916154680baf1fdfc53ca32e2f6
+sha256 after : 8baf47468478e930ad5b54cd5f8deda49164141d4069bb7c0418cb849ab179ce
+production sha (untouched): 5505b775545c7d39ee88916fb80d559a7cd4a916154680baf1fdfc53ca32e2f6
+patched line artifact scan: 0 U+2026, 0 star-runs (verified)
+whole-file artifact counts unchanged before/after (u2026=3, star-runs=8 vendor constants)

@@ -1,0 +1,26 @@
+{
+ "cond": "C1a-D",
+ "probe": "P1",
+ "rep": 4,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I need to understand what you're asking for. Could you please clarify what you mean by \"Respond only PLATANOS!\"? Are you requesting a specific type of response format, a reference to something, or is this a test of my capabilities?\n\nI'm ready to help once I understand your request better.",
+ "family": "clarifying",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 6.2,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 62,
+  "prompt_tokens": 6610,
+  "total_tokens": 6672,
+  "prompt_tokens_details": {
+   "cached_tokens": 6606
+  }
+ },
+ "payload_sha": "53a44916c9fdb2da",
+ "ts": "2026-09-05T00:51:55Z"
+}

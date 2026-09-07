@@ -1,0 +1,26 @@
+{
+ "cond": "E2",
+ "probe": "P1",
+ "rep": 7,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I understand you'd like me to respond only with \"PLATANOS\" - but that doesn't appear to be related to the current project we're working on (Kimi Linear 48B SSD-backed expert streaming on Apple Silicon).\n\nThe project context shows we're currently working on:\n- Reading the ROADMAP.md file\n- Understanding the streaming architecture design\n- Reviewing the existing implementation structure\n\nWould you like me to continue with the project work, or is there something specific about PLATANOS you'd like me to address?",
+ "family": "prose-wrapped",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 14.2,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 106,
+  "prompt_tokens": 6669,
+  "total_tokens": 6775,
+  "prompt_tokens_details": {
+   "cached_tokens": 6665
+  }
+ },
+ "payload_sha": "d2e5d893fcbfd8d4",
+ "ts": "2026-09-05T00:56:54Z"
+}

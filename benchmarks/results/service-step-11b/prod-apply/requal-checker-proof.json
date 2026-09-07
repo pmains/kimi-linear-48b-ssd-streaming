@@ -1,0 +1,21 @@
+{
+  "leg5_keys_found": [
+    "agent:kimi:step11b-fix-5"
+  ],
+  "A_isolated_pass_transcript": {
+    "ok": true,
+    "secrets": 6,
+    "raw_absent": true,
+    "masked_present": true,
+    "u2026_count": 12,
+    "stored_len": 400
+  },
+  "B_unredacted_control": {
+    "ok": false,
+    "secrets": 6,
+    "raw_absent": false,
+    "masked_present": false,
+    "u2026_count": 0
+  },
+  "proof_ok": true
+}

@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-D",
+ "probe": "P1",
+ "rep": 1,
+ "wall_s": 95.9,
+ "text": "PLATANOS",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 5,
+  "prompt_tokens": 6610,
+  "total_tokens": 6615,
+  "prompt_tokens_details": {
+   "cached_tokens": 0
+  }
+ },
+ "family": "terse-wrong",
+ "pass": false,
+ "payload_sha": "53a44916c9fdb2da"
+}

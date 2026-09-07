@@ -1,0 +1,26 @@
+{
+ "cond": "E2T",
+ "probe": "P1",
+ "rep": 1,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I understand you're instructing me to respond only with \"PLATANOS!\" \n\nI'm ready to help with any tasks related to the Kimi Linear 48B-A3B streaming inference project. What would you like to work on?",
+ "family": "prose-wrapped",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 20.1,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 49,
+  "prompt_tokens": 11538,
+  "total_tokens": 11587,
+  "prompt_tokens_details": {
+   "cached_tokens": 11031
+  }
+ },
+ "payload_sha": "d2e5d893fcbfd8d4",
+ "ts": "2026-09-05T00:57:45Z"
+}

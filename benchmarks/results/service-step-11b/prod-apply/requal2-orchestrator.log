@@ -1,0 +1,22 @@
+=== requal2 orchestrator start Sun Sep  6 21:21:29 MST 2026 ===
+pre-restart sha: 8baf47468478e930
+sleeping 60s for current turn to flush...
+--- kickstart gateway Sun Sep  6 21:22:29 MST 2026 ---
+kickstart rc=0
+health OK at attempt 5
+gateway pid now: 56719 /opt/homebrew/opt/node/bin/node /opt/homebrew/lib/node_modules/openclaw/dist/index.js gateway --port 18789
+post-restart sha: 8baf47468478e930
+llama health: 200
+--- running six production legs once with FK-safe driver Sun Sep  6 21:22:41 MST 2026 ---
+1-discriminator OK | byte_identical: True | u2026_zero: True | stored_len: 126 | input_len: 126
+2-gstyle OK | byte_identical: True | u2026_zero: True | stored_len: 808 | input_len: 808
+3-longpath-match OK | byte_identical: True | u2026_zero: True | stored_len: 710 | input_len: 710
+4-longpath-nomatch OK | byte_identical: True | u2026_zero: True | stored_len: 528 | input_len: 528
+5-true-secret OK | raw_absent: True | masked_present: True | u2026 count: 12 | secrets: 6
+6-long-message OK | byte_identical: True | u2026_zero: True | stored_len: 44520 | input_len: 44520
+SUMMARY all_ok: True
+legs rc=0 Sun Sep  6 21:22:59 MST 2026
+final production FK violations: 0
+final-fk rc=0
+--- ALL SIX LEGS PASS: patch retained ---
+=== requal2 orchestrator end Sun Sep  6 21:23:00 MST 2026 ===

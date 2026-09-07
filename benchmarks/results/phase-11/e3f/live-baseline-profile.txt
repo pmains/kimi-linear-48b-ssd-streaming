@@ -1,0 +1,28 @@
+=== B1 soak — live W4/8GiB (steady state): 7554 decode steps ===
+  route/trunk compute               23.60 ms   26.0%
+  expert compute                    20.22 ms   22.3%
+  expert reads (wall)               33.04 ms   36.4%
+  placement                          3.58 ms    3.9%
+  repack                             0.00 ms    0.0%
+  graph build/dispatch               2.21 ms    2.4%
+  sync                               0.00 ms    0.0%
+  other (readback/setup/trace)       8.15 ms    9.0%
+  TOTAL                             90.80 ms 100.0%
+  SSD 139.7 MiB/tok, eff BW 4.23 GB/s (wall), pread sum 111.02 ms (overlap-inflated)
+  read_wall = 2619 us fixed + 781 us/miss (fixed 7.9% of read wall)
+  hidden (read/placement overlap) avg: 0.01 ms
+
+=== A2 cold — live W4/8GiB: 190 decode steps ===
+  route/trunk compute               21.18 ms   23.0%
+  expert compute                    19.71 ms   21.4%
+  expert reads (wall)               36.94 ms   40.0%
+  placement                          3.66 ms    4.0%
+  repack                             0.00 ms    0.0%
+  graph build/dispatch               2.23 ms    2.4%
+  sync                               0.01 ms    0.0%
+  other (readback/setup/trace)       8.53 ms    9.3%
+  TOTAL                             92.26 ms 100.0%
+  SSD 163.6 MiB/tok, eff BW 4.43 GB/s (wall), pread sum 124.16 ms (overlap-inflated)
+  read_wall = 5913 us fixed + 680 us/miss (fixed 16.0% of read wall)
+  hidden (read/placement overlap) avg: 0.00 ms
+

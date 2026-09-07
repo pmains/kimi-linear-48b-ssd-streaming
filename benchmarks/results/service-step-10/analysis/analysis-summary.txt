@@ -1,0 +1,49 @@
+===== Step 10 analysis =====
+classification: PASS
+note: determinism(temp0 identical 10/10)=True
+note: greedy floor exact at E2: {"P1": 0.0, "P2": 1.0}
+note: P1 real-vs-offline: C1a-D=overlap-partial(off 0.0 real 0.0 p=1.0) E2=overlap-partial(off 0.0 real 0.0 p=1.0) E2T=overlap-partial(off 0.0 real 0.0 p=1.0)
+note: P2 real-vs-offline: C1a-D=overlap-partial(off 0.6 real 0.6667 p=1.0) E2=overlap-partial(off 0.8 real 0.6667 p=0.6044) E2T=overlap-partial(off 0.5 real 0.6667 p=0.6329)
+note: verdicts: {"P1": "ATTRIBUTED-model+prompt-at-E2 (greedy floor not exact; real path indistinguishable from offline E2/E2T default -> failure fully reproduced offline at the env-equivalent payload; no unmodeled agent-environment layer; sampler config alone would not fix)", "P2": "H-S1:sampler-primary (greedy floor exact; offline E2/E2T at default low and indistinguishable from real path)"}
+note: CLASS: PASS - delta attributed with CI support.
+note:   Attribution: per-probe verdicts (see above); any H-S1/H-S2/ATTRIBUTED mix keeps the delta attributed, with P1 amended: the `!`-drop is deterministic at the greedy floor under E2 (0/10 identical), so the env-equivalent payload+model is the P1 boundary; the real path adds no measurable degradation beyond offline E2/E2T.
+
+----- per-cell exact-format rates (offline) -----
+C0    P1 0.0     0/10   [0.0,0.278] {'terse-wrong': 10}
+C0    P1 1.6     2/10   [0.057,0.51] {'exact': 2, 'terse-wrong': 7, 'prose-wrapped': 1}
+C0    P1 default 5/10   [0.237,0.763] {'terse-wrong': 5, 'exact': 5}
+C0    P2 0.0     10/10  [0.723,1.0] {'exact': 10}
+C0    P2 1.6     10/10  [0.723,1.0] {'exact': 10}
+C0    P2 default 10/10  [0.723,1.0] {'exact': 10}
+C1    P1 default 0/10   [0.0,0.278] {'terse-wrong': 6, 'empty/directive-only': 3, 'directive-prefixed': 1}
+C1    P2 default 8/10   [0.49,0.943] {'exact': 8, 'directive-prefixed': 1, 'terse-wrong': 1}
+C1a-D P1 default 0/10   [0.0,0.278] {'clarifying': 6, 'terse-wrong': 2, 'prose-wrapped': 2}
+C1a-D P2 default 6/10   [0.313,0.832] {'exact': 6, 'terse-wrong': 4}
+E2    P1 0.0     0/10   [0.0,0.278] {'terse-wrong': 10}
+E2    P1 1.6     0/10   [0.0,0.278] {'terse-wrong': 6, 'clarifying': 2, 'prose-wrapped': 2}
+E2    P1 default 0/10   [0.0,0.278] {'terse-wrong': 5, 'directive-prefixed': 1, 'prose-wrapped': 2, 'clarifying': 2}
+E2    P2 0.0     10/10  [0.723,1.0] {'exact': 10}
+E2    P2 1.6     6/10   [0.313,0.832] {'terse-wrong': 4, 'exact': 6}
+E2    P2 default 8/10   [0.49,0.943] {'exact': 8, 'terse-wrong': 2}
+E2T   P1 default 0/10   [0.0,0.278] {'prose-wrapped': 1, 'terse-wrong': 6, 'clarifying': 3}
+E2T   P2 default 5/10   [0.237,0.763] {'exact': 5, 'terse-wrong': 3, 'prose-wrapped': 2}
+
+----- real path n=6 (step10 n=3 + frozen 9D n=3) -----
+P1 0/6    [0.0,0.39] {'terse-wrong': 4, 'clarifying': 1, 'prose-wrapped': 1} step10={"n": 3, "exact": 0, "rate": 0.0, "families": {"terse-wrong": 2, "clarifying": 1}} 9d={"n": 3, "exact": 0, "rate": 0.0, "families": {"terse-wrong": 2, "prose-wrapped": 1}}
+P2 4/6    [0.3,0.903] {'exact': 4, 'prose-wrapped': 1, 'terse-wrong': 1} step10={"n": 3, "exact": 3, "rate": 1.0, "families": {"exact": 3}} 9d={"n": 3, "exact": 1, "rate": 0.3333, "families": {"exact": 1, "prose-wrapped": 1, "terse-wrong": 1}}
+
+----- real vs offline default-temp cells -----
+P1 C1a-D off=0.0 real=0.0 off_ci=[0.0,0.278] real_ci=[0.0,0.39] above=False inside=False fisher_p=1.0
+P1 E2 off=0.0 real=0.0 off_ci=[0.0,0.278] real_ci=[0.0,0.39] above=False inside=False fisher_p=1.0
+P1 E2T off=0.0 real=0.0 off_ci=[0.0,0.278] real_ci=[0.0,0.39] above=False inside=False fisher_p=1.0
+P2 C1a-D off=0.6 real=0.6667 off_ci=[0.313,0.832] real_ci=[0.3,0.903] above=False inside=False fisher_p=1.0
+P2 E2 off=0.8 real=0.6667 off_ci=[0.49,0.943] real_ci=[0.3,0.903] above=False inside=False fisher_p=0.6044
+P2 E2T off=0.5 real=0.6667 off_ci=[0.237,0.763] real_ci=[0.3,0.903] above=False inside=False fisher_p=0.6329
+
+----- frozen 9B/9C C1a-D reference rows (n=3, not merged) -----
+P1 rep1.json family=terse-wrong pass=False
+P1 rep2.json family=terse-wrong pass=False
+P1 rep3.json family=terse-wrong pass=False
+P2 rep1.json family=exact pass=True
+P2 rep2.json family=exact pass=True
+P2 rep3.json family=exact pass=True

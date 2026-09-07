@@ -1,0 +1,14 @@
+
+=== P1-r5 (129 observed calls) ===
+  warnings: 10; first at ordinal 13 (generic_repeat, count=10)
+  criticals: 97; first at ordinal 24 (generic_repeat, count=20)
+    -> would-block message: CRITICAL: Called read with identical outcomes 20 times. Session execution blocked to prevent runaway loops.
+    -> first warning wall: +122.1s
+    -> first critical wall: +235.1s
+    -> second critical (run-end per docs) at ordinal 27
+
+=== P2-r7 (19 observed calls) ===
+  warnings: 0
+  criticals: 0
+
+wrote benchmarks/results/service-step-10c/replay/replay-results.json

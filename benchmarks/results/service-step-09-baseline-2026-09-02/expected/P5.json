@@ -1,0 +1,10 @@
+{
+  "probe": "P5",
+  "category": "bounded tool use",
+  "prompt_file": "prompts/P5.md",
+  "match": "count_eq",
+  "path": "benchmarks/prompts",
+  "filter": "e5",
+  "expected_count": 5,
+  "notes": "Agent must list benchmarks/prompts/ (tool use) and reply with only the count of files whose names contain 'e5'. Harness verifies count by direct ls. Unnecessary archaeology/tool spam = flag."
+}

@@ -1,0 +1,11 @@
+{
+  "label": "P2-r1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step10-P2-r1",
+  "rc": 1,
+  "wall_s": 715.3299,
+  "n_lines": 446,
+  "extraction": "json:key=text",
+  "reply_chars": 127,
+  "timed_out": false
+}

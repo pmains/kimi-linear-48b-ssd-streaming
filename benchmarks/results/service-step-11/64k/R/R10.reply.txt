@@ -1,0 +1,5 @@
+(1) Work on one roadmap phase at a time until acceptance criteria pass, required tests run, and progress report is written before proceeding to the next phase.
+
+(2) The three context ceilings are: 128K (validated milestone), 256K (untested but not failed), and no third ceiling explicitly defined in current content.
+
+(3) Yes, the step-10D validation passed - the report shows "PASS — COMPLETE (live validation)" status.

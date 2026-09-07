@@ -1,0 +1,9 @@
+probe,category,rc,fallback_suspected,instruction_followed,format_followed,result_correct,task_completed,final_answer_emitted,notes
+P1,literal instruction following,1,False,INVALID,,INVALID,INVALID,,client rc=1
+P1b,literal instruction following (negative constraint),0,False,FAIL,FAIL,FAIL,FAIL,YES,
+P2,constrained output,0,False,PASS,PASS,PASS,PASS,YES,
+P3,simple reasoning,0,False,FAIL,FAIL,FAIL,FAIL,YES,
+P4,repository comprehension,0,False,FAIL,FAIL,FAIL,FAIL,YES,
+P5,bounded tool use,0,False,PASS,FAIL,PASS,PASS,YES,
+P6,multi-step engineering work,0,False,PASS,N/A,PASS,PASS,YES,file_content_ok=True reply_contains=True
+P7,final-answer behavior,0,False,FAIL,FAIL,FAIL,FAIL,YES,ends_COMPLETE=False has_utc_date=True

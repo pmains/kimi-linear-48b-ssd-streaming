@@ -1,0 +1,17 @@
+{
+  "label": "P6",
+  "fallback_suspected": false,
+  "client": {
+    "label": "P6",
+    "agent": "kimi",
+    "session_key": "agent:kimi:step09-P6",
+    "rc": 1,
+    "wall_s": 1231.1764,
+    "n_lines": 7,
+    "extraction": "json:key=message",
+    "reply_chars": 152,
+    "timed_out": true
+  },
+  "reply": "gateway timeout after 1230000ms\nGateway target: ws://127.0.0.1:18789\nSource: local loopback\nConfig: /Users/pmains/.openclaw/openclaw.json\nBind: loopback\n",
+  "non_qualification": false
+}

@@ -1,0 +1,10 @@
+Step 11B production application (authorized 2026-09-06)
+file: /opt/homebrew/lib/node_modules/openclaw/dist/redact-CquADQ9-.js (installed 2026.9.1-beta.1)
+change: single constant AWS_SECRET_ACCESS_KEY_VALUE_PATTERN (line 831)
+sha256 pre : 5505b775545c7d39ee88916fb80d559a7cd4a916154680baf1fdfc53ca32e2f6
+sha256 post: 8baf47468478e930ad5b54cd5f8deda49164141d4069bb7c0418cb849ab179ce
+archive    : benchmarks/results/service-step-11b/fix/redact-CquADQ9-.js.prod-pristine
+diff       : benchmarks/results/service-step-11b/fix/prod-line831.diff
+gateway    : launchd ai.openclaw.gateway (restart = launchctl kickstart -k, no env/config change)
+llama      : untouched (127.0.0.1:18080)
+applied    : 2026-09-06 (before gateway restart)

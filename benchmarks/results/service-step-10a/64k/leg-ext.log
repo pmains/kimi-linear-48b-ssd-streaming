@@ -1,0 +1,34 @@
+awk: syntax error at source line 1
+ context is
+	 >>> $3==\ <<< "ai.openclaw.gateway\" {print $1}
+awk: bailing out at source line 1
+awk: syntax error at source line 1
+ context is
+	 >>> $3==\ <<< "ai.openclaw.gateway\" {print $1}
+awk: bailing out at source line 1
+[64k/P1-r1] cached
+[64k/P1-r2] cached
+[64k/P1-r3] cached
+[64k/P1-r4] cached
+[64k/P1-r5] cached
+[64k/P1-r6] cached
+[64k/P1-r7] running (real path, no --deliver) 04:55:57Z
+[64k/P1-r7] rc=0 wall=149.9416s
+[64k/P1-r8] running (real path, no --deliver) 04:58:27Z
+[64k/P1-r8] rc=0 wall=73.0941s
+[64k/P1-r9] running (real path, no --deliver) 04:59:40Z
+[64k/P1-r9] rc=0 wall=64.6394s
+[64k/P2-r1] cached
+[64k/P2-r2] cached
+[64k/P2-r3] cached
+[64k/P2-r4] cached
+[64k/P2-r5] cached
+[64k/P2-r6] cached
+[64k/P2-r7] running (real path, no --deliver) 05:00:45Z
+[64k/P2-r7] rc=1 wall=882.5011s
+[64k/P2-r8] running (real path, no --deliver) 05:15:28Z
+[64k/P2-r8] rc=0 wall=136.0889s
+[64k/P2-r9] running (real path, no --deliver) 05:17:45Z
+[64k/P2-r9] rc=0 wall=402.8291s
+DONE: 64k leg -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10a/64k
+LEG64_EXT_EXIT=0

@@ -1,0 +1,19 @@
+824.59.347.613 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 423634812799
+824.59.471.481 I slot launch_slot_: id  0 | task 19217 | processing task, is_child = 0
+825.10.258.233 I slot print_timing: id  0 | task 19217 | prompt processing, n_tokens =    474, progress = 1.00, t =  10.79 s / 43.94 tokens per second
+825.24.181.178 I slot print_timing: id  0 | task 19217 | prompt eval time =   12809.47 ms /   478 tokens (   26.80 ms per token,    37.32 tokens per second)
+825.24.181.182 I slot print_timing: id  0 | task 19217 |        eval time =   11899.95 ms /    56 tokens (  216.36 ms per token,     4.62 tokens per second)
+825.24.181.182 I slot print_timing: id  0 | task 19217 |       total time =   24709.41 ms /   534 tokens
+825.24.181.183 I slot print_timing: id  0 | task 19217 |    graphs reused =          0
+825.24.186.502 I slot      release: id  0 | task 19217 | stop processing: n_tokens = 12785, truncated = 0
+825.26.841.899 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 423662317485
+825.27.006.293 I slot launch_slot_: id  0 | task 19275 | processing task, is_child = 0
+825.42.354.781 I slot print_timing: id  0 | task 19275 | prompt processing, n_tokens =    499, progress = 1.00, t =  15.35 s / 32.51 tokens per second
+826.00.987.811 I slot print_timing: id  0 | task 19275 | n_gen =    100, tg =   5.53 t/s, tg_3s =   5.58 t/s
+826.04.037.273 I slot print_timing: id  0 | task 19275 | n_gen =    118, tg =   5.58 t/s, tg_3s =   5.90 t/s
+826.07.122.604 I slot print_timing: id  0 | task 19275 | n_gen =    139, tg =   5.74 t/s, tg_3s =   6.81 t/s
+826.07.447.154 I slot print_timing: id  0 | task 19275 | prompt eval time =   16072.69 ms /   503 tokens (   31.95 ms per token,    31.30 tokens per second)
+826.07.447.160 I slot print_timing: id  0 | task 19275 |        eval time =   24368.13 ms /   141 tokens (  174.06 ms per token,     5.75 tokens per second)
+826.07.447.161 I slot print_timing: id  0 | task 19275 |       total time =   40440.83 ms /   644 tokens
+826.07.447.161 I slot print_timing: id  0 | task 19275 |    graphs reused =          0
+826.07.469.554 I slot      release: id  0 | task 19275 | stop processing: n_tokens = 6657, truncated = 0

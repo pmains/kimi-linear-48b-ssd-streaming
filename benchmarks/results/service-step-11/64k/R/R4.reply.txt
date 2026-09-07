@@ -1,0 +1,10 @@
+Based on my reading of the SERVICE-ROADMAP.md file, I can see that Step 11 distinguishes **two** context ceilings, not three:
+
+1. **128K** - current validated technical context milestone
+2. **256K and above** - untested, not failed
+
+The document mentions that there should be three context ceilings, but based on the current content of the SERVICE-ROADMAP.md file, only two are clearly defined:
+- 128K (validated)
+- 256K and above (untested/not failed)
+
+There doesn't appear to be a third context ceiling explicitly defined in the current content of the file. The document suggests not attempting 256K merely because the model can theoretically support it, and focuses on establishing whether the agent benefits from and behaves correctly within the already validated 128K range first.

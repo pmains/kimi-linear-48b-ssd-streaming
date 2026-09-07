@@ -1,0 +1,7 @@
+Perfect! 
+
+**Printed outputs:**
+- Test results: `✓ word_count tests passed\n✓ line_count tests passed\n✓ char_count tests passed\n✓ top_words tests passed\n🎉 ALL TESTS PASSED!`
+- Function call result: `3`
+
+**Total assert checks: 22**

@@ -1,0 +1,10 @@
+===== Step 9D real-path per-rep classification =====
+P1 P1-r1 rc=0 wall=158.9002 family=terse-wrong instr=FAIL fmt=FAIL res=FAIL leaks=0 | PLATANOS
+P1 P1-r2 rc=0 wall=532.1305 family=prose-wrapped instr=FAIL fmt=FAIL res=FAIL leaks=0 | I'll respond only with the word "PLATANOS" as requested.
+P1 P1-r3 rc=0 wall=54.2467 family=terse-wrong instr=FAIL fmt=FAIL res=FAIL leaks=0 | PLATANOS
+P2 P2-r1 rc=0 wall=41.5978 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+P2 P2-r2 rc=0 wall=371.2525 family=prose-wrapped instr=FAIL fmt=FAIL res=FAIL leaks=0 | I'll respond with exactly one JSON object as requested.  ```json {"ok": true} ```
+P2 P2-r3 rc=0 wall=34.6937 family=terse-wrong instr=FAIL fmt=FAIL res=FAIL leaks=0 | ```json {"ok": true} ```
+----- P1  PASS=0/3  leaky=0  families={'terse-wrong': 2, 'prose-wrapped': 1}
+----- P2  PASS=1/3  leaky=0  families={'exact': 1, 'prose-wrapped': 1, 'terse-wrong': 1}
+classified.csv -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-09d-verify/classified.csv

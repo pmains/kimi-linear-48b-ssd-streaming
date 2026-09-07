@@ -1,0 +1,1 @@
+Model override "kimi-local/kimi-linear-48b" is not allowed for agent "kimi" by agents.defaults.modelPolicy.allow. Add "kimi-local/kimi-linear-48b" or "kimi-local/*" to agents.defaults.modelPolicy.allow, or remove/empty the list to allow any model.

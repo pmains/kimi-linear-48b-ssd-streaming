@@ -1,0 +1,12 @@
+Step 11B REQUALIFICATION 2 record (authorized 2026-09-06 21:05:46)
+purpose: FK-safe harness repair + one requalification run (run 3 overall)
+harness : prod-apply/prod-fix-legs-req2.py imports prod-apply/fk_reset.py
+          (FK-safe reset_session, single source; per-leg FK gates, exit 3)
+proof   : prod-apply/fkproof.json (PASS on DB copy: FK check 0, probe rows
+          gone, non-probe rows unchanged)
+checker : leg-5 known-secret method UNCHANGED vs run 2 (byte-diff verified)
+patch   : validated replica fix only (8baf4746...), unchanged
+pre sha : 5505b775545c7d39ee88916fb80d559a7cd4a916154680baf1fdfc53ca32e2f6
+post sha: 8baf47468478e930ad5b54cd5f8deda49164141d4069bb7c0418cb849ab179ce
+pristine: prod-apply/pristine-redact-CquADQ9-.js.pre-apply-20260906-1202
+evidence: benchmarks/results/service-step-11b/fix-prod-requal2/

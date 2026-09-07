@@ -1,0 +1,9 @@
+2026-09-06T22:50:33.074-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-06T22:50:33.148-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=74 dispatcher=new contentType=text/event-stream
+2026-09-06T22:50:50.499-07:00 I need to solve this simple math problem: a train covers 60 miles in 1.5 hours, what's its average speed?
+
+Using the formula: speed = distance ÷ time
+Speed = 60 miles ÷ 1.5 hours = 40 miles per hour
+
+40
+2026-09-06T22:50:50.500-07:00 [agents/agent-command] [agent] run 2f6bbe3e-ae1f-42fc-9de5-f2844c43080c ended with stopReason=stop

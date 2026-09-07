@@ -1,0 +1,6 @@
+2026-09-05T14:20:12.365-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T14:20:12.462-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=97 dispatcher=reused contentType=text/event-stream
+2026-09-05T14:20:24.400-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-05T14:20:24.509-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=109 dispatcher=reused contentType=text/event-stream
+2026-09-05T14:20:28.920-07:00 The health status is **ok** and it reports service on port **18080**.
+2026-09-05T14:20:28.921-07:00 [agents/agent-command] [agent] run 14e32c96-397b-40ea-aff5-12a3f24f56da ended with stopReason=stop

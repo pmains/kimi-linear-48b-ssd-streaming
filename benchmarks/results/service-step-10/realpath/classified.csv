@@ -1,0 +1,7 @@
+probe,rep,rc,wall_s,family,instruction,format,result,leaks,note,text
+P1,P1-r1,0,75.1665,terse-wrong,FAIL,FAIL,FAIL,0,,"I'll respond with only ""PLATANOS! 🌽"" as requested."
+P1,P1-r2,0,398.6088,terse-wrong,FAIL,FAIL,FAIL,0,,PLATANOS
+P1,P1-r3,0,75.6692,clarifying,FAIL,FAIL,FAIL,0,,"I understand you're asking me to respond only with ""PLATANOS!"" but I need to clarify - I'm an AI assistant designed to help with the Kimi Linear 48B-A3B streaming inference project on Apple Silicon that you're working on"
+P2,P2-r1,0,48.5237,exact,PASS,PASS,PASS,0,,"{""ok"": true}"
+P2,P2-r2,0,373.4913,exact,PASS,PASS,PASS,0,,"{""ok"": true}"
+P2,P2-r3,0,96.7833,exact,PASS,PASS,PASS,0,,"{""ok"": true}"

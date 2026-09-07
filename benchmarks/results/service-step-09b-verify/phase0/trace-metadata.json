@@ -1,0 +1,335 @@
+{
+ "r2-p1": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p1"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p1b": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p1b"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p3": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p3"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p2": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p2"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p4": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p4"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p5": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p5"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p7": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p7"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "r2-p6": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09-r2-p6"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ },
+ "opt1-1": {
+  "harness": {
+   "type": "openclaw",
+   "name": "OpenClaw",
+   "version": "2026.9.1-beta.1",
+   "gitSha": "3a5318a",
+   "os": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "release": "25.6.0",
+    "label": "macos 26.6.2 (arm64)"
+   },
+   "runtime": {
+    "node": "v26.0.0"
+   },
+   "invocation": [
+    "/opt/homebrew/Cellar/node/26.0.0/bin/node",
+    "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+    "gateway",
+    "--port",
+    "18789"
+   ],
+   "entrypoint": "/opt/homebrew/lib/node_modules/openclaw/dist/index.js",
+   "workspaceDir": "~/Code/openclaw/kimi",
+   "sessionFile": "$OPENCLAW_STATE_DIR/agent:kimi:step09a-verify-p1c"
+  },
+  "model": {
+   "provider": "llama-server",
+   "name": "kimi-linear-48b",
+   "api": "openai-completions",
+   "fastMode": false,
+   "thinkLevel": "off",
+   "reasoningLevel": "off"
+  },
+  "prompting": "[Truncated]",
+  "metadata": "[Truncated]"
+ }
+}

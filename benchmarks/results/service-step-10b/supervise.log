@@ -1,0 +1,52 @@
+[2026-09-05T15:19:40Z] supervise start (openclaw=/opt/homebrew/bin/openclaw)
+[2026-09-05T15:20:10Z] openclaw gateway restart
+  "message": "restart scheduled, gateway will restart momentarily",
+  "service": {
+    "label": "LaunchAgent",
+    "loaded": true,
+    "loadedText": "loaded",
+    "notLoadedText": "not loaded"
+  }
+}
+[2026-09-05T15:21:00Z] gateway healthy after 16 tries
+[2026-09-05T15:21:05Z] llama-server health: {"status":"ok"}
+[64k/P1-r1] running (real path, no --deliver) 15:21:05Z
+[64k/P1-r1] rc=0 wall=226.8495s
+[64k/P1-r2] running (real path, no --deliver) 15:24:52Z
+[64k/P1-r2] rc=0 wall=22.5094s
+[64k/P1-r3] running (real path, no --deliver) 15:25:14Z
+[64k/P1-r3] rc=0 wall=14.4278s
+[64k/P1-r4] running (real path, no --deliver) 15:25:29Z
+[64k/P1-r4] rc=0 wall=23.7097s
+[64k/P1-r5] running (real path, no --deliver) 15:25:53Z
+[64k/P1-r5] rc=1 wall=1202.5297s
+[64k/P1-r6] running (real path, no --deliver) 15:46:01Z
+[64k/P1-r6] rc=0 wall=25.7486s
+[64k/P1-r7] running (real path, no --deliver) 15:46:27Z
+[64k/P1-r7] rc=0 wall=23.1202s
+[64k/P1-r8] running (real path, no --deliver) 15:46:50Z
+[64k/P1-r8] rc=0 wall=266.69s
+[64k/P1-r9] running (real path, no --deliver) 15:51:17Z
+[64k/P1-r9] rc=0 wall=517.6398s
+[64k/P2-r1] running (real path, no --deliver) 15:59:55Z
+[64k/P2-r1] rc=0 wall=17.3787s
+[64k/P2-r2] running (real path, no --deliver) 16:00:12Z
+[64k/P2-r2] rc=0 wall=13.3389s
+[64k/P2-r3] running (real path, no --deliver) 16:00:26Z
+[64k/P2-r3] rc=0 wall=13.7757s
+[64k/P2-r4] running (real path, no --deliver) 16:00:40Z
+[64k/P2-r4] rc=0 wall=12.9513s
+[64k/P2-r5] running (real path, no --deliver) 16:00:53Z
+[64k/P2-r5] rc=0 wall=525.394s
+[64k/P2-r6] running (real path, no --deliver) 16:09:39Z
+[64k/P2-r6] rc=0 wall=19.8506s
+[64k/P2-r7] running (real path, no --deliver) 16:09:59Z
+[64k/P2-r7] rc=0 wall=18.5889s
+[64k/P2-r8] running (real path, no --deliver) 16:10:18Z
+[64k/P2-r8] rc=0 wall=16.802s
+[64k/P2-r9] running (real path, no --deliver) 16:10:35Z
+[64k/P2-r9] rc=0 wall=17.4464s
+DONE: 64k leg -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10b/64k
+[2026-09-05T16:10:52Z] leg rc=0
+[2026-09-05T16:10:52Z] analysis rc=0
+[2026-09-05T16:10:52Z] supervise DONE leg_rc=0

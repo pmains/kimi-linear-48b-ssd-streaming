@@ -1,0 +1,12 @@
+Based on the file names and content, I can identify:
+
+1. **Step 10D** - `service-progress/step-10d-loopdetection-validation-report.md` - Covers loop detection validation
+2. **Step 10C** - `service-progress/step-10c-loop-liveness-report.md` - Covers loop liveness validation  
+3. **Step 10B** - `service-progress/step-10b-contextwindow-validation-report.md` - Covers context window validation
+
+The three most recent step-10 report files are:
+- `service-progress/step-10d-loopdetection-validation-report.md` (Step 10D)
+- `service-progress/step-10c-loop-liveness-report.md` (Step 10C) 
+- `service-progress/step-10b-contextwindow-validation-report.md` (Step 10B)
+
+Each report follows the required format and covers a specific phase of the project.

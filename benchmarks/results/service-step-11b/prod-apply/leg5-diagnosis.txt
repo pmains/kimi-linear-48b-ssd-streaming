@@ -1,0 +1,35 @@
+input msg len=748 windows=12
+=== prod-stored ===
+stored_len=400 windows=12 raw_absent=True masked_present=False ell_count=12 mask_shapes=[(6, 4), (10, 4)]
+--- stored content repr (truncated 3000) ---
+Stored credentials for reference:
+value 6IGj5k…mk5V end
+aws_secret_access_key=6IGj5k…mk5V
+value 8M2oZm…WKke end
+aws_secret_access_key=8M2oZm…WKke
+value 4mnxvx…VTMn end
+aws_secret_access_key=4mnxvx…VTMn
+value lVhSox…iDmd end
+aws_secret_access_key=lVhSox…iDmd
+value DyFfEM…SOUb end
+aws_secret_access_key=DyFfEM…SOUb
+value eSrjR2…A85j end
+aws_secret_access_key=eSrjR2…A85j
+Then reply with the word DONE.
+=== isolated-stored ===
+stored_len=400 windows=12 raw_absent=True masked_present=False ell_count=12 mask_shapes=[(6, 4), (10, 4)]
+--- stored content repr (truncated 3000) ---
+Stored credentials for reference:
+value 6IGj5k…mk5V end
+aws_secret_access_key=6IGj5k…mk5V
+value 8M2oZm…WKke end
+aws_secret_access_key=8M2oZm…WKke
+value 4mnxvx…VTMn end
+aws_secret_access_key=4mnxvx…VTMn
+value lVhSox…iDmd end
+aws_secret_access_key=lVhSox…iDmd
+value DyFfEM…SOUb end
+aws_secret_access_key=DyFfEM…SOUb
+value eSrjR2…A85j end
+aws_secret_access_key=eSrjR2…A85j
+Then reply with the word DONE.

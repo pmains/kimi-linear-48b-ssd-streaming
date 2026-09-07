@@ -1,0 +1,75 @@
+{
+ "summary": {
+  "label": "C2",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step11-64k-code",
+  "rc": 1,
+  "wall_s": 1202.7571,
+  "t0_utc": "2026-09-05T21:23:18Z",
+  "t1_utc": "2026-09-05T21:43:20Z",
+  "n_lines": 502,
+  "extraction": "json:key=text",
+  "reply_chars": 129,
+  "timed_out": true,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 13989,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 22421
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 24913,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 29074
+  },
+  "llama_window_chars": 53326,
+  "gateway_window_chars": 27272
+ },
+ "doc_status": "timeout",
+ "doc_summary": "aborted",
+ "duration_ms": 1200885,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 24433,
+  "usage": {
+   "input": 4023,
+   "output": 6500,
+   "cacheRead": 630493,
+   "total": 641016
+  },
+  "lastCallUsage": {
+   "input": 46,
+   "output": 47,
+   "cacheRead": 24387,
+   "cacheWrite": 0,
+   "total": 24480
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29740,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": true,
+ "livenessState": "paused",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success"
+   }
+  ],
+  "fallbackUsed": false
+ },
+ "finalPromptText": "Use the write tool to create /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-11/work/code/test_text_stats.py with plain-assert tests for word_count, line_count, char_count (no pytest import; run via __main__ that calls the asserts and prints PASS). Then run: exec python3 /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-11/work/code/test_text_stats.py  If it fails, fix text_stats.py and rerun until it prints PASS. Reply with the final test output line."
+}

@@ -1,0 +1,30 @@
+[05:32:58Z] stopping launchd 64K job for temp 128K leg
+[05:33:03Z] starting temp 128K server (ctx 131072, expert cache 4096MB)
+[05:34:41Z] temp 128K server ready (pid 32036)
+awk: syntax error at source line 1
+ context is
+	 >>> $3==\ <<< "ai.openclaw.gateway\" {print $1}
+awk: bailing out at source line 1
+awk: syntax error at source line 1
+ context is
+	 >>> $3==\ <<< "ai.openclaw.gateway\" {print $1}
+awk: bailing out at source line 1
+[128k/P1-r1] cached
+[128k/P1-r2] cached
+[128k/P1-r3] cached
+[128k/P1-r4] cached
+[128k/P1-r5] cached
+[128k/P1-r6] cached
+[128k/P2-r1] cached
+[128k/P2-r2] cached
+[128k/P2-r3] cached
+[128k/P2-r4] cached
+[128k/P2-r5] cached
+[128k/P2-r6] cached
+[05:34:41Z] stopping temp 128K server; restoring launchd 64K
+tools/service_step10a_leg.sh: line 153: 32036 Abort trap: 6           KIMI_CTX=131072 KIMI_EXPERT_CACHE_MB="${KIMI_EXPERT_CACHE_MB:-8192}" KIMI_EXPERT_READ_WORKERS=4 KIMI_STREAM_METAL_STAGE=1 KIMI_STREAM_E2_DIRECT_PLACE=1 KIMI_STREAM_STATS_FILE="$OUT/stats.csv" KIMI_STREAM_RETR_FILE="$OUT/retr.csv" KIMI_STREAM_MEM_FILE="$OUT/mem.csv" KIMI_STREAM_CACHE_LAYERS_FILE="$OUT/cache_layers.csv" "$BIN" -m "$MODEL" -ngl 999 --no-mmap --ctx-size 131072 --host 127.0.0.1 --port 18080 --parallel 1 --slot-save-path "$SLOT_DIR" >> "$LLAMA_LOG_TMP" 2>&1
+[05:35:25Z] 64K launchd server restored and verified
+DONE: 128k leg -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10a/128k
+[05:35:26Z] EXIT trap: restoring launchd 64K server
+[05:35:28Z] trap restore n_ctx=65536
+LEG128_RETRY_EXIT=0

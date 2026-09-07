@@ -1,0 +1,29 @@
+{
+ "cond": "C2a-D",
+ "probe": "P3",
+ "rep": 1,
+ "wall_s": 16.1,
+ "text": "I'll calculate the average speed for you.",
+ "tool_calls": [
+  {
+   "type": "function",
+   "function": {
+    "name": "create_goal",
+    "arguments": "{\"objective\": \"Calculate average speed for a train that covers 60 miles in 1.5 hours\"}"
+   },
+   "id": "functions.create_goal:0"
+  }
+ ],
+ "finish": "tool_calls",
+ "usage": {
+  "completion_tokens": 42,
+  "prompt_tokens": 11501,
+  "total_tokens": 11543,
+  "prompt_tokens_details": {
+   "cached_tokens": 10963
+  }
+ },
+ "family": "terse-wrong",
+ "pass": false,
+ "payload_sha": "a50f427f09ad9437"
+}

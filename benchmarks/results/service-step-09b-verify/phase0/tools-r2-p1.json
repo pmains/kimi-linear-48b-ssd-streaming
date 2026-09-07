@@ -1,0 +1,254 @@
+[
+ {
+  "name": "apply_patch",
+  "description": "Patch one/many files. Input requires *** Begin Patch and *** End Patch.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "input"
+   ],
+   "properties": {
+    "input": {
+     "type": "string",
+     "description": "Patch content using the *** Begin Patch/End Patch format."
+    }
+   }
+  }
+ },
+ {
+  "name": "conversations_list",
+  "description": "List external conversations as stable conversationRef values. Sessions hold local model context; conversationRef selects an exact external channel destination.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "channel": {
+     "type": "string",
+     "minLength": 1
+    },
+    "query": {
+     "type": "string",
+     "minLength": 1
+    },
+    "limit": {
+     "type": "integer",
+     "minimum": 1
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "conversations_send",
+  "description": "Send directly through a conversationRef from conversations_list. This performs channel delivery; it does not run the local agent in the backing session.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "conversationRef",
+    "message"
+   ],
+   "properties": {
+    "conversationRef": {
+     "type": "string",
+     "pattern": "[Malformed diagnostic JSON redacted]"
+    },
+    "message": {
+     "type": "string",
+     "minLength": 1
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "conversations_turn",
+  "description": "Send through a conversationRef and wait for its correlated inbound reply. The reply returns here instead of starting a second local agent turn; unsolicited messages still start normal turns.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "conversationRef",
+    "message"
+   ],
+   "properties": {
+    "conversationRef": {
+     "type": "string",
+     "pattern": "[Malformed diagnostic JSON redacted]"
+    },
+    "message": {
+     "type": "string",
+     "minLength": 1
+    },
+    "timeoutSeconds": {
+     "type": "integer",
+     "minimum": 1,
+     "maximum": 300
+    }
+   },
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "create_goal",
+  "description": "Create goal only explicit user/system request. Optional token_budget caps goal token usage. Existing goal => fail; user-facing controls clear it.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "objective"
+   ],
+   "properties": {
+    "objective": {
+     "type": "string",
+     "description": "Concrete objective; explicit request only."
+    },
+    "token_budget": {
+     "type": "integer",
+     "minimum": 1,
+     "description": "Optional positive token budget."
+    }
+   }
+  }
+ },
+ {
+  "name": "edit",
+  "description": "Exact single-file replacements. oldText unique/non-overlapping against original. Merge nearby changes; omit large unchanged spans.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "path",
+    "edits"
+   ],
+   "properties": {
+    "path": {
+     "type": "string",
+     "description": "File path; relative/absolute."
+    },
+    "edits": {
+     "type": "array",
+     "items": {
+      "truncated": true,
+      "reason": "trajectory-depth-limit",
+      "limitDepth": 6
+     },
+     "description": "Targeted replacements against original file; no overlap/nesting. Merge nearby changes."
+    }
+   }
+  }
+ },
+ {
+  "name": "exec",
+  "description": "Run shell now; background continuation supported. Use yieldMs/background, then process for logs/status/input/intervention. Long run: automatic completion wake when enabled and output/failure occurs; otherwise process confirms completion. TTY CLI/UI/coding agent: pty=true. Quote arguments containing shell metacharacters, including URL query strings with `?` or `&`.",
+  "parameters": {
+   "type": "object",
+   "required": [
+    "command"
+   ],
+   "properties": {
+    "command": {
+     "type": "string",
+     "description": "Shell command to execute"
+    },
+    "workdir": {
+     "type": "string",
+     "description": "Working directory; omit for default. An empty string means omitted; whitespace-only is invalid."
+    },
+    "env": {
+     "type": "object",
+     "patternProperties": {
+      "truncated": true,
+      "reason": "trajectory-depth-limit",
+      "limitDepth": 6
+     }
+    },
+    "yieldMs": {
+     "type": "number",
+     "description": "Milliseconds before backgrounding; default 10000."
+    },
+    "background": {
+     "type": "boolean",
+     "description": "Run in background immediately"
+    },
+    "timeoutSeconds": {
+     "type": "number",
+     "description": "Timeout in seconds."
+    },
+    "pty": {
+     "type": "boolean",
+     "description": "Use PTY for TTY-required CLIs and coding agents."
+    },
+    "elevated": {
+     "type": "boolean",
+     "description": "Run on host with elevated permissions if allowed."
+    },
+    "host": {
+     "enum": {
+      "truncated": true,
+      "reason": "trajectory-depth-limit",
+      "limitDepth": 6
+     },
+     "type": "string",
+     "description": "Exec host/target (auto|sandbox|gateway|node)."
+    },
+    "security": {
+     "type": "string",
+     "description": "Ignored per call; tools.exec.security and host approvals decide."
+    },
+    "ask": {
+     "type": "string",
+     "description": "Uses tools.exec.ask and host approvals; channel-origin calls cannot override host ask=off."
+    },
+    "node": {
+     "type": "string",
+     "description": "Node id/name for host=node."
+    }
+   }
+  }
+ },
+ {
+  "name": "get_goal",
+  "description": "Get thread goal, status, token usage.",
+  "parameters": {
+   "type": "object",
+   "properties": {}
+  }
+ },
+ {
+  "name": "intent",
+  "description": "Create, list, or explicitly cancel event-conditioned standing intents. A created intent is armed; the system injects the reminder automatically when it triggers. Do not deliver it early or cancel it unless the user asks. Use scheduled tasks for time-based reminders.",
+  "parameters": {
+   "type": "object",
+   "properties": {
+    "action": "[Truncated]",
+    "id": "[Truncated]",
+    "description": "[Truncated]",
+    "triggerKeywords": "[Truncated]",
+    "scope": "[Truncated]",
+    "senderScope": "[Truncated]",
+    "expiresAt": "[Truncated]",
+    "maxFires": "[Truncated]",
+    "cooldownSeconds": "[Truncated]",
+    "status": "[Truncated]"
+   },
+   "required": "[Truncated]",
+   "additionalProperties": false
+  }
+ },
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]",
+ "[Truncated]"
+]

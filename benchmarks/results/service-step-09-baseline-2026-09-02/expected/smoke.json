@@ -1,0 +1,8 @@
+{
+  "probe": "smoke",
+  "category": "harness validation (NON-QUALIFICATION DATA)",
+  "prompt_file": "prompts/smoke.md",
+  "match": "exact",
+  "value": "OK",
+  "notes": "Authorized solely to validate the harness (Pete clarification 5). Explicitly excluded from Step 9 qualification results."
+}

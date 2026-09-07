@@ -1,0 +1,4 @@
+hello world hello
+This is a test file
+With multiple lines of text
+To demonstrate the text_stats module

@@ -1,0 +1,35 @@
+{
+ "cond": "E2T",
+ "probe": "P2",
+ "rep": 5,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I need to analyze the project context and understand the current state of the Kimi Linear 48B-A3B streaming inference project. Let me start by examining the key files mentioned in the project structure.",
+ "family": "prose-wrapped",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 10.1,
+ "finish": "tool_calls",
+ "tool_calls": [
+  {
+   "type": "function",
+   "function": {
+    "name": "read",
+    "arguments": "{\"path\": \"/Users/pmains/Code/openclaw/kimi/ROADMAP.md\"}"
+   },
+   "id": "functions.read:0"
+  }
+ ],
+ "usage": {
+  "completion_tokens": 71,
+  "prompt_tokens": 11547,
+  "total_tokens": 11618,
+  "prompt_tokens_details": {
+   "cached_tokens": 11543
+  }
+ },
+ "payload_sha": "d59562b69ad881c2",
+ "ts": "2026-09-05T01:05:41Z"
+}

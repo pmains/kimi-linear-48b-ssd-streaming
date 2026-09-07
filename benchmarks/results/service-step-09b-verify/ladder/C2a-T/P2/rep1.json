@@ -1,0 +1,20 @@
+{
+ "cond": "C2a-T",
+ "probe": "P2",
+ "rep": 1,
+ "wall_s": 11.5,
+ "text": "```json\n{\"ok\": true}\n```",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 10,
+  "prompt_tokens": 11454,
+  "total_tokens": 11464,
+  "prompt_tokens_details": {
+   "cached_tokens": 10929
+  }
+ },
+ "family": "terse-wrong",
+ "pass": false,
+ "payload_sha": "170a76a3370e4834"
+}

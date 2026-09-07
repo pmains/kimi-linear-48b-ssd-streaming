@@ -1,0 +1,35 @@
+{
+ "cond": "E2T",
+ "probe": "P1",
+ "rep": 8,
+ "temp": null,
+ "temp_key": "default",
+ "text": "I'll respond only with PLATANOS.",
+ "family": "terse-wrong",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 5.2,
+ "finish": "tool_calls",
+ "tool_calls": [
+  {
+   "type": "function",
+   "function": {
+    "name": "read",
+    "arguments": "{\"path\": \"/Users/pmains/Code/openclaw/kimi/PLATANOS.md\"}"
+   },
+   "id": "functions.read:0"
+  }
+ ],
+ "usage": {
+  "completion_tokens": 40,
+  "prompt_tokens": 11538,
+  "total_tokens": 11578,
+  "prompt_tokens_details": {
+   "cached_tokens": 11534
+  }
+ },
+ "payload_sha": "d2e5d893fcbfd8d4",
+ "ts": "2026-09-05T00:58:26Z"
+}

@@ -1,0 +1,7 @@
+15.951134	{
+15.951175	  "ok": false,
+15.951180	  "error": {
+15.951182	    "type": "cli_error",
+15.951184	    "message": "llama-server/kimi-linear-48b ended without a visible assistant reply | empty_result"
+15.951184	  }
+15.951185	}

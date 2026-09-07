@@ -1,0 +1,26 @@
+{
+ "cond": "C0",
+ "probe": "P2",
+ "rep": 9,
+ "temp": 0.0,
+ "temp_key": "0.0",
+ "text": "{\"ok\": true}",
+ "family": "exact",
+ "instruction": "PASS",
+ "format": "PASS",
+ "result": "PASS",
+ "leaks": 0,
+ "wall_s": 0.4,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 6,
+  "prompt_tokens": 23,
+  "total_tokens": 29,
+  "prompt_tokens_details": {
+   "cached_tokens": 19
+  }
+ },
+ "payload_sha": "d336c80e9369cc9a",
+ "ts": "2026-09-05T01:06:19Z"
+}

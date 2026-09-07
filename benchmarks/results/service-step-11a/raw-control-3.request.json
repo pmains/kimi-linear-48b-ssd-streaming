@@ -1,0 +1,41 @@
+{
+ "system": "You are an agent with access to tools. Use the read tool to read the file the user requests. Call the tool with the exact path given.",
+ "user": "Please read the file at exactly this path: /Users/pmains/Code/openclaw/kimi/SERVICE-ROADMAP.md  (the file exists; use the read tool)",
+ "body": {
+  "model": "kimi-linear-48b",
+  "messages": [
+   {
+    "role": "system",
+    "content": "You are an agent with access to tools. Use the read tool to read the file the user requests. Call the tool with the exact path given."
+   },
+   {
+    "role": "user",
+    "content": "Please read the file at exactly this path: /Users/pmains/Code/openclaw/kimi/SERVICE-ROADMAP.md  (the file exists; use the read tool)"
+   }
+  ],
+  "tools": [
+   {
+    "type": "function",
+    "function": {
+     "name": "read",
+     "description": "Read a file from disk given an absolute path. Returns the file contents or an error.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "Absolute path of the file to read."
+       }
+      },
+      "required": [
+       "path"
+      ]
+     }
+    }
+   }
+  ],
+  "tool_choice": "auto",
+  "temperature": 0.8,
+  "max_tokens": 220
+ }
+}

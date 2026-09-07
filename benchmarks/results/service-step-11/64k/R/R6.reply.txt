@@ -1,0 +1,6 @@
+Perfect! So my memory was correct:
+
+1. **TOOLS.md** - The file that documents tool drivers is located at `/Users/pmains/Code/openclaw/kimi/TOOLS.md`
+2. **SERVICE-ROADMAP.md** - The service roadmap file is at `/Users/pmains/Code/openclaw/kimi/SERVICE-ROADMAP.md`
+
+The actual first entries in the tools directory show various Python scripts and configuration files, but the documentation files are in the root directory as I remembered.

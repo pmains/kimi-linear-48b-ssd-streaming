@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-T",
+ "probe": "P1b",
+ "rep": 2,
+ "wall_s": 0.5,
+ "text": "Alkaline",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 4,
+  "prompt_tokens": 6583,
+  "total_tokens": 6587,
+  "prompt_tokens_details": {
+   "cached_tokens": 6579
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "37dec1c5826dda65"
+}

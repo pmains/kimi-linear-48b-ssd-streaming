@@ -1,0 +1,33 @@
+{
+  "probe_keys": [
+    "agent:kimi:step11b-prod-fix-1",
+    "agent:kimi:step11b-prod-fix-2",
+    "agent:kimi:step11b-prod-fix-3",
+    "agent:kimi:step11b-prod-fix-4",
+    "agent:kimi:step11b-prod-fix-5",
+    "agent:kimi:step11b-prod-fix-6"
+  ],
+  "probe_sids": [
+    "0fd49c2f-6ad5-4195-890f-a4f8c2161e4f",
+    "05e2bf56-ca97-42db-804f-b5fc8fcd5fc8",
+    "f6ea2244-03f2-48bf-9b16-12c38335a4de",
+    "56adcc65-50cd-4cbc-ae80-26ed98177ff3",
+    "044bcf37-f30c-4cff-be60-bb6672fdf887",
+    "cf18a91b-ea7f-4ee0-96d3-ed2f9a77bae0"
+  ],
+  "probe_rows_before": {
+    "session_nodes": 6,
+    "session_transcript_active_events": 1,
+    "session_transcript_fts": 1,
+    "session_transcript_index_state": 1,
+    "session_windows": 6,
+    "trajectory_runtime_events": 7,
+    "transcript_event_identities": 2,
+    "transcript_events": 1,
+    "transcript_rewrite_watermarks": 1
+  },
+  "fk_check_after": 0,
+  "probe_rows_after": {},
+  "non_probe_changed_tables": [],
+  "proof_ok": true
+}

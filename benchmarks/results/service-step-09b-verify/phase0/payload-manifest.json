@@ -1,0 +1,172 @@
+{
+ "r2-p1": [
+  {
+   "index": 0,
+   "prompt": "Respond only PLATANOS!",
+   "sysLen": 29795,
+   "sysSha": "9c3172a42f720895",
+   "msgCount": 0,
+   "tools": 29
+  }
+ ],
+ "r2-p1b": [
+  {
+   "index": 0,
+   "prompt": "Reply with exactly one word. That word must not be 'model'.",
+   "sysLen": 29796,
+   "sysSha": "1cb40f2a0e9a2b88",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27283,
+   "sysSha": "4e89f5902187ab0f",
+   "msgCount": 2,
+   "tools": 2
+  }
+ ],
+ "r2-p3": [
+  {
+   "index": 0,
+   "prompt": "A train covers 60 miles in 1.5 hours. What is its average sp",
+   "sysLen": 29795,
+   "sysSha": "97ecc48e14619cb9",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27282,
+   "sysSha": "f54323dada01e95a",
+   "msgCount": 2,
+   "tools": 2
+  }
+ ],
+ "r2-p2": [
+  {
+   "index": 0,
+   "prompt": "Respond with exactly one JSON object: {\"ok\": true}. No other",
+   "sysLen": 29795,
+   "sysSha": "1b9f96a0dfbfebf0",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27282,
+   "sysSha": "3df22184688b30e4",
+   "msgCount": 2,
+   "tools": 2
+  }
+ ],
+ "r2-p4": [
+  {
+   "index": 0,
+   "prompt": "In this repository, read the file TOOLS.md. What port does t",
+   "sysLen": 29795,
+   "sysSha": "daecfcdab655909f",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue from the current transcript after the latest tool r",
+   "sysLen": 29795,
+   "sysSha": "daecfcdab655909f",
+   "msgCount": 3,
+   "tools": 29
+  },
+  {
+   "index": 2,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27282,
+   "sysSha": "dd37c0b698f8fee1",
+   "msgCount": 4,
+   "tools": 2
+  }
+ ],
+ "r2-p5": [
+  {
+   "index": 0,
+   "prompt": "Using the minimum number of tool calls, list the files direc",
+   "sysLen": 29795,
+   "sysSha": "e8f1978230de670d",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27282,
+   "sysSha": "4a9ae3cfd966f379",
+   "msgCount": 4,
+   "tools": 2
+  }
+ ],
+ "r2-p7": [
+  {
+   "index": 0,
+   "prompt": "Use a tool to get the current UTC date (for example run: dat",
+   "sysLen": 29795,
+   "sysSha": "e5e9db62ebee7e0d",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27282,
+   "sysSha": "ee346a82195834cf",
+   "msgCount": 2,
+   "tools": 2
+  }
+ ],
+ "r2-p6": [
+  {
+   "index": 0,
+   "prompt": "Perform these steps in the directory benchmarks/results/serv",
+   "sysLen": 29795,
+   "sysSha": "9a1677971bb26b4a",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27282,
+   "sysSha": "51e9ac2c4ccbd90f",
+   "msgCount": 6,
+   "tools": 2
+  },
+  {
+   "index": 2,
+   "prompt": "Continue from the current transcript after the latest tool r",
+   "sysLen": 26451,
+   "sysSha": "a7bcc43cf636b8ed",
+   "msgCount": 3,
+   "tools": 2
+  }
+ ],
+ "opt1-1": [
+  {
+   "index": 0,
+   "prompt": "Respond only PLATANOS!",
+   "sysLen": 29801,
+   "sysSha": "8378af8c26ea571b",
+   "msgCount": 0,
+   "tools": 29
+  },
+  {
+   "index": 1,
+   "prompt": "Continue the OpenClaw runtime event.",
+   "sysLen": 27288,
+   "sysSha": "986d3d815c5fc521",
+   "msgCount": 2,
+   "tools": 2
+  }
+ ]
+}

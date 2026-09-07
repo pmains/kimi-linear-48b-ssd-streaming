@@ -1,0 +1,20 @@
+{
+ "cond": "C2a-D",
+ "probe": "P2",
+ "rep": 1,
+ "wall_s": 10.4,
+ "text": "{\"ok\": true}",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 6,
+  "prompt_tokens": 11488,
+  "total_tokens": 11494,
+  "prompt_tokens_details": {
+   "cached_tokens": 10963
+  }
+ },
+ "family": "exact",
+ "pass": true,
+ "payload_sha": "53a34a411b298aad"
+}

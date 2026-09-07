@@ -1,0 +1,21 @@
+5.013712	[provider-transport-fetch] [model-fetch] start provider=kimi-local api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=3600000 proxy=none policy=custom
+5.052344	[provider-transport-fetch] [model-fetch] response provider=kimi-local api=openai-completions model=kimi-linear-48b status=200 elapsedMs=48 dispatcher=new contentType=text/event-stream
+27.450093	model.run via local
+27.450149	provider: kimi-local
+27.450150	model: kimi-linear-48b
+27.450151	outputs: 1
+27.450151	**Correctness Risks:**
+27.450164	
+27.450168	- **Race between `pread` and `memcpy`**: `pread` may still be writing to `staging` when `memcpy` copies from it, corrupting the slice.
+27.450172	- **Silent truncation**: `PER_EXPERT` may exceed the actual slice size, causing data loss.
+27.450172	
+27.450172	**Performance Risk:**
+27.450173	
+27.450176	- **Two kernel copies**: `pread → memcpy → slot_ptr` is redundant; slice could be loaded directly into `slot_ptr` via `mmap`.
+27.450177	
+27.450177	**Minimal Fixes:**
+27.450177	
+27.450183	- Use `mmap` for the slice and avoid `pread`/`memcpy`.
+27.450184	- Add `PER_EXPERT` bounds check before copy.
+27.450184	
+27.450185	**Follow-up**: The truncation risk would produce garbage logits *without* kernel arithmetic errors, because the slice would be partially copied, leaving leftover activations uninitialized or zeroed.

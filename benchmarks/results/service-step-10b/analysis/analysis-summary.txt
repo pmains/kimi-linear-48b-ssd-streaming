@@ -1,0 +1,36 @@
+===== Step 10A analysis =====
+verdict: No overflow observed in either leg (underpowered; see prompt_tokens ceiling evidence)
+note: 64k overflow walls: []
+note: 128k overflow walls: []
+note: 64k resolved context: {"65536": 18}
+note: 128k resolved context: {}
+note: fisher overflow 64k-vs-128k p=nan
+note: overflow verdict: No overflow observed in either leg (underpowered; see prompt_tokens ceiling evidence)
+note: resolved-context comparison: 64k=[65536] 128k=[]
+note: dominant phase per leg: {"64k": "prefill"}
+
+----- 64k leg -----
+turns=18 overflow=0 rc0=17 walls={"min": 13.0, "median": 22.5, "max": 1202.5} ctx_resolved={"65536": 18} prompt_tok_last_ok_median=12736
+
+----- per-turn phase attribution -----
+leg	label	rc	wall_s	err	ctx	prompt_tok	n_tasks	prefill_s	decode_s	server_s	gw_s	resid_s
+64k	P1-r1	0	226.8		65536	12728	1	207.3	17.7	225.0	0.1	1.9
+64k	P1-r2	0	22.5		65536	12727	1	9.9	9.6	19.5	0.1	3.0
+64k	P1-r3	0	14.4		65536	12725	1	9.6	2.3	11.9	0.1	2.5
+64k	P1-r4	0	23.7		65536	12729	1	9.6	11.7	21.2	0.1	2.5
+64k	P1-r5	1	1202.5		65536	23819	130	633.1	521.5	1154.6	12.9	47.9
+64k	P1-r6	0	25.7		65536	12731	1	10.5	12.7	23.2	0.1	2.6
+64k	P1-r7	0	23.1		65536	12731	1	12.6	7.4	20.0	0.1	3.1
+64k	P1-r8	0	266.7		65536	15799	22	128.1	115.1	243.3	1.3	23.4
+64k	P1-r9	0	517.6		65536	28964	7	363.9	149.0	513.0	0.5	4.7
+64k	P2-r1	0	17.4		65536	12737	1	12.9	1.1	14.0	0.3	3.4
+64k	P2-r2	0	13.3		65536	12735	1	10.0	0.6	10.7	0.1	2.7
+64k	P2-r3	0	13.8		65536	12738	1	10.2	0.9	11.1	0.1	2.7
+64k	P2-r4	0	13.0		65536	12736	1	9.7	0.7	10.4	0.1	2.5
+64k	P2-r5	0	525.4		65536	24291	16	322.4	195.9	518.3	1.1	7.1
+64k	P2-r6	0	19.9		65536	12738	1	14.9	1.7	16.6	0.1	3.2
+64k	P2-r7	0	18.6		65536	12736	1	13.8	1.0	14.8	1.2	3.8
+64k	P2-r8	0	16.8		65536	12738	1	13.1	0.8	13.9	0.1	2.9
+64k	P2-r9	0	17.4		65536	12740	1	13.7	0.8	14.4	0.1	3.0
+
+----- overflow decomposition (why 582-824s) -----

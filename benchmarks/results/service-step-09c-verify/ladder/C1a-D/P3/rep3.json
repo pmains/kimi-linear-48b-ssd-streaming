@@ -1,0 +1,20 @@
+{
+ "cond": "C1a-D",
+ "probe": "P3",
+ "rep": 3,
+ "wall_s": 3.2,
+ "text": "I'll calculate the average speed using the basic formula: speed = distance / time.<|tool_calls_section_begin|><|tool_call_begin|>memory_get:0<|tool_call_argument_begin|>{\"status\": \"not_found\"}<|tool_call_end|><|tool_calls_section_end|>",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 33,
+  "prompt_tokens": 6632,
+  "total_tokens": 6665,
+  "prompt_tokens_details": {
+   "cached_tokens": 6628
+  }
+ },
+ "family": "prose-wrapped",
+ "pass": false,
+ "payload_sha": "a50f427f09ad9437"
+}

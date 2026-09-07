@@ -1,0 +1,12 @@
+Step 11B REQUALIFICATION record (authorized 2026-09-06 13:29)
+run 2 of 2 (first production run = test-oracle FAIL w/ correct runtime behavior)
+file: /opt/homebrew/lib/node_modules/openclaw/dist/redact-CquADQ9-.js
+change: same single-constant fix as run 1 (validated replica, 8baf4746...)
+sha256 pre : 5505b775545c7d39ee88916fb80d559a7cd4a916154680baf1fdfc53ca32e2f6
+sha256 post: 8baf47468478e930ad5b54cd5f8deda49164141d4069bb7c0418cb849ab179ce
+pristine archive (run 1, still valid): prod-apply/pristine-redact-CquADQ9-.js.pre-apply-20260906-1202
+checker     : prod-apply/prod-fix-legs-req.py (leg-5 known-secret method only)
+proof       : prod-apply/requal-checker-proof.json (PASS: isolated transcript passes, unredacted control fails)
+run-1 evidence snapshot: benchmarks/results/service-step-11b/fix-prod-run1-20260906/
+gateway     : launchd gui/501/ai.openclaw.gateway (restart = launchctl kickstart -k)
+llama       : untouched (127.0.0.1:18080)

@@ -1,0 +1,8 @@
+{
+  "probe": "P2",
+  "category": "constrained output",
+  "prompt_file": "prompts/P2.md",
+  "match": "json_eq",
+  "value": {"ok": true},
+  "notes": "Entire reply must parse as exactly the JSON object {\"ok\": true}; no prose before/after."
+}

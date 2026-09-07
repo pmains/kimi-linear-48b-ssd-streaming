@@ -1,0 +1,20 @@
+[P1-r1] cached
+[P1-r2] running (real path, no --deliver, 64K pinned) 01:44:02Z
+[P1-r2] rc=1 wall=823.9102s
+[P1-r3] cached
+[P2-r1] running (real path, no --deliver, 64K pinned) 01:57:46Z
+[P2-r1] rc=0 wall=48.5237s
+[P2-r2] cached
+[P2-r3] cached
+===== Step 9D real-path per-rep classification =====
+P1 P1-r1 rc=0 wall=75.1665 family=terse-wrong instr=FAIL fmt=FAIL res=FAIL leaks=0 | I'll respond with only "PLATANOS! 🌽" as requested.
+P1 P1-r2 rc=1 wall=823.9102 family=prose-wrapped instr=INVALID fmt=INVALID res=INVALID leaks=0 | Context overflow: prompt too large for the model. Try /reset (or /new) to start a fresh session, or use a larger-context model.
+P1 P1-r3 rc=0 wall=75.6692 family=clarifying instr=FAIL fmt=FAIL res=FAIL leaks=0 | I understand you're asking me to respond only with "PLATANOS!" but I need to clarify - I'm an AI assistant designed to help with the Kimi Linear 48B-A3B streaming inference project on Apple Silicon that you're working on
+P2 P2-r1 rc=0 wall=48.5237 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+P2 P2-r2 rc=0 wall=373.4913 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+P2 P2-r3 rc=0 wall=96.7833 family=exact instr=PASS fmt=PASS res=PASS leaks=0 | {"ok": true}
+----- P1  PASS=0/3  leaky=0  families={'terse-wrong': 1, 'prose-wrapped': 1, 'clarifying': 1}
+----- P2  PASS=3/3  leaky=0  families={'exact': 3}
+classified.csv -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10/realpath/classified.csv
+classified.csv -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10/realpath/classified.csv
+EXIT=0

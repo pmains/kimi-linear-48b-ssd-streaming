@@ -1,0 +1,493 @@
+45.083059	{
+45.083236	  "runId": "b69d10fa-e53f-4eff-ac4c-76c6c13f0793",
+45.083250	  "status": "ok",
+45.083259	  "summary": "completed",
+45.083260	  "result": {
+45.083260	    "payloads": [
+45.083260	      {
+45.083260	        "text": "{\"ok\": true}",
+45.083260	        "mediaUrl": null
+45.083267	      }
+45.083268	    ],
+45.083268	    "meta": {
+45.083268	      "durationMs": 14275,
+45.083268	      "agentMeta": {
+45.083271	        "sessionId": "8b1026b3-fc2d-415f-92e0-af83cbc65c72",
+45.083276	        "sessionFile": "agent:kimi:step09a-verify-p2c",
+45.083276	        "provider": "llama-server",
+45.083282	        "model": "kimi-linear-48b",
+45.083282	        "contextTokens": 32768,
+45.083283	        "contextTokensSource": "resolved",
+45.083283	        "agentHarnessId": "openclaw",
+45.083283	        "usage": {
+45.083283	          "input": 528,
+45.083283	          "output": 6,
+45.083291	          "cacheRead": 12244,
+45.083297	          "total": 12778
+45.083297	        },
+45.083300	        "lastCallUsage": {
+45.083300	          "input": 528,
+45.083300	          "output": 6,
+45.083300	          "cacheRead": 12244,
+45.083300	          "cacheWrite": 0,
+45.083300	          "total": 12778
+45.083301	        },
+45.083301	        "promptTokens": 12772,
+45.083301	        "contextBudgetStatus": {
+45.083301	          "schemaVersion": 1,
+45.083301	          "source": "pre-prompt-estimate",
+45.083301	          "updatedAt": 1788479137145,
+45.083301	          "provider": "llama-server",
+45.083302	          "model": "kimi-linear-48b",
+45.083308	          "route": "fits",
+45.083308	          "shouldCompact": false,
+45.083310	          "estimatedPromptTokens": 9029,
+45.083310	          "contextTokenBudget": 32768,
+45.083310	          "promptBudgetBeforeReserve": 12768,
+45.083310	          "reserveTokens": 20000,
+45.083311	          "effectiveReserveTokens": 20000,
+45.083313	          "remainingPromptBudgetTokens": 3739,
+45.083313	          "overflowTokens": 0,
+45.083313	          "toolResultReducibleChars": 0,
+45.083313	          "messageCount": 0,
+45.083313	          "unwindowedMessageCount": 0,
+45.083317	          "sessionId": "8b1026b3-fc2d-415f-92e0-af83cbc65c72"
+45.083317	        },
+45.083317	        "codeModeEngaged": false,
+45.083317	        "assistantTurns": 1,
+45.083317	        "costUsd": 0,
+45.083317	        "terminalReceipt": {
+45.083318	          "runId": "b69d10fa-e53f-4eff-ac4c-76c6c13f0793",
+45.083318	          "sessionId": "8b1026b3-fc2d-415f-92e0-af83cbc65c72",
+45.083318	          "turnId": "b69d10fa-e53f-4eff-ac4c-76c6c13f0793",
+45.083318	          "requested": {
+45.083318	            "provider": "llama-server",
+45.083319	            "model": "kimi-linear-48b"
+45.083322	          },
+45.083323	          "effective": {
+45.083323	            "provider": "llama-server",
+45.083323	            "model": "kimi-linear-48b",
+45.083329	            "responseModel": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+45.083330	          },
+45.083330	          "successfulToolNames": [],
+45.083330	          "rerouted": true
+45.083330	        }
+45.083330	      },
+45.083330	      "aborted": false,
+45.083330	      "systemPromptReport": {
+45.083347	        "source": "run",
+45.083347	        "generatedAt": 1788479137107,
+45.083347	        "sessionId": "8b1026b3-fc2d-415f-92e0-af83cbc65c72",
+45.083348	        "sessionKey": "agent:kimi:step09a-verify-p2c",
+45.083348	        "provider": "llama-server",
+45.083348	        "model": "kimi-linear-48b",
+45.083348	        "workspaceDir": "/Users/pmains/Code/openclaw/kimi",
+45.083348	        "bootstrapMaxChars": 20000,
+45.083348	        "bootstrapTotalMaxChars": 60000,
+45.083348	        "bootstrapTruncation": {
+45.083349	          "warningMode": "always",
+45.083349	          "warningShown": false,
+45.083349	          "truncatedFiles": 0,
+45.083349	          "nearLimitFiles": 0,
+45.083349	          "totalNearLimit": false
+45.083349	        },
+45.083352	        "sandbox": {
+45.083352	          "mode": "off",
+45.083352	          "sandboxed": false
+45.083352	        },
+45.083352	        "systemPrompt": {
+45.083352	          "chars": 29904,
+45.083353	          "hash": "e3466623cee20718d60991d7e754ac64dec20ddd5b6c51a555e311b73da3f173",
+45.083353	          "projectContextChars": 13246,
+45.083353	          "nonProjectContextChars": 16658
+45.083353	        },
+45.083353	        "injectedWorkspaceFiles": [
+45.083353	          {
+45.083353	            "name": "AGENTS.md",
+45.083353	            "path": "/Users/pmains/Code/openclaw/kimi/AGENTS.md",
+45.083354	            "missing": false,
+45.083354	            "rawChars": 9634,
+45.083358	            "injectedChars": 9634,
+45.083358	            "truncated": false
+45.083358	          },
+45.083358	          {
+45.083359	            "name": "SOUL.md",
+45.083359	            "path": "/Users/pmains/Code/openclaw/kimi/SOUL.md",
+45.083359	            "missing": false,
+45.083359	            "rawChars": 1797,
+45.083359	            "injectedChars": 1797,
+45.083359	            "truncated": false
+45.083359	          },
+45.083359	          {
+45.083359	            "name": "IDENTITY.md",
+45.083360	            "path": "/Users/pmains/Code/openclaw/kimi/IDENTITY.md",
+45.083360	            "missing": false,
+45.083360	            "rawChars": 566,
+45.083360	            "injectedChars": 566,
+45.083360	            "truncated": false
+45.083360	          },
+45.083360	          {
+45.083363	            "name": "USER.md",
+45.083363	            "path": "/Users/pmains/Code/openclaw/kimi/USER.md",
+45.083363	            "missing": false,
+45.083363	            "rawChars": 831,
+45.083364	            "injectedChars": 831,
+45.083364	            "truncated": false
+45.083364	          }
+45.083364	        ],
+45.083364	        "skills": {
+45.083364	          "promptChars": 5900,
+45.083366	          "hash": "f13885a32bdb2faafcba47c40f844911f56476b7635db33a261bf0cd0588e0cb",
+45.083366	          "entries": [
+45.083366	            {
+45.083366	              "name": "browser-automation",
+45.083366	              "blockChars": 324
+45.083366	            },
+45.083366	            {
+45.083367	              "name": "canvas",
+45.083367	              "blockChars": 243
+45.083367	            },
+45.083367	            {
+45.083367	              "name": "diagram-maker",
+45.083367	              "blockChars": 266
+45.083367	            },
+45.083368	            {
+45.083368	              "name": "healthcheck",
+45.083368	              "blockChars": 278
+45.083368	            },
+45.083369	            {
+45.083369	              "name": "kimi-stats-attribution",
+45.083369	              "blockChars": 290
+45.083369	            },
+45.083369	            {
+45.083370	              "name": "meme-maker",
+45.083370	              "blockChars": 251
+45.083370	            },
+45.083370	            {
+45.083370	              "name": "metal-numeric-localization",
+45.083370	              "blockChars": 343
+45.083370	            },
+45.083370	            {
+45.083370	              "name": "node-connect",
+45.083371	              "blockChars": 335
+45.083371	            },
+45.083371	            {
+45.083371	              "name": "node-inspect-debugger",
+45.083371	              "blockChars": 277
+45.083371	            },
+45.083371	            {
+45.083372	              "name": "openai-whisper-api",
+45.083372	              "blockChars": 275
+45.083372	            },
+45.083372	            {
+45.083372	              "name": "perplexity-quality-gate",
+45.083372	              "blockChars": 312
+45.083372	            },
+45.083372	            {
+45.083372	              "name": "phase07-invariant-gate-triage",
+45.083372	              "blockChars": 331
+45.083373	            },
+45.083373	            {
+45.083373	              "name": "python-debugpy",
+45.083373	              "blockChars": 265
+45.083373	            },
+45.083373	            {
+45.083373	              "name": "resume-bracket-harness",
+45.083373	              "blockChars": 291
+45.083373	            },
+45.083373	            {
+45.083374	              "name": "skill-creator",
+45.083374	              "blockChars": 284
+45.083374	            },
+45.083378	            {
+45.083378	              "name": "spike",
+45.083378	              "blockChars": 251
+45.083379	            },
+45.083379	            {
+45.083379	              "name": "taskflow",
+45.083379	              "blockChars": 281
+45.083379	            },
+45.083379	            {
+45.083379	              "name": "taskflow-inbox-triage",
+45.083379	              "blockChars": 291
+45.083380	            },
+45.083380	            {
+45.083380	              "name": "weather",
+45.083380	              "blockChars": 289
+45.083380	            }
+45.083380	          ]
+45.083380	        },
+45.083380	        "tools": {
+45.083380	          "listChars": 0,
+45.083381	          "schemaChars": 16108,
+45.083381	          "entries": [
+45.083381	            {
+45.083381	              "name": "read",
+45.083381	              "summaryChars": 164,
+45.083386	              "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+45.083386	              "schemaChars": 481,
+45.083386	              "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+45.083386	              "propertiesCount": 5
+45.083386	            },
+45.083386	            {
+45.083386	              "name": "edit",
+45.083389	              "summaryChars": 130,
+45.083389	              "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+45.083389	              "schemaChars": 501,
+45.083389	              "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+45.083389	              "propertiesCount": 2
+45.083390	            },
+45.083390	            {
+45.083390	              "name": "write",
+45.083390	              "summaryChars": 49,
+45.083390	              "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+45.083390	              "schemaChars": 191,
+45.083390	              "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+45.083390	              "propertiesCount": 2
+45.083390	            },
+45.083390	            {
+45.083391	              "name": "apply_patch",
+45.083391	              "summaryChars": 71,
+45.083391	              "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+45.083391	              "schemaChars": 153,
+45.083391	              "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+45.083391	              "propertiesCount": 1
+45.083391	            },
+45.083391	            {
+45.083391	              "name": "exec",
+45.083392	              "summaryChars": 366,
+45.083434	              "summaryHash": "6a41ebbc7cd1fae376a497c1bb1662c40a5faa87e5f811bff3ae37e04fb20973",
+45.083435	              "schemaChars": 1204,
+45.083435	              "schemaHash": "199d907ca5ebaf153a09b3cb9f1d1115d9d9cbb3bf4fada73d9be41a2134e4f7",
+45.083435	              "propertiesCount": 12
+45.083435	            },
+45.083435	            {
+45.083435	              "name": "process",
+45.083435	              "summaryChars": 190,
+45.083435	              "summaryHash": "75fd9c7b8d560599081ab2621e4f897babc118254cf439bd8329a60a905a9ef1",
+45.083435	              "schemaChars": 1164,
+45.083436	              "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+45.083436	              "propertiesCount": 12
+45.083436	            },
+45.083436	            {
+45.083436	              "name": "sessions",
+45.083436	              "summaryChars": 366,
+45.083436	              "summaryHash": "6b77afec2124edbe020f0eafc898b9194422d377e0bf9461b50660bd258de762",
+45.083436	              "schemaChars": 2383,
+45.083436	              "schemaHash": "af341b7297a7c8bab3fd320ee27acce50972d92effd1adfce98362a20194b8dc",
+45.083437	              "propertiesCount": 19
+45.083437	            },
+45.083437	            {
+45.083437	              "name": "get_goal",
+45.083437	              "summaryChars": 37,
+45.083437	              "summaryHash": "210e66713982f9fb94b37654a7aef01007f0e769395905ad57ebb7b206657b28",
+45.083437	              "schemaChars": 33,
+45.083437	              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+45.083437	              "propertiesCount": 0
+45.083438	            },
+45.083438	            {
+45.083438	              "name": "create_goal",
+45.083439	              "summaryChars": 145,
+45.083439	              "summaryHash": "7919e13323854315bcba96b318994fa383966500a2cf80b86bba6c015ddb30bb",
+45.083439	              "schemaChars": 240,
+45.083439	              "schemaHash": "347689d0f03cab77ded9e646bd95f495f29f5c93e5ad7a93f7c4d8670ffa428f",
+45.083439	              "propertiesCount": 2
+45.083439	            },
+45.083439	            {
+45.083439	              "name": "update_goal",
+45.083439	              "summaryChars": 277,
+45.083440	              "summaryHash": "e65e79cd292f3c7472d41fb894a89a6daf0a610015010f62cd934997f6f281df",
+45.083440	              "schemaChars": 207,
+45.083440	              "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+45.083440	              "propertiesCount": 2
+45.083440	            },
+45.083440	            {
+45.083440	              "name": "progress_card",
+45.083440	              "summaryChars": 1057,
+45.083440	              "summaryHash": "846c0095686b427523a290242733dcd4cf2017dd0a76caed3dbca57d589a6a45",
+45.083441	              "schemaChars": 401,
+45.083441	              "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+45.083441	              "propertiesCount": 2
+45.083441	            },
+45.083441	            {
+45.083441	              "name": "secrets",
+45.083441	              "summaryChars": 1151,
+45.083441	              "summaryHash": "26dc68ef0e842290327c200e0527fd392c12d6dcb1da2a354c9c51aba6982593",
+45.083442	              "schemaChars": 1157,
+45.083442	              "schemaHash": "97511048a79d7b4ec21bc593ec5d80d73b0a69015c9bbea8131afd68555c4f72",
+45.083442	              "propertiesCount": 6
+45.083442	            },
+45.083442	            {
+45.083442	              "name": "sessions_list",
+45.083442	              "summaryChars": 248,
+45.083442	              "summaryHash": "08f1e7b8d09976fdb235e24357287939ebf8729ce34abc2cb6d8096e8fbd5d0f",
+45.083442	              "schemaChars": 518,
+45.083443	              "schemaHash": "e878e741a7122c61cfd46c97828e7281414afb487b2e9f0c718578bdf9bf30e5",
+45.083444	              "propertiesCount": 10
+45.083444	            },
+45.083444	            {
+45.083444	              "name": "sessions_history",
+45.083444	              "summaryChars": 152,
+45.083444	              "summaryHash": "e60a4b2fbfba94ba8773cbfb92db5c36fa8bdd9d425869057c8b0e11b92313b2",
+45.083444	              "schemaChars": 290,
+45.083444	              "schemaHash": "8e710b8b7264bc7fcaa6d60411b30d4a0fe8974d426919c1abd6a997039b43b3",
+45.083444	              "propertiesCount": 6
+45.083444	            },
+45.083445	            {
+45.083445	              "name": "sessions_search",
+45.083445	              "summaryChars": 178,
+45.083445	              "summaryHash": "9b730e613c04139f2cbb974d73ec89c191d1be42ff4a2e7181a38e11f022a907",
+45.083445	              "schemaChars": 179,
+45.083445	              "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+45.083445	              "propertiesCount": 3
+45.083445	            },
+45.083445	            {
+45.083446	              "name": "conversations_list",
+45.083446	              "summaryChars": 159,
+45.083446	              "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+45.083446	              "schemaChars": 182,
+45.083447	              "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+45.083447	              "propertiesCount": 3
+45.083447	            },
+45.083447	            {
+45.083447	              "name": "conversations_send",
+45.083456	              "summaryChars": 152,
+45.083456	              "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+45.083456	              "schemaChars": 212,
+45.083457	              "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+45.083457	              "propertiesCount": 2
+45.083457	            },
+45.083457	            {
+45.083457	              "name": "conversations_turn",
+45.083457	              "summaryChars": 190,
+45.083457	              "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+45.083457	              "schemaChars": 274,
+45.083457	              "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+45.083457	              "propertiesCount": 3
+45.083458	            },
+45.083458	            {
+45.083458	              "name": "sessions_send",
+45.083458	              "summaryChars": 619,
+45.083458	              "summaryHash": "e95357292b0c7e5131eca26a9ed65732755cf5f83be1d8da98e5f5dce8e8c017",
+45.083458	              "schemaChars": 302,
+45.083458	              "schemaHash": "204249b04e35552d80609d8e7c40c461cf550564dc4ee6e573d0e00f05af84e2",
+45.083458	              "propertiesCount": 6
+45.083458	            },
+45.083458	            {
+45.083459	              "name": "sessions_spawn",
+45.083459	              "summaryChars": 1468,
+45.083459	              "summaryHash": "b77b5ed236f551097a02101eabdd319977170cd835ce8478364958db12fa1bad",
+45.083459	              "schemaChars": 2634,
+45.083459	              "schemaHash": "3619d67dbbb3b773d482ed5bf443c1dfe8bea11520961336715dad917aaf5cc9",
+45.083459	              "propertiesCount": 21
+45.083459	            },
+45.083459	            {
+45.083459	              "name": "sessions_yield",
+45.083459	              "summaryChars": 149,
+45.083460	              "summaryHash": "54c3073a05fc6c0d2cfaec6a7aa0d9ed732a932a80f760e06083535584cca63e",
+45.083460	              "schemaChars": 259,
+45.083460	              "schemaHash": "affee0fae7ad36a16fa1e339d4fe9e1e80351178f1023af65e3d1240f700935d",
+45.083460	              "propertiesCount": 2
+45.083460	            },
+45.083460	            {
+45.083460	              "name": "subagents",
+45.083460	              "summaryChars": 68,
+45.083460	              "summaryHash": "7143cfe20a0f143f0559924a80735a7efa2e52e60997d835ee2bff7e8c5e050e",
+45.083460	              "schemaChars": 182,
+45.083461	              "schemaHash": "476c1f5821ec8d8bd2b001dbf64fa5c8242b8a2bb87d064ee00abbf66d4a4ea9",
+45.083461	              "propertiesCount": 3
+45.083461	            },
+45.083461	            {
+45.083461	              "name": "session_status",
+45.083461	              "summaryChars": 192,
+45.083461	              "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+45.083461	              "schemaChars": 135,
+45.083462	              "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+45.083462	              "propertiesCount": 3
+45.083462	            },
+45.083462	            {
+45.083462	              "name": "web_search",
+45.083462	              "summaryChars": 164,
+45.083462	              "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+45.083462	              "schemaChars": 991,
+45.083462	              "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+45.083462	              "propertiesCount": 12
+45.083463	            },
+45.083463	            {
+45.083463	              "name": "web_fetch",
+45.083463	              "summaryChars": 78,
+45.083463	              "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+45.083463	              "schemaChars": 317,
+45.083463	              "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+45.083463	              "propertiesCount": 3
+45.083463	            },
+45.083463	            {
+45.083464	              "name": "view_image",
+45.083464	              "summaryChars": 224,
+45.083464	              "summaryHash": "3a63dc0690ca7a56e3b874eae05df56b4d797f10dcdb4b394daea27219d9e375",
+45.083464	              "schemaChars": 386,
+45.083464	              "schemaHash": "ae82c0ce6fa137243afd92341a9978ef6d3beb58174e7248a8a17666cca4d5a8",
+45.083464	              "propertiesCount": 6
+45.083464	            },
+45.083464	            {
+45.083464	              "name": "memory_search",
+45.083464	              "summaryChars": 729,
+45.083464	              "summaryHash": "4f28bc5c030d2a510ba9fedcda9110814454726a24dc9e2185136935f1cb7702",
+45.083465	              "schemaChars": 250,
+45.083465	              "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+45.083471	              "propertiesCount": 4
+45.083471	            },
+45.083471	            {
+45.083471	              "name": "memory_get",
+45.083471	              "summaryChars": 503,
+45.083472	              "summaryHash": "47415c135138bae947a258b31a684d8dce14cb5945e290057323ba5d044a357f",
+45.083472	              "schemaChars": 241,
+45.083472	              "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+45.083472	              "propertiesCount": 4
+45.083472	            },
+45.083472	            {
+45.083472	              "name": "intent",
+45.083472	              "summaryChars": 266,
+45.083472	              "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+45.083473	              "schemaChars": 641,
+45.083473	              "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+45.083473	              "propertiesCount": 10
+45.083474	            }
+45.083474	          ]
+45.083474	        },
+45.083475	        "currentTurn": {
+45.083475	          "promptChars": 66,
+45.083476	          "runtimeContextChars": 0,
+45.083476	          "modelOnlyPromptChars": 0
+45.083476	        }
+45.083476	      },
+45.083476	      "finalPromptText": "Respond with exactly one JSON object: {\"ok\": true}. No other text.",
+45.083476	      "finalAssistantVisibleText": "{\"ok\": true}",
+45.083476	      "finalAssistantRawText": "{\"ok\": true}",
+45.083476	      "replayInvalid": false,
+45.083476	      "livenessState": "working",
+45.083477	      "stopReason": "stop",
+45.083477	      "executionTrace": {
+45.083477	        "winnerProvider": "llama-server",
+45.085104	        "winnerModel": "kimi-linear-48b",
+45.085105	        "attempts": [
+45.085105	          {
+45.085105	            "provider": "llama-server",
+45.085105	            "model": "kimi-linear-48b",
+45.085106	            "result": "success",
+45.085106	            "stage": "assistant"
+45.085106	          }
+45.085106	        ],
+45.085106	        "fallbackUsed": false,
+45.085106	        "runner": "embedded"
+45.085106	      },
+45.085106	      "requestShaping": {
+45.085107	        "thinking": "off"
+45.085107	      },
+45.085107	      "completion": {
+45.085107	        "stopReason": "stop",
+45.085107	        "finishReason": "stop"
+45.085107	      }
+45.085107	    }
+45.085107	  }
+45.085107	}

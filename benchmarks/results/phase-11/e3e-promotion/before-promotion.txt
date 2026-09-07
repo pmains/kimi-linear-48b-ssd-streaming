@@ -1,0 +1,36 @@
+=== BEFORE promotion 2026-09-02T03:48:29Z ===
+--- wrapper env defaults ---
+export KIMI_STREAM_EXPERTS="${KIMI_STREAM_EXPERTS:-naive}"
+export KIMI_EXPERT_CACHE_MB="${KIMI_EXPERT_CACHE_MB:-4096}"
+export KIMI_EXPERT_CACHE_MODE="${KIMI_EXPERT_CACHE_MODE:-zerocopy}"
+# KIMI_STREAM_METAL_STAGE=1 gates the E1 Metal staging fixes;
+# KIMI_STREAM_E2_DIRECT_PLACE=1 enables direct placement on the miss path.
+export KIMI_STREAM_METAL_STAGE=1
+export KIMI_STREAM_E2_DIRECT_PLACE=1
+echo "[$(date '+%F %T %z')] START pid=$$ ctx=$KIMI_CTX cache=${KIMI_EXPERT_CACHE_MB} host=$KIMI_HOST port=$KIMI_PORT" >> "$LIFE"
+--- plist env ---
+        <key>KIMI_BIN</key>
+        <string>/Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server</string>
+        <key>KIMI_CACHE_MB</key>
+        <string>4096</string>
+        <key>KIMI_CTX</key>
+        <string>65536</string>
+        <key>KIMI_HOST</key>
+        <string>127.0.0.1</string>
+        <key>KIMI_PORT</key>
+        <string>18080</string>
+        <key>KIMI_STREAM_EXPERTS</key>
+        <string>naive</string>
+        <key>KIMI_EXPERT_CACHE_MODE</key>
+        <string>zerocopy</string>
+    </dict>
+    <key>KeepAlive</key>
+--- live COMMIT ---
+a895f68266fb28cd84bcf353559246ae70e805e6
+phase-11/E4-fix: synchronize backend after routed-expert-id async readback (E4 root cause; minimal fix, mirrors E1b pattern)
+--- server pid / health ---
+54274
+{"status":"ok"} (healthy)
+--- current stats tail (e5-deployment) ---
+366,decode,1,183,229367808,97058,13548,12,42778,41644,24702,219745,208,208,147,61,61,552738816,4294066176,4294967296,0,13548,229367808,229367808,147,0,552738816,4279,20423,208,97061,0
+367,decode,1,219,274489344,125674,17350,4,51853,42150,29481,266517,208,208,135,73,73,507617280,4294066176,4294967296,0,17350,274489344,274489344,135,0,507617280,4365,25116,208,125679,0

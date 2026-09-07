@@ -1,0 +1,20 @@
+{
+ "cond": "C1",
+ "probe": "P1",
+ "rep": 3,
+ "wall_s": 0.3,
+ "text": "[[reply_to_current]]",
+ "tool_calls": null,
+ "finish": "stop",
+ "usage": {
+  "completion_tokens": 6,
+  "prompt_tokens": 6706,
+  "total_tokens": 6712,
+  "prompt_tokens_details": {
+   "cached_tokens": 6702
+  }
+ },
+ "family": "empty/directive-only",
+ "pass": false,
+ "payload_sha": "00f2b92857d0d606"
+}

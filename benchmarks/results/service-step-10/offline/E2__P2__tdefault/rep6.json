@@ -1,0 +1,26 @@
+{
+ "cond": "E2",
+ "probe": "P2",
+ "rep": 6,
+ "temp": null,
+ "temp_key": "default",
+ "text": "```json\n{\"ok\": true}\n```",
+ "family": "terse-wrong",
+ "instruction": "FAIL",
+ "format": "FAIL",
+ "result": "FAIL",
+ "leaks": 0,
+ "wall_s": 1.3,
+ "finish": "stop",
+ "tool_calls": null,
+ "usage": {
+  "completion_tokens": 10,
+  "prompt_tokens": 6678,
+  "total_tokens": 6688,
+  "prompt_tokens_details": {
+   "cached_tokens": 6674
+  }
+ },
+ "payload_sha": "d59562b69ad881c2",
+ "ts": "2026-09-05T01:05:12Z"
+}

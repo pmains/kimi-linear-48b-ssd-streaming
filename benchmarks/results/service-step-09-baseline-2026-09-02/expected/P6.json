@@ -1,0 +1,9 @@
+{
+  "probe": "P6",
+  "category": "multi-step engineering work",
+  "prompt_file": "prompts/P6.md",
+  "match": "file_roundtrip",
+  "path": "scratch/probe.txt",
+  "content": "hello step9",
+  "notes": "Scoped task: create scratch/probe.txt with exact content 'hello step9', read it back, reply with that content. Harness verifies the file's bytes and that the reply contains the content. No other files may be touched."
+}

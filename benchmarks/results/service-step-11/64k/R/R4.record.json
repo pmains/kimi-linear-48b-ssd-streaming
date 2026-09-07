@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "R4",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step11-64k-research",
+  "rc": 0,
+  "wall_s": 667.9147,
+  "t0_utc": "2026-09-05T21:01:17Z",
+  "t1_utc": "2026-09-05T21:12:25Z",
+  "n_lines": 504,
+  "extraction": "json:key=text",
+  "reply_chars": 785,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 21288,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 18525
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 25441,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 20581
+  },
+  "llama_window_chars": 33262,
+  "gateway_window_chars": 26817
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 666103,
+ "agentMeta": {
+  "contextTokens": 65536,
+  "contextTokensSource": "resolved",
+  "promptTokens": 25271,
+  "usage": {
+   "input": 11490,
+   "output": 1965,
+   "cacheRead": 778967,
+   "total": 792422
+  },
+  "lastCallUsage": {
+   "input": 260,
+   "output": 171,
+   "cacheRead": 25011,
+   "cacheWrite": 0,
+   "total": 25442
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29744,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": true,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Use the exec tool to run: grep -n \"## 11\" /Users/pmains/Code/openclaw/kimi/SERVICE-ROADMAP.md | head -3  Then use the read tool to read the SERVICE-ROADMAP.md region around the \"## 11. Qualify Usable Agent Context\" heading (about 60 lines). Reply with the three context ceilings Step 11 distinguishes and the current validated technical context milestone it cites."
+}

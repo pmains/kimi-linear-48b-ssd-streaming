@@ -1,0 +1,12 @@
+rep         rc    wall_s  to tasks loop_ev  class
+LOOP/LOOP-r1   0  259.0133 False    51       0  PASS-no-runaway (bounded, no loop event; verify wall/tasks)
+LOOP/LOOP-r2   0  237.2581 False    24       0  PASS-no-runaway (bounded, no loop event; verify wall/tasks)
+LOOP/LOOP-r3   0    58.446 False     9       0  PASS-no-runaway (bounded, no loop event; verify wall/tasks)
+P1/P1-r1     0   33.2029 False     3       0  PASS-normal-completion
+P1/P1-r2     0  118.3667 False     6       0  PASS-normal-completion
+P2/P2-r1     0   13.7513 False     3       0  PASS-normal-completion
+P2/P2-r2     0   14.5831 False     3       0  PASS-normal-completion
+NORM/NORM-r1   1  427.4875 False    87       0  CHECK rc=1 loop_events=0
+NORM/NORM-r2   0  239.6421 False    51       0  PASS-normal-completion
+
+wrote /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10d/analysis/summary.json

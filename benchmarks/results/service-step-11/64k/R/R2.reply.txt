@@ -1,0 +1,1 @@
+From memory of the AGENTS.md content, every phase must end with `progress/phase-XX-report.md`, and the section of the report that lists exact reproduction commands is under the **"Reproduction"** section.

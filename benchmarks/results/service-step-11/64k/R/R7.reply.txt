@@ -1,0 +1,3 @@
+Based on the AGENTS.md operating rules I summarized earlier, every phase must end with a progress/phase-XX-report.md file, and from the Step 11 section I read, reports live in the service-progress/ directory.
+
+Therefore, the Step 11 report file should be named `service-progress/step-11-qualify-usable-agent-context-report.md` and its machine-readable results should be saved in that same directory under the `service-progress/` path, following the established pattern where progress reports are stored as `service-progress/phase-XX-report.md` files.

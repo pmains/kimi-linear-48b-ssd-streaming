@@ -1,0 +1,27 @@
+=== AFTER promotion 2026-09-02T04:04:55Z ===
+--- wrapper env defaults ---
+export KIMI_STREAM_EXPERTS="${KIMI_STREAM_EXPERTS:-naive}"
+export KIMI_EXPERT_CACHE_MB="${KIMI_EXPERT_CACHE_MB:-8192}"
+export KIMI_EXPERT_READ_WORKERS="${KIMI_EXPERT_READ_WORKERS:-4}"
+export KIMI_EXPERT_CACHE_MODE="${KIMI_EXPERT_CACHE_MODE:-zerocopy}"
+# KIMI_EXPERT_READ_WORKERS=4 (E3C) + KIMI_EXPERT_CACHE_MB=8192 (E3E curve;
+# KIMI_STREAM_METAL_STAGE=1 gates the E1 Metal staging fixes;
+# KIMI_STREAM_E2_DIRECT_PLACE=1 enables direct placement on the miss path.
+export KIMI_STREAM_METAL_STAGE=1
+export KIMI_STREAM_E2_DIRECT_PLACE=1
+echo "[$(date '+%F %T %z')] START pid=$$ ctx=$KIMI_CTX cache=${KIMI_EXPERT_CACHE_MB} host=$KIMI_HOST port=$KIMI_PORT" >> "$LIFE"
+--- plist env ---
+        <key>KIMI_EXPERT_CACHE_MB</key>
+        <string>8192</string>
+        <key>KIMI_EXPERT_READ_WORKERS</key>
+        <string>4</string>
+--- live COMMIT ---
+a895f68266fb28cd84bcf353559246ae70e805e6
+phase-11/E4-fix: synchronize backend after routed-expert-id async readback (E4 root cause; minimal fix, mirrors E1b pattern)
+--- server pid / health ---
+75288
+{"status":"ok"} (healthy)
+--- server startup env evidence ---
+llama_expert_streamer: parallel expert-read enabled: 4 workers
+llama_expert_streamer: expert cache enabled: 8192 MiB zero-copy mode (per-layer capacity 87..88 slots)
+llama_expert_streamer: expert cache armed (8192 MiB, zero-copy mode)

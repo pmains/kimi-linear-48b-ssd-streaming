@@ -1,0 +1,1 @@
+Based on the transcript from G3/G4, the termination was due to the **batch veto mechanism** triggered at call 20, which prevented runaway tool usage loops. The 10C safeguard successfully detected and halted the problematic tool usage pattern, maintaining bounded execution within the time and token limits.

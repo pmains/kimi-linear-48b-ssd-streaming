@@ -1,0 +1,23 @@
+Now I'll provide you with a 3-bullet summary of the project's operating rules based on AGENTS.md:
+
+## Project Operating Rules Summary
+
+**1. Phase-Based Development with Strict Acceptance Criteria**
+- Work must be completed in distinct roadmap phases
+- Cannot proceed to next phase until: acceptance criteria pass, required tests/measurements are run, and progress report is written
+- Each phase must end with a progress/phase-XX-report.md file documenting status, objectives, changes, results, problems, decisions, and next phase requirements
+
+**2. Minimal Modifications Within Existing Runtime**
+- Use llama.cpp/ggml/Metal as the implementation base - don't build new inference engines unless roadmap justifies it
+- Preserve established runtime behavior wherever possible
+- Modify only storage/residency behavior necessary for routed experts to be pageable
+- Keep project-specific changes isolated from upstream runtime functionality
+- Don't rewrite working functionality unless measured evidence shows it's necessary
+
+**3. Evidence-Based Decision Making**
+- Performance and memory claims require documented measurements and benchmarks
+- Don't optimize before establishing correctness
+- Don't claim improvements without running benchmarks
+- Use simplest tool that provides reliable evidence
+- Preserve experimental state through Git commits at meaningful phase boundaries
+- Stop for review when evidence contradicts assumptions or acceptance criteria fail

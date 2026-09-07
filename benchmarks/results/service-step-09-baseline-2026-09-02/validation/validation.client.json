@@ -1,0 +1,11 @@
+{
+  "label": "validation",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step09-validation",
+  "rc": 0,
+  "wall_s": 316.0998,
+  "n_lines": 492,
+  "extraction": "json:key=text",
+  "reply_chars": 2,
+  "timed_out": false
+}

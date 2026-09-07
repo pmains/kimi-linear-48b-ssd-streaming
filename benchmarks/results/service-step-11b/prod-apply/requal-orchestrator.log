@@ -1,0 +1,22 @@
+=== requal orchestrator start Sun Sep  6 15:00:39 MST 2026 ===
+pre-restart sha: 8baf47468478e930
+sleeping 60s for current turn to flush...
+--- kickstart gateway Sun Sep  6 15:01:39 MST 2026 ---
+kickstart rc=0
+health OK at attempt 5
+gateway pid now: 17346 /opt/homebrew/opt/node/bin/node /opt/homebrew/lib/node_modules/openclaw/dist/index.js gateway --port 18789
+post-restart sha: 8baf47468478e930
+llama health: 200
+--- running six production legs with CORRECTED checker Sun Sep  6 15:01:51 MST 2026 ---
+1-discriminator FAIL timeout-no-stored-row
+2-gstyle FAIL timeout-no-stored-row
+3-longpath-match FAIL timeout-no-stored-row
+4-longpath-nomatch FAIL timeout-no-stored-row
+5-true-secret FAIL timeout-no-stored-row
+6-long-message FAIL timeout-no-stored-row
+SUMMARY all_ok: False
+legs rc=1 Sun Sep  6 15:38:29 MST 2026
+--- LEGS FAILED: restoring pristine archive ---
+restored sha: 5505b775545c7d39
+rollback kickstart rc=0
+=== requal orchestrator end Sun Sep  6 15:40:01 MST 2026 ===

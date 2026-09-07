@@ -1,0 +1,42 @@
+2026-09-04T21:46:46.846-07:00 [ws] ⇄ res ✓ agent 167ms runId=654a55f6-ce72-40d5-b249-2c23f1892fad conn=a589ca95…4a4a id=2:c0c887f1-1…3e5f
+2026-09-04T21:46:46.955-07:00 [ws] ⇄ res ✓ sessions.catalog.list 104ms conn=8ed161af…2d9c id=2242:2d5062b…c74f
+2026-09-04T21:46:47.376-07:00 [ws] ⇄ res ✓ sessions.list 84ms conn=8ed161af…2d9c id=2243:fccffd4…9aba
+2026-09-04T21:46:48.363-07:00 [ws] ⇄ res ✓ chat.history 79ms conn=8ed161af…2d9c id=2248:066c631…1017
+2026-09-04T21:46:48.373-07:00 [ws] ⇄ res ✓ chat.history 98ms conn=8ed161af…2d9c id=2249:95e4e3b…b6d0
+2026-09-04T21:46:48.567-07:00 [ws] ⇄ res ✓ sessions.list 608ms conn=8ed161af…2d9c id=2247:0e775fe…34f9
+2026-09-04T21:46:48.648-07:00 [ws] ⇄ res ✓ sessions.list 58ms conn=8ed161af…2d9c id=2250:333b683…0ab4
+2026-09-04T21:46:52.582-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:46:53.707-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-04T21:46:53.775-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1195 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-04T21:46:54.042-07:00 [ws] ⇄ res ✓ sessions.list 125ms conn=8ed161af…2d9c id=2251:6a10c2a…8411
+2026-09-04T21:46:58.181-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:47:00.591-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2399 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:47:01.587-07:00 [ws] ⇄ res ✓ models.authStatus 675ms conn=8ed161af…2d9c id=2254:4c251da…6eb2
+2026-09-04T21:47:01.684-07:00 [ws] ⇄ res ✓ cron.list 789ms conn=8ed161af…2d9c id=2253:1a0b530…fb85
+2026-09-04T21:47:04.775-07:00 [ws] ⇄ res ✓ chat.history 67ms conn=8ed161af…2d9c id=2255:eea7203…2e8a
+2026-09-04T21:47:17.314-07:00 [ws] ⇄ res ✓ sessions.catalog.list 277ms conn=8ed161af…2d9c id=2256:c6296c4…d068
+2026-09-04T21:47:25.968-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:47:26.947-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=980 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:47:34.881-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:47:37.236-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2356 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:47:47.643-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=53932 dispatcher=reused contentType=text/event-stream
+2026-09-04T21:47:57.957-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:47:58.929-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=969 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:48:03.819-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:48:04.683-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=861 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:48:10.128-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:48:12.069-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1941 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:48:13.801-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:48:14.637-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=836 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:48:16.021-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-04T21:48:16.392-07:00 [ws] ⇄ res ✓ sessions.list 111ms conn=8ed161af…2d9c id=2262:642e767…3112
+2026-09-04T21:48:16.734-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=715 dispatcher=reused contentType=text/event-stream
+2026-09-04T21:48:17.446-07:00 [ws] ⇄ res ✓ sessions.catalog.list 106ms conn=8ed161af…2d9c id=2264:479fcdf…eaf5
+2026-09-04T21:48:30.076-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:48:31.162-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1100 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:48:44.094-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:48:47.393-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=3303 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:49:02.320-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-04T21:49:03.220-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=900 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-04T21:49:15.183-07:00 {"ok": true}
+2026-09-04T21:49:15.187-07:00 [agents/agent-command] [agent] run 654a55f6-ce72-40d5-b249-2c23f1892fad ended with stopReason=stop

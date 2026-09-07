@@ -1,0 +1,20 @@
+===== Step 10 offline per-cell summary =====
+cond     probe temp     PASS    exact_rate(CI)     families
+C0       P1 0.0     0/10   [0.0,0.278]          {'terse-wrong': 10}
+C0       P1 1.6     2/10   [0.057,0.51]         {'exact': 2, 'terse-wrong': 7, 'prose-wrapped': 1}
+C0       P1 default 5/10   [0.237,0.763]        {'terse-wrong': 5, 'exact': 5}
+C0       P2 0.0     10/10  [0.722,1.0]          {'exact': 10}
+C0       P2 1.6     10/10  [0.722,1.0]          {'exact': 10}
+C0       P2 default 10/10  [0.722,1.0]          {'exact': 10}
+C1       P1 default 0/10   [0.0,0.278]          {'terse-wrong': 6, 'empty/directive-only': 3, 'directive-prefixed': 1}
+C1       P2 default 8/10   [0.49,0.943]         {'exact': 8, 'directive-prefixed': 1, 'terse-wrong': 1}
+C1a-D    P1 default 0/10   [0.0,0.278]          {'clarifying': 6, 'terse-wrong': 2, 'prose-wrapped': 2}
+C1a-D    P2 default 6/10   [0.313,0.832]        {'exact': 6, 'terse-wrong': 4}
+E2       P1 0.0     0/10   [0.0,0.278]          {'terse-wrong': 10}
+E2       P1 1.6     0/10   [0.0,0.278]          {'terse-wrong': 6, 'clarifying': 2, 'prose-wrapped': 2}
+E2       P1 default 0/10   [0.0,0.278]          {'terse-wrong': 5, 'directive-prefixed': 1, 'prose-wrapped': 2, 'clarifying': 2}
+E2       P2 0.0     10/10  [0.722,1.0]          {'exact': 10}
+E2       P2 1.6     6/10   [0.313,0.832]        {'terse-wrong': 4, 'exact': 6}
+E2       P2 default 8/10   [0.49,0.943]         {'exact': 8, 'terse-wrong': 2}
+E2T      P1 default 0/10   [0.0,0.278]          {'prose-wrapped': 1, 'terse-wrong': 6, 'clarifying': 3}
+E2T      P2 default 5/10   [0.237,0.763]        {'exact': 5, 'terse-wrong': 3, 'prose-wrapped': 2}

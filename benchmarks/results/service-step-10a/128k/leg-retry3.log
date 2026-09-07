@@ -1,0 +1,7 @@
+[05:41:56Z] stopping launchd 64K job for temp 128K leg
+[05:42:01Z] starting temp 128K server (ctx 131072, expert cache 2048MB)
+ABORT: temp 128K server failed to come up (see /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-10a/128k/llama-server-128k.log)
+[05:47:12Z] EXIT trap: restoring launchd 64K server
+tools/service_step10a_leg.sh: line 60: 33358 Terminated: 15          KIMI_CTX=131072 KIMI_EXPERT_CACHE_MB="${KIMI_EXPERT_CACHE_MB:-8192}" KIMI_EXPERT_READ_WORKERS=4 KIMI_STREAM_METAL_STAGE=1 KIMI_STREAM_E2_DIRECT_PLACE=1 KIMI_STREAM_STATS_FILE="$OUT/stats.csv" KIMI_STREAM_RETR_FILE="$OUT/retr.csv" KIMI_STREAM_MEM_FILE="$OUT/mem.csv" KIMI_STREAM_CACHE_LAYERS_FILE="$OUT/cache_layers.csv" "$BIN" -m "$MODEL" -ngl 999 --no-mmap --ctx-size 131072 --host 127.0.0.1 --port 18080 --parallel 1 --slot-save-path "$SLOT_DIR" >> "$LLAMA_LOG_TMP" 2>&1
+[05:47:34Z] trap restore n_ctx=65536
+LEG128_RETRY3_EXIT=5

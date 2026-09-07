@@ -1,0 +1,11 @@
+{
+ "cond": "C3",
+ "probe": "P1",
+ "rep": 3,
+ "note": "no tool round triggered",
+ "text": "PLATANOS!",
+ "tool_calls": null,
+ "family": "exact",
+ "pass": true,
+ "wall_s": 0.4
+}

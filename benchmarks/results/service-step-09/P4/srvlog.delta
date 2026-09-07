@@ -1,0 +1,35 @@
+2670.11.066.401 W srv          stop: cancel task, id_task = 27820
+2670.18.829.443 I slot      release: id  0 | task 27820 | stop processing: n_tokens = 7258, truncated = 0
+2670.18.829.540 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 322716389462
+2670.18.960.990 I slot launch_slot_: id  0 | task 27823 | processing task, is_child = 0
+2670.35.500.666 I slot print_timing: id  0 | task 27823 | prompt processing, n_tokens =    518, progress = 1.00, t =  16.54 s / 31.32 tokens per second
+2670.44.167.514 I slot print_timing: id  0 | task 27823 | prompt eval time =   17125.20 ms /   522 tokens (   32.81 ms per token,    30.48 tokens per second)
+2670.44.167.519 I slot print_timing: id  0 | task 27823 |        eval time =    8081.26 ms /    46 tokens (  179.58 ms per token,     5.57 tokens per second)
+2670.44.167.520 I slot print_timing: id  0 | task 27823 |       total time =   25206.46 ms /   568 tokens
+2670.44.167.521 I slot print_timing: id  0 | task 27823 |    graphs reused =          0
+2670.44.171.994 I slot      release: id  0 | task 27823 | stop processing: n_tokens = 12832, truncated = 0
+2670.46.554.347 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 322741732016
+2670.46.674.007 I slot launch_slot_: id  0 | task 27872 | processing task, is_child = 0
+2671.01.468.482 I slot print_timing: id  0 | task 27872 | prompt processing, n_tokens =    204, progress = 0.98, t =  14.79 s / 13.79 tokens per second
+2671.24.059.157 I slot print_timing: id  0 | task 27872 | n_gen =    100, tg =   4.60 t/s, tg_3s =   4.64 t/s
+2671.26.756.686 I slot print_timing: id  0 | task 27872 | prompt eval time =   15840.50 ms /   208 tokens (   76.16 ms per token,    13.13 tokens per second)
+2671.26.756.708 I slot print_timing: id  0 | task 27872 |        eval time =   24242.14 ms /   117 tokens (  208.98 ms per token,     4.79 tokens per second)
+2671.26.756.711 I slot print_timing: id  0 | task 27872 |       total time =   40082.65 ms /   325 tokens
+2671.26.756.711 I slot print_timing: id  0 | task 27872 |    graphs reused =          0
+2671.26.757.010 I slot      release: id  0 | task 27872 | stop processing: n_tokens = 324, truncated = 0
+2671.27.444.338 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 322784317028
+2671.27.534.444 I slot launch_slot_: id  0 | task 27991 | processing task, is_child = 0
+2672.32.956.467 I slot print_timing: id  0 | task 27991 | prompt processing, n_tokens =   2048, progress = 0.92, t =  65.42 s / 31.31 tokens per second
+2672.58.142.560 I slot print_timing: id  0 | task 27991 | prompt processing, n_tokens =   2775, progress = 0.97, t =  90.61 s / 30.63 tokens per second
+2673.11.449.241 I slot print_timing: id  0 | task 27991 | prompt processing, n_tokens =   3287, progress = 1.00, t = 103.91 s / 31.63 tokens per second
+2673.27.637.745 I slot print_timing: id  0 | task 27991 | prompt eval time =  104441.57 ms /  3291 tokens (   31.74 ms per token,    31.51 tokens per second)
+2673.27.637.750 I slot print_timing: id  0 | task 27991 |        eval time =   15661.69 ms /    96 tokens (  164.86 ms per token,     6.07 tokens per second)
+2673.27.637.751 I slot print_timing: id  0 | task 27991 |       total time =  120103.26 ms /  3387 tokens
+2673.27.637.752 I slot print_timing: id  0 | task 27991 |    graphs reused =          0
+2673.27.644.940 I slot      release: id  0 | task 27991 | stop processing: n_tokens = 15657, truncated = 0
+2673.29.293.097 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 322905204961
+2673.29.437.413 I slot launch_slot_: id  0 | task 28091 | processing task, is_child = 0
+2674.24.887.523 I slot print_timing: id  0 | task 28091 | prompt processing, n_tokens =   2048, progress = 0.86, t =  55.45 s / 36.94 tokens per second
+2675.00.762.609 I slot print_timing: id  0 | task 28091 | prompt processing, n_tokens =   2827, progress = 0.94, t =  91.32 s / 30.96 tokens per second
+2675.14.459.851 I slot print_timing: id  0 | task 28091 | prompt processing, n_tokens =   3339, progress = 1.00, t = 105.02 s / 31.79 tokens per second
+2675.29.323.802 W srv          stop: cancel task, id_task = 28091
