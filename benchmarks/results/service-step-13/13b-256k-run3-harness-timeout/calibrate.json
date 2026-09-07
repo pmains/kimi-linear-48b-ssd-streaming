@@ -1,0 +1,10 @@
+{
+  "unit_tokens": 36,
+  "units": 4165,
+  "content_tokens": 145806,
+  "target_content_tokens": 149950,
+  "char_depth": 0.94,
+  "needle": "NEEDLE-13B-2817",
+  "needle_end_content_token": 137037,
+  "needle_method": "detokenize-binary-search"
+}

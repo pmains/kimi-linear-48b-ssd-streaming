@@ -1,0 +1,52 @@
+{
+  "step": "13B",
+  "ctx": 262144,
+  "ts": "2026-09-07T18-54-06Z",
+  "artifact_dir": "/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13b-256k",
+  "stage2": {
+    "ran": false,
+    "state": "skipped-stage1-gate"
+  },
+  "suggested_classification": "256K NOT PRACTICAL (stage-1 allocation/startup boundary: OOM/assert/failed-alloc lines in server log)",
+  "gates": {
+    "stage1_allocation_startup": "fail",
+    "stage2_beyond_128k_retrieval": "skipped-stage1-gate",
+    "gate4_state_after_run": "pass"
+  },
+  "configured_ctx": 262144,
+  "resolved_n_ctx": "262144",
+  "probe_a_short": {
+    "ok": true,
+    "ttft_s": 0.013,
+    "text": "ok"
+  },
+  "probe_b_beyond_128k": {
+    "prompt_tokens_actual": null,
+    "content_tokens": null,
+    "needle_end_content_token": null,
+    "needle_measure_method": "not-measured",
+    "needle_prompt_position_est": null,
+    "needle_beyond_131072_margin_est": null,
+    "needle_retrieved": false,
+    "needle": null,
+    "server_prefill_line": null,
+    "server_eval_line": null,
+    "prefill_tok_s": null,
+    "decode_tok_s": null,
+    "ttft_s_first_content": null,
+    "wall_s": null,
+    "error": null,
+    "done": null,
+    "response": null
+  },
+  "memory": {
+    "steady_rss_kb": 10763952,
+    "steady_rss_gib": 10.27,
+    "peak_rss_kb_during_run": null,
+    "peak_at": null,
+    "post_run_rss_kb": "10764032",
+    "host_free_pct": "25%",
+    "watchdog": null
+  },
+  "startup_highlights": "=== startup: KV/recurrent/expert/Metal/ctx/compute lines ===\n0.00.249.238 I print_info: n_ctx_train           = 1048576\n0.00.249.254 I print_info: n_ctx_orig_yarn       = 1048576\n0.00.765.030 I llama_context: n_ctx                 = 262144\n0.00.765.030 I llama_context: n_ctx_seq             = 262144\n0.00.765.033 I llama_context: n_ctx_seq (262144) < n_ctx_train (1048576) -- the full capacity of the model will not be utilized\n0.00.765.034 I ggml_metal_init: allocating\n0.00.765.058 I ggml_metal_init: found device: Apple M5\n0.00.765.061 I ggml_metal_init: picking default device: Apple M5\n0.00.765.081 I ggml_metal_init: use fusion         = true\n0.00.765.081 I ggml_metal_init: use concurrency    = true\n0.00.765.081 I ggml_metal_init: use graph optimize = true\n0.00.798.313 I llama_kv_cache:       MTL0 KV buffer size =  2016.00 MiB\n0.00.854.660 I llama_kv_cache: size = 2016.00 MiB (262144 cells,   7 layers,  1/1 seqs), K (f16): 2016.00 MiB, V (f16):    0.00 MiB\n0.00.856.505 I llama_memory_recurrent:       MTL0 RS buffer size =    42.81 MiB\n0.00.856.508 I llama_memory_recurrent: size =   42.81 MiB (     1 cells,  27 layers,  1 seqs  0 rs_seq), R (f32):    2.81 MiB, S (f32):   40.00 MiB\nllama_expert_streamer: expert cache armed (8192 MiB, zero-copy mode)\n0.02.065.018 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 262144, kv_unified = 'false'\n0.02.065.025 I slot   load_model: id  0 | task -1 | new slot, n_ctx = 262144"
+}

@@ -1,0 +1,19 @@
+=== startup: KV/recurrent/expert/Metal/ctx/compute lines ===
+0.00.249.749 I print_info: n_ctx_train           = 1048576
+0.00.249.764 I print_info: n_ctx_orig_yarn       = 1048576
+0.00.700.842 I llama_context: n_ctx                 = 262144
+0.00.700.842 I llama_context: n_ctx_seq             = 262144
+0.00.700.844 I llama_context: n_ctx_seq (262144) < n_ctx_train (1048576) -- the full capacity of the model will not be utilized
+0.00.700.845 I ggml_metal_init: allocating
+0.00.700.864 I ggml_metal_init: found device: Apple M5
+0.00.700.866 I ggml_metal_init: picking default device: Apple M5
+0.00.700.881 I ggml_metal_init: use fusion         = true
+0.00.700.881 I ggml_metal_init: use concurrency    = true
+0.00.700.882 I ggml_metal_init: use graph optimize = true
+0.00.732.755 I llama_kv_cache:       MTL0 KV buffer size =  2016.00 MiB
+0.00.788.897 I llama_kv_cache: size = 2016.00 MiB (262144 cells,   7 layers,  1/1 seqs), K (f16): 2016.00 MiB, V (f16):    0.00 MiB
+0.00.790.749 I llama_memory_recurrent:       MTL0 RS buffer size =    42.81 MiB
+0.00.790.752 I llama_memory_recurrent: size =   42.81 MiB (     1 cells,  27 layers,  1 seqs  0 rs_seq), R (f32):    2.81 MiB, S (f32):   40.00 MiB
+llama_expert_streamer: expert cache armed (8192 MiB, zero-copy mode)
+0.01.697.773 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 262144, kv_unified = 'false'
+0.01.697.782 I slot   load_model: id  0 | task -1 | new slot, n_ctx = 262144

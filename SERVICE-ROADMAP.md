@@ -2154,27 +2154,44 @@ Do not create additional service steps merely because further optimization oppor
 
 ## 13. Context Capacity Qualification and Production Promotion
 
-**Status: IN PROGRESS — 13A PASS (2026-09-07).** 128K reproduced on the current
-runtime under the single-llama-server swap protocol (owner order 10:20:18):
-manual server allocated and stayed healthy at n_ctx=131072 (KV 1008 MiB,
-KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed, Metal OK on
-Apple M5); a 95,004-token boundary prompt was admitted; the needle at ~90%
-char depth (position ~85.5K tokens — beyond the 64K boundary) was retrieved
-exactly; prefill 33.95 tok/s (2,797,978 ms / 95,004 tok); decode 5.35 tok/s
-at 95K ctx; long-prompt TTFT = prefill wall ~2,798 s; short-prompt TTFT
-unchanged vs 64K (~0.01–0.1 s); peak RSS 11.80 GiB on the 24 GiB host
-(26% free after). 64K launchd baseline restored and verified after the window
-(llama 200, n_ctx 65536, gw 200, 11B sha `8baf474684`, FK violations 0).
-TTFT/memory tradeoff data recorded in
-`service-progress/step-13-context-capacity.md`; evidence under
-`benchmarks/results/service-step-13/13a-128k/`. 13B (256K probe) is next at
-the 13A gate (awaiting owner go).
+**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE (2026-09-07).**
+13A: 128K reproduced on the current runtime under the single-llama-server
+swap protocol (owner order 10:20:18): manual server healthy at n_ctx=131072
+(KV 1008 MiB, KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed,
+Metal OK on Apple M5); 95,004-token prompt admitted; needle at ~85.5K-token
+position retrieved exactly; prefill 33.95 tok/s; decode 5.35 tok/s; peak RSS
+11.80 GiB. 13B (owner order 11:40): 256K probe completed — Stage 1 allocation
+healthy at n_ctx=262144 across 3 windows (KV 2016 MiB / 262,144 cells / 7
+MLA layers, recurrent RS 42.81 MiB, expert cache 8192 MiB zerocopy armed,
+Metal OK, short probe ok, steady RSS ~10.4 GiB, host free 25–26%); Stage 2
+beyond-128K probe PASS — 145,824-token prompt admitted, needle `NEEDLE-13B-6937`
+at prompt position ~137,039 (content token 137,037; ~5,967 tokens beyond
+131,072) retrieved exactly, response correct, no truncation, no Metal/runtime
+failure, server healthy after; prefill 26.92 tok/s (5,417,943 ms / 145,824
+tok); decode 3.61 tok/s at 146K ctx (10 tok / 2,769 ms); long-prompt TTFT ≈
+prefill wall 5,420.7 s (~90.3 min); peak RSS 13.35 GiB (12.73 GiB) on the
+24 GiB host (21% free after), KV usage at prompt depth 1,121 MiB of 2,016 MiB.
+Classification: `256K FEASIBLE` (allocation reliably healthy; useful >128K
+operation passes; memory safely within the 24 GB envelope; throughput cost of
+depth documented for the 13C owner decision). 64K launchd baseline restored
+and verified after each window (llama 200, n_ctx 65536, gw 200, 11B sha
+`8baf474684`, FK violations 0). Driver notes: 3 aborted attempts archived
+(13b-256k-run1-stage1 false-positive OOM gate; run2 client read-timeout bug;
+run3 harness 30-min exec timeout) — none were runtime failures. Evidence under
+`benchmarks/results/service-step-13/13a-128k/` and
+`benchmarks/results/service-step-13/13b-256k/`; tradeoff data in
+`service-progress/step-13-context-capacity.md`. 13C target selection is next
+(awaiting owner decision at the 13B gate — no production context selected or
+promoted).
 
 ### Purpose
 
-Determine whether **128K or 256K** is the appropriate production context window for Kimi Linear, then promote and qualify only the selected target through the real OpenClaw agent path.
+Determine whether **128K or 256K** is the appropriate production context
+window for Kimi Linear, then promote and qualify only the selected target
+through the real OpenClaw agent path.
 
-This is a **context-capacity qualification step**, not a prefill, decode, streaming, or general performance-optimization step.
+This is a **context-capacity qualification step**, not a prefill, decode,
+streaming, or general performance-optimization step.
 
 Current state:
 

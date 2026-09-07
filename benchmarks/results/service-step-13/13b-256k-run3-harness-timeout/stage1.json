@@ -1,0 +1,16 @@
+{
+  "stage1": "pass",
+  "go_stage2": true,
+  "gate_reasons": [],
+  "resolved_n_ctx": "262144",
+  "steady_rss_kb": 10743936,
+  "steady_rss_gib": 10.25,
+  "host_free_pct": 26,
+  "probe_a": {
+    "ttft_s": 0.012,
+    "text": "ok",
+    "ok": true
+  },
+  "oom_lines_present": false,
+  "oom_matched_lines": []
+}

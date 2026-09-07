@@ -1,0 +1,40 @@
+[2026-09-07 12:05:32 -0700] === Step 13B ctx=262144 swap window 2026-09-07T19-05-32Z ===
+[2026-09-07 12:05:32 -0700] binary: /Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server (a895f68266fb28cd84bcf353559246ae70e805e6)
+[2026-09-07 12:05:32 -0700] model:  models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+[2026-09-07 12:05:32 -0700] plist:  /Users/pmains/Library/LaunchAgents/com.openclaw.kimi-llama-server.plist (launchd baseline KIMI_CTX=65536)
+[2026-09-07 12:05:32 -0700] --- phase 0 preflight ---
+[2026-09-07 12:05:32 -0700] preflight OK: llama=200 gw=200
+[2026-09-07 12:05:32 -0700] --- phase 1 swap ---
+[2026-09-07 12:05:32 -0700] port 18080 free; starting manual ctx=262144 server
+[2026-09-07 12:05:32 -0700] manual server pid=28952 ctx=262144 (log /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13b-256k/server-262144.log)
+[2026-09-07 12:05:35 -0700] GATE1 PASS: allocation/startup healthy at ctx=262144
+[2026-09-07 12:05:37 -0700] server resolved n_ctx=262144 (expected 262144)
+=== startup: KV/recurrent/expert/Metal/ctx/compute lines ===
+0.00.247.906 I print_info: n_ctx_train           = 1048576
+0.00.247.919 I print_info: n_ctx_orig_yarn       = 1048576
+0.00.633.359 I llama_context: n_ctx                 = 262144
+0.00.633.359 I llama_context: n_ctx_seq             = 262144
+0.00.633.361 I llama_context: n_ctx_seq (262144) < n_ctx_train (1048576) -- the full capacity of the model will not be utilized
+0.00.633.362 I ggml_metal_init: allocating
+0.00.633.389 I ggml_metal_init: found device: Apple M5
+0.00.633.391 I ggml_metal_init: picking default device: Apple M5
+0.00.633.408 I ggml_metal_init: use fusion         = true
+0.00.633.408 I ggml_metal_init: use concurrency    = true
+0.00.633.408 I ggml_metal_init: use graph optimize = true
+0.00.665.613 I llama_kv_cache:       MTL0 KV buffer size =  2016.00 MiB
+0.00.722.973 I llama_kv_cache: size = 2016.00 MiB (262144 cells,   7 layers,  1/1 seqs), K (f16): 2016.00 MiB, V (f16):    0.00 MiB
+0.00.724.873 I llama_memory_recurrent:       MTL0 RS buffer size =    42.81 MiB
+0.00.724.876 I llama_memory_recurrent: size =   42.81 MiB (     1 cells,  27 layers,  1 seqs  0 rs_seq), R (f32):    2.81 MiB, S (f32):   40.00 MiB
+llama_expert_streamer: expert cache armed (8192 MiB, zero-copy mode)
+0.01.622.417 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 262144, kv_unified = 'false'
+0.01.622.419 I slot   load_model: id  0 | task -1 | new slot, n_ctx = 262144
+[2026-09-07 12:05:37 -0700] --- phase 2 (Stage 1) short probe + TTFT ---
+[2026-09-07 12:05:39 -0700] probe-a prefill: prompt eval time =    1109.98 ms /    14 tokens
+[2026-09-07 12:05:47 -0700] stage1 steady rss samples (KB): 10743936 10743936 10743936; host free 26%
+[2026-09-07 12:05:47 -0700] STAGE 2 GO: allocation healthy + headroom acceptable -> beyond-128K probe
+[2026-09-07 12:05:47 -0700] --- phase 3 (Stage 2) beyond-128K needle probe ---
+[2026-09-07 12:05:47 -0700] rss sampler/watchdog pid=29033 watching 28952
+[2026-09-07 12:05:47 -0700] watchdog enforcer pid=29037 (ABORT -> kill after grace)
+[2026-09-07 12:35:32 -0700] EXIT trap fired
+[2026-09-07 12:35:32 -0700] RESTORE: killing test server pid=28952
+[2026-09-07 12:35:34 -0700] RESTORE: bootstrap launchd job from plist

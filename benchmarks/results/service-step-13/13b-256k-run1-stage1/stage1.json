@@ -1,0 +1,17 @@
+{
+  "stage1": "fail",
+  "go_stage2": false,
+  "gate_reasons": [
+    "OOM/assert/failed-alloc lines in server log"
+  ],
+  "resolved_n_ctx": "262144",
+  "steady_rss_kb": 10763952,
+  "steady_rss_gib": 10.27,
+  "host_free_pct": 24,
+  "probe_a": {
+    "ttft_s": 0.013,
+    "text": "ok",
+    "ok": true
+  },
+  "oom_lines_present": true
+}

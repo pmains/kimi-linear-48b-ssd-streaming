@@ -1,0 +1,53 @@
+{
+  "step": "13B",
+  "ctx": 262144,
+  "ts": "2026-09-07T19-37-34Z",
+  "artifact_dir": "/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13b-256k",
+  "stage2": {
+    "ran": true,
+    "state": "ran"
+  },
+  "suggested_classification": "256K FEASIBLE",
+  "gates": {
+    "stage1_allocation_startup": "pass",
+    "stage2_beyond_128k_retrieval": "pass",
+    "gate4_state_after_run": "pass"
+  },
+  "configured_ctx": 262144,
+  "resolved_n_ctx": "262144",
+  "probe_a_short": {
+    "ok": true,
+    "ttft_s": 0.013,
+    "text": "ok"
+  },
+  "probe_b_beyond_128k": {
+    "prompt_tokens_actual": 145824,
+    "content_tokens": 145806,
+    "needle_end_content_token": 137037,
+    "needle_measure_method": "detokenize-binary-search",
+    "needle_prompt_position_est": 137039,
+    "needle_beyond_131072_margin_est": 5967,
+    "needle_retrieved": true,
+    "needle": "NEEDLE-13B-6937",
+    "server_prefill_line": "prompt eval time = 5417942.64 ms / 145824 tokens",
+    "server_eval_line": "eval time =    2769.47 ms /    10 tokens",
+    "prefill_tok_s": 26.92,
+    "decode_tok_s": 3.61,
+    "ttft_s_first_content": 5420.715,
+    "wall_s": 5420.717,
+    "error": null,
+    "done": true,
+    "response": "NEEDLE-13B-6937",
+    "kv_usage_mib_at_prompt_depth": 1121.4
+  },
+  "memory": {
+    "steady_rss_kb": 10875744,
+    "steady_rss_gib": 10.37,
+    "peak_rss_kb_during_run": "13354640",
+    "peak_at": "13:58:21",
+    "post_run_rss_kb": "12519664",
+    "host_free_pct": "21%",
+    "watchdog": null
+  },
+  "startup_highlights": "=== startup: KV/recurrent/expert/Metal/ctx/compute lines ===\n0.00.261.041 I print_info: n_ctx_train           = 1048576\n0.00.261.058 I print_info: n_ctx_orig_yarn       = 1048576\n0.00.677.711 I llama_context: n_ctx                 = 262144\n0.00.677.711 I llama_context: n_ctx_seq             = 262144\n0.00.677.713 I llama_context: n_ctx_seq (262144) < n_ctx_train (1048576) -- the full capacity of the model will not be utilized\n0.00.677.714 I ggml_metal_init: allocating\n0.00.677.737 I ggml_metal_init: found device: Apple M5\n0.00.677.740 I ggml_metal_init: picking default device: Apple M5\n0.00.677.758 I ggml_metal_init: use fusion         = true\n0.00.677.758 I ggml_metal_init: use concurrency    = true\n0.00.677.758 I ggml_metal_init: use graph optimize = true\n0.00.709.102 I llama_kv_cache:       MTL0 KV buffer size =  2016.00 MiB\n0.00.765.688 I llama_kv_cache: size = 2016.00 MiB (262144 cells,   7 layers,  1/1 seqs), K (f16): 2016.00 MiB, V (f16):    0.00 MiB\n0.00.767.522 I llama_memory_recurrent:       MTL0 RS buffer size =    42.81 MiB\n0.00.767.525 I llama_memory_recurrent: size =   42.81 MiB (     1 cells,  27 layers,  1 seqs  0 rs_seq), R (f32):    2.81 MiB, S (f32):   40.00 MiB\nllama_expert_streamer: expert cache armed (8192 MiB, zero-copy mode)\n0.01.708.390 I srv    load_model: initializing, n_slots = 1, n_ctx_slot = 262144, kv_unified = 'false'\n0.01.708.392 I slot   load_model: id  0 | task -1 | new slot, n_ctx = 262144"
+}

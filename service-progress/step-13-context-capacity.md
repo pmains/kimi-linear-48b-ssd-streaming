@@ -2,9 +2,14 @@
 
 ## Status
 
-IN PROGRESS — **13A PASS (2026-09-07)**. 128K reproduced on the current
-production runtime under the single-llama-server swap protocol. 13B (256K
-probe) not yet started; waiting at the 13A→13B gate for owner word.
+IN PROGRESS — **13A PASS, 13B PASS (2026-09-07)**. 128K reproduced on the
+current production runtime under the single-llama-server swap protocol
+(13A), then the 256K feasibility probe completed with classification
+**`256K FEASIBLE`** (13B): Stage-1 allocation healthy at ctx 262144, Stage-2
+needle at ~137K-token position retrieved exactly from a 145,824-token
+prompt. STOPPED at the 13B gate; 13C target selection (128K vs 256K) awaits
+the owner's decision. No production context selected or promoted; 64K
+launchd baseline restored and verified after every window.
 
 ## Objective
 
@@ -158,3 +163,131 @@ bash tools/service_step13a.sh
 #   server-131072.log, startup.mem.txt, rss-samples.tsv, rss-peak.txt}
 # baseline: benchmarks/results/service-step-13/baseline-64k-20260907.json
 ```
+
+---
+
+# 13B Addendum — 256K Feasibility Probe
+
+## Status
+
+PASS — classification **`256K FEASIBLE`** (2026-09-07, window 12:37:34–14:08:21
+MST, owner order 11:40 MST). 64K launchd baseline restored and verified after
+the window. No production context selected or promoted; STOPPED at the 13B gate
+per owner order. 13C (select target) awaits the owner's 128K-vs-256K decision.
+
+## Objective
+
+Probe whether the current runtime (frozen live binary a895f6826, MXFP4 GGUF,
+E3E operating env — 8 GiB expert cache, 4 read workers, unchanged settings)
+can safely provide ctx 262144: Stage 1 allocation/startup at `--ctx-size
+262144`; if healthy, Stage 2 exercise an actual 140K–160K-token prompt with a
+deterministic retrieval target located unambiguously beyond token 131,072.
+Do not fill the 256K window; do not optimize/alter expert-cache or runtime
+settings to make 256K fit; restore and verify the qualified 64K baseline after
+the window.
+
+## Method
+
+Same single-llama-server swap protocol as 13A (driver `tools/service_step13b.sh`):
+bootout launchd 64K job → manual ctx-262144 server on live port 18080 →
+Stage-1 gates → Stage-2 needle probe (blocking SSE read, watchdog armed:
+RSS ≥ 18 GiB or host free ≤ 3% → abort) → unconditional restore of the 64K
+launchd job → restore verification (llama 200 / n_ctx 65536 / gw 200 / 11B
+sha `8baf474684` / FK 0 / no leftover test servers).
+
+Three earlier attempts aborted and were archived with notes; none were runtime
+failures: `13b-256k-run1-stage1/` (11:54, driver OOM-gate false positive on a
+benign llama.cpp `fit params … abort` warning; Stage 2 not run — fixed to
+fatal-only patterns), `13b-256k-run2-client-timeout/` (11:56, client died at
+302.8 s: CPython http.client SocketIO permanently raises "cannot read from
+timed out object" after the first socket read timeout — fixed to blocking read
++ guardian thread), `13b-256k-run3-harness-timeout/` (12:05, exec harness
+SIGTERM at 30 min — driver launch lacked an explicit timeout; EXIT trap
+restored production correctly; relaunched with 4 h timeout). Stage 1 passed
+in all four windows; Stage 2 completed on run 4.
+
+## Results (run 4)
+
+Stage 1 — allocation/startup at ctx 262144 (all four windows healthy):
+n_ctx resolved 262144; KV buffer 2016.00 MiB (262,144 cells, 7 MLA layers,
+K f16); KDA recurrent RS 42.81 MiB (27 layers); expert cache armed 8192 MiB
+zero-copy; Metal init OK (Apple M5, fusion/concurrency/graph-optimize true);
+short probe ok (14 tok / 1,096 ms, TTFT 0.013 s); steady RSS 10.37 GiB;
+host free 25% at handoff to Stage 2.
+
+Stage 2 — beyond-128K needle probe (task 5):
+- actual prompt tokens: **145,824** (content 145,806; template/system ~18)
+  — inside the mandated 140–160K band; 256K window not filled
+- needle `NEEDLE-13B-6937` embedded at 94% char depth; measured via live
+  `/tokenize` + `/detokenize` binary search: content token **137,037**,
+  prompt position ~137,039 — **5,967 tokens beyond 131,072**
+- prompt admitted; response `NEEDLE-13B-6937` (exact match); no truncation
+  (`done: true`, no `truncated`); no Metal/runtime failure
+- prefill: 5,417,942.64 ms / 145,824 tokens = **26.92 tok/s**
+- decode: 10 tokens / 2,769.47 ms = **3.61 tok/s** (Step-12-consistent
+  formula; at 146K ctx depth)
+- long-prompt TTFT (streamed first content frame): **5,420.7 s ≈ 90.3 min**
+  ≈ prefill wall + ~3 s (13A caveat applies: for deep prompts first-frame
+  TTFT ≈ prefill wall)
+- KV usage at prompt depth: 1,121 MiB of the 2,016 MiB allocation
+- peak RSS: **13,354,640 KB (12.73 GiB)** at 13:58:21 (13.5 GB / 24 GB,
+  ~56%); steady ~12.6 GiB through prefill; post-run RSS 12.5 GiB; host
+  free 21% after; watchdog never fired (5,304 samples, aborted=0)
+- GATE4: server healthy after run; restore + verify clean
+
+Memory comparison vs 13A (95K ctx run): idle/steady RSS comparable (~10.4
+vs ~10.85 GiB — expert-cache-dominated); prefill working set ~12.6 GiB at
+146K vs ~11 GiB at 95K; peak 12.73 GiB vs 11.80 GiB. KV scales linearly
+(2016 MiB @ 262144 vs 1008 MiB @ 131072); recurrent/KDA and expert cache
+unchanged (42.81 MiB / 8192 MiB).
+
+## Problems
+
+- Three driver-side abort attempts before the clean run (false-positive OOM
+  grep; Python http.client read-timeout socket poisoning; exec-harness
+  30-min default timeout on a backgrounded launch). None indicated a runtime
+  or memory problem; each was fixed and the failure preserved as archived
+  evidence with notes.
+- Driver gap: `results.json` left `decode_tok_s` null (post-processed to
+  3.61 in the retained artifact).
+- Operability at depth is real: prefill 26.9 tok/s at 146K (vs 33.95 at
+  95K, 13A) and decode 3.61 tok/s at 146K (vs 5.35 at 95K, 13A). A full
+  ~146K prompt costs ~90 min prefill before the first token. This is the
+  operating cost the 13C 128K-vs-256K decision must weigh (tracked per
+  owner: TTFT tradeoffs).
+
+## Decisions
+
+- Classified **`256K FEASIBLE`**: allocation reliably healthy across four
+  windows; useful >128K operation demonstrated (retrieval at ~137K);
+  memory safely within the 24 GB envelope (peak 12.73 GiB, host free 21%);
+  short-context behavior unchanged (probe-a TTFT 0.012–0.013 s, same as
+  64K/13A). The depth-throughput cost is documented, not disqualifying —
+  "slow prefill alone is not a Step 13 failure unless operationally
+  unusable", and the FEASIBLE-WITH-LIMIT/NOT-PRACTICAL buckets are for
+  allocation/memory/operability failures, none of which occurred.
+- Did NOT select or promote a production context (owner order: STOP at the
+  13B gate). 128K (13A) remains the demonstrated production candidate until
+  the owner chooses at 13C.
+
+## Next Phase
+
+13C: owner selects 128K or 256K using this evidence (allocation stability,
+peak/steady memory, KV cost, prefill cost, operational stability, usefulness
+for real workloads). If 256K is selected, 13D aligns the OpenClaw production
+context contract (llama 262144 + OpenClaw contextWindow 262144) and verifies
+the resolved runtime value through the real agent path.
+
+## Reproduction
+
+```bash
+# 13B (swap window; restores 64K launchd job on exit regardless of outcome)
+bash tools/service_step13b.sh
+# evidence: benchmarks/results/service-step-13/13b-256k/{results.json,
+#   stage1.json, calibrate.json, probe-a.json, probe-b.json,
+#   probe-b.stream.json, probe-b.prefill, probe-b.eval, needle.txt,
+#   rss-peak.txt, rss-samples.tsv, watchdog.tsv, server-262144.log,
+#   startup.mem.txt, restore-verify.json}
+# aborted attempts: 13b-256k-run1-stage1/ (OOM-gate false positive),
+#   13b-256k-run2-client-timeout/ (client bug), 13b-256k-run3-harness-timeout/
+#   (exec timeout) — each with a runN-note.md
