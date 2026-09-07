@@ -2152,6 +2152,449 @@ Do not create additional service steps merely because further optimization oppor
 
 ---
 
+## 13. Context Capacity Qualification and Production Promotion
+
+**Status: PENDING**
+
+### Purpose
+
+Determine whether **128K or 256K** is the appropriate production context window for Kimi Linear, then promote and qualify only the selected target through the real OpenClaw agent path.
+
+This is a **context-capacity qualification step**, not a prefill, decode, streaming, or general performance-optimization step.
+
+Current state:
+
+* **64K:** current production-qualified OpenClaw baseline.
+* **128K:** technically validated previously, but never promoted through the final production OpenClaw qualification path.
+* **256K:** not yet attempted.
+* Real Poliscopic use now provides a concrete workload where additional context capacity may be valuable.
+
+The existing 64K production service remains the rollback baseline.
+
+### Existing 128K Evidence
+
+Prior testing established that Kimi Linear can operate correctly with a 131,072-token context allocation:
+
+* 92,344 actual prompt tokens;
+* exact long-context needle retrieval PASS;
+* approximately 20.74 tok/s prefill;
+* approximately 1008 MiB KV;
+* approximately 7.83 GB peak RSS;
+* server remained healthy after the long-context run.
+
+Later 128K attempts encountered Metal OOM under different host/runtime conditions. Therefore 128K must first be reproduced with the current runtime before any production promotion.
+
+### Questions
+
+Answer, in order:
+
+1. Can the current Kimi Linear runtime reproducibly operate at 128K?
+2. Can it safely allocate and use a 256K context?
+3. Does 256K impose unacceptable memory or normal-operation costs relative to 128K?
+4. Based on measured evidence, should production use 128K or 256K?
+5. Can the selected target then pass through the real OpenClaw production agent path without regressing the qualified behavior from Steps 9–12?
+
+Do not assume that the largest context that starts successfully is automatically the correct production target.
+
+---
+
+### Baseline
+
+Before testing, record the current qualified 64K production state.
+
+At minimum record:
+
+* OpenClaw effective context configuration;
+* llama-server context configuration;
+* model/runtime configuration;
+* expert-cache configuration;
+* relevant Metal/runtime settings;
+* active Step 11B patch pathname and SHA;
+* gateway and llama-server PIDs and health;
+* host memory state;
+* `PRAGMA foreign_key_check`;
+* current Poliscopic `/context detail`.
+
+Preserve the current 64K configuration as a known-good rollback target.
+
+Do not modify unrelated OpenClaw, model, plugin, plist, agent, or database state.
+
+---
+
+## 13A. Reproduce 128K
+
+Reproduce the previously validated 128K capability using the current Kimi Linear runtime under controlled conditions.
+
+Use:
+
+```text
+context = 131072
+```
+
+Do not change OpenClaw production context yet.
+
+Verify:
+
+1. llama-server allocates and starts successfully;
+2. Metal allocation succeeds without OOM;
+3. short inference remains correct;
+4. a substantial long-context prompt is admitted;
+5. useful retrieval/correctness is demonstrated beyond 64K;
+6. server health survives the run;
+7. host memory remains within a safe operating envelope.
+
+Prefer reproducing the previous Stage 8 conditions closely enough to make the comparison meaningful.
+
+Record:
+
+* configured context;
+* actual prompt tokens;
+* KV allocation;
+* steady and peak RSS;
+* expert-cache configuration;
+* relevant Metal allocations;
+* prefill tok/s;
+* TTFT;
+* decode tok/s;
+* total wall time;
+* retrieval/correctness result.
+
+### 13A Gate
+
+If 128K cannot be reproduced, STOP.
+
+Classify the failure boundary before changing anything else.
+
+Do not proceed to 256K and do not begin memory or prefill optimization.
+
+If 128K passes, proceed to 13B.
+
+---
+
+## 13B. Probe 256K Feasibility
+
+Test whether the current runtime can safely provide:
+
+```text
+context = 262144
+```
+
+This is initially a **technical feasibility test**, not a production promotion.
+
+### Stage 1 — Allocation
+
+Start llama-server at 256K and verify:
+
+* context allocation succeeds;
+* Metal initialization succeeds;
+* no OOM occurs;
+* server becomes healthy;
+* short inference works;
+* memory headroom remains acceptable.
+
+Record the same memory/runtime metrics used for 128K.
+
+If allocation itself is unsafe or unstable, STOP 256K testing and retain 128K as the production candidate.
+
+### Stage 2 — Beyond-128K Use
+
+If allocation passes, exercise an actual prompt beyond the previously validated 128K range.
+
+Target approximately **140K–160K actual prompt tokens** initially. Do not fill the entire 256K window merely to prove that it exists.
+
+The prompt must contain a deterministic retrieval target or equivalent correctness check located beyond the former 128K boundary.
+
+Verify:
+
+* prompt admitted successfully;
+* information beyond 128K is retrievable;
+* response is correct;
+* no context truncation occurs;
+* no Metal/runtime failure occurs;
+* server remains healthy afterward.
+
+Record:
+
+* actual prompt tokens;
+* KV usage;
+* peak RSS;
+* prefill tok/s;
+* TTFT;
+* decode tok/s;
+* total wall time;
+* retrieval result;
+* server health.
+
+If practical, compare memory behavior against the 128K run under otherwise equivalent conditions.
+
+### 13B Gate
+
+Classify 256K as one of:
+
+* `256K FEASIBLE`
+* `256K FEASIBLE WITH OPERATING LIMIT`
+* `256K NOT PRACTICAL`
+
+A 256K configuration is not considered feasible merely because llama-server accepts `262144`. It must demonstrate useful operation beyond 128K.
+
+---
+
+## 13C. Select the Production Context Target
+
+Choose **128K or 256K** using the evidence from 13A and 13B.
+
+Consider:
+
+* allocation stability;
+* peak and steady memory;
+* KV cost;
+* expert-cache/runtime headroom;
+* impact on normal short-context operation;
+* long-context correctness;
+* prefill cost;
+* operational stability;
+* usefulness for real OpenClaw workloads, particularly Poliscopic.
+
+### Select 128K if:
+
+* 256K fails allocation or useful >128K operation;
+* 256K materially compromises memory safety;
+* 256K materially degrades normal operation;
+* or 256K provides insufficient practical benefit to justify its operating cost.
+
+### Select 256K if:
+
+* allocation is reliably healthy;
+* useful >128K operation passes;
+* memory remains safely within the 24 GB host envelope;
+* normal short-context operation is not materially degraded;
+* and the additional capacity provides a reasonable production benefit.
+
+Do **not** select 256K solely because it is technically possible.
+
+Write the target-selection decision and evidence before modifying the OpenClaw production context contract.
+
+---
+
+## 13D. Align the OpenClaw Production Context Contract
+
+Promote only the selected target.
+
+For 128K:
+
+```text
+llama-server context:           131072
+OpenClaw model contextWindow:   131072
+```
+
+For 256K:
+
+```text
+llama-server context:           262144
+OpenClaw model contextWindow:   262144
+```
+
+Identify every effective OpenClaw setting that can constrain usable context.
+
+Verify that no client, provider, model, agent, admission, compaction, or token-budget setting silently retains the former 32K or 64K ceiling.
+
+Do not rely only on configuration text. Verify the **resolved runtime value through the real agent path**.
+
+Preserve all unrelated production configuration.
+
+---
+
+## 13E. Real OpenClaw Agent Qualification
+
+Qualify the selected target through OpenClaw.
+
+Use at minimum:
+
+1. **Short control** — ordinary short interaction.
+2. **Engineering/tool turn** — representative tool-using maintenance/coding work.
+3. **Poliscopic turn** — real production bootstrap and current Poliscopic tool allowlist.
+4. **Beyond-64K agent turn** — assembled OpenClaw prompt exceeding 65,536 tokens.
+5. If **256K** was selected, include a real-agent prompt exceeding 131,072 tokens.
+
+The long-context legs must demonstrate useful retrieval or task completion using information beyond the former boundary.
+
+A nominal configuration value is not sufficient.
+
+For each leg record:
+
+* resolved context capacity;
+* assembled prompt tokens;
+* compaction behavior;
+* TTFT;
+* prefill duration/tok/s where available;
+* decode duration/tok/s;
+* total wall time;
+* tool behavior;
+* final-answer correctness;
+* gateway health;
+* llama-server health;
+* memory behavior where practical.
+
+---
+
+## 13F. Regression Gates
+
+The context promotion must preserve the production properties established through Steps 9–12.
+
+Verify:
+
+* normal agent interaction remains functional;
+* tool calling remains functional;
+* no new exact-format/instruction-following regression appears;
+* Step 11B redaction/storage behavior remains intact;
+* `PRAGMA foreign_key_check` remains empty;
+* loop detection remains functional;
+* no new runaway-loop behavior appears;
+* gateway remains healthy;
+* llama-server remains healthy;
+* no unrelated configuration or agent state changes.
+
+Do not rerun the entire historical qualification suite unless evidence indicates a regression.
+
+Use bounded controls sufficient to establish that changing context capacity did not invalidate the qualified production path.
+
+---
+
+## 13G. Poliscopic Capacity Measurement
+
+After production promotion, capture a fresh Poliscopic:
+
+```text
+/context detail
+```
+
+Record:
+
+* system-prompt tokens;
+* tool-schema tokens;
+* fixed/bootstrap context;
+* available context under the selected production window;
+* compaction threshold/behavior observed during representative work.
+
+Run a representative Poliscopic maintenance task and determine whether the larger context materially improves useful working-context retention relative to the former 64K baseline.
+
+This is a **capacity measurement**, not a prefill optimization exercise.
+
+Slow prefill alone is not a Step 13 failure unless it makes the selected context operationally unusable.
+
+---
+
+## Acceptance
+
+Step 13 passes when:
+
+1. 128K has been reproduced successfully;
+2. 256K has been explicitly tested and classified;
+3. 128K or 256K has been selected using recorded evidence;
+4. OpenClaw resolves Kimi's effective context to the selected target;
+5. a real OpenClaw prompt exceeding 65,536 tokens succeeds;
+6. if 256K is selected, a real OpenClaw prompt exceeding 131,072 tokens succeeds;
+7. useful retrieval/task behavior is demonstrated beyond the relevant former boundary;
+8. representative normal and tool-using turns remain functional;
+9. Step 11B redaction/storage behavior remains intact;
+10. SQLite foreign-key integrity remains clean;
+11. host memory remains within a safe operating envelope;
+12. the selected context can remain as the production baseline without unrelated runtime changes.
+
+Final classification:
+
+```text
+PASS — 128K PROMOTED TO PRODUCTION
+```
+
+or:
+
+```text
+PASS — 256K PROMOTED TO PRODUCTION
+```
+
+If appropriate:
+
+```text
+CONDITIONAL PASS — <128K|256K> PRODUCTION WITH DOCUMENTED OPERATING LIMIT
+```
+
+Otherwise:
+
+```text
+FAIL — CONTEXT PROMOTION
+```
+
+Any failure must identify the measured boundary:
+
+* host memory / Metal allocation;
+* llama-server;
+* OpenClaw context/admission;
+* compaction/token budgeting;
+* correctness;
+* agent behavior;
+* or another demonstrated cause.
+
+---
+
+## Rollback
+
+If production promotion fails, restore the qualified 64K baseline.
+
+Verify after rollback:
+
+* effective context = 65,536;
+* gateway health;
+* llama-server health;
+* Step 11B patch SHA unchanged;
+* `PRAGMA foreign_key_check` returns zero rows.
+
+Do not leave production in an intermediate context configuration.
+
+---
+
+## Evidence
+
+Write the report:
+
+```text
+service-progress/step-13-context-capacity.md
+```
+
+Store machine-readable evidence under:
+
+```text
+benchmarks/results/service-step-13/
+```
+
+Update this roadmap with:
+
+* 128K result;
+* 256K result;
+* production-target decision;
+* final qualification;
+* resulting production configuration.
+
+---
+
+## Exit
+
+If Step 13 passes, freeze the selected context as the new Kimi Linear production baseline.
+
+STOP at the Post-Step-13 gate.
+
+Do not begin:
+
+* prefill optimization;
+* decode optimization;
+* multi-agent concurrency;
+* Mistral streaming;
+* 512K/1M context testing;
+* or unrelated runtime work.
+
+Those require separate authorization.
+
+
 ## Post-Step-12 Decision
 
 Steps 9–12 constitute production usability qualification of the Kimi OpenClaw agent:
