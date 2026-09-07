@@ -2154,7 +2154,21 @@ Do not create additional service steps merely because further optimization oppor
 
 ## 13. Context Capacity Qualification and Production Promotion
 
-**Status: PENDING**
+**Status: IN PROGRESS — 13A PASS (2026-09-07).** 128K reproduced on the current
+runtime under the single-llama-server swap protocol (owner order 10:20:18):
+manual server allocated and stayed healthy at n_ctx=131072 (KV 1008 MiB,
+KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed, Metal OK on
+Apple M5); a 95,004-token boundary prompt was admitted; the needle at ~90%
+char depth (position ~85.5K tokens — beyond the 64K boundary) was retrieved
+exactly; prefill 33.95 tok/s (2,797,978 ms / 95,004 tok); decode 5.35 tok/s
+at 95K ctx; long-prompt TTFT = prefill wall ~2,798 s; short-prompt TTFT
+unchanged vs 64K (~0.01–0.1 s); peak RSS 11.80 GiB on the 24 GiB host
+(26% free after). 64K launchd baseline restored and verified after the window
+(llama 200, n_ctx 65536, gw 200, 11B sha `8baf474684`, FK violations 0).
+TTFT/memory tradeoff data recorded in
+`service-progress/step-13-context-capacity.md`; evidence under
+`benchmarks/results/service-step-13/13a-128k/`. 13B (256K probe) is next at
+the 13A gate (awaiting owner go).
 
 ### Purpose
 

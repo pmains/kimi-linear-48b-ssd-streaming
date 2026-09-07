@@ -1,0 +1,66 @@
+[2026-09-07 10:43:27 -0700] === Step 13A ctx=131072 swap window 2026-09-07T17-43-27Z ===
+[2026-09-07 10:43:27 -0700] binary: /Users/pmains/Code/openclaw/kimi/runtime/live/bin/llama-server (a895f68266fb28cd84bcf353559246ae70e805e6)
+[2026-09-07 10:43:27 -0700] model:  models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+[2026-09-07 10:43:27 -0700] plist:  /Users/pmains/Library/LaunchAgents/com.openclaw.kimi-llama-server.plist (launchd baseline KIMI_CTX=65536)
+[2026-09-07 10:43:27 -0700] --- phase 0 preflight ---
+preflight: {"ts": "2026-09-07T17-43-27Z", "gateway_health": "200", "llama_ctx_before": "65536", "llama_health_before": "200", "step11b_sha": "8baf474684", "fk_violations": "0", "mem_free_pct": "35%"}
+[2026-09-07 10:43:28 -0700] preflight OK: llama=200 gw=200
+[2026-09-07 10:43:28 -0700] --- phase 1 swap ---
+[2026-09-07 10:43:28 -0700] port 18080 free; starting manual ctx=131072 server
+[2026-09-07 10:43:28 -0700] manual server pid=5565 ctx=131072 (log /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13a-128k/server-131072.log)
+[2026-09-07 10:43:31 -0700] GATE1 PASS: allocation/startup healthy at ctx=131072
+[2026-09-07 10:43:33 -0700] server resolved n_ctx=131072 (expected 131072)
+[2026-09-07 10:43:33 -0700] --- phase 2 short probe + TTFT ---
+probe-a: {"ttft_s": 0.011, "text": "ok", "ok": true}
+[2026-09-07 10:43:34 -0700] probe-a prefill: prompt eval time =    1338.59 ms /    14 tokens
+[2026-09-07 10:43:34 -0700] --- phase 3 boundary needle probe (>64K retrieval) ---
+probe-b chars=485748 units=2713
+[2026-09-07 10:43:34 -0700] rss sampler pid=5624 watching 5565
+probe-b stream: {"ttft_s": 0.073, "wall_s": 2799.92, "error": null}
+[2026-09-07 11:30:14 -0700] needle retrieved: yes
+[2026-09-07 11:30:14 -0700] probe-b prefill: prompt eval time = 2797977.72 ms / 95004 tokens
+[2026-09-07 11:30:14 -0700] probe-b decode:  eval time =    1868.04 ms /    10 tokens
+tools/service_step13a.sh: line 313: (PT == "?" ? 0 : PT) * 90 / 100 : syntax error: operand expected (error token is ""?" ? 0 : PT) * 90 / 100 ")
+[2026-09-07 11:30:16 -0700] GATE4: server healthy after long-context use: pass
+[2026-09-07 11:30:16 -0700] post-probe rss=11372560KB host-free=26%
+RESULTS: {
+  "step": "13A",
+  "ctx": 131072,
+  "ts": "2026-09-07T17-43-27Z",
+  "artifact_dir": "/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13a-128k",
+  "classification": "PASS",
+  "gates": {
+    "gate1_allocation_startup": "pass",
+    "gate2_prefill_admission_gt_64k": "pass",
+    "gate3_generation_needle_beyond_64k": true,
+    "gate4_state_after_long_ctx": "pass"
+  },
+  "probe_a_short": {
+    "ok": true,
+    "ttft_s": 0.011,
+    "text": "ok"
+  },
+  "probe_b_boundary": {
+    "prompt_tokens": 95004,
+    "needle_retrieved": true,
+    "needle": "NEEDLE-13A-7394",
+    "server_prefill_line": "prompt eval time = 2797977.72 ms / 95004 tokens",
+    "server_eval_line": "eval time =    1868.04 ms /    10 tokens",
+    "prefill_tok_s": 33.95,
+    "decode_tok_s": null,
+    "ttft_s_first_token": 0.073,
+    "wall_s": 2799.92,
+    "error": null
+  },
+  "memory": {
+    "steady_rss_kb": "11372560",
+    "peak_rss_kb_during_prefill": "12370592",
+    "peak_at": "11:29:59",
+    "host_free_pct": "26%"
+  }
+}
+[2026-09-07 11:30:16 -0700] === 13A test window complete; restoring production ===
+[2026-09-07 11:30:16 -0700] RESTORE: killing test server pid=5565
+[2026-09-07 11:30:18 -0700] RESTORE: bootstrap launchd job from plist
+[2026-09-07 11:30:22 -0700] RESTORE: llama /health check done
+[2026-09-07 11:30:22 -0700] EXIT trap fired

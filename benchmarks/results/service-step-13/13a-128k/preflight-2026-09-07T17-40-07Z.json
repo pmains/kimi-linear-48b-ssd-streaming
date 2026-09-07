@@ -1,0 +1,9 @@
+{
+  "ts": "2026-09-07T17-40-07Z",
+  "gateway_health": "200",
+  "llama_ctx_before": "65536",
+  "llama_health_before": "200",
+  "step11b_sha": "8baf474684",
+  "fk_violations": "0",
+  "mem_free_pct": "27%"
+}

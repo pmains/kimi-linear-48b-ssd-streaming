@@ -1,0 +1,38 @@
+{
+  "step": "13A",
+  "ctx": 131072,
+  "ts": "2026-09-07T17-43-27Z",
+  "artifact_dir": "/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13a-128k",
+  "classification": "PASS",
+  "gates": {
+    "gate1_allocation_startup": "pass",
+    "gate2_prefill_admission_gt_64k": "pass",
+    "gate3_generation_needle_beyond_64k": true,
+    "gate4_state_after_long_ctx": "pass"
+  },
+  "probe_a_short": {
+    "ok": true,
+    "ttft_s": 0.011,
+    "text": "ok"
+  },
+  "probe_b_boundary": {
+    "prompt_tokens": 95004,
+    "needle_retrieved": true,
+    "needle": "NEEDLE-13A-7394",
+    "server_prefill_line": "prompt eval time = 2797977.72 ms / 95004 tokens",
+    "server_eval_line": "eval time =    1868.04 ms /    10 tokens",
+    "prefill_tok_s": 33.95,
+    "decode_tok_s": 5.35,
+    "ttft_s_first_token": 0.073,
+    "wall_s": 2799.92,
+    "error": null,
+    "decode_note": "step-12-consistent formula 10 tok / 1868.04 ms = 5.35 tps; llama print_timing shows 4.82 tps (207.56 ms/tok) counting 9 decode tokens (first token with prefill)",
+    "needle_token_position_est": 85504
+  },
+  "memory": {
+    "steady_rss_kb": "11372560",
+    "peak_rss_kb_during_prefill": "12370592",
+    "peak_at": "11:29:59",
+    "host_free_pct": "26%"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "step": "13-baseline-64k",
+  "captured_utc": "2026-09-07T17:36:52Z",
+  "context_contract": {
+    "llama_server_ctx": 65536,
+    "openclaw_kimi_local_models0_contextWindow": 65536,
+    "openclaw_llama_server_provider_models0_contextWindow": 65536,
+    "openclaw_change_policy": "unchanged during 13A (roadmap: do not change OpenClaw production context yet)"
+  },
+  "runtime": {
+    "binary": "runtime/live/bin/llama-server",
+    "binary_commit": "a895f68266fb28cd84bcf353559246ae70e805e6\nphase-11/E4-fix: synchronize backend after routed-expert-id async readback (E4 root cause; minimal fix, mirrors E1b pattern)",
+    "model": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+    "model_gguf_context_length": 1048576,
+    "ngl": 999,
+    "mmap": false,
+    "parallel": 1,
+    "env": {
+      "KIMI_STREAM_EXPERTS": "naive",
+      "KIMI_EXPERT_CACHE_MB": 8192,
+      "KIMI_EXPERT_READ_WORKERS": 4,
+      "KIMI_EXPERT_CACHE_MODE": "zerocopy",
+      "KIMI_STREAM_METAL_STAGE": 1,
+      "KIMI_STREAM_E2_DIRECT_PLACE": 1
+    }
+  },
+  "expert_cache": "8192 MiB zerocopy, 4 read workers, naive stream (E3E operating point)",
+  "metal": "KIMI_STREAM_METAL_STAGE=1 (E1 fixes), KIMI_STREAM_E2_DIRECT_PLACE=1 (miss path)",
+  "step11b": {
+    "active_pathname": "/opt/homebrew/lib/node_modules/openclaw/dist/redact-CquADQ9-.js",
+    "active_sha256_prefix": "8baf474684",
+    "pristine_archive": "benchmarks/results/service-step-11b/prod-apply/pristine-redact-CquADQ9-.js.pre-apply-20260906-1202"
+  },
+  "processes": {
+    "gateway_pid": "56719",
+    "gateway_health": "200",
+    "llama_wrapper_pid": "34380",
+    "llama_server_pid": "34385",
+    "llama_health": "200"
+  },
+  "host": {
+    "total_gib": 24,
+    "memory_pressure_free_pct": "27%",
+    "llama_rss_kib": "8817872",
+    "ollama_running": true
+  },
+  "sqlite_fk_violations": 0,
+  "poliscopic_context_detail": "config-resolved: poliscopic agent entry present in openclaw.json (deepseek primary per agent model block); live /context detail capture scheduled for 13G per roadmap"
+}
