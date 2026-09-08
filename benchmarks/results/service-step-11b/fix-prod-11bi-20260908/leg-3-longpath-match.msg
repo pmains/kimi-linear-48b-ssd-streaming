@@ -1,0 +1,9 @@
+Note this path for later: /424sg58LxY1lqwG403luOVcra//eHbmfjSqf2Ik-extra/segment.txt
+Note this path for later: //w27Nyu/OSzu5bMy0GIWlAzlnxSD0Yo9U7aPOSp-extra/segment.txt
+Note this path for later: /30NERcVRdMya0nqL4RQx7NbIgH549CRS/0n/Bim-extra/segment.txt
+Note this path for later: /Prh9V/TEkA5JvbAPqZAaMMlP0lVxc24zkD/6RbR-extra/segment.txt
+Note this path for later: /Aj01pbju2tT0cMInZ//zpOhk/BYTPZ63D0Ynhy6-extra/segment.txt
+Note this path for later: /euJdX4/Hm1CIjOXYe/gFvDzNLrr9FXJ94yC2b3N-extra/segment.txt
+Note this path for later: /tELsy22Bl4iHCKJRkbYwwV5K/vFEayG70u/SWeX-extra/segment.txt
+Note this path for later: /M6RZ/goHShtnoJuRL0IJ/4eG7ZvzDm801NuACiu-extra/segment.txt
+Then reply with the word DONE.

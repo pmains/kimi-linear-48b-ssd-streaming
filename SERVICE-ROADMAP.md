@@ -1841,26 +1841,38 @@ rollback). Run 3 requalification 2 (21:22): ALL SIX PRODUCTION LEGS PASS,
 :18789. Corrected history: prior "production applied" claim was FALSE;
 production stayed pristine until run 1.**
 
-**UPDATE 2026-09-08 — 11B REQUALIFICATION — FAIL under OpenClaw 2026.9.3.**
-The 2026.9.3 upgrade replaced the patched generated dist
+**UPDATE 2026-09-08 — 11B(i) FOLLOW-UP FIX — PASS under OpenClaw 2026.9.3.**
+The 2026.9.3 upgrade had replaced the patched generated dist
 (`redact-CquADQ9-.js`, sha 8baf4746...) with fresh output carrying the
 original 184-byte pre-fix pattern (`redact-DMnNBHXb.mjs`, sha
-b80161806f796ac4...): the 11B fix existed only as a local patch to the
-generated artifact, never in stable source in the installed package. The
-retained 6-leg behavioral corpus run through the LIVE boundary fails:
-legs 1-4 and 6 (benign content) are corrupted with U+2026 again (leg-1
-discriminator `/Users/pmains/Code/openclaw/kimi/SERVICE-ROADMAP.md` ->
-`/Users<U+2026>VICE-ROADMAP.md`); only leg 5 (true secrets) behaves
-correctly because the buggy pattern masks everything. PERMANENT GATE
-(behavioral, not filename/SHA): discover the active redaction
-implementation at runtime via the transcript-store import chain
-(currently dist/redact-DMnNBHXb.mjs, entry `redactSecrets` for
-user-message persistence); record artifact SHA as provenance only; run
-the deterministic corpus and require legs 1-4/6 byte-identical with 0
-U+2026 and leg 5 masked. No patch applied (not authorized); remediation
-requires new authorization. Evidence:
-`benchmarks/results/service-step-11b/reconcile-2026-09-08/`; report
-addendum 4.
+b80161806f796ac4...), because the 11B fix existed only as a local patch
+to the generated artifact, never in stable source in the installed
+package. Reconciliation (addendum 4) recorded the regression as FAIL.
+On owner order 2026-09-08 12:24 the durable re-fix was authorized:
+the identical qualified three-guard transform (real-digit `[0-9]`,
+leading-slash rejection `(?!\/)`, 3-slash negative lookahead) was
+applied to the live 184-byte template in `redact-DMnNBHXb.mjs` ->
+257-byte fixed form, verified byte-equal to the retained requal2
+pattern. Replica module qualification PASS (benign legs byte-identical,
+0 U+2026; leg 5 masked); production requalification PASS on the first
+clean run: ALL SIX PRODUCTION LEGS PASS (legs 1-4/6 byte-identical, 0
+U+2026; leg 5 raw secrets absent + masked present), 0 FK violations,
+patch retained. Live sha b54b13f1d79cb98a..., gateway healthy on :18789,
+llama pid 7021 constant, FK 0. (Run 1 of the requalification FAILED at
+harness level only: the retained legs driver hardcoded seq=1 for the
+user message, but 2026.9.3 inserts session/provider events first; the
+stored user row was already byte-identical under the patched module.
+Driver fixed to scan ascending seq for role=user content; rollback
+verified.) PERMANENT GATE stands (behavioral, not filename/SHA):
+discover the active redaction implementation at runtime via the
+transcript-store import chain; record artifact SHA as provenance only;
+run the deterministic corpus and require legs 1-4/6 byte-identical with
+0 U+2026 and leg 5 masked. A future OpenClaw upgrade will regenerate
+this dist and drop the patch again — re-run the 11B(i) re-apply driver
+(`benchmarks/results/service-step-11b/fix-prod-11bi-20260908/`) and
+requalify after every upgrade. Evidence:
+`benchmarks/results/service-step-11b/fix-prod-11bi-20260908/`;
+report addendum 5.
 
 Root cause (Gate 2 localization): the default AWS-secret bare-value heuristic
 (`AWS_SECRET_ACCESS_KEY_VALUE_PATTERN`, dist `redact-CquADQ9-.js` line 831)

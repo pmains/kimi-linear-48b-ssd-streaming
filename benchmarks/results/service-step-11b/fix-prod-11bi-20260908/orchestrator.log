@@ -1,0 +1,25 @@
+=== 11B(i) orchestrator start Tue Sep  8 13:05:33 MST 2026 ===
+pre-restart sha: b80161806f796ac4
+archived pristine -> /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-11b/fix-prod-11bi-20260908/pristine-redact-DMnNBHXb.mjs.pre-apply-20260908
+patched sha: b54b13f1d79cb98a
+post-patch sha: b54b13f1d79cb98a
+sleeping 60s for current turn to flush...
+--- kickstart gateway Tue Sep  8 13:06:33 MST 2026 ---
+kickstart rc=0
+health OK at attempt 5
+gateway pid now: 82948 /opt/homebrew/opt/node/bin/node /opt/homebrew/lib/node_modules/openclaw/dist/index.js gateway --port 18789
+post-restart sha: b54b13f1d79cb98a
+llama health: 200
+--- running six production legs once with FK-safe driver Tue Sep  8 13:06:44 MST 2026 ---
+1-discriminator OK | byte_identical: True | u2026_zero: True | stored_len: 126 | input_len: 126
+2-gstyle OK | byte_identical: True | u2026_zero: True | stored_len: 808 | input_len: 808
+3-longpath-match OK | byte_identical: True | u2026_zero: True | stored_len: 710 | input_len: 710
+4-longpath-nomatch OK | byte_identical: True | u2026_zero: True | stored_len: 528 | input_len: 528
+5-true-secret OK | raw_absent: True | masked_present: True | u2026 count: 12 | secrets: 6
+6-long-message OK | byte_identical: True | u2026_zero: True | stored_len: 44520 | input_len: 44520
+SUMMARY all_ok: True
+legs rc=0 Tue Sep  8 13:07:02 MST 2026
+final production FK violations: 0
+final-fk rc=0
+--- ALL SIX LEGS PASS: patch retained ---
+=== 11B(i) orchestrator end Tue Sep  8 13:07:02 MST 2026 ===

@@ -270,3 +270,74 @@ FAIL gate reached per the reconciliation order. Production still runs
 2026.9.3 with the regression live (benign long paths are corrupted again
 at transcript persistence). No patch applied — remediation requires new
 authorization. STOPPED at the 11B gate; 14D/14E not begun.
+
+## Addendum 5: 11B(i) FOLLOW-UP FIX — PASS (2026-09-08 12:24-13:07)
+
+Owner order 2026-09-08 12:24 authorized the durable re-fix of the 11B
+regression (labeled 11B(i) — an 11B follow-up, not a new step; no "11C"
+exists). The identical qualified three-guard transform from the requal2
+patch (real-digit lookahead `[0-9]` replacing `[0-9/+=]`, leading-slash
+rejection `(?!\/)`, 3-slash negative lookahead) was applied to the live
+184-byte pre-fix template in `redact-DMnNBHXb.mjs`, producing the
+257-byte fixed form verified byte-equal to the retained requal2 pattern
+(sha256 of template c3bb074cba6f543d).
+
+### Replica module qualification (PASS)
+
+Byte-clone of the installed package at /tmp/oc11b-pkg-20260908; patch
+applied -> module sha b54b13f1d79cb98a; retained 6-leg corpus run
+through the patched `redactSecrets` (module export l): legs 1-4/6
+byte-identical with 0 U+2026; leg 5 raw secrets absent + masked
+head-6+U+2026+tail-4 present. Control run on the unpatched live module
+reproduced the recorded FAIL signature (1/3/8/1/60 U+2026 counts).
+
+### Production requalification (PASS, run 2)
+
+Detached orchestrator (`orchestrate-11bi.sh`): archived pristine ->
+applied the one-constant patch -> 60s turn-flush sleep -> kickstarted
+the launchd gateway -> six production legs once with the FK-safe driver
+(`prod-fix-legs-11bi.py`) -> PASS marker retained, no rollback.
+
+Results (13:06:44-13:07:02 MST):
+
+| leg | result |
+|---|---|
+| 1-discriminator (126 B) | byte-identical, 0 U+2026 | PASS |
+| 2-gstyle (808 B) | byte-identical, 0 U+2026 | PASS |
+| 3-longpath-match (710 B) | byte-identical, 0 U+2026 | PASS |
+| 4-longpath-nomatch (528 B) | byte-identical, 0 U+2026 | PASS |
+| 5-true-secret (748 B) | raw absent, masked head-6+U+2026+tail-4, 12 U+2026 | PASS |
+| 6-long-message (44,520 B) | byte-identical, 0 U+2026 | PASS |
+
+Final gates: 0 production FK violations; gateway :18789 healthz 200;
+llama :18080 200 (pid 7021 constant); live module sha
+b54b13f1d79cb98a...; 257-byte template with all three guards present.
+
+### Run-1 harness note (not a redaction failure)
+
+The first production run FAILED at the harness level only: the retained
+legs driver read the stored user message at hardcoded seq=1, but the
+2026.9.3 transcript schema inserts session/provider/thinking events
+before the user message (user content now lands at seq=4). The stored
+user row was already byte-identical under the patched module when the
+driver crashed. Driver `stored_content` fixed to scan ascending seq and
+return the first role=user string-content event; verified against the
+run-1 leftover row before re-running. Rollback path verified: pristine
+sha b80161806f796ac4 restored, gateway healthy, FK 0.
+
+### Durability warning (unchanged)
+
+The fix still exists only as a patch to a generated dist artifact — no
+stable source in the installed package. A future OpenClaw upgrade will
+regenerate `dist/redact-*.mjs` and drop the patch again. The PERMANENT
+GATE (behavioral, not filename/SHA) is the protection: after every
+upgrade, re-discover the active redaction module via the
+transcript-store import chain and re-run the 6-leg corpus; on failure,
+re-apply with `benchmarks/results/service-step-11b/fix-prod-11bi-20260908/
+orchestrate-11bi.sh` (re-archives pristine, re-patches, restarts,
+requalifies, rolls back).
+
+Evidence: benchmarks/results/service-step-11b/fix-prod-11bi-20260908/
+(replica-module-suite.json, patch-11bi.diff, pristine archive,
+prod-fix-legs-11bi.py, fix-prod-results.json, orchestrator.log +
+.marker).

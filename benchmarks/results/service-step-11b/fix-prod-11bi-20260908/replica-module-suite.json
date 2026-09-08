@@ -1,0 +1,44 @@
+{
+  "module": "/tmp/oc11b-pkg-20260908/dist/redact-DMnNBHXb.mjs",
+  "results": {
+    "1-discriminator": {
+      "input_len": 126,
+      "stored_len": 126,
+      "u2026_count": 0,
+      "byte_identical": true
+    },
+    "2-gstyle": {
+      "input_len": 808,
+      "stored_len": 808,
+      "u2026_count": 0,
+      "byte_identical": true
+    },
+    "3-longpath-match": {
+      "input_len": 710,
+      "stored_len": 710,
+      "u2026_count": 0,
+      "byte_identical": true
+    },
+    "4-longpath-nomatch": {
+      "input_len": 528,
+      "stored_len": 528,
+      "u2026_count": 0,
+      "byte_identical": true
+    },
+    "5-true-secret": {
+      "input_len": 748,
+      "stored_len": 424,
+      "u2026_count": 12,
+      "byte_identical": false,
+      "secrets_found": 6,
+      "raw_absent": true,
+      "masked_present": true
+    },
+    "6-long-message": {
+      "input_len": 44520,
+      "stored_len": 44520,
+      "u2026_count": 0,
+      "byte_identical": true
+    }
+  }
+}
