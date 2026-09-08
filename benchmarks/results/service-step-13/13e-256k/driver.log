@@ -1,0 +1,20 @@
+=== Step 13E stage 2 driver (2026-09-07T23-03-57Z) ===
+[2026-09-07 16:03:57 -0700] --- preflight ---
+[2026-09-07 16:03:57 -0700] llama n_ctx=262144 gw=200
+[2026-09-07 16:03:57 -0700] preflight recorded
+[2026-09-07 16:03:57 -0700] deep-leg llama pid=7021
+[2026-09-07 16:03:57 -0700] --- leg 4 corpus build (target message ~60K tokens) ---
+[2026-09-07 16:03:58 -0700] leg4 corpus ready: NEEDLE-13E-6200
+[2026-09-07 16:03:58 -0700] --- leg 4 turn (real agent path; assembled >65536) ---
+[2026-09-07 16:03:58 -0700] === leg4-beyond64k start (agent=kimi timeout=14400s) 2026-09-07 16:03:58 -0700 ===
+[2026-09-07 16:25:33 -0700] === leg4-beyond64k end rc=0 2026-09-07 16:25:33 -0700 ===
+[2026-09-07 16:25:33 -0700] GATE4 pass: *** prompt >65536 with needle retrieval past boundary
+[2026-09-07 16:25:33 -0700] --- leg 5 corpus build (target message ~128K tokens) ---
+[2026-09-07 16:25:33 -0700] leg5 corpus ready: NEEDLE-13E-2060
+[2026-09-07 16:25:34 -0700] --- leg 5 turn (real agent path; assembled >131072) ---
+[2026-09-07 16:25:34 -0700] === leg5-beyond128k start (agent=kimi timeout=21600s) 2026-09-07 16:25:34 -0700 ===
+[2026-09-07 17:47:57 -0700] === leg5-beyond128k end rc=0 2026-09-07 17:47:57 -0700 ===
+[2026-09-07 17:47:57 -0700] GATE5 pass: *** prompt >131072 with needle retrieval past 131072
+[2026-09-07 17:47:59 -0700] --- final verify ---
+[2026-09-07 17:47:59 -0700] llama health=200 n_ctx=262144 gw=200
+[2026-09-07 17:48:00 -0700] === STAGE 2 COMPLETE: legs 4-5 recorded ===

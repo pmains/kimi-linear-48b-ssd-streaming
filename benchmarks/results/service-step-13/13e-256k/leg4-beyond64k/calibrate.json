@@ -1,0 +1,10 @@
+{
+  "unit_tokens": 50,
+  "units": 1223,
+  "message_tokens": 59977,
+  "target_message_tokens": 60000,
+  "char_depth": 0.94,
+  "needle": "NEEDLE-13E-6200",
+  "needle_method": "detokenize-binary-search",
+  "needle_message_token_pos": 56339
+}

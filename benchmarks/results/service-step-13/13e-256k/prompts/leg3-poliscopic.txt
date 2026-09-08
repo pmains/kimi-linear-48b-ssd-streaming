@@ -1,0 +1,1 @@
+Read the file /Users/pmains/Code/openclaw/poliscopic/AGENTS.md using the read tool. In one sentence, state the project's purpose. Then reply with exactly: POLISCOPIC-13E-OK

@@ -2154,7 +2154,7 @@ Do not create additional service steps merely because further optimization oppor
 
 ## 13. Context Capacity Qualification and Production Promotion
 
-**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS (2026-09-07).**
+**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS; 13E PASS (2026-09-07).**
 13A: 128K reproduced on the current runtime under the single-llama-server
 swap protocol (owner order 10:20:18): manual server healthy at n_ctx=131072
 (KV 1008 MiB, KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed,
@@ -2205,8 +2205,23 @@ reload applied, real-path agent turn resolves `contextTokens 262144
 Rollback artifacts retained under
 `benchmarks/results/service-step-13/13d-256k/rollback-64k/` (64K plists +
 procedure; openclaw.json backup `~/.openclaw/openclaw.json.bak-step13d-20260907`).
-Driver: `tools/service_step13d.sh`. Stopped at the 13D gate — 13E (real
-OpenClaw agent qualification at 256K) awaits owner go.
+Driver: `tools/service_step13d.sh`.
+
+### 13E Status — PASS (2026-09-07 17:48 MST)
+
+Real OpenClaw agent qualification at 256K completed 5/5 legs through the
+real agent path on the live 262144 production contract (no swap window):
+short control, engineering/tool turn, Poliscopic production turn
+(agent poliscopic; resolves 262144 despite a stale 65536 agent-store copy),
+>65,536 assembled prompt (72,697 tok; needle NEEDLE-13E-6200 at assembled
+69,059 retrieved exactly), and >131,072 real-agent prompt (140,708 tok;
+needle NEEDLE-13E-2060 at assembled 136,190 retrieved exactly). All legs
+resolved contextTokens 262144. Peak llama RSS 10.14 GiB; final verify
+llama 200 / n_ctx 262144 / gw 200 / 11B sha 8baf474684 / FK 0. Driver:
+`tools/service_step13e.sh`; evidence
+`benchmarks/results/service-step-13/13e-256k/`. Stopped at the 13E gate —
+13F (regression gates) and 13G (Poliscopic capacity measurement) await
+owner go.
 
 ### Purpose
 

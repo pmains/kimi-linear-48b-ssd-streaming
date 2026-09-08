@@ -1,0 +1,3 @@
+corpus: unit_tokens=50 units=1223 message_tokens=59977 target=60000
+corpus: needle starts at message token 56339 of 59977
+corpus: wrote /Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13e-256k/leg4-beyond64k/message.txt chars=307174 cal=/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13e-256k/leg4-beyond64k/calibrate.json

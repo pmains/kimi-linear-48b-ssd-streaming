@@ -1,0 +1,1 @@
+The project is a comprehensive data ingestion and indexing system for public meeting materials across Maricopa County jurisdictions, built and maintained by the poliscopic agent. POLISCOPIC-13E-OK

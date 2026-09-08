@@ -1,0 +1,10 @@
+{
+  "step": "13E-stage-2",
+  "ts": "2026-09-07T23-03-57Z",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "llama_pid": "7021",
+  "step11b_sha": "8baf474684",
+  "fk_violations": "0"
+}

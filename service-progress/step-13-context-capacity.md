@@ -388,3 +388,107 @@ bash tools/service_step13d.sh
 # 64K rollback: procedure + artifacts in
 #   benchmarks/results/service-step-13/13d-256k/rollback-64k/README.md
 #   (openclaw.json backup: ~/.openclaw/openclaw.json.bak-step13d-20260907)
+
+# 13E Addendum — Real OpenClaw Agent Qualification at 256K (2026-09-07)
+
+## Status
+
+**13E PASS (5/5 legs)**. Owner go 15:12 MST. All five qualification legs ran
+through the real agent path on the live 262144 production contract
+(launchd job, pid 7021 constant through the whole stage; no swap window in
+13E by design). Every leg resolved contextTokens 262144 (source: resolved,
+not configuration text). Both long-context legs retrieved their embedded
+needle with exact text. Final verify: llama health 200, resolved n_ctx
+262144, gateway healthz 200, Step 11B sha 8baf474684, FK violations 0.
+
+## Objective
+
+SERVICE-ROADMAP §13E: qualify the selected 256K target through real OpenClaw
+agent turns — (1) short control, (2) engineering/tool turn, (3) Poliscopic
+production turn, (4) assembled prompt > 65,536 tokens with useful retrieval
+beyond the former 64K boundary, (5) real-agent prompt > 131,072 tokens with
+retrieval beyond the former 128K boundary.
+
+## Changes
+
+- `tools/service_step13e.sh` — retained 13E driver (STAGE=1 legs 1–3,
+  STAGE=2 legs 4–5), built on `service_step10a_turn.py` headless-agent
+  runner, calibrated needle-corpus builder, per-leg gates, watchdog
+  (RSS >= 18 GiB or host free <= 3% aborts the leg), preflight + final
+  verify. Run 1 of stage 2 false-aborted on a watchdog driver bug (vm_stat
+  free% computed with 4096-byte pages on this 16KB-page Mac → 0.0% → the
+  <=3% branch fired before prefill began). llama-server never restarted;
+  evidence preserved in `13e-256k/leg4-beyond64k-run1-watchdog-false-abort/`
+  with note.md. Watchdog fixed to `memory_pressure -Q` (13B-proven metric);
+  post-run cleanup removed the stale duplicate sampler so watchdog.tsv logs
+  the real value in future runs.
+- `tools/service_step13e_corpus.py` — calibrated needle-corpus builder
+  (unit-token detokenize + binary-search needle placement measured against
+  the live tokenizer; verifies assembled-token position AFTER the 12,721-token
+  agent overhead, not just message position).
+- `benchmarks/results/service-step-13/13e-256k/` — full evidence: driver.log,
+  preflight-stage1/2.json, final-verify.json, per-leg dirs (record.json,
+  client.json, slots.json, reply.txt, gateN.json, llama/gateway window logs,
+  watchdog.tsv, message.txt, calibrate.json), prompts/, evidence-notes.md.
+- `service-progress/step-13-context-capacity.md` — this addendum.
+
+## Results
+
+| leg | agent | promptTokens | wall | TTFT/prefill | decode | needle | verdict |
+|---|---|---|---|---|---|---|---|
+| 1 short control | kimi | 12,726 | 13.8 s | cached-prefix fast path | — | — | PASS |
+| 2 eng/tool | kimi | 13,400 | 77.1 s | — | — | — | PASS |
+| 3 poliscopic | poliscopic | 31,178 | 574.9 s | — | — | — | PASS |
+| 4 >64K | kimi | 72,697 | 1,295 s | 60,487 tok @ 48.08 tok/s | 190 tok @ 5.58 tok/s | NEEDLE-13E-6200 @ 69,059 ✓ | PASS |
+| 5 >128K | kimi | 140,708 | 4,944 s | 128,498 tok @ 26.03 tok/s | 10 tok @ 2.86 tok/s | NEEDLE-13E-2060 @ 136,190 ✓ | PASS |
+
+Every leg: contextTokens 262144 (resolved), rc 0, usage.cacheRead 12,210
+(system-prefix reuse). Leg 3 ran the real `poliscopic` agent (bootstrap +
+AGENTS.md read + current tool allowlist); its stale agent-store models.json
+(65536) did NOT limit the resolved contract — gateway resolves 262144.
+Leg 5 assembled 140,708 tokens (input 128,498 new + 12,210 cached), needle
+at assembled position 136,190 (> 131,072); reply was the exact needle text.
+Peak llama RSS legs 4/5: 9.85 / 10.14 GiB (watchdog.tsv; envelope 18 GiB).
+No compaction events in any leg (all assembled prompts well inside 262144).
+TTFT leg 5 ≈ 82.3 min (4,937 s prefill), consistent with the 13B-recorded
+depth cost (~26 tok/s at 140K depth) — the accepted operating cost of the
+chosen 256K ceiling, not a Step 13 failure (roadmap §13G).
+
+## Problems
+
+- Stage-2 run 1 false abort (driver bug, fixed; evidence preserved —
+  see Changes). Not a runtime failure: pid 7021 constant, no restart.
+- watchdog.tsv free_pct column is 0.0 in the run-2 files (legs 4/5): the
+  original sampler logged the buggy vm_stat value; the abort GUARD already
+  used memory_pressure so run 2 was correctly protected. Noted in
+  evidence-notes.md; driver fixed post-run for future runs.
+- Leg 5 decode is 10 output tokens @ 2.86 tok/s — the needle task completes
+  in one token after prefill; decode rate at 140K depth is slow but the
+  leg's purpose (retrieval past 131,072) is served. Longer-generation
+  quality at depth was not part of the 13E leg contract.
+
+## Decisions
+
+- No swap protocol in 13E: production IS the 262144 contract (13D); legs
+  qualify the real state on the real port with the real agents.
+- Leg prompts: control/eng legs use natural agent work; long legs use an
+  explicit needle-retrieval instruction so correctness is objectively
+  checkable (exact string match in reply), per §13E "useful retrieval or
+  task completion using information beyond the former boundary."
+- Per-leg gates require BOTH assembled > boundary AND exact needle
+  retrieval; assembled position is measured post-overhead via the corpus
+  calibrator, not estimated.
+
+## Next Phase
+
+13F (bounded regression gates) and 13G (Poliscopic capacity measurement),
+then the Step-13 acceptance/classification gate. Requires owner go at the
+13E gate.
+
+## Reproduction
+
+```bash
+# stage 1 (legs 1–3) then stage 2 (legs 4–5), on the live 262144 production:
+STAGE=1 bash tools/service_step13e.sh   # ~15 min
+STAGE=2 bash tools/service_step13e.sh   # ~3.5 h (leg 5 prefill ~82 min)
+# evidence: benchmarks/results/service-step-13/13e-256k/
