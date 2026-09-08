@@ -2835,6 +2835,40 @@ Do not execute these yet.
 #### 14B. Characterize Server-Side Reuse Mechanism
 Inspect and document llama-server/OpenClaw slot reuse, KV reuse, KDA recurrent-state reuse, invalidation boundaries, and persistence semantics where 14A shows uncertainty.
 
+### 14B Status — PASS (2026-09-08 12:00 MST)
+
+Read-only characterization against the exact running llama.cpp commit
+(a895f6826, build 10447, verified == live runtime/live/bin) + live
+/props,/slots. Mechanism fully traced end to end:
+- llama-server keeps each slot's last prompt tokens + KV/state;
+  per-request reuse is `n_past = get_common_prefix(input)` with
+  `cache_prompt` default true (server-context.cpp:3112) — this is the
+  99.2–99.9% same-session reuse 14A measured. Slot selection by LCP
+  similarity (threshold 0.1) with RAM prompt-cache save/load when
+  `f_keep < 0.5`.
+- Kimi-Linear is a HYBRID arch (llama-arch.cpp:977): attention layers
+  in a KV cache + KDA recurrent layers in llama_memory_recurrent (F32
+  state, n_rs_seq rollback). Prefix extensions need no checkpoint
+  restore → no KDA-specific boundary on the common suffix pattern;
+  mid-context divergence restores a saved context checkpoint
+  (min-step 8192, max 32) or forces full re-process (do_reset).
+- Accounting: OpenAI-compat
+  `prompt_tokens_details.cached_tokens` = per-task `n_past`;
+  OpenClaw maps it to usage.cacheRead, input = prompt − cached
+  (usage-BpC2Ujh-.mjs:56). Explains 14A records exactly (legC input
+  48 / cacheRead 48,054).
+- /slots `n_prompt_tokens_cache:0` after tasks is stats cleared on
+  release/reset (stats={}, server-context.cpp:351) — retained prompt+
+  KV persist; next request's cacheRead reports the reuse.
+- Persistence: in-memory slot retention across requests + optional
+  --slot-save-path (runtime/state/slot-cache) /slots save/load.
+Verdict: no avoidable same-session miss exists to "stabilize"; 14C has
+no demonstrated target. Next useful substeps: 14D (cross-session /
+persistent reuse) or 14E (production qualification), on authorization.
+Report: service-progress/step-14b-server-reuse-mechanism.md; evidence:
+benchmarks/results/service-step-14/14b/evidence-notes.md. STOPPED at
+the 14B gate.
+
 #### 14C. Stabilize Automatic Same-Session Reuse
 Only if 14A/14B demonstrate avoidable same-session misses. Make the smallest bounded change required to preserve stable prefixes.
 
