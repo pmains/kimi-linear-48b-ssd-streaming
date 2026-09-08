@@ -1,0 +1,8 @@
+418.22.690.172 I slot get_availabl: id  0 | task -1 | selected slot by LRU, t_last = 682817795727
+418.23.591.733 I slot launch_slot_: id  0 | task 6673 | processing task, is_child = 0
+418.38.838.440 I slot print_timing: id  0 | task 6673 | prompt processing, n_tokens =    511, progress = 1.00, t =  15.24 s / 33.52 tokens per second
+418.47.802.855 I slot print_timing: id  0 | task 6673 | prompt eval time =   15830.76 ms /   515 tokens (   30.74 ms per token,    32.53 tokens per second)
+418.47.802.859 I slot print_timing: id  0 | task 6673 |        eval time =    8380.32 ms /    69 tokens (  123.24 ms per token,     8.11 tokens per second)
+418.47.802.861 I slot print_timing: id  0 | task 6673 |       total time =   24211.07 ms /   584 tokens
+418.47.842.091 I slot print_timing: id  0 | task 6673 |    graphs reused =          0
+418.47.847.107 I slot      release: id  0 | task 6673 | stop processing: n_tokens = 12793, truncated = 0

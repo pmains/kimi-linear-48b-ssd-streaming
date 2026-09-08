@@ -1,0 +1,3 @@
+The file exists and can be read. The instruction is clear: reply with exactly "E-1". This appears to be a test of the read tool functionality.
+
+E-1

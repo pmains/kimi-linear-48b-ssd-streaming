@@ -2708,6 +2708,162 @@ Do not begin:
 
 Those require separate authorization.
 
+## 14. Qualify Incremental Prefix and State Reuse
+
+### Goal
+
+Determine how effectively the current production Kimi/OpenClaw stack reuses existing prompt, KV, and recurrent state across successive agent turns, and whether avoidable re-prefill is a material source of latency.
+
+The primary question is:
+
+> When an agent already has a large accumulated context and adds a small amount of new work, how much of the existing state is actually reused instead of recomputed?
+
+Step 13 established that 262144 context capacity is production-qualified. Do not reopen context-capacity work in Step 14.
+
+This step is about incremental reuse and latency, not larger context windows.
+
+### Baseline
+
+Freeze the current production state established at the end of Step 13:
+
+- llama-server context = 262144
+- OpenClaw contextWindow = 262144
+- current Kimi Linear MXFP4 Metal runtime
+- 8 GiB expert cache
+- 4 expert-read workers
+- current loop-detection configuration
+- current Step 11B redaction fix
+- no model, sampler, prompt, tool, context, or agent changes unless explicitly authorized by a later Step 14 remediation substep
+
+The Step 13G Poliscopic measurement is the primary real-workload reference:
+- deepest assembled context ~47.6K tokens
+- substantial cacheRead already observed
+- final call reused almost the entire prompt
+- total task wall ~23.5 min
+
+### 14A. Measure Existing Reuse Behavior
+
+Do not change production behavior.
+
+Characterize the reuse that already exists through the real OpenClaw agent path.
+
+Use controlled consecutive turns in the same agent/session and, where useful, fresh-session controls against the same live llama-server PID.
+
+At minimum test:
+
+1. small established context + small suffix
+2. representative medium accumulated context + small suffix
+3. large accumulated context + small suffix
+4. a repeated/stable-tool-schema agent turn representative of Poliscopic or engineering work
+5. a fresh-session comparison where appropriate
+
+For each turn record:
+
+- total assembled prompt tokens
+- longest common prefix with the immediately preceding model request where measurable
+- cacheRead / cached_tokens
+- newly evaluated prompt tokens
+- prompt-eval duration
+- prompt-eval tok/s
+- TTFT
+- decode duration / tok/s
+- total wall time
+- server PID
+- slot identity/state where observable
+- compaction events
+- whether any tool/schema/bootstrap/session material changed
+- whether reuse succeeded, partially succeeded, or missed entirely
+
+Determine empirically:
+
+- when prefix reuse works
+- how much is reused
+- when it breaks
+- whether breaks correlate with prompt serialization changes, tool ordering, session metadata, compaction, slot replacement, server PID change, or another measured factor
+- whether KDA recurrent state imposes any special reuse boundary beyond ordinary prompt/KV reuse
+
+Do not patch llama.cpp or OpenClaw in 14A.
+
+### 14A Acceptance
+
+14A is complete when the evidence answers:
+
+1. What reuse mechanism is operating today?
+2. What fraction of a stable accumulated prompt is normally reused?
+3. What causes reuse misses?
+4. How much latency is attributable to newly evaluated suffix versus unnecessary re-prefill?
+5. Is there a material optimization problem worth opening?
+
+Classify:
+
+- PASS — existing reuse is understood and generally effective
+- PARTIAL — reuse is observed but important miss conditions remain unexplained
+- FAIL — current evidence cannot reliably characterize reuse
+
+Write:
+service-progress/step-14a-existing-prefix-reuse.md
+
+Save machine-readable evidence under:
+benchmarks/results/service-step-14/14a/
+
+STOP after 14A and report results. Do not begin 14B or make production changes without explicit authorization.
+
+### 14A Status — PASS (2026-09-07 21:53 MST)
+
+Measurement-only pass — existing reuse characterized through the real agent path on the live 262144 contract (llama pid 7021 constant, FK 0, 11B sha 8baf474684, zero config drift; no production changes, no patches). Same-session consecutive turns reuse 99.2–99.9% of the established prompt (13.5K ctx: 99.3%; 18.8K: 99.8%; 48.1K: 99.9%) —
+llama.cpp slot KV cache with LCP-based prefix reuse is the operating
+mechanism; OpenClaw re-sends the full assembled prompt and llama
+re-evaluates only the delta (legC: 44 new tokens of 48,106 assembled,
+wall 11.4 s vs ~27–30 min cold re-prefill of the same 48K). No
+compaction, no truncation, no KDA-specific reuse boundary observed.
+Misses: fresh-session serialization + user content (legD control) and
+new tool/user deltas by design; legA (small-pair driver duplicate) hit
+the 900 s client cap on verbose multi-round agent turns at 256K — an
+agent-behavior/budget artifact, not a reuse failure (per-call reuse
+0.94–0.999; clean small-context record is the probe pair). Verdict:
+no material avoidable same-session re-prefill found; §14B should
+characterize the server-side mechanism (slot/KV pool, LCP threshold,
+cacheRead accounting, KDA state) per the roadmap. Report:
+service-progress/step-14a-existing-prefix-reuse.md; evidence:
+benchmarks/results/service-step-14/14a/. STOPPED at the 14A gate — 14B
+requires separate authorization.
+
+### Planned later substeps
+
+Do not execute these yet.
+
+#### 14B. Characterize Server-Side Reuse Mechanism
+Inspect and document llama-server/OpenClaw slot reuse, KV reuse, KDA recurrent-state reuse, invalidation boundaries, and persistence semantics where 14A shows uncertainty.
+
+#### 14C. Stabilize Automatic Same-Session Reuse
+Only if 14A/14B demonstrate avoidable same-session misses. Make the smallest bounded change required to preserve stable prefixes.
+
+#### 14D. Cross-Session / Persistent Reuse
+Only after same-session reuse is understood and qualified. Determine whether useful state can be reused safely across session boundaries or server lifecycle boundaries.
+
+#### 14E. Production Qualification
+Repeat a representative real agent workload and compare against Step 13G. Measure reduction in newly evaluated prompt tokens, TTFT, and total wall time.
+
+The decisive benchmark for Step 14 should include a large accumulated context plus a small suffix, ideally approximately:
+
+150K existing context + 1K new tokens
+
+The goal is to determine whether the system evaluates roughly the suffix rather than recomputing the entire accumulated context.
+
+### Exit
+
+Step 14 must not expand into:
+- 512K/1M context testing
+- decode optimization
+- model changes
+- sampler changes
+- multi-agent concurrency
+- Mistral/K3 work
+- unrelated OpenClaw cleanup
+
+Any remediation requires a measured reuse failure and explicit authorization.
+
+After adding this Step 14 definition to SERVICE-ROADMAP.md, execute 14A only.
 
 ## Post-Step-12 Decision
 

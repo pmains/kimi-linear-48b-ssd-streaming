@@ -1,0 +1,5 @@
+Based on my analysis of the project structure and the current state, I can confirm that the file `tools/service_step10a_turn.py` exists and can be read successfully. This is an experimental script used for running real-path turn validation experiments as part of Phase 11 of the Kimi Linear streaming inference optimization project.
+
+The project is currently in the completed Phase 11 state, having successfully established the expert-cache capacity curve and validated streaming behavior. The script is part of the experimental infrastructure used to verify that the streaming implementation works correctly and produces bit-identical results compared to conventional execution.
+
+**E-1**

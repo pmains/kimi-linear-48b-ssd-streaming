@@ -1,0 +1,1 @@
+Use the read tool to read service-progress/step-13-context-capacity.md (lines 1-400), then reply with exactly: MED-1

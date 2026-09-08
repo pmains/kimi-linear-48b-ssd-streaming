@@ -1,0 +1,27 @@
+[2026-09-07 21:00:08 -0700] --- preflight (14A r1) ---
+[2026-09-07 21:00:09 -0700] --- preflight recorded ---
+[2026-09-07 21:00:09 -0700] --- workload idle gate ---
+[2026-09-07 21:00:09 -0700] slot_idle=IDLE
+[2026-09-07 21:00:09 -0700] other_agent_procs=
+[2026-09-07 21:00:09 -0700] idle gate PASS
+[2026-09-07 21:00:09 -0700] === legA-t1-r1 start (agent=kimi key=agent:kimi:step14a-legA-r1 timeout=900s) ===
+[2026-09-07 21:15:17 -0700] [legA-t1-r1] rc=1 wall=902.715s
+[2026-09-07 21:15:17 -0700] === legA-t2-r1 start (agent=kimi key=agent:kimi:step14a-legA-r1 timeout=900s) ===
+[2026-09-07 21:30:31 -0700] [legA-t2-r1] rc=1 wall=906.1749s
+[2026-09-07 21:30:31 -0700] === legB-t1-r1 start (agent=kimi key=agent:kimi:step14a-legB-r1 timeout=1500s) ===
+[2026-09-07 21:34:12 -0700] [legB-t1-r1] rc=0 wall=220.1313s
+[2026-09-07 21:34:12 -0700] === legB-t2-r1 start (agent=kimi key=agent:kimi:step14a-legB-r1 timeout=900s) ===
+[2026-09-07 21:34:20 -0700] [legB-t2-r1] rc=0 wall=7.7941s
+[2026-09-07 21:34:20 -0700] === legC-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=2400s) ===
+[2026-09-07 21:34:31 -0700] [legC-r1] rc=0 wall=11.4346s
+[2026-09-07 21:34:31 -0700] === legC2-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1200s) ===
+[2026-09-07 21:34:38 -0700] [legC2-r1] rc=0 wall=6.8377s
+[2026-09-07 21:34:38 -0700] === legD-r1 start (agent=kimi key=agent:kimi:step14a-legD-r1 timeout=900s) ===
+[2026-09-07 21:35:06 -0700] [legD-r1] rc=0 wall=27.6228s
+[2026-09-07 21:35:06 -0700] === legE-t1-r1 start (agent=kimi key=agent:kimi:step14a-legE-r1 timeout=1200s) ===
+[2026-09-07 21:51:04 -0700] [legE-t1-r1] rc=0 wall=957.8519s
+[2026-09-07 21:51:04 -0700] === legE-t2-r1 start (agent=kimi key=agent:kimi:step14a-legE-r1 timeout=1200s) ===
+[2026-09-07 21:53:22 -0700] [legE-t2-r1] rc=0 wall=137.0855s
+[2026-09-07 21:53:22 -0700] --- analysis + gates ---
+[2026-09-07 21:53:24 -0700] --- final verify ---
+[2026-09-07 21:53:24 -0700] --- 14A driver done ---

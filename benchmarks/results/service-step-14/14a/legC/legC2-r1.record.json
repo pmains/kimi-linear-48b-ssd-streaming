@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "legC2-r1",
+  "agent": "poliscopic",
+  "session_key": "agent:poliscopic:step13g-kg-maintenance-r1",
+  "rc": 0,
+  "wall_s": 6.8377,
+  "t0_utc": "2026-09-08T04:34:32Z",
+  "t1_utc": "2026-09-08T04:34:38Z",
+  "n_lines": 745,
+  "extraction": "json:key=text",
+  "reply_chars": 15,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 48106,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 6653
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 48146,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 6662
+  },
+  "llama_window_chars": 980,
+  "gateway_window_chars": 641
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 5371,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 48140,
+  "usage": {
+   "input": 34,
+   "output": 7,
+   "cacheRead": 48106,
+   "total": 48147
+  },
+  "lastCallUsage": {
+   "input": 34,
+   "output": 7,
+   "cacheRead": 48106,
+   "cacheWrite": 0,
+   "total": 48147
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 41770,
+  "projectContextChars": 24942,
+  "toolsSchemaChars": 44651,
+  "toolsListChars": 0,
+  "skillsPromptChars": 4995,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Now reply with exactly: REUSE-CONFIRMED"
+}

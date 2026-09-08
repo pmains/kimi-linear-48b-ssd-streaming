@@ -1,0 +1,27 @@
+{
+  "label": "legB-t2-r1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step14a-legB-r1",
+  "rc": 0,
+  "wall_s": 7.7941,
+  "t0_utc": "2026-09-08T04:34:12Z",
+  "t1_utc": "2026-09-08T04:34:20Z",
+  "n_lines": 493,
+  "extraction": "json:key=text",
+  "reply_chars": 32,
+  "timed_out": false,
+  "slots_before": {
+    "is_processing": false,
+    "n_prompt_tokens": 18827,
+    "n_prompt_tokens_cache": 0,
+    "id_task": 6621
+  },
+  "slots_after": {
+    "is_processing": false,
+    "n_prompt_tokens": 18871,
+    "n_prompt_tokens_cache": 0,
+    "id_task": 6633
+  },
+  "llama_window_chars": 831,
+  "gateway_window_chars": 657
+}

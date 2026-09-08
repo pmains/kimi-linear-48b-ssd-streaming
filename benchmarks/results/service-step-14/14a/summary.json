@@ -1,0 +1,33 @@
+{
+ "step": "14A",
+ "classification": "PASS",
+ "driver_exit": 0,
+ "legs": {
+  "probe-small": {
+   "pair": "cont-t1/cont-t2",
+   "reuse_last": 0.993
+  },
+  "legB-medium": {
+   "t2_reuse": 0.998
+  },
+  "legC-large": {
+   "reuse": 0.999,
+   "assembled": 48102,
+   "wall_s": 11.4
+  },
+  "legC2-large": {
+   "reuse": 0.999,
+   "assembled": 48140,
+   "wall_s": 6.8
+  },
+  "legD-fresh_control": {
+   "reuse": 0.954
+  },
+  "legE-repeat": {
+   "t2_vs_t1_speedup": 7.0
+  }
+ },
+ "llama_pid_stable": true,
+ "final_verify_ok": true,
+ "no_compaction": true
+}

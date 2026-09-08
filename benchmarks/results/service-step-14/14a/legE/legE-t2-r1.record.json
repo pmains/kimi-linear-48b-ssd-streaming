@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "legE-t2-r1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step14a-legE-r1",
+  "rc": 0,
+  "wall_s": 137.0855,
+  "t0_utc": "2026-09-08T04:51:04Z",
+  "t1_utc": "2026-09-08T04:53:22Z",
+  "n_lines": 502,
+  "extraction": "json:key=text",
+  "reply_chars": 147,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 39690,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 7427
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 42303,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 7620
+  },
+  "llama_window_chars": 2111,
+  "gateway_window_chars": 10590
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 135205,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 42267,
+  "usage": {
+   "input": 2515,
+   "output": 100,
+   "cacheRead": 79486,
+   "total": 82101
+  },
+  "lastCallUsage": {
+   "input": 2471,
+   "output": 37,
+   "cacheRead": 39796,
+   "cacheWrite": 0,
+   "total": 42304
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29740,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Use the read tool to read tools/service_step10a_turn.py and reply with exactly: E-1"
+}
