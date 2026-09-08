@@ -1,0 +1,7 @@
+I need to calculate the average speed of a train that covers 60 miles in 1.5 hours.
+
+Average speed is calculated as: distance ÷ time
+
+So: 60 miles ÷ 1.5 hours = 40 miles per hour
+
+40

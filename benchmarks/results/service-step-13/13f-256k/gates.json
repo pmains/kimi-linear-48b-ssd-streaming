@@ -1,0 +1,56 @@
+{
+  "smoke": {
+    "pass": true,
+    "rc": 0,
+    "reply": "OK",
+    "ctx": 262144,
+    "wall_s": 24.4
+  },
+  "p2": {
+    "pass": true,
+    "rc": 0,
+    "reply": "{\"ok\": true}",
+    "ctx": 262144,
+    "wall_s": 15.2
+  },
+  "p3": {
+    "pass": true,
+    "informational": true,
+    "rc": 0,
+    "reply": "I need to calculate the average speed of a train that covers 60 miles in 1.5 hours.\n\nAverage speed is calculated as: dis",
+    "ctx": 262144,
+    "wall_s": 19.1
+  },
+  "p5": {
+    "pass": true,
+    "rc": 0,
+    "reply": "There are 5 files with 'e5' in their names inside benchmarks/prompts/:\n\n1. phase-11-e5-alkaline-context-followup.md\n2. p",
+    "ctx": 262144,
+    "wall_s": 63.7
+  },
+  "norm": {
+    "pass": true,
+    "rc": 0,
+    "liveness": "working",
+    "ctx": 262144,
+    "wall_s": 372.2
+  },
+  "loop": {
+    "pass": true,
+    "detector_fired": true,
+    "loop_evidence": true,
+    "rc": 0,
+    "liveness": "working",
+    "ctx": 262144,
+    "wall_s": 351.0,
+    "timed_out": false
+  },
+  "storage": {
+    "pass": true,
+    "stored_chars": 349,
+    "benign_verbatim": true,
+    "secret_verbatim": false,
+    "u2026_occurrences": 1,
+    "stored_head": "Reply with exactly: STORAGE-OK\n\nDo not use any tool. Do not mention or repeat any of the text below.\n\nContext (for reference only):\npath=/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13f-256k/storage/this-is-a-very-lon"
+  }
+}

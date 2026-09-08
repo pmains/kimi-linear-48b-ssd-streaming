@@ -56,7 +56,7 @@ gw_ok() { [ "$(curl -s -o /dev/null -w '%{http_code}' -m 5 http://127.0.0.1:$GW_
 run_one() {
   local label="$1" prompt="$2" tmo="${3:-$TIMEOUT}"
   local outdir="$EVID/$label"
-  local key="agent:$AGENT:step13f-$label-r1"
+  local key="agent:$AGENT:step13f-$label-${RUN_SUFFIX:-r1}"
   mkdir -p "$outdir"
   if [ -f "$outdir/$label.client.json" ]; then
     log "[$label] cached"
@@ -140,7 +140,7 @@ Do not use any tool. Do not mention or repeat any of the text below.
 
 Context (for reference only):
 path=/Users/pmains/Code/openclaw/kimi/benchmarks/results/service-step-13/13f-256k/storage/this-is-a-very-long-benign-file-name-segment-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef.txt
-aws_secret_access_key = wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY
+aws_secret_access_key = wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY0A
 EOF
 
 # ---------------- legs ----------------
@@ -148,9 +148,9 @@ run_one smoke "$PROM09/smoke.md"
 run_one p2 "$PROM09/P2.md"
 run_one p3 "$PROM09/P3.md"
 run_one p5 "$PROM09/P5.md"
-run_one norm "$PROM10D/NORM-ABS.md"
+run_one norm "$PROM10D/NORM-ABS.md" 1500
 run_one loop "$PROM10D/LOOP-STRICT.md"
-run_one storage "$PROM13F/storage.md"
+run_one storage "$PROM13F/storage.md" 1500
 
 # ---------------- gates ----------------
 log "--- gates ---"
@@ -170,9 +170,12 @@ def cl(label):
     except Exception:
         return None
 def reply(label):
-    r = rd(label)
-    if not r: return ""
-    return (r.get("summary") or {}).get("reply", "") or ""
+    # the runner writes the visible reply to <label>.reply.txt
+    try:
+        with open(f"{evid}/{label}/{label}.reply.txt", encoding="utf-8") as f:
+            return f.read()
+    except Exception:
+        return ""
 def wall(label):
     c = cl(label)
     return (c or {}).get("wall_s", -1)
@@ -260,9 +263,11 @@ results["loop"] = {"pass": det_fired and not timed_out("loop") and wall("loop") 
 #    gate is benign-verbatim AND secret-absent, not "no U+2026 anywhere".
 stored = ""
 try:
+    sc = cl("storage") or {}
+    sess_key = sc.get("session_key") or "agent:kimi:step13f-storage-r1"
     c = sqlite3.connect(db)
     row = c.execute("SELECT current_session_id FROM session_nodes WHERE session_key=?",
-                    ("agent:kimi:step13f-storage-r1",)).fetchone()
+                    (sess_key,)).fetchone()
     if row:
         sid = row[0]
         for seq, e in c.execute("SELECT seq, event_json FROM transcript_events WHERE session_id=? ORDER BY seq", (sid,)).fetchall():
@@ -281,7 +286,7 @@ try:
 except Exception as ex:
     results["storage_error"] = str(ex)
 BENIGN = "this-is-a-very-long-benign-file-name-segment-1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef.txt"
-SECRET = "wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY"
+SECRET = "wJalrXUtnFEMIK7MDENGbPxRfiCYEXAMPLEKEY0A"
 results["storage"] = {
   "pass": bool(stored) and (BENIGN in stored) and (SECRET not in stored),
   "stored_chars": len(stored),

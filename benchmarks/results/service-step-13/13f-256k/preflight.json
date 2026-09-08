@@ -1,0 +1,13 @@
+{
+  "step": "13F-preflight",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "llama_pid": "7021",
+  "gateway_pid": "56719",
+  "step11b_sha": "8baf474684",
+  "fk_violations": "0",
+  "config_context_windows": "[('kimi-local', [262144]), ('llama-server', [262144, 32768, 40960, 65536]), ('ollama', [40960])]",
+  "plist_ctx": "262144",
+  "config_drift_vs_13D": []
+}

@@ -2154,7 +2154,7 @@ Do not create additional service steps merely because further optimization oppor
 
 ## 13. Context Capacity Qualification and Production Promotion
 
-**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS; 13E PASS (2026-09-07).**
+**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS; 13E PASS; 13F PASS (2026-09-07).**
 13A: 128K reproduced on the current runtime under the single-llama-server
 swap protocol (owner order 10:20:18): manual server healthy at n_ctx=131072
 (KV 1008 MiB, KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed,
@@ -2222,6 +2222,22 @@ llama 200 / n_ctx 262144 / gw 200 / 11B sha 8baf474684 / FK 0. Driver:
 `benchmarks/results/service-step-13/13e-256k/`. Stopped at the 13E gate —
 13F (regression gates) and 13G (Poliscopic capacity measurement) await
 owner go.
+
+### 13F Status — PASS (2026-09-07 19:36 MST)
+
+Bounded regression gates at the 256K contract (roadmap §13F, no full
+re-qualification): all required gates PASS — smoke (normal interaction,
+reply exactly `OK`), p2 (exact `{"ok": true}`), p5 (bounded tool use, e5
+count 5), norm (NORM-ABS multi-step tools rc 0, liveness working),
+loop (LOOP-STRICT identical-read x25 — detector FIRED, not a client
+timeout), storage (11B byte-level: benign 40+ alnum-run path stored
+verbatim, labeled AWS secret still masked). Every gate resolved ctx
+262144. Final verify llama 200 / n_ctx 262144 / gw 200 / 11B sha
+8baf474684 / FK 0 / pid 7021 constant / no config drift vs the 13D
+snapshot. Driver: `tools/service_step13f.sh`; evidence
+`benchmarks/results/service-step-13/13f-256k/` (pass-1 driver-bug and
+pass-2 client-cap evidence archived with notes). Stopped at the 13F gate —
+13G (Poliscopic capacity measurement) awaits owner go.
 
 ### Purpose
 

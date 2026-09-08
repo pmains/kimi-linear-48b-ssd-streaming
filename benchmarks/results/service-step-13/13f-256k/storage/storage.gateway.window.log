@@ -1,0 +1,7 @@
+2026-09-07T19:35:48.055-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-07T19:35:48.383-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=326 dispatcher=new contentType=text/event-stream
+2026-09-07T19:36:00.064-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-07T19:36:01.974-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1904 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-07T19:36:04.491-07:00 [ws] ⇄ res ✗ board.get 1ms errorCode=INVALID_REQUEST errorMessage=Multiple agents are configured, but session key "catalog:codex:gateway%3alocal:01a07e87-99a4-7fd3-b26f-fd3f8f5972e8" has no explicit owner. Pass agentId or use an agent-prefixed session key. conn=4b556803…c4d3 id=1903:37b7b28…59d8
+2026-09-07T19:36:05.897-07:00 STORAGE-OK
+2026-09-07T19:36:05.898-07:00 [agents/agent-command] [agent] run d4b73c63-fdb3-462d-a05e-83934ffd1936 ended with stopReason=stop

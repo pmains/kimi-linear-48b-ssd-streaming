@@ -1,0 +1,27 @@
+{
+  "label": "p3",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step13f-p3-r1",
+  "rc": 0,
+  "wall_s": 19.1335,
+  "t0_utc": "2026-09-08T01:46:06Z",
+  "t1_utc": "2026-09-08T01:46:25Z",
+  "n_lines": 493,
+  "extraction": "json:key=text",
+  "reply_chars": 182,
+  "timed_out": false,
+  "slots_before": {
+    "is_processing": false,
+    "n_prompt_tokens": 12738,
+    "n_prompt_tokens_cache": 0,
+    "id_task": 1066
+  },
+  "slots_after": {
+    "is_processing": false,
+    "n_prompt_tokens": 12801,
+    "n_prompt_tokens_cache": 0,
+    "id_task": 1077
+  },
+  "llama_window_chars": 981,
+  "gateway_window_chars": 1613
+}

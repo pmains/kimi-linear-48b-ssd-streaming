@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "p5",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step13f-p5-r1",
+  "rc": 0,
+  "wall_s": 63.7498,
+  "t0_utc": "2026-09-08T01:46:25Z",
+  "t1_utc": "2026-09-08T01:47:29Z",
+  "n_lines": 503,
+  "extraction": "json:key=text",
+  "reply_chars": 259,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 12801,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 1077
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 13358,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 1257
+  },
+  "llama_window_chars": 3924,
+  "gateway_window_chars": 7968
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 62257,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 13271,
+  "usage": {
+   "input": 994,
+   "output": 202,
+   "cacheRead": 50783,
+   "total": 51979
+  },
+  "lastCallUsage": {
+   "input": 325,
+   "output": 88,
+   "cacheRead": 12946,
+   "cacheWrite": 0,
+   "total": 13359
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 29738,
+  "projectContextChars": 13246,
+  "toolsSchemaChars": 16108,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5900,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": true,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Using the minimum number of tool calls, list the files directly inside benchmarks/prompts/ whose names contain the string 'e5'. Reply with only the count of those files."
+}

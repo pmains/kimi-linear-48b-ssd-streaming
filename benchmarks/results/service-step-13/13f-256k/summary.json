@@ -1,0 +1,15 @@
+{
+  "gates_pass": true,
+  "failed_gates": [],
+  "pid_stable_across_window": true,
+  "final_verify_ok": true,
+  "no_config_drift": true,
+  "required_gates": [
+    "smoke",
+    "p2",
+    "p5",
+    "norm",
+    "loop",
+    "storage"
+  ]
+}

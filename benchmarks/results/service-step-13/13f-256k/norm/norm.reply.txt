@@ -1,0 +1,24 @@
+Based on my analysis of the repository, here's the summary you requested:
+
+## Summary
+
+**AGENTS.md** states that a completed phase must end with a progress report file named `progress/phase-XX-report.md` where XX is the phase number.
+
+**TOOLS.md** contains a frozen benchmark protocol (Phase 9G) that requires 10 brackets per session for null validation and 10 brackets for positive control testing, with specific statistical analysis requirements.
+
+**File Count**: Under `/Users/pmains/Code/openclaw/kimi/tools/`, there are **12 files** named with the pattern `service_step10*`:
+
+- `service_step10c_replay.mjs`
+- `service_step10d_analyze.py` 
+- `service_step10a_analyze.py`
+- `service_step10a_turn.py`
+- `service_step10d_leg.sh`
+- `service_step10_localize.py`
+- `service_step10d_extra.sh`
+- `service_step10a_leg.sh`
+- `service_step10_realpath.sh`
+- `service_step10_analyze.py`
+- `service_step10b_supervise.sh`
+- `service_step10d_supervise.sh`
+
+The project is currently in Phase 11 (as indicated by the progress reports), and Phase 9G has already been completed with a "PASS" status, establishing the frozen benchmark protocol that will be used for all subsequent optimization work.

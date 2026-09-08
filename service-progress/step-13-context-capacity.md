@@ -492,3 +492,103 @@ then the Step-13 acceptance/classification gate. Requires owner go at the
 STAGE=1 bash tools/service_step13e.sh   # ~15 min
 STAGE=2 bash tools/service_step13e.sh   # ~3.5 h (leg 5 prefill ~82 min)
 # evidence: benchmarks/results/service-step-13/13e-256k/
+
+# 13F Addendum — Bounded Regression Gates at 256K (2026-09-07)
+
+## Status
+
+**13F PASS (6/6 required gates + informational p3).** Owner go 18:27 MST.
+Bounded controls on the live 262144 production contract (roadmap §13F: no
+full re-qualification). Driver exit 0 on the final pass (19:36:08 MST);
+three passes total — pass 1 surfaced driver bugs (below), passes 2-3 are the
+clean record. Final verify: llama 200 / n_ctx 262144 / gw 200 / 11B sha
+8baf474684 / FK 0 / pid 7021 constant across the whole window / no config
+drift vs the 13D snapshot.
+
+## Objective
+
+SERVICE-ROADMAP §13F: confirm the 256K promotion preserved Steps 9-12
+production properties with bounded controls: normal interaction, tool
+calling, exact-format/instruction-following, Step 11B redaction/storage,
+PRAGMA foreign_key_check, loop detection, no runaway, gateway/llama health,
+no unrelated config/agent-state changes.
+
+## Changes
+
+- `tools/service_step13f.sh` — retained 13F driver: preflight (health, n_ctx,
+  pids, 11B sha, FK, config drift vs the 13D snapshot via semantic leaf diff
+  allowing ONLY the two contextWindow promotions), bounded legs (smoke, p2,
+  p3 informational, p5, NORM-ABS norm, LOOP-STRICT loop, storage), gates,
+  final verify, summary, exit code. RUN_SUFFIX env for clean rerun session
+  keys.
+- `benchmarks/results/service-step-13/13f-256k/` — full evidence: driver.log,
+  preflight.json, final-verify.json, gates.json, summary.json, per-leg dirs
+  (record.json, client.json, reply.txt, llama/gateway windows, slots),
+  prompts/storage.md, and archived pass evidence:
+  - `norm-pass1-client-timeout/` + note — pass-1 norm hit the driver's 600s
+    client cap mid multi-step tool turn (executionTrace winner llama-server,
+    no fallback, no loop event, llama 200 throughout); NOT a tool-calling
+    failure — at 256K the agent path is ~3x slower per round than the 64K
+    baseline, so the bounded control needed a larger client budget. Rerun
+    (pass 2, 1500s budget) rc=0 wall=372.2s.
+  - `storage-pass1-probe38/` + note — pass-1 storage gate flagged only
+    because the probe carried a 38-char "secret"; the LIVE redaction value
+    pattern requires exactly 40 chars of [A-Za-z0-9/+=] (verified against
+    redact-CquADQ9-.js), so the redactor correctly ignored it. The benign
+    40+ alnum-run path WAS stored verbatim with 0 U+2026 — 11B fix confirmed
+    live. Probe fixed to a node-verified 40-char matching value.
+  - `storage-pass2-client-timeout/` + note — pass-2 storage leg hit the 600s
+    client cap again under single-slot contention; its byte-level gate PASSED
+    on the persisted transcript (written at message-submit time). Rerun
+    (pass 3, 1500s budget) rc=0 wall=20.4s.
+- `service-progress/step-13-context-capacity.md` — this addendum.
+
+## Results (final pass gates)
+
+| leg | probe | rc | wall | gate evidence | verdict |
+|---|---|---|---|---|---|
+| smoke | normal interaction | 0 | 24.4s | reply exactly `OK`, ctx 262144 | PASS |
+| p2 | constrained output | 0 | 15.2s | reply exactly `{"ok": true}` | PASS |
+| p3 | simple reasoning | 0 | 19.1s | prose containing 40 (baseline FAIL-class preserved — informational) | PASS (info) |
+| p5 | bounded tool use | 0 | 63.7s | "There are 5 files with 'e5'..." (ground truth 5) | PASS |
+| norm | NORM-ABS multi-step tools | 0 | 372.2s | rc 0, liveness working, ctx 262144, no loop block | PASS |
+| loop | LOOP-STRICT identical-read x25 | 0 | 351.0s | detector FIRED (evidence + CRITICAL@20 pattern), NOT client timeout | PASS |
+| storage | 11B redaction/storage | 0 | 20.4s | benign 40+ alnum-run path stored VERBATIM (0 corruption); labeled AWS secret NOT stored verbatim (masked, 1 U+2026 = redaction render) | PASS |
+
+Every gate: contextTokens 262144 (resolved). Summary: gates_pass true,
+failed_gates [], pid stable across window, final verify ok, no config drift.
+
+## Problems
+
+- Pass-1 driver bugs (all fixed in the retained driver, evidence archived —
+  not runtime regressions): (1) gate evaluator read `record.summary.reply`,
+  but the runner persists replies to `<label>.reply.txt`; pass-1 smoke/p2/p5
+  replies were actually correct (OK / {"ok": true} / 5 files). (2) norm's
+  600s client budget too tight for a multi-step tool turn at 256K. (3)
+  storage probe secret length (38 vs the live 40-char pattern).
+- Storage pass 2 client-cap recurrence under single-slot contention —
+  archived; pass 3 clean (rc=0, 20.4s). The byte-level gate is unaffected by
+  client caps because it asserts on the persisted transcript.
+
+## Decisions
+
+- Bounded controls reuse the retained Step 9-10D probes verbatim (smoke,
+  P2/P3/P5, NORM-ABS, LOOP-STRICT) so results compare like-for-like against
+  their qualified baselines. p3 is informational (baseline FAIL-class);
+  p2/p5/norm are the required format/tool gates.
+- 13F gates assert rc/ctx/liveness/reply/DB bytes — objective signals, not
+  "generated text looks right".
+- Config drift check is a SEMANTIC leaf diff vs the pre-13D snapshot with a
+  whitelist of exactly the two kimi-provider contextWindow promotions; the
+  13D pretty-print reformat is not drift.
+
+## Next Phase
+
+13G (Poliscopic capacity measurement under the 256K window), then the
+Step-13 acceptance/classification gate. Requires owner go at the 13F gate.
+
+## Reproduction
+
+```bash
+RUN_SUFFIX=r3 bash tools/service_step13f.sh   # bounded, ~10-25 min
+# evidence: benchmarks/results/service-step-13/13f-256k/
