@@ -1,0 +1,28 @@
+[2026-09-08 15:02:33 -0700] --- preflight (14D r1) ---
+[2026-09-08 15:02:34 -0700] --- preflight recorded ---
+[2026-09-08 15:02:34 -0700] --- workload idle gate ---
+[2026-09-08 15:02:34 -0700] slot_idle=IDLE
+[2026-09-08 15:02:34 -0700] other_agent_procs=
+[2026-09-08 15:02:34 -0700] idle gate PASS
+[2026-09-08 15:02:34 -0700] === S1-t1-r1 start (agent=kimi key=agent:kimi:step14d-S1-r1 timeout=1800s) ===
+[2026-09-08 15:09:29 -0700] --- preflight (14D r1) ---
+[2026-09-08 15:09:29 -0700] --- preflight recorded ---
+[2026-09-08 15:09:29 -0700] --- workload idle gate ---
+[2026-09-08 15:09:30 -0700] slot_idle=IDLE
+[2026-09-08 15:09:30 -0700] other_agent_procs=
+[2026-09-08 15:09:30 -0700] idle gate PASS
+[2026-09-08 15:09:30 -0700] === S1-t1-r1 start (agent=kimi key=agent:kimi:step14d-S1-r1 timeout=1800s) ===
+[2026-09-08 15:16:48 -0700] [S1-t1-r1] rc=0 wall=438.4736s
+[2026-09-08 15:16:48 -0700] === S1-t2-r1 start (agent=kimi key=agent:kimi:step14d-S1-r1 timeout=900s) ===
+[2026-09-08 15:20:04 -0700] [S1-t2-r1] rc=0 wall=195.5835s
+[2026-09-08 15:20:04 -0700] === S2-t1-r1 start (agent=kimi key=agent:kimi:step14d-S2-r1 timeout=900s) ===
+[2026-09-08 15:20:20 -0700] [S2-t1-r1] rc=0 wall=15.4766s
+[2026-09-08 15:20:20 -0700] === S2-t2-r1 start (agent=kimi key=agent:kimi:step14d-S2-r1 timeout=900s) ===
+[2026-09-08 15:31:02 -0700] [S2-t2-r1] rc=0 wall=642.0085s
+[2026-09-08 15:31:02 -0700] === S1-t3-r1 start (agent=kimi key=agent:kimi:step14d-S1-r1 timeout=900s) ===
+[2026-09-08 15:46:04 -0700] [S1-t3-r1] rc=1 wall=901.264s
+[2026-09-08 15:46:04 -0700] === S1-t4-r1 start (agent=kimi key=agent:kimi:step14d-S1-r1 timeout=900s) ===
+[2026-09-08 16:01:10 -0700] [S1-t4-r1] rc=1 wall=901.2454s
+[2026-09-08 16:01:10 -0700] --- analysis + gates ---
+[2026-09-08 16:01:12 -0700] --- final verify ---
+[2026-09-08 16:01:13 -0700] --- 14D driver done ---

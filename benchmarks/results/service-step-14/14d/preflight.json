@@ -1,0 +1,60 @@
+{
+  "step": "14D-preflight",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "llama_pid": "7021",
+  "gateway_pid": "82948",
+  "step11b_sha": "b54b13f1d7",
+  "kimi_fk_violations": "0",
+  "poliscopic_fk_violations": "0",
+  "slot": "{'proc': False, 'n_prompt': 4096, 'cache': 0, 'task': 7668}",
+  "config_drift_vs_13D": [
+    {
+      "path": "/agents/entries/aristotle/tools/deny[2]",
+      "old": "image",
+      "new": "view_image"
+    },
+    {
+      "path": "/agents/entries/kimi/tools/deny[2]",
+      "old": "image",
+      "new": "view_image"
+    },
+    {
+      "path": "/agents/entries/poliscopic/tools/deny[1]",
+      "old": "image",
+      "new": "view_image"
+    },
+    {
+      "path": "/gateway/tailscale/mode",
+      "old": "off",
+      "new": "serve"
+    },
+    {
+      "path": "/meta/lastTouchedVersion",
+      "old": "2026.9.1-beta.1",
+      "new": "2026.9.3"
+    },
+    {
+      "path": "/models/providers/openai/models[0]/id",
+      "old": "gpt-4o-mini",
+      "new": "gpt-5.4-mini"
+    },
+    {
+      "path": "/wizard/lastRunAt",
+      "old": "2026-08-16T17:43:02.427Z",
+      "new": "2026-09-08T14:43:44.320Z"
+    },
+    {
+      "path": "/wizard/lastRunCommand",
+      "old": "onboard",
+      "new": "doctor"
+    },
+    {
+      "path": "/wizard/lastRunVersion",
+      "old": "2026.7.1-2",
+      "new": "2026.9.3"
+    }
+  ],
+  "other_agent_procs": ""
+}

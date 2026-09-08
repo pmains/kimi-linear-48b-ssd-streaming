@@ -1,0 +1,1 @@
+Use the read tool to read service-progress/step-13-context-capacity.md (lines 1-500), then reply with exactly: D14-S1-A

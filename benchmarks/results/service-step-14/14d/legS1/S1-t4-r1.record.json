@@ -1,0 +1,74 @@
+{
+ "summary": {
+  "label": "S1-t4-r1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step14d-S1-r1",
+  "rc": 1,
+  "wall_s": 901.2454,
+  "t0_utc": "2026-09-08T22:46:04Z",
+  "t1_utc": "2026-09-08T23:01:05Z",
+  "n_lines": 523,
+  "extraction": "json:key=text",
+  "reply_chars": 129,
+  "timed_out": true,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 33397,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 10760
+  },
+  "slots_after": {
+   "error": "timed out"
+  },
+  "llama_window_chars": 14989,
+  "gateway_window_chars": 22889
+ },
+ "doc_status": "timeout",
+ "doc_summary": "aborted",
+ "duration_ms": 900152,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 44574,
+  "usage": {
+   "input": 15311,
+   "output": 1120,
+   "cacheRead": 281193,
+   "cacheWrite": 0,
+   "total": 297624,
+   "cost": {
+    "total": 0
+   }
+  },
+  "lastCallUsage": {
+   "input": 779,
+   "output": 116,
+   "cacheRead": 43795,
+   "cacheWrite": 0,
+   "cost": {
+    "total": 0
+   },
+   "total": 44690
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 42813,
+  "projectContextChars": 23423,
+  "toolsSchemaChars": 18321,
+  "toolsListChars": 0,
+  "skillsPromptChars": 6361,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": {
+  "kind": "incomplete_turn",
+  "message": "Request timed out before a response was generated. Please try again, or increase `agents.defaults.timeoutSeconds` in your config.",
+  "fallbackSafe": false
+ },
+ "replayInvalid": true,
+ "livenessState": "paused",
+ "executionTrace": {
+  "fallbackUsed": false
+ },
+ "finalPromptText": "Reply with exactly: D14-S1-D"
+}

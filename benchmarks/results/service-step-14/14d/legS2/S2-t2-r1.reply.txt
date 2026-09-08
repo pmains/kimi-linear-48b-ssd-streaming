@@ -1,0 +1,10 @@
+The progress report for Phase 9G has been completed successfully. The report documents the validation of the paired-bracket benchmark protocol that will serve as the primary optimization gate for all future work in this project.
+
+Key accomplishments:
+- **Protocol Validation**: Successfully tested the A→B→A experimental unit with 30 null brackets and 30 positive controls
+- **Statistical Validation**: Achieved empirical false-positive rate of 2.7% vs nominal 5%, confirming the protocol correctly distinguishes true performance gains from noise
+- **Power Analysis**: Determined bracket requirements (11 for 5% effects, 3 for 10%, 1 for 20%)
+- **Variance Characterization**: Measured sd(log S) = 0.0559 for power calculations
+- **Protocol Freezing**: All components frozen at commit `c40c008` for reproducible external validation
+
+The report provides complete reproduction commands and confirms that Phase 9G is ready for use as the primary optimization gate for all subsequent work in the project.

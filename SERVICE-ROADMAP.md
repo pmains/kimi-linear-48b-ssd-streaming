@@ -2920,6 +2920,41 @@ skipped unless a later step produces contrary evidence.
 #### 14D. Cross-Session / Persistent Reuse
 Only after same-session reuse is understood and qualified. Determine whether useful state can be reused safely across session boundaries or server lifecycle boundaries.
 
+### 14D Status — PASS (2026-09-08 16:01 MST)
+
+Measurement + read-only characterization (no production changes, no
+patches, no gateway/llama restart; llama pid 7021 constant, gw pid
+82948, 11B(i) sha b54b13f1d7, FK 0 both DBs, idle gate PASS, zero
+config drift vs 13D). Single-slot ping-pong (kimi S1 -> fresh S2 -> S1)
+through the real agent path:
+- FRESH different session vs warm slot: 97.0% reuse (S2-t1: 15,862 /
+  16,348 assembled, wall 15.5 s) — every kimi session shares a ~15.9K
+  serialized bootstrap/system/tool prefix, and llama LCP reuse matches
+  it automatically; cross-session first turns are nearly free.
+- RETURN after eviction: S1-t3 first task reuse 57.2% (15,885 cached /
+  27,760 assembled; 11,875 session-unique tokens re-prefilled, ~5 min
+  @39 tok/s), recovering to 92-98% within the turn. Cause: in-RAM
+  prompt cache (cache_ram_mib 8192) saves an evicted slot prompt only
+  when f_keep = LCP/slot_len < 0.5; S2 shared the ~16K bootstrap with
+  S1's 27.7K -> f_keep 0.573 -> no save -> unique tail re-prefilled.
+  Boundary: same-agent accumulated context below ~2x bootstrap (~32K)
+  is NOT cached across interleave; larger contexts (13G poliscopic
+  48K) and cross-agent interleaves drop below 0.5, ARE RAM-cached and
+  restore at ~99.9% (explains 14A legC 48,054/48,107 exactly).
+- Safety PASS: token-prefix-only reuse; S1 content absent from S2
+  transcript and vice versa; FK 0; no compaction.
+- Lifecycle: gateway restart preserves llama slot/RAM-cache state (pid
+  7021 constant across both 11B(i) gateway kickstarts); llama restart
+  does NOT (nothing auto-saves; --slot-save-path is manual /slots
+  save/load only) — a llama restart forces cold re-prefill of every
+  active session (~48K ≈ 27-30 min at 13G scale).
+- Artifacts: S1-t3/S1-t4 hit the 900 s client cap (multi-round verbose
+  agent at 256K, same class as 14A legA/E; per-call reuse 0.92-0.98).
+Report: service-progress/step-14d-cross-session-reuse.md; evidence:
+benchmarks/results/service-step-14/14d/ (driver tools/service_step14d.sh).
+STOPPED at the 14D gate — 14E (production qualification vs Step 13G)
+requires separate authorization.
+
 #### 14E. Production Qualification
 Repeat a representative real agent workload and compare against Step 13G. Measure reduction in newly evaluated prompt tokens, TTFT, and total wall time.
 

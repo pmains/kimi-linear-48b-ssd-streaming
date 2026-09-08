@@ -1,0 +1,622 @@
+{
+ "legs": {
+  "legS1": {
+   "S1-t1-r1": {
+    "label": "S1-t1-r1",
+    "rc": 0,
+    "wall_s": 438.4736,
+    "timed_out": false,
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 23958,
+    "usage": {
+     "input": 20378,
+     "output": 49,
+     "cacheRead": 19944,
+     "cacheWrite": 0,
+     "total": 40371,
+     "cost": {
+      "total": 0
+     }
+    },
+    "lastCallUsage": {
+     "input": 8110,
+     "output": 6,
+     "cacheRead": 15848,
+     "cacheWrite": 0,
+     "cost": {
+      "total": 0
+     },
+     "total": 23964
+    },
+    "liveness": "working",
+    "winnerProvider": "llama-server",
+    "sysPromptChars": 42813,
+    "projChars": 23423,
+    "toolsSchemaChars": 18321,
+    "skillsChars": 6361,
+    "llama_tasks": [
+     {
+      "new": 12264,
+      "pt": 248.77,
+      "rate": 49.3,
+      "assembled": 16406,
+      "cached": 4142,
+      "reuse": 0.2524686090454712,
+      "task": "7676"
+     },
+     {
+      "new": 8106,
+      "pt": 179.92,
+      "rate": 45.05,
+      "assembled": 23963,
+      "cached": 15857,
+      "reuse": 0.6617284981012395,
+      "task": "7727"
+     }
+    ],
+    "compaction_matches": 0,
+    "slots_before": {
+     "is_processing": false,
+     "n_prompt_tokens": 4096,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7668
+    },
+    "slots_after": {
+     "is_processing": false,
+     "n_prompt_tokens": 23963,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7727
+    }
+   },
+   "S1-t2-r1": {
+    "label": "S1-t2-r1",
+    "rc": 0,
+    "wall_s": 195.5835,
+    "timed_out": false,
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 27690,
+    "usage": {
+     "input": 6312,
+     "output": 137,
+     "cacheRead": 119239,
+     "cacheWrite": 0,
+     "total": 125688,
+     "cost": {
+      "total": 0
+     }
+    },
+    "lastCallUsage": {
+     "input": 3087,
+     "output": 6,
+     "cacheRead": 24603,
+     "cacheWrite": 0,
+     "cost": {
+      "total": 0
+     },
+     "total": 27696
+    },
+    "liveness": "working",
+    "winnerProvider": "llama-server",
+    "sysPromptChars": 42813,
+    "projChars": 23423,
+    "toolsSchemaChars": 18321,
+    "skillsChars": 6361,
+    "llama_tasks": [
+     {
+      "new": 549,
+      "pt": 17.6,
+      "rate": 31.19,
+      "assembled": 24006,
+      "cached": 23457,
+      "reuse": 0.9771307173206698,
+      "task": "7743"
+     },
+     {
+      "new": 834,
+      "pt": 27.85,
+      "rate": 29.95,
+      "assembled": 24346,
+      "cached": 23512,
+      "reuse": 0.9657438593608806,
+      "task": "7758"
+     },
+     {
+      "new": 625,
+      "pt": 18.49,
+      "rate": 33.79,
+      "assembled": 24470,
+      "cached": 23845,
+      "reuse": 0.9744585206375154,
+      "task": "7791"
+     },
+     {
+      "new": 1201,
+      "pt": 31.63,
+      "rate": 37.97,
+      "assembled": 25166,
+      "cached": 23965,
+      "reuse": 0.9522768815067949,
+      "task": "7835"
+     },
+     {
+      "new": 3083,
+      "pt": 76.31,
+      "rate": 40.4,
+      "assembled": 27695,
+      "cached": 24612,
+      "reuse": 0.8886802671962448,
+      "task": "7886"
+     }
+    ],
+    "compaction_matches": 0,
+    "slots_before": {
+     "is_processing": false,
+     "n_prompt_tokens": 23963,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7727
+    },
+    "slots_after": {
+     "is_processing": false,
+     "n_prompt_tokens": 27695,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7886
+    }
+   },
+   "S1-t3-r1": {
+    "label": "S1-t3-r1",
+    "rc": 1,
+    "wall_s": 901.264,
+    "timed_out": true,
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 32944,
+    "usage": {
+     "input": 22256,
+     "output": 1327,
+     "cacheRead": 315534,
+     "cacheWrite": 0,
+     "total": 339117,
+     "cost": {
+      "total": 0
+     }
+    },
+    "lastCallUsage": {
+     "input": 1447,
+     "output": 387,
+     "cacheRead": 31497,
+     "cacheWrite": 0,
+     "cost": {
+      "total": 0
+     },
+     "total": 33331
+    },
+    "liveness": "paused",
+    "winnerProvider": null,
+    "sysPromptChars": 42813,
+    "projChars": 23423,
+    "toolsSchemaChars": 18321,
+    "skillsChars": 6361,
+    "llama_tasks": [
+     {
+      "new": 11875,
+      "pt": 302.77,
+      "rate": 39.22,
+      "assembled": 27760,
+      "cached": 15885,
+      "reuse": 0.5722262247838616,
+      "task": "9395"
+     },
+     {
+      "new": 2384,
+      "pt": 65.04,
+      "rate": 36.65,
+      "assembled": 29610,
+      "cached": 27226,
+      "reuse": 0.9194866599121918,
+      "task": "9437"
+     },
+     {
+      "new": 838,
+      "pt": 24.04,
+      "rate": 34.86,
+      "assembled": 29948,
+      "cached": 29110,
+      "reuse": 0.9720181648190196,
+      "task": "9452"
+     },
+     {
+      "new": 728,
+      "pt": 22.83,
+      "rate": 31.88,
+      "gen": 350,
+      "tg": 6.93,
+      "assembled": 30497,
+      "cached": 29769,
+      "reuse": 0.9761287995540545,
+      "task": "9479"
+     },
+     {
+      "new": 929,
+      "pt": 27.01,
+      "rate": 34.4,
+      "assembled": 30608,
+      "cached": 29679,
+      "reuse": 0.9696484579194982,
+      "task": "9839"
+     },
+     {
+      "new": 605,
+      "pt": 19.71,
+      "rate": 30.7,
+      "gen": 354,
+      "tg": 6.83,
+      "assembled": 31007,
+      "cached": 30402,
+      "reuse": 0.9804882768407134,
+      "task": "9893"
+     },
+     {
+      "new": 929,
+      "pt": 28.95,
+      "rate": 32.09,
+      "assembled": 31091,
+      "cached": 30162,
+      "reuse": 0.9701199704094432,
+      "task": "10253"
+     },
+     {
+      "new": 918,
+      "pt": 27.53,
+      "rate": 33.35,
+      "assembled": 31497,
+      "cached": 30579,
+      "reuse": 0.9708543670825793,
+      "task": "10280"
+     },
+     {
+      "new": 728,
+      "pt": 36.44,
+      "rate": 19.98,
+      "assembled": 31701,
+      "cached": 30973,
+      "reuse": 0.9770354247500079,
+      "task": "10307"
+     },
+     {
+      "new": 835,
+      "pt": 30.42,
+      "rate": 27.45,
+      "assembled": 32057,
+      "cached": 31222,
+      "reuse": 0.9739526468478024,
+      "task": "10322"
+     },
+     {
+      "new": 1443,
+      "pt": 56.73,
+      "rate": 25.44,
+      "gen": 384,
+      "tg": 5.7,
+      "assembled": 33330,
+      "cached": 31887,
+      "reuse": 0.9567056705670567,
+      "task": "10370"
+     },
+     {
+      "new": 959,
+      "pt": 41.73,
+      "rate": 22.98,
+      "cached": null,
+      "reuse": null,
+      "task": "10760"
+     }
+    ],
+    "compaction_matches": 0,
+    "slots_before": {
+     "is_processing": false,
+     "n_prompt_tokens": 30764,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 9181
+    },
+    "slots_after": {
+     "is_processing": true,
+     "n_prompt_tokens": 33397,
+     "n_prompt_tokens_cache": 32428,
+     "id_task": 10760
+    }
+   },
+   "S1-t4-r1": {
+    "label": "S1-t4-r1",
+    "rc": 1,
+    "wall_s": 901.2454,
+    "timed_out": true,
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 44574,
+    "usage": {
+     "input": 15311,
+     "output": 1120,
+     "cacheRead": 281193,
+     "cacheWrite": 0,
+     "total": 297624,
+     "cost": {
+      "total": 0
+     }
+    },
+    "lastCallUsage": {
+     "input": 779,
+     "output": 116,
+     "cacheRead": 43795,
+     "cacheWrite": 0,
+     "cost": {
+      "total": 0
+     },
+     "total": 44690
+    },
+    "liveness": "paused",
+    "winnerProvider": null,
+    "sysPromptChars": 42813,
+    "projChars": 23423,
+    "toolsSchemaChars": 18321,
+    "skillsChars": 6361,
+    "llama_tasks": [
+     {
+      "new": 598,
+      "pt": 27.17,
+      "rate": 22.01,
+      "gen": 373,
+      "tg": 4.59,
+      "assembled": 33863,
+      "cached": 33265,
+      "reuse": 0.9823406077429643,
+      "task": "10774"
+     },
+     {
+      "new": 959,
+      "pt": 37.29,
+      "rate": 25.72,
+      "assembled": 33947,
+      "cached": 32988,
+      "reuse": 0.9717500810086311,
+      "task": "11164"
+     },
+     {
+      "new": 1007,
+      "pt": 40.48,
+      "rate": 24.88,
+      "gen": 383,
+      "tg": 4.7,
+      "assembled": 34805,
+      "cached": 33798,
+      "reuse": 0.971067375377101,
+      "task": "11191"
+     },
+     {
+      "new": 959,
+      "pt": 44.87,
+      "rate": 21.37,
+      "assembled": 34889,
+      "cached": 33930,
+      "reuse": 0.9725128263922727,
+      "task": "11581"
+     },
+     {
+      "new": 1007,
+      "pt": 47.25,
+      "rate": 21.31,
+      "assembled": 35384,
+      "cached": 34377,
+      "reuse": 0.971540809405381,
+      "task": "11608"
+     },
+     {
+      "new": 723,
+      "pt": 30.31,
+      "rate": 23.85,
+      "assembled": 35653,
+      "cached": 34930,
+      "reuse": 0.9797212015819146,
+      "task": "11635"
+     },
+     {
+      "new": 9251,
+      "pt": 363.51,
+      "rate": 25.45,
+      "assembled": 44386,
+      "cached": 35135,
+      "reuse": 0.791578425629703,
+      "task": "11720"
+     },
+     {
+      "new": 775,
+      "pt": 33.86,
+      "rate": 22.89,
+      "gen": 100,
+      "tg": 5.46,
+      "assembled": 44689,
+      "cached": 43914,
+      "reuse": 0.9826579247689589,
+      "task": "11809"
+     },
+     {
+      "cached": null,
+      "reuse": null,
+      "task": "11928"
+     }
+    ],
+    "compaction_matches": 0,
+    "slots_before": {
+     "is_processing": false,
+     "n_prompt_tokens": 33397,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 10760
+    },
+    "slots_after": {
+     "error": "timed out"
+    }
+   }
+  },
+  "legS2": {
+   "S2-t1-r1": {
+    "label": "S2-t1-r1",
+    "rc": 0,
+    "wall_s": 15.4766,
+    "timed_out": false,
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 16338,
+    "usage": {
+     "input": 490,
+     "output": 11,
+     "cacheRead": 15848,
+     "cacheWrite": 0,
+     "total": 16349,
+     "cost": {
+      "total": 0
+     }
+    },
+    "lastCallUsage": {
+     "input": 490,
+     "output": 11,
+     "cacheRead": 15848,
+     "cacheWrite": 0,
+     "cost": {
+      "total": 0
+     },
+     "total": 16349
+    },
+    "liveness": "working",
+    "winnerProvider": "llama-server",
+    "sysPromptChars": 42813,
+    "projChars": 23423,
+    "toolsSchemaChars": 18321,
+    "skillsChars": 6361,
+    "llama_tasks": [
+     {
+      "new": 486,
+      "pt": 10.84,
+      "rate": 44.84,
+      "assembled": 16348,
+      "cached": 15862,
+      "reuse": 0.9702715928553951,
+      "task": "7898"
+     }
+    ],
+    "compaction_matches": 0,
+    "slots_before": {
+     "is_processing": false,
+     "n_prompt_tokens": 27695,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7886
+    },
+    "slots_after": {
+     "is_processing": false,
+     "n_prompt_tokens": 16348,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7898
+    }
+   },
+   "S2-t2-r1": {
+    "label": "S2-t2-r1",
+    "rc": 0,
+    "wall_s": 642.0085,
+    "timed_out": false,
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 30555,
+    "usage": {
+     "input": 15239,
+     "output": 1460,
+     "cacheRead": 118395,
+     "cacheWrite": 0,
+     "total": 135094,
+     "cost": {
+      "total": 0
+     }
+    },
+    "lastCallUsage": {
+     "input": 96,
+     "output": 210,
+     "cacheRead": 30459,
+     "cacheWrite": 0,
+     "cost": {
+      "total": 0
+     },
+     "total": 30765
+    },
+    "liveness": "working",
+    "winnerProvider": "llama-server",
+    "sysPromptChars": 42813,
+    "projChars": 23423,
+    "toolsSchemaChars": 18321,
+    "skillsChars": 6361,
+    "llama_tasks": [
+     {
+      "new": 523,
+      "pt": 11.93,
+      "rate": 43.86,
+      "assembled": 16436,
+      "cached": 15913,
+      "reuse": 0.9681796057434899,
+      "task": "7913"
+     },
+     {
+      "new": 12560,
+      "pt": 335.97,
+      "rate": 37.38,
+      "assembled": 28499,
+      "cached": 15939,
+      "reuse": 0.5592827818519948,
+      "task": "7978"
+     },
+     {
+      "new": 927,
+      "pt": 30.94,
+      "rate": 29.96,
+      "assembled": 28878,
+      "cached": 27951,
+      "reuse": 0.9678994390193226,
+      "task": "8063"
+     },
+     {
+      "new": 1117,
+      "pt": 39.18,
+      "rate": 28.51,
+      "gen": 1058,
+      "tg": 7.06,
+      "assembled": 30512,
+      "cached": 29395,
+      "reuse": 0.9633914525432616,
+      "task": "8107"
+     },
+     {
+      "new": 92,
+      "pt": 7.15,
+      "rate": 12.86,
+      "gen": 197,
+      "tg": 6.58,
+      "assembled": 30764,
+      "cached": 30672,
+      "reuse": 0.9970094916135743,
+      "task": "9181"
+     }
+    ],
+    "compaction_matches": 0,
+    "slots_before": {
+     "is_processing": false,
+     "n_prompt_tokens": 16348,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 7898
+    },
+    "slots_after": {
+     "is_processing": false,
+     "n_prompt_tokens": 30764,
+     "n_prompt_tokens_cache": 0,
+     "id_task": 9181
+    }
+   }
+  }
+ }
+}

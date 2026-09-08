@@ -1,0 +1,84 @@
+{
+ "summary": {
+  "label": "S1-t1-r1",
+  "agent": "kimi",
+  "session_key": "agent:kimi:step14d-S1-r1",
+  "rc": 0,
+  "wall_s": 438.4736,
+  "t0_utc": "2026-09-08T22:09:30Z",
+  "t1_utc": "2026-09-08T22:16:48Z",
+  "n_lines": 530,
+  "extraction": "json:key=text",
+  "reply_chars": 8,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 4096,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 7668
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 23963,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 7727
+  },
+  "llama_window_chars": 3553,
+  "gateway_window_chars": 15363
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 437290,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 23958,
+  "usage": {
+   "input": 20378,
+   "output": 49,
+   "cacheRead": 19944,
+   "cacheWrite": 0,
+   "total": 40371,
+   "cost": {
+    "total": 0
+   }
+  },
+  "lastCallUsage": {
+   "input": 8110,
+   "output": 6,
+   "cacheRead": 15848,
+   "cacheWrite": 0,
+   "cost": {
+    "total": 0
+   },
+   "total": 23964
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 42813,
+  "projectContextChars": 23423,
+  "toolsSchemaChars": 18321,
+  "toolsListChars": 0,
+  "skillsPromptChars": 6361,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": false,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Use the read tool to read service-progress/step-13-context-capacity.md (lines 1-500), then reply with exactly: D14-S1-A"
+}
