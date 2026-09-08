@@ -224,3 +224,49 @@ detached kickstart (gateway PID 56719, healthz 200, post-restart sha
 0 U+2026; leg 5 raw_absent + masked_present). Final PRAGMA
 foreign_key_check: 0 rows. Marker PASS; patch retained and live. STOPPED
 before Step 12.
+---
+
+## Addendum 4: REQUALIFICATION — FAIL — OpenClaw 2026.9.3 (2026-09-08)
+
+### Status
+
+**11B REQUALIFICATION — FAIL.** The 11B behavioral contract regressed in
+OpenClaw 2026.9.3 (gateway pid 62534). The retained 6-leg corpus run
+through the LIVE redaction implementation fails: legs 1-4 and 6 (benign
+content that must be byte-identical, 0 U+2026) are corrupted with U+2026;
+only leg 5 (true secrets) behaves correctly because the buggy pattern
+masks everything. The exact original corruption reproduces on the
+discriminator (leg 1): `/Users/pmains/Code/openclaw/kimi/SERVICE-
+ROADMAP.md` stored as `/Users<U+2026>VICE-ROADMAP.md`.
+
+### Root cause
+
+The 11B fix existed ONLY as a local patch to the previous generated dist
+file `redact-CquADQ9-.js` (sha 8baf4746..., 257 B fixed pattern). No
+stable source in the installed package carries it. OpenClaw 2026.9.3
+replaced that generated file with fresh output containing the ORIGINAL
+184-byte pre-fix pattern (`redact-DMnNBHXb.mjs`, sha b80161806f796ac4...):
+no real-digit guard `{0,39}[0-9]`, no leading-slash rejection, no
+3-slash negative lookahead. The upgrade silently dropped the fix.
+
+### Durable behavioral gate (replaces filename/SHA as the 11B gate)
+
+- Active redaction implementation is DISCOVERED at runtime/build-
+  inspection time via the transcript-store import chain (currently
+  dist/redact-DMnNBHXb.mjs, entry `redactSecrets` for user-message
+  transcript persistence), never assumed by hashed filename.
+- Artifact SHA is recorded as provenance only; a changed filename/SHA
+  triggers requalification, not automatic failure.
+- Qualification = deterministic 6-leg corpus
+  (`benchmarks/results/service-step-11b/fix/leg-*.msg`) run through the
+  live boundary:
+  * legs 1-4, 6: stored output byte-identical to input, 0 U+2026
+  * leg 5: raw secrets absent, masked head-6+U+2026+tail-4 present
+- Evidence: benchmarks/results/service-step-11b/reconcile-2026-09-08/
+
+### Next
+
+FAIL gate reached per the reconciliation order. Production still runs
+2026.9.3 with the regression live (benign long paths are corrupted again
+at transcript persistence). No patch applied — remediation requires new
+authorization. STOPPED at the 11B gate; 14D/14E not begun.
