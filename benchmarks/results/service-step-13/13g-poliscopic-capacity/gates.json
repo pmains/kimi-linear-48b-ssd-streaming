@@ -1,0 +1,35 @@
+{
+  "reply": {
+    "chars": 2151,
+    "head": "Based on my comprehensive inspection of the Poliscopic knowledge-graph state, here's the concise maintenance assessment:\n\n## Knowledge Graph Maintenance Assessment \u2014 September 7, 2026\n\n### Current State Summary\n\nThe knowledge graph is in **healthy operational status** with strong integrity foundations established during Stage 0. Key metrics as of the September 7 baseline:\n\n- **Entities**: 99,022 ("
+  },
+  "context": {
+    "contextTokens": 262144,
+    "contextTokensSource": "resolved",
+    "promptTokens": 47626,
+    "usage_input": 46780,
+    "usage_output": 1291,
+    "usage_cacheRead": 540732,
+    "usage_total": 588803,
+    "systemPromptChars": 41770,
+    "projectContextChars": 24942,
+    "toolsSchemaChars": 44651,
+    "toolsListChars": 0,
+    "skillsPromptChars": 4995,
+    "bootstrapMaxChars": 20000,
+    "bootstrapTotalMaxChars": 60000
+  },
+  "kg-maintenance": {
+    "pass": true,
+    "rc": 0,
+    "wall_s": 1410.6691,
+    "timed_out": false,
+    "liveness": "working",
+    "ctx_resolved_262144": true,
+    "winner_llama_server": true,
+    "read_only_preserved": true,
+    "new_files": [],
+    "sidecars_only": [],
+    "reply_chars": 2151
+  }
+}

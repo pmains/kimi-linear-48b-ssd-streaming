@@ -1,0 +1,43 @@
+Based on my comprehensive inspection of the Poliscopic knowledge-graph state, here's the concise maintenance assessment:
+
+## Knowledge Graph Maintenance Assessment — September 7, 2026
+
+### Current State Summary
+
+The knowledge graph is in **healthy operational status** with strong integrity foundations established during Stage 0. Key metrics as of the September 7 baseline:
+
+- **Entities**: 99,022 (stable)
+- **Entity mentions**: 273,699 
+- **Entity relationships**: 11,447
+- **Meeting events**: 39,132 with full extractions
+- **Event participants**: 402,514
+
+### Critical Maintenance Priorities
+
+#### 1. **High Priority: Relationship Provenance Resolution**
+- **Issue**: 78,718 unresolved relationships lack provenance fields
+- **Impact**: Impairs relationship verification and historical analysis
+- **Action**: Populate provenance fields for all relationship endpoints
+
+#### 2. **Medium Priority: Document Text Processing**
+- **Issue**: 1,122 text-bearing documents remain unswept (6.5% of total)
+- **Impact**: Limits full-text search and content analysis capabilities
+- **Action**: Complete document text extraction for remaining unswept documents
+
+#### 3. **Low Priority: Structured Vote Integration**
+- **Issue**: 93,432 structured member votes are not canonical graph vote knowledge
+- **Impact**: Missing integration between voting data and knowledge graph
+- **Action**: Establish vote knowledge canonicalization pipeline
+
+### Infrastructure Health
+
+✅ **Schema Parity**: Development and production schemas match perfectly
+✅ **Integrity Gates**: All graph integrity constraints pass
+✅ **Replay Guards**: Zero delta replay produces clean results
+✅ **Provenance Instrumentation**: Resolvability metrics functional
+
+### Next Decision Point
+
+The Stage 0 integrity phase is complete. The next logical maintenance phase should focus on **provenance resolution** as it directly impacts relationship integrity and historical accuracy. This addresses the largest remaining gap in knowledge graph completeness while maintaining the current healthy state.
+
+**Maintenance Status**: ✅ Healthy foundation, prioritized roadmap ready for Stage 1 implementation.

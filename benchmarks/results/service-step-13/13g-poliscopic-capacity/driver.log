@@ -1,0 +1,15 @@
+[2026-09-07 20:10:00 -0700] --- preflight ---
+[2026-09-07 20:10:00 -0700] --- preflight recorded ---
+[2026-09-07 20:10:00 -0700] --- workload idle gate ---
+[2026-09-07 20:10:00 -0700] slot_idle=IDLE
+[2026-09-07 20:10:00 -0700] other_agent_procs=
+[2026-09-07 20:10:00 -0700] idle gate PASS: no other active Kimi workload
+[2026-09-07 20:10:00 -0700] --- read-only baselines ---
+[2026-09-07 20:10:01 -0700] baselines recorded (git lines=      54, db shas=       3, files=    3475)
+[2026-09-07 20:10:01 -0700] prompt written:       44 words
+[2026-09-07 20:10:01 -0700] === kg-maintenance start (agent=poliscopic timeout=2700s) 2026-09-08T03:10:01Z ===
+[2026-09-07 20:33:31 -0700] [kg-maintenance] rc=0 wall=1410.6691s
+[2026-09-07 20:33:31 -0700] --- post-turn read-only check ---
+[2026-09-07 20:33:32 -0700] --- gates ---
+[2026-09-07 20:33:34 -0700] --- final verify ---
+[2026-09-07 20:33:35 -0700] === 13G driver exit 0 ===

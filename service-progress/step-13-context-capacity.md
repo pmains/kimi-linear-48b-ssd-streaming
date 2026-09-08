@@ -592,3 +592,104 @@ Step-13 acceptance/classification gate. Requires owner go at the 13F gate.
 ```bash
 RUN_SUFFIX=r3 bash tools/service_step13f.sh   # bounded, ~10-25 min
 # evidence: benchmarks/results/service-step-13/13f-256k/
+
+# 13G Addendum — Poliscopic Capacity Measurement at 256K (2026-09-07)
+
+## Status
+
+**13G PASS.** Owner go 20:00:29 MST with an EXACT read-only representative
+maintenance task (no substitution). Measured turn completed 20:10:01 →
+20:33:31 MST, driver exit 0. Gate summary: kg-maintenance leg PASS (rc 0,
+wall 1410.7 s, not timed out), contextTokens **262144 resolved**, liveness
+working, winner llama-server (no fallback), poliscopic workspace read-only
+preserved (git + KG sqlite sha + file inventory all identical), no
+compaction, no truncation, health + pids stable, zero config drift.
+
+## Objective
+
+Roadmap §13G: capture a fresh Poliscopic context accounting on the live
+262144 Kimi contract and run a representative Poliscopic maintenance task
+to determine whether the larger context materially improves useful
+working-context retention relative to the former 64K baseline. Capacity
+measurement only — no optimization, no config/tool/prompt changes.
+
+## Changes
+
+- `tools/service_step13g.sh` — retained 13G driver: workload idle gate
+  (llama slot IDLE + no other agent/turn processes; exits 30 with
+  "13G NOT STARTED" if busy — nothing terminated), preflight/final verify,
+  read-only baselines of the poliscopic workspace (git porcelain, KG sqlite
+  sha256, file inventory), the measured turn through the retained runner
+  (agent poliscopic, model forced llama-server/kimi-linear-48b → rides the
+  live 256K contract), post-turn read-only diff, gates, summary, exit code.
+- `benchmarks/results/service-step-13/13g-poliscopic-capacity/` — full
+  evidence: driver.log, preflight.json, final-verify.json, gates.json,
+  summary.json, watchdog.tsv, baselines/ (git-before/after, db-before/after,
+  files-before/after), prompts/kg-maintenance.txt (exact task), per-turn
+  record/client/reply/slots/llama+gateway windows, evidence-notes.md.
+- `service-progress/step-13-context-capacity.md` — this addendum.
+
+## Results
+
+- **Measured turn (agent poliscopic, real bootstrap + tool allowlist):**
+  rc 0, wall **1410.7 s (23.5 min)**, doc ok, liveness working,
+  replayInvalid=true (same metadata flag seen on successful tool-using 13F
+  legs norm/p5 — tool-call replay flag, not a run failure; rc 0, single
+  llama-server attempt, no fallback).
+- **Context accounting:** contextTokens **262144**, source "resolved"
+  (poliscopic's stale 65536 agent-store copy again imposed no ceiling);
+  promptTokens 47,626 at deepest call; llama slot n_prompt 48,054;
+  truncated=0 on every task; **available remaining ≈ 214,090 tokens**.
+  usage: input 46,780 / output 1,291 / cacheRead 540,732 cumulative across
+  58 gateway fetches / 17 llama tasks (prompt-cache reuse working — last
+  call cacheRead 47,482 of ~48,054).
+- **Fixed/bootstrap material (systemPromptReport):** system 41,770 chars +
+  project/workspace 24,942 + tools schema 44,651 + skills 4,995 ≈ 116K
+  chars (~29K tokens at ~4 ch/tok). Under the former 64K window this fixed
+  material alone would consume ~45% of budget; under 262144 it leaves the
+  measured headroom above — material working-context improvement vs 64K.
+- **Throughput (observed, not optimized):** tool-round prefills dominated
+  by KV cache reuse; decode ~5.7–5.8 tok/s sustained at depth (final task
+  n_gen 419+), consistent with the accepted decode-at-depth cost.
+- **Read-only task outcome:** the agent produced a 2,151-char KG
+  maintenance assessment with concrete counts (entities 99,022; mentions
+  273,699; relationships 11,447; meeting events 39,132; participants
+  402,514), integrity indicators, and a next-priority recommendation
+  (relationship provenance resolution). Compliance is objective: poliscopic
+  git status identical before/after (54 lines), KG sqlite sha256 identical
+  (3 DBs), file inventory identical (3,475 files), no new files, no
+  sqlite sidecars.
+- **Health envelope:** watchdog peak llama RSS 9.85 GiB (18 GiB limit);
+  host free 15–21%; final verify llama 200 / n_ctx 262144 / gw 200 / 11B
+  sha 8baf474684 / kimi FK 0 / poliscopic FK 0 / pids 7021 + 56719
+  constant / zero config drift vs the 13D snapshot.
+
+## Problems
+
+None. replayInvalid=true documented above (matches successful tool-using
+legs in 13F; not a failure signal). Idle gate required pre-launch
+confirmation of no other active Kimi workload — slot was idle, so 13G
+started without terminating or interfering with anything.
+
+## Decisions
+
+- Model forced to llama-server/kimi-linear-48b by the retained runner so
+  the poliscopic maintenance turn rides the LIVE 262144 Kimi contract
+  (same path as 13E leg 3) — this is the capacity measurement requested.
+- Read-only compliance is enforced as an objective byte/file/git gate, not
+  by trusting the reply text.
+- /context-detail-style accounting captured from the run doc
+  (systemPromptReport chars + agentMeta tokens + usage) — the headless
+  equivalent of the interactive /context detail.
+
+## Next Phase
+
+Step 13 closes as PASS (13A–13G complete; acceptance items 1–12 all
+demonstrated with recorded evidence). Post-Step-13 gate: STOP per
+roadmap Exit — do not begin Step 14 or any listed post-Step-13 work.
+
+## Reproduction
+
+```bash
+bash tools/service_step13g.sh   # idle gate + measured turn + gates, ~25 min
+# evidence: benchmarks/results/service-step-13/13g-poliscopic-capacity/

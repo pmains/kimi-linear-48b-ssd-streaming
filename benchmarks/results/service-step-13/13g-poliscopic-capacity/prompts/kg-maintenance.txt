@@ -1,0 +1,1 @@
+Inspect the current Poliscopic knowledge-graph state and produce a concise maintenance assessment. Read the relevant roadmap/status documentation and inspect the current KG/database counts and integrity indicators needed to identify the next highest-priority knowledge-graph maintenance work. Do not modify code, data, schemas, configuration, or documentation.

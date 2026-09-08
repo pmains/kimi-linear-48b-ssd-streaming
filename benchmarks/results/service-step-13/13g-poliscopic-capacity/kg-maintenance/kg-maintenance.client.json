@@ -1,0 +1,27 @@
+{
+  "label": "kg-maintenance",
+  "agent": "poliscopic",
+  "session_key": "agent:poliscopic:step13g-kg-maintenance-r1",
+  "rc": 0,
+  "wall_s": 1410.6691,
+  "t0_utc": "2026-09-08T03:10:01Z",
+  "t1_utc": "2026-09-08T03:33:31Z",
+  "n_lines": 758,
+  "extraction": "json:key=text",
+  "reply_chars": 2151,
+  "timed_out": false,
+  "slots_before": {
+    "is_processing": false,
+    "n_prompt_tokens": 12838,
+    "n_prompt_tokens_cache": 0,
+    "id_task": 3602
+  },
+  "slots_after": {
+    "is_processing": false,
+    "n_prompt_tokens": 48054,
+    "n_prompt_tokens_cache": 0,
+    "id_task": 4554
+  },
+  "llama_window_chars": 22672,
+  "gateway_window_chars": 30371
+}

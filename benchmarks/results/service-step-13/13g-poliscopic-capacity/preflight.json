@@ -1,0 +1,14 @@
+{
+  "step": "13G-preflight",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "llama_pid": "7021",
+  "gateway_pid": "56719",
+  "step11b_sha": "8baf474684",
+  "kimi_fk_violations": "0",
+  "poliscopic_fk_violations": "0",
+  "slot_idle": "True",
+  "config_drift_vs_13D": [],
+  "compaction_config_keys": "[]"
+}

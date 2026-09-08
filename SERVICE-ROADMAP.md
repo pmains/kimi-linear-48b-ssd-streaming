@@ -2154,7 +2154,7 @@ Do not create additional service steps merely because further optimization oppor
 
 ## 13. Context Capacity Qualification and Production Promotion
 
-**Status: IN PROGRESS — 13A PASS, 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS; 13E PASS; 13F PASS (2026-09-07).**
+**Status: COMPLETE — 13A PASS; 13B PASS: 256K FEASIBLE; 13C: 256K SELECTED; 13D PASS; 13E PASS; 13F PASS; 13G PASS (2026-09-07). Final classification: PASS — 256K PROMOTED TO PRODUCTION.**
 13A: 128K reproduced on the current runtime under the single-llama-server
 swap protocol (owner order 10:20:18): manual server healthy at n_ctx=131072
 (KV 1008 MiB, KDA recurrent 42.81 MiB, expert cache 8192 MiB zerocopy armed,
@@ -2238,6 +2238,34 @@ snapshot. Driver: `tools/service_step13f.sh`; evidence
 `benchmarks/results/service-step-13/13f-256k/` (pass-1 driver-bug and
 pass-2 client-cap evidence archived with notes). Stopped at the 13F gate —
 13G (Poliscopic capacity measurement) awaits owner go.
+
+### 13G Status — PASS (2026-09-07 20:33 MST)
+
+Poliscopic capacity measurement on the live 262144 contract (owner go
+20:00:29 MST, exact read-only maintenance task): measured turn through the
+real agent path (agent poliscopic, model forced
+llama-server/kimi-linear-48b by the retained runner → rides the live 256K
+contract) completed rc 0, wall 1410.7 s (23.5 min), not a client timeout,
+liveness working, no fallback. contextTokens **262144 resolved**;
+assembled promptTokens 47,626 at deepest call (slot n_prompt 48,054,
+truncated 0); available remaining ≈ 214,090 tokens; 0 compaction events.
+Fixed/bootstrap material ≈ 116K chars (system 41,770 + project 24,942 +
+tools 44,651 + skills 4,995) — ~45% of a 64K budget vs ample headroom at
+262144: material working-context improvement over the former 64K baseline
+measured, not assumed. The agent produced a 2,151-char KG maintenance
+assessment with real counts + integrity indicators + next-priority
+recommendation (provenance resolution); read-only compliance is objective
+(poliscopic git status identical before/after, KG sqlite sha identical,
+file inventory identical, no new files). Watchdog peak llama RSS 9.85 GiB;
+final verify llama 200 / n_ctx 262144 / gw 200 / 11B sha 8baf474684 / FK 0
+(kimi + poliscopic) / pids constant / zero config drift.
+
+**Step 13 closed as PASS — 256K PROMOTED TO PRODUCTION** (acceptance items
+1–12 all demonstrated with recorded evidence across 13A–13G). 262144 is
+frozen as the production baseline. STOP at the Post-Step-13 gate per the
+Exit section — no Step 14 or listed post-Step-13 work without separate
+authorization. Driver: `tools/service_step13g.sh`; evidence
+`benchmarks/results/service-step-13/13g-poliscopic-capacity/`.
 
 ### Purpose
 

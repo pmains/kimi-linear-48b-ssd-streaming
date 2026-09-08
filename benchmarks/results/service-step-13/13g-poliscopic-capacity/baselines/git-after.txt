@@ -1,0 +1,54 @@
+ D contracts/README.md
+ D contracts/analyst-result.schema.json
+ D contracts/engineer-result.schema.json
+ D contracts/examples/analysis-only.md
+ D contracts/examples/full-pipeline.md
+ D contracts/examples/research-only.md
+ D contracts/researcher-result.schema.json
+ D contracts/task-brief.schema.json
+ D contracts/task-result.schema.json
+ D contracts/validations.md
+ D contracts/worker-result.schema.json
+ D contracts/writer-result.schema.json
+ M routes/articles.py
+ M routes/entities.py
+ M routes/themes.py
+ M scripts/db/models.py
+ M scripts/db/persist.py
+ M scripts/db/queries.py
+ M scripts/db/sync_prod.py
+ M scripts/entities/detect_entities.py
+ M scripts/entities/event_extract.py
+ M scripts/entities/event_extractor.py
+ M scripts/entities/event_normalize.py
+ M scripts/entities/graph_builder.py
+ M scripts/ingest_docs.py
+ M scripts/scraper/county/adj.py
+ M scripts/scraper/county/pz.py
+ M scripts/scraper/main.py
+ M scripts/sync/sync_error_report.sh
+ M scripts/sync/sync_log.sh
+?? "YIMBY Scores.ipynb"
+?? "YIMBY Scores.xlsx"
+?? .ipynb_checkpoints/
+?? .server.pid
+?? DREAMS.md
+?? PYEOF
+?? scripts/analysis/bos_exec_session_analysis.py
+?? scripts/db/kg_integrity_schema.py
+?? scripts/editorial_sync.py
+?? scripts/entities/entity_taxonomy.py
+?? scripts/entities/graph_health.py
+?? scripts/entities/partof_seed.py
+?? scripts/entities/schema_parity.py
+?? scripts/publish_newsletter_article.py
+?? scripts/remove_newsletter_articles.py
+?? scripts/send_plain_email.py
+?? scripts/smtp_addr_probe.py
+?? scripts/smtp_auth_diag.py
+?? scripts/sync/sync_digest.py
+?? skills/
+?? tests/test_kg_graph_pages.py
+?? tests/test_kg_stage0_integrity.py
+?? tests/test_render_paragraphs.py
+?? tmp.py

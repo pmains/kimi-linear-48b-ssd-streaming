@@ -1,0 +1,77 @@
+{
+ "summary": {
+  "label": "kg-maintenance",
+  "agent": "poliscopic",
+  "session_key": "agent:poliscopic:step13g-kg-maintenance-r1",
+  "rc": 0,
+  "wall_s": 1410.6691,
+  "t0_utc": "2026-09-08T03:10:01Z",
+  "t1_utc": "2026-09-08T03:33:31Z",
+  "n_lines": 758,
+  "extraction": "json:key=text",
+  "reply_chars": 2151,
+  "timed_out": false,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 12838,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 3602
+  },
+  "slots_after": {
+   "is_processing": false,
+   "n_prompt_tokens": 48054,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 4554
+  },
+  "llama_window_chars": 22672,
+  "gateway_window_chars": 30371
+ },
+ "doc_status": "ok",
+ "doc_summary": "completed",
+ "duration_ms": 1408936,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 47626,
+  "usage": {
+   "input": 46780,
+   "output": 1291,
+   "cacheRead": 540732,
+   "total": 588803
+  },
+  "lastCallUsage": {
+   "input": 144,
+   "output": 429,
+   "cacheRead": 47482,
+   "cacheWrite": 0,
+   "total": 48055
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 41770,
+  "projectContextChars": 24942,
+  "toolsSchemaChars": 44651,
+  "toolsListChars": 0,
+  "skillsPromptChars": 4995,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": null,
+ "replayInvalid": true,
+ "livenessState": "working",
+ "executionTrace": {
+  "winnerProvider": "llama-server",
+  "winnerModel": "kimi-linear-48b",
+  "attempts": [
+   {
+    "provider": "llama-server",
+    "model": "kimi-linear-48b",
+    "result": "success",
+    "stage": "assistant"
+   }
+  ],
+  "fallbackUsed": false,
+  "runner": "embedded"
+ },
+ "finalPromptText": "Inspect the current Poliscopic knowledge-graph state and produce a concise maintenance assessment. Read the relevant roadmap/status documentation and inspect the current KG/database counts and integrity indicators needed to identify the next highest-priority knowledge-graph maintenance work. Do not modify code, data, schemas, configuration, or documentation."
+}

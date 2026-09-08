@@ -1,0 +1,7 @@
+{
+  "gates_pass": true,
+  "leg": "kg-maintenance",
+  "pid_stable_across_window": true,
+  "final_verify_ok": true,
+  "no_config_drift": true
+}
