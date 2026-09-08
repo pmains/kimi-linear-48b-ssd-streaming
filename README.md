@@ -1,299 +1,555 @@
 # Kimi Linear SSD-Backed Expert Streaming
 
-Storage-backed inference for
-[`moonshotai/Kimi-Linear-48B-A3B-Instruct`](https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct)
-(Q4_K_M, 48B total / 3B active) on Apple Silicon, built on
-[llama.cpp](https://github.com/ggml-org/llama.cpp) / ggml / Metal.
+Run **Kimi Linear 48B** on memory-constrained Apple Silicon by streaming sparse MoE experts from SSD instead of keeping the full expert set resident in memory.
 
-Routed MoE experts are kept primarily on SSD and loaded on demand into a
-bounded in-memory cache, so the ~28 GiB expert collection does not have
-to be resident. The dense trunk (~1.2–1.5 GiB) plus a configurable expert
-cache fit a 24 GB unified-memory Mac.
+This project modifies [llama.cpp](https://github.com/ggml-org/llama.cpp) to run [`moonshotai/Kimi-Linear-48B-A3B-Instruct`](https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct) using:
 
-This is the **Phase 10 reproducible release** of the frozen Phase 9
-scientific baseline (llama.cpp commit `caea707b7`). It packages the
-validated implementation for installation, benchmarking, and validation
-by someone who has not followed the project's development history.
-Scientific history: `progress/phase-XX-report.md`; protocol:
-`TOOLS.md` → "Phase 9G Benchmark Protocol".
+* SSD-backed sparse-expert streaming
+* MXFP4 expert weights
+* bounded in-memory expert caching
+* parallel expert reads
+* Metal execution on Apple Silicon
+* long-context serving through `llama-server`
 
-## Quick start
+The current validated deployment runs on a **24 GB Apple M5 Mac**.
 
-    # 1. clone (single clone — the fork is vendored at the pinned commit)
-    git clone https://github.com/pmains/kimi-linear-48b-ssd-streaming
-    cd kimi-linear-48b-ssd-streaming
+## What this achieves
 
-    # 2. build (see "Build" — requires macOS + Xcode CLT + cmake + Homebrew)
-    cd llama.cpp
-    cmake -B build-release -DCMAKE_BUILD_TYPE=Release \
-        -DGGML_ACCELERATE=ON -DGGML_BACKEND_DL=ON \
-        -DGGML_BLAS=ON -DGGML_BLAS_VENDOR=Apple \
-        -DGGML_CPU=ON -DGGML_CPU_ALL_VARIANTS=ON -DGGML_CPU_REPACK=ON \
-        -DGGML_METAL=ON -DGGML_NATIVE=OFF -DGGML_OPENMP=ON \
-        -DLLAMA_BUILD_APP=ON -DLLAMA_BUILD_COMMON=ON -DLLAMA_BUILD_EXAMPLES=ON \
-        -DLLAMA_BUILD_IS_DEV=ON -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TESTS=ON \
-        -DLLAMA_BUILD_TOOLS=ON -DLLAMA_BUILD_UI=ON
-    cmake --build build-release -j $(sysctl -n hw.ncpu)
+Kimi Linear is a sparse Mixture-of-Experts model: roughly **48B total parameters** but only a small subset of experts is active for each token.
 
-    # 3. obtain the model (see "Model setup" — 28.00 GiB, sha256 below)
-    mkdir -p models/kimi-linear
-    # ... place moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf there ...
+Instead of requiring the entire expert collection to fit in fast memory, this runtime treats model execution as a memory-hierarchy problem:
 
-    # 4. verify the installation (exit 0 = PASS; ~2–4 min)
-    tools/phase10_verify.sh
+```text
+                         Kimi Linear 48B
+                               │
+                         MoE router selects
+                         active experts
+                               │
+                  ┌────────────┴────────────┐
+                  │                         │
+             cache hit                 cache miss
+                  │                         │
+           unified memory                  SSD
+                  │                         │
+                  └────────────┬────────────┘
+                               │
+                       streamed MXFP4
+                               │
+                             Metal
+```
 
-    # 5. run (server, OpenAI-compatible API) or benchmark (see below)
+On the current 24 GB reference system, the validated configuration provides:
 
-## Supported hardware / OS
+| Capability                             |           Current result |
+| -------------------------------------- | -----------------------: |
+| Expert representation                  |                    MXFP4 |
+| Expert cache                           |                    8 GiB |
+| Expert read workers                    |                        4 |
+| Ordinary-context decode                |              ~9–11 tok/s |
+| SSD traffic at current operating point |        ~140–170 MB/token |
+| Expert-cache hit rate                  |                  ~76–81% |
+| Context contract                       |           262,144 tokens |
+| Largest real-agent test                | 140,708 assembled tokens |
+| Deepest verified retrieval             |            token 136,190 |
+| Peak llama-server RSS in that test     |                10.14 GiB |
 
-- Apple Silicon Mac (arm64); developed and validated on an Apple M5,
-  24 GB unified memory, macOS 26.5.2, 10 cores.
-- CPU execution (`-ngl 0`) is the validated path. The Metal backend
-  builds, but the storage-backed expert path is CPU-validated; see
-  "Known limitations".
-- 24 GB unified memory is the target. Smaller machines will need a
-  smaller expert-cache budget (and may page under load); larger machines
-  can raise `KIMI_EXPERT_CACHE_MB`.
+The goal is not to outperform a multi-GPU inference server.
 
-## Requirements
+The goal is to make **large sparse models useful on hardware with far less accelerator memory than the total model would conventionally require**.
 
-- macOS with Xcode Command Line Tools (`xcode-select --install`)
-- cmake ≥ 3.x (tested 4.4.2)
-- Homebrew with `openssl@3` (llama-server and llama-cli link
-  `/opt/homebrew/opt/openssl@3/lib/libssl.3.dylib` and
-  `libcrypto.3.dylib`)
-- ~30 GB free disk for the model, plus ~1–2 GB for the build
-- 24 GB unified memory recommended
+---
 
-## Build
+## Quick Start
 
-The build is the standard llama.cpp CMake flow from the pinned fork
-commit. No source edits are required on a clean checkout.
+### Requirements
 
-    cd llama.cpp   # vendored at the release baseline (caea707b7); no checkout required
-    cmake -B build-release -DCMAKE_BUILD_TYPE=Release \
-        -DGGML_ACCELERATE=ON -DGGML_BACKEND_DL=ON \
-        -DGGML_BLAS=ON -DGGML_BLAS_VENDOR=Apple \
-        -DGGML_CPU=ON -DGGML_CPU_ALL_VARIANTS=ON -DGGML_CPU_REPACK=ON \
-        -DGGML_METAL=ON -DGGML_NATIVE=OFF -DGGML_OPENMP=ON \
-        -DLLAMA_BUILD_APP=ON -DLLAMA_BUILD_COMMON=ON -DLLAMA_BUILD_EXAMPLES=ON \
-        -DLLAMA_BUILD_IS_DEV=ON -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TESTS=ON \
-        -DLLAMA_BUILD_TOOLS=ON -DLLAMA_BUILD_UI=ON
-    cmake --build build-release -j $(sysctl -n hw.ncpu)
+Validated reference platform:
 
-Key options:
+* Apple Silicon Mac
+* 24 GB unified memory or more recommended
+* macOS
+* Xcode Command Line Tools
+* CMake
+* Homebrew `openssl@3`
+* sufficient SSD capacity for the model and runtime
 
-- `GGML_CPU_REPACK=ON` — required (the streamed expert path repacks
-  quantized expert slices into CPU backend-ready layout).
-- `GGML_BACKEND_DL=ON` + `GGML_CPU_ALL_VARIANTS=ON` — builds the
-  loadable backend plugins (`libggml-cpu-apple_m*.so`, `libggml-metal.so`)
-  that the bundle needs.
-- `GGML_METAL=ON` — Metal backend builds; the streamed path is
-  CPU-validated (see limitations).
+Install the build dependencies:
 
-A clean out-of-tree build of this configuration takes ~2 minutes on the
-reference machine (10 cores).
+```bash
+xcode-select --install
+brew install cmake openssl@3
+```
 
-## Repository layout
+### 1. Clone
 
-- `llama.cpp/` — the pinned llama.cpp fork (23 project commits on top of
-  upstream master, ending at `caea707b7`), vendored into this repository
-  at that commit (no separate clone required). The storage-backed expert
-  streaming implementation lives here: `src/llama-expert-stream.cpp`,
-  `src/llama-expert-stream-exec.cpp`, model-load virtualization, and the
-  MoE routing/retrieval instrumentation.
-- `runtime/release-9f/` — frozen release bundle (binary + dylibs +
-  backend plugins, rpath rewritten to `@loader_path`, provenance in
-  `runtime/release-9f/COMMIT`). Built from `caea707b7` by
-  `tools/freeze_live_runtime.sh`. Using the bundle avoids building;
-  building from source avoids trusting the bundle.
-- `runtime/live/` — the pre-Phase-10 OpenClaw serving bundle (older
-  commit `cad716035`). Retained for operational continuity; NOT the
-  scientific release baseline. Do not use it for reproduction.
-- `models/kimi-linear/` — model GGUF (gitignored; see Model setup).
-- `tools/` — runner, verifier, analyzers, benchmark harness.
-- `benchmarks/` — prompts, `STREAMING_RESULTS.md` (raw per-run outputs
-  are regenerated by the benchmark harness).
+```bash
+git clone https://github.com/pmains/kimi-linear-48b-ssd-streaming
+cd kimi-linear-48b-ssd-streaming
+```
 
-## Model setup
+### 2. Build the modified llama.cpp runtime
 
-- **Model**: `moonshotai/Kimi-Linear-48B-A3B-Instruct`
-  (Hugging Face; repo sha `e1df551a447157d4658b573f9a695d57658590e9`).
-- **Supported quantization**: Q4_K_M (`general.file_type = 15`). The
-  storage layer is quantization-agnostic (per-expert byte ranges are
-  pread from the GGUF), but Q4_K_M is the validated release
-  configuration.
-- **Acquisition**: the GGUF is not distributed by this project. Obtain a
-  Q4_K_M conversion of the official safetensors (e.g., via llama.cpp's
-  `convert_hf_to_gguf.py` + `llama-quantize`, or a community conversion
-  with matching tensor layout), and place it at
-  `models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf`.
-  Verify the checksum:
-- **Size / checksum** (validated reference artifact):
+```bash
+cd llama.cpp
 
-      size:   30061058720 bytes (28.00 GiB)
-      sha256: a1a7d865370652221f937163f7e94c99e1f114861335ba4f8666606843f1620f
+cmake -B build-release \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DGGML_ACCELERATE=ON \
+  -DGGML_BACKEND_DL=ON \
+  -DGGML_BLAS=ON \
+  -DGGML_BLAS_VENDOR=Apple \
+  -DGGML_CPU=ON \
+  -DGGML_CPU_ALL_VARIANTS=ON \
+  -DGGML_CPU_REPACK=ON \
+  -DGGML_METAL=ON \
+  -DGGML_NATIVE=OFF \
+  -DLLAMA_BUILD_APP=ON \
+  -DLLAMA_BUILD_COMMON=ON \
+  -DLLAMA_BUILD_SERVER=ON \
+  -DLLAMA_BUILD_TOOLS=ON
 
-- **Context / cache**: context 4096 is the benchmark convention
-  (`CTX=4096`); the serving default is 65536 (KV is cheap — 7 attention
-  layers ≈ 0.23 GB f16 at 8k). Expert cache 4096 MiB is the validated
-  code-workload default; 8192 MiB for reasoning-heavy workloads.
+cmake --build build-release -j "$(sysctl -n hw.ncpu)"
+```
 
-## Run
+### 3. Obtain the model
 
-### Server (OpenAI-compatible API)
+The model weights are **not distributed with this repository**.
 
-    KIMI_STREAM_EXPERTS=naive \
-    KIMI_EXPERT_CACHE_MB=4096 \
-    KIMI_EXPERT_CACHE_MODE=zerocopy \
-    KIMI_EXPERT_READ_WORKERS=4 \
-    runtime/release-9f/bin/llama-server \
-        -m models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf \
-        -ngl 0 --no-mmap --ctx-size 65536 \
-        --host 127.0.0.1 --port 18080 --parallel 1
+The current runtime uses an MXFP4 MoE GGUF derived from:
 
-### CLI (deterministic single-turn generation)
+```text
+moonshotai/Kimi-Linear-48B-A3B-Instruct
+```
 
-    KIMI_STREAM_EXPERTS=naive \
-    KIMI_EXPERT_CACHE_MB=4096 \
-    KIMI_EXPERT_CACHE_MODE=zerocopy \
-    KIMI_EXPERT_READ_WORKERS=4 \
-    runtime/release-9f/bin/llama-cli \
-        -m models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf \
-        -ngl 0 --no-mmap --ctx-size 4096 \
-        -p "Write a one-line Python function that returns the sum of a list." \
-        -n 64 --temp 0 --seed 7 \
-        --no-display-prompt --no-conversation --single-turn
+Expected artifact:
 
-**The master switch**: `KIMI_STREAM_EXPERTS=naive` activates
-storage-backed expert execution. **Without it, the runtime silently runs
-the conventional fully-resident path** — same output, but no SSD paging
-and ~28 GiB resident. Every run that is meant to exercise the streaming
-architecture must set it.
+```text
+models/kimi-linear/
+  moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+```
 
-### Configuration knobs
+Before the current runtime is released for third-party reproduction, this section will contain:
 
-| Env var | Default | Meaning |
-|---|---|---|
-| `KIMI_STREAM_EXPERTS` | (unset) | `naive` = storage-backed streaming ON. Unset = conventional resident execution. |
-| `KIMI_EXPERT_CACHE_MB` | 4096 | Expert-cache budget in MiB (0 = uncached). Validated: 4096 code, 8192 reasoning. |
-| `KIMI_EXPERT_CACHE_MODE` | `zerocopy` | `zerocopy` = Phase 6B validated mode (hits feed `mul_mat_id` with 0 placement bytes); `placement` = legacy Phase 6. |
-| `KIMI_EXPERT_READ_WORKERS` | 1 | Parallel expert-read workers. 4 = the Phase 9F/9G validated pipelined repack (positive control). |
-| `CTX` | (library default) | Context size for the benchmark runner (4096 validated). |
-| `KIMI_PHASE7_INSTR` | 0 | `1` = full Phase 7 instrumentation (mem.csv, cache_layers.csv). |
-| `KIMI_STREAM_RETR_FILE` / `KIMI_STREAM_STATS_FILE` / `KIMI_TRACE_MOE_FILE` | — | Trace outputs (retrieval log, per-step stats, MoE routing). |
+```text
+exact conversion procedure
+exact artifact size
+SHA-256 checksum
+source model revision
+```
 
-## Verify
+Do not substitute the older Q4_K_M artifact when reproducing current performance results.
 
-`tools/phase10_verify.sh` runs a short deterministic streamed capture and
-checks all five requirements (exit 0 = PASS):
+### 4. Run
 
-1. model loads and the run completes;
-2. storage-backed expert execution is active (retrieval trace emitted,
-   pread present in stats);
-3. routing/retrieval invariants hold (Phase 7 per-step invariant check,
-   0 violations);
-4. generated output is valid (no error markers, generation completes);
-5. expected instrumentation is produced (retr.csv, stats.csv, moe.csv,
-   act.bin, manifest.json, mem.csv, cache_layers.csv).
+The current validated operating point is:
 
-    tools/phase10_verify.sh            # defaults: 64 tokens, seed 7, 4 GiB cache
-    KIMI_EXPERT_CACHE_MB=8192 tools/phase10_verify.sh /tmp/my-verify
+```bash
+export KIMI_STREAM_EXPERTS=naive
+export KIMI_EXPERT_CACHE_MB=8192
+export KIMI_EXPERT_CACHE_MODE=zerocopy
+export KIMI_EXPERT_READ_WORKERS=4
+export KIMI_STREAM_METAL_STAGE=1
+export KIMI_STREAM_E2_DIRECT_PLACE=1
+```
 
-## Benchmark (Phase 9 performance reproduction)
+Start `llama-server`:
 
-The frozen Phase 9G paired-bracket protocol is the only valid way to
-compare configurations. One bracket = A-before → B → A-after,
-contemporaneous, candidate placement randomized; paired speedup
-`S_i = tok/s(B_i) / mean(tok/s(A1,i), A2,i)`; report the distribution of
-S_i, not a point comparison. Archived-baseline comparisons are not valid
-optimization gates.
+```bash
+runtime/live/bin/llama-server \
+  -m models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf \
+  -ngl 999 \
+  --no-mmap \
+  --ctx-size 262144 \
+  --host 127.0.0.1 \
+  --port 18080 \
+  --parallel 1
+```
 
-    # positive control: B = W4 pipelined repack vs A = W1 frozen (10 brackets, ~30 min)
-    CONFIG=coding-cap4 MODE=positive SEED=<s> tools/phase09g_run_brackets.sh \
-        benchmarks/results/phase-09g/<session-dir>/positive 10 128
+Check health:
 
-    # null protocol: B = sham A (same machinery/labels)
-    CONFIG=coding-cap4 MODE=null SEED=<s> tools/phase09g_run_brackets.sh \
-        benchmarks/results/phase-09g/<session-dir>/null 10 128
+```bash
+curl http://127.0.0.1:18080/health
+```
 
-    # analysis (exit 0 = PASS)
-    python3 tools/phase09g_analyze.py benchmarks/results/phase-09g/<session-dir>/positive
+Then make an OpenAI-compatible request:
 
-Configs: `coding-cap4` (4 GiB cache, coding prompt), `reasoning-cap8`
-(8 GiB, reasoning prompt), `uncached` (cache 0). See TOOLS.md for the
-full frozen protocol.
+```bash
+curl http://127.0.0.1:18080/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kimi-linear-48b",
+    "messages": [
+      {"role": "user", "content": "Reply with exactly: OK"}
+    ],
+    "temperature": 0,
+    "max_tokens": 8
+  }'
+```
 
-## Expected performance (reference machine, Q4_K_M, ctx 4096)
+### 5. Verify the streamed path
 
-From the frozen Phase 8 ladder (in-session uncached control per
-workload; absolute tok/s varies with thermal state — always compare
-within a session):
+A successful response alone is not sufficient: the runtime can fall back to a conventional path if streaming is not enabled correctly.
 
-- Decode throughput: 4.5–5.4 tok/s at the 4–8 GiB cache plateau
-  (coding 5.39 tok/s at 4 GiB; reasoning 4.96 tok/s at 8 GiB); uncached
-  ≈ 2.5–2.6 tok/s.
-- Cache hit rate: 0.56–0.79 (4–8 GiB) on the coding/reasoning
-  workloads.
-- SSD traffic: ≈ 286–372 MB/token at 4 GiB, ≈ 177–210 MB/token at
-  8 GiB, vs ≈ 850 MB/token uncached.
-- Resident memory: ≈ 5.5–5.6 GB total at the recommended 4 GiB cache
-  (baseline + cache); conventional resident load is ≈ 28 GiB.
-- Prefill is slower than decode (cache is cold; every expert is a
-  compulsory miss). Expect ~1.5–5 tok/s on prompt processing depending
-  on prompt length.
+The release verifier checks that:
 
-## Known limitations
+1. the model loads;
+2. SSD-backed expert retrieval is active;
+3. routing/retrieval invariants hold;
+4. Metal execution completes without numerical errors;
+5. the configured cache and read-worker settings are active;
+6. generated output is valid.
 
-1. **CPU-only validated path.** `-ngl 0` is the release configuration.
-   Metal builds and loads, but storage-backed expert execution is
-   CPU-validated; GPU offload of the streamed path is not part of the
-   Phase 10 release.
-2. **Silent fallback.** Missing `KIMI_STREAM_EXPERTS=naive` silently
-   selects conventional resident execution (same outputs). Always set it
-   when the intent is streaming; `phase10_verify.sh` asserts the streamed
-   path is actually active.
-3. **Memory pressure above ~10 GiB cache.** On 24 GB, cache budgets
-   ≥ 10 GiB push the machine into memory-pressure compression and
-   compute slows; the practical plateau is 4–8 GiB.
-4. **Thermal drift.** The reference machine is fanless; absolute tok/s
-   drifts with temperature (up to ~17% observed). Never compare
-   cross-session absolute numbers; use the bracketed protocol.
-5. **OpenSSL dependency.** The bundle binaries link Homebrew
-   `openssl@3` at `/opt/homebrew/opt/openssl@3/lib`. A machine without
-   Homebrew OpenSSL must install it (or rebuild with a vendored SSL).
-6. **Model weights are not redistributed** by this project; obtain the
-   GGUF per Model setup and verify the checksum.
-7. **Prefill cache bypass** (known Phase 9A finding): oversized prefill
-   steps can exceed the per-layer zero-copy slot capacity and fall back
-   to the legacy placement path; decode is unaffected.
+```bash
+tools/verify_current_runtime.sh
+```
 
-## Troubleshooting
+A clean run should exit `0`.
 
-- **"no such file or directory" for the bundle binary** — the bundle is
-  self-contained (`@loader_path`) but must be executed from anywhere;
-  if you copied only `llama-server` without the dylibs/plugins, copy the
-  whole `runtime/release-9f/bin/` directory.
-- **Server runs but is slow / no pread in stats.csv** — check
-  `KIMI_STREAM_EXPERTS=naive` is set (silent fallback, see limitations).
-- **Model fails to load** — verify the GGUF path and sha256; only Q4_K_M
-  is validated.
-- **`phase10_verify.sh` fails the invariants check** — the Phase 7
-  analyzer must report "invariants: PASS". If retrieval ranges differ,
-  re-verify the model file checksum (a corrupted GGUF breaks byte-range
-  retrieval).
-- **Memory pressure / swap during benchmark** — lower
-  `KIMI_EXPERT_CACHE_MB`; the 4–8 GiB plateau is the validated range.
-- **OpenSSL errors at load** — `brew install openssl@3` (or rebuild with
-  vendored SSL).
+> `verify_current_runtime.sh` should be treated as part of the release contract. The current internal qualification suite must be reduced to a clean third-party verifier before the next public release.
 
-## Repository status / provenance
+---
 
-- Release baseline: llama.cpp `caea707b7d216c8685cf85db1a2682e26deb47d9`
-  ("phase-09f: per-kind pipelined repack").
-- Frozen bundle: `runtime/release-9f/` (COMMIT file inside).
-- Prior scientific baseline (pre-Phase-9G): `runtime/live/`
-  (`cad716035`), retained for operational continuity, not for
-  reproduction.
-- Reference results: `benchmarks/STREAMING_RESULTS.md`, Phase 8/9 reports
-  in `progress/`.
+## How it works
+
+### Sparse experts
+
+Kimi Linear is a sparse MoE model. For each token, the router activates only a subset of the model's experts.
+
+A conventional implementation can still require the complete expert collection to remain resident because any expert may be selected.
+
+This project virtualizes that expert storage.
+
+```text
+GGUF expert weights
+       │
+       ▼
+      SSD
+       │
+       │ pread on miss
+       ▼
+bounded expert cache
+       │
+       ▼
+active expert tensors
+       │
+       ▼
+Metal computation
+```
+
+Frequently selected experts remain in the cache. Cache misses are fetched from SSD and placed into the execution path on demand.
+
+### Why MXFP4?
+
+The original implementation used Q4_K_M experts.
+
+A later controlled evaluation tested MXFP4 as the streamed representation. On the uncached workload, MXFP4 approximately doubled decode throughput while producing only a small measured perplexity change:
+
+| Metric     |      Q4_K_M |       MXFP4 |
+| ---------- | ----------: | ----------: |
+| Decode     | ~2.45 tok/s | ~4.69 tok/s |
+| Perplexity |      6.6681 |      6.7596 |
+
+Median measured speed ratio:
+
+```text
+MXFP4 / Q4_K_M = 1.871×
+95% CI = 1.468–2.077
+```
+
+Measured perplexity increase was approximately **1.37%**.
+
+MXFP4 subsequently became the expert representation used by the current deployment.
+
+### Expert cache
+
+The present operating point uses an **8192 MiB expert cache** with four parallel read workers.
+
+In live qualification through the agent serving path, this produced approximately:
+
+```text
+decode:       9.0–11.1 tok/s
+cache hit:    76–81%
+SSD traffic:  140–170 MB/token
+RSS:          ~11–12 GB
+```
+
+For comparison, an earlier 4 GiB / single-reader configuration produced approximately:
+
+```text
+decode:       3.0–3.3 tok/s
+cache hit:    ~60%
+SSD traffic:  ~300 MB/token
+```
+
+The larger cache therefore buys throughput by reducing expert misses and SSD traffic.
+
+---
+
+## Long context
+
+The current server is configured for a **262,144-token context window**.
+
+This is a capacity result, not a claim that cold 256K prompts are interactive.
+
+### Qualification
+
+Direct 256K feasibility testing admitted a 145,824-token prompt and correctly retrieved a target beyond token 137,000.
+
+The context setting was then promoted through the actual serving stack and tested through real agent prompt assembly.
+
+The deepest completed test assembled:
+
+```text
+total prompt:       140,708 tokens
+retrieval target:   token 136,190
+resolved context:   262,144
+result:             exact retrieval
+```
+
+### The cost of depth
+
+Long-context performance degrades with depth.
+
+Representative measurements:
+
+| Context / workload                 |  Throughput |
+| ---------------------------------- | ----------: |
+| ordinary decode                    | ~9–11 tok/s |
+| ~95K decode                        |  5.35 tok/s |
+| ~146K decode                       |  3.61 tok/s |
+| 95K prefill                        | 33.95 tok/s |
+| ~140K real-agent new-token prefill | 26.03 tok/s |
+
+The 140K real-agent qualification required roughly **82 minutes of cold prefill**.
+
+So:
+
+> **256K is currently a demonstrated capacity ceiling, not an interactive cold-prompt target.**
+
+The next systems problem is prefix/state reuse.
+
+A persistent session should eventually behave like:
+
+```text
+150K already processed
+        +
+  1K new tokens
+        │
+        ▼
+reuse prior state
+        │
+        ▼
+process ~1K suffix
+```
+
+rather than:
+
+```text
+reprocess all 151K tokens
+```
+
+This is the current high-priority optimization target.
+
+---
+
+## Reference hardware
+
+Current validated machine:
+
+```text
+Apple M5
+24 GB unified memory
+10 CPU cores
+Apple Metal GPU
+NVMe SSD
+macOS
+```
+
+The architecture is intended to generalize to larger memory hierarchies:
+
+```text
+Apple Silicon:
+unified memory ↔ SSD
+
+workstation:
+GPU VRAM ↔ system RAM ↔ SSD
+
+server:
+GPU HBM ↔ large host RAM ↔ NVMe
+```
+
+The underlying principle is the same: **keep the hottest working set in the fastest memory and make the larger sparse model available through slower tiers.**
+
+---
+
+## What is actually modified?
+
+This project is based on llama.cpp / ggml but adds model-specific infrastructure for storage-backed sparse execution, including work in:
+
+```text
+src/llama-expert-stream.cpp
+src/llama-expert-stream-exec.cpp
+```
+
+and associated changes for:
+
+* expert-storage virtualization
+* routed-expert retrieval
+* bounded expert caching
+* parallel expert reads
+* quantized expert repacking
+* zero-copy/direct placement
+* streamed Metal execution
+* instrumentation and correctness validation
+
+This is **not stock upstream llama.cpp behavior**.
+
+---
+
+## Validation
+
+This project has been developed with explicit correctness and performance gates rather than throughput measurements alone.
+
+Validation has included:
+
+* routing/retrieval invariant checks
+* cache accounting
+* SSD traffic measurement
+* randomized paired performance tests
+* perplexity comparison
+* CPU/Metal numerical comparison
+* first-divergence localization
+* sustained-generation tests
+* restart/service qualification
+* long-context retrieval
+* real agent-path qualification
+* memory-pressure monitoring
+* fallback and failure-boundary testing
+
+Raw and summarized evidence lives under:
+
+```text
+benchmarks/
+progress/
+service-progress/
+```
+
+The detailed development history is intentionally kept out of the main README. Those directories contain the experiment protocols and failure analyses behind the current configuration.
+
+---
+
+## Historical Q4_K_M baseline
+
+The first reproducible release of this project used:
+
+```text
+Kimi Linear 48B
+Q4_K_M experts
+CPU execution
+SSD-backed streaming
+4–8 GiB cache
+```
+
+That work established the core result: the expert set could be virtualized onto SSD and executed from a bounded memory footprint.
+
+It remains an important scientific baseline and should remain reproducible.
+
+It is **not the current deployment configuration**.
+
+See:
+
+```text
+docs/PHASE10_Q4_BASELINE.md
+progress/
+benchmarks/
+```
+
+for the original pinned commit, GGUF checksum, benchmark methodology and reproduction instructions.
+
+---
+
+## Current limitations
+
+### Long cold prefill
+
+Large context fits, but cold prefill at 100K+ tokens is slow. Prefix/state reuse is the primary current optimization target.
+
+### Single active inference workload
+
+The 24 GB reference machine is currently operated as a single inference stream. Multi-session concurrency is not a validated target on this hardware.
+
+### Apple Silicon
+
+The present implementation has been developed and qualified on Apple Silicon and Metal. Other accelerators are not yet release-qualified.
+
+### Model specificity
+
+Kimi Linear is the current target. The broader architecture should apply to other sparse MoE models, but those models require their own implementation and qualification.
+
+### Custom MXFP4 Metal path
+
+The current MXFP4 streamed Metal implementation includes project-specific llama.cpp changes and is not equivalent to a stock upstream configuration.
+
+### Model distribution
+
+The model weights are not included in this repository.
+
+---
+
+## Roadmap
+
+The immediate priority is **incremental prefix/state reuse**.
+
+The project has already demonstrated that a large sparse model can fit and operate at substantial context depth on a 24 GB machine.
+
+The next question is:
+
+> Can persistent long-context inference scale mainly with the newly appended tokens rather than repeatedly paying the cost of the entire accumulated prompt?
+
+Beyond that, the same architecture can be explored on larger-memory machines and additional sparse MoE models.
+
+See `ROADMAP.md` and `SERVICE-ROADMAP.md` for the engineering roadmap.
+
+---
+
+## Project philosophy
+
+Large-model inference is usually framed as:
+
+> How much accelerator memory is required to hold the model?
+
+This project asks a different question:
+
+> **What if sparse-model inference is treated as a memory-hierarchy and scheduling problem instead?**
+
+For workloads that do not require hyperscale concurrency, trading some throughput for dramatically lower memory requirements may enable capable local and sovereign inference on hardware that would otherwise be excluded from running these models.
+
+Kimi Linear 48B is the first test of that approach.
+
+---
+
+## Reproducibility
+
+Published performance claims should always identify:
+
+* runtime commit;
+* model artifact and checksum;
+* quantization;
+* cache size;
+* expert-read worker count;
+* Metal/CPU path;
+* context depth;
+* cold vs warm state;
+* reference hardware.
+
+Do not compare absolute throughput across unrelated sessions without accounting for thermal state and cache state.
+
+Historical experiments and their exact protocols are retained rather than rewritten to match later results.
+
+---
+
+## License and upstream
+
+This project builds on [llama.cpp](https://github.com/ggml-org/llama.cpp) and uses [`moonshotai/Kimi-Linear-48B-A3B-Instruct`](https://huggingface.co/moonshotai/Kimi-Linear-48B-A3B-Instruct).
+
+See the repository license and upstream project/model licenses for their respective terms.

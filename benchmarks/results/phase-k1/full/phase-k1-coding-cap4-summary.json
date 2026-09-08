@@ -1,0 +1,1242 @@
+{
+  "harness": {
+    "harness": "phasek1_run_brackets.sh",
+    "mode": "model-ab",
+    "n_brackets": 10,
+    "n_tokens": 128,
+    "seed": 20260829,
+    "config": "coding-cap4",
+    "prompt": "/Users/pmains/Code/openclaw/kimi/benchmarks/prompts/phase-03-coding-lru.md",
+    "cache_mb": 4096,
+    "a_model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+    "b_model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+    "workers": 1,
+    "ctx": "4096",
+    "bracket_orders": [
+      [
+        "A-after",
+        "B",
+        "A-before"
+      ],
+      [
+        "A-after",
+        "A-before",
+        "B"
+      ],
+      [
+        "A-before",
+        "A-after",
+        "B"
+      ],
+      [
+        "A-before",
+        "A-after",
+        "B"
+      ],
+      [
+        "A-after",
+        "B",
+        "A-before"
+      ],
+      [
+        "A-after",
+        "B",
+        "A-before"
+      ],
+      [
+        "A-before",
+        "A-after",
+        "B"
+      ],
+      [
+        "A-after",
+        "A-before",
+        "B"
+      ],
+      [
+        "B",
+        "A-after",
+        "A-before"
+      ],
+      [
+        "B",
+        "A-before",
+        "A-after"
+      ]
+    ],
+    "started_at_utc": "2026-08-30T02:27:52Z"
+  },
+  "config": "coding-cap4",
+  "workers": 1,
+  "mode": "model-ab",
+  "bracket_orders": [
+    [
+      "A-after",
+      "B",
+      "A-before"
+    ],
+    [
+      "A-after",
+      "A-before",
+      "B"
+    ],
+    [
+      "A-before",
+      "A-after",
+      "B"
+    ],
+    [
+      "A-before",
+      "A-after",
+      "B"
+    ],
+    [
+      "A-after",
+      "B",
+      "A-before"
+    ],
+    [
+      "A-after",
+      "B",
+      "A-before"
+    ],
+    [
+      "A-before",
+      "A-after",
+      "B"
+    ],
+    [
+      "A-after",
+      "A-before",
+      "B"
+    ],
+    [
+      "B",
+      "A-after",
+      "A-before"
+    ],
+    [
+      "B",
+      "A-before",
+      "A-after"
+    ]
+  ],
+  "checks": [
+    {
+      "name": "bracket execution",
+      "ok": true,
+      "detail": "10 brackets x 3 runs complete"
+    },
+    {
+      "name": "manifest worker counts",
+      "ok": true,
+      "detail": "workers=1; bad: none"
+    },
+    {
+      "name": "recorded bracket order matches execution order",
+      "ok": true,
+      "detail": "all brackets match"
+    },
+    {
+      "name": "paired speedup computed",
+      "ok": true,
+      "detail": "median S=1.479, per-bracket [1.613, 1.564, 1.518, 1.626, 1.493, 1.404, 1.465, 1.213, 1.409, 1.193]"
+    },
+    {
+      "name": "A moe md5 == frozen baseline",
+      "ok": true,
+      "detail": "baseline=da45ab777b0fdd99be62f6c46a642e5c; bad: none; length-skipped: none"
+    },
+    {
+      "name": "A retr byte-identity (A runs only)",
+      "ok": true,
+      "detail": "identical"
+    },
+    {
+      "name": "retr present everywhere",
+      "ok": true,
+      "detail": "all present"
+    },
+    {
+      "name": "phase07 per-step invariants",
+      "ok": true,
+      "detail": "30/30 PASS; bad: none"
+    },
+    {
+      "name": "run.log clean",
+      "ok": true,
+      "detail": "no error/assert/abort markers"
+    },
+    {
+      "name": "raw artifacts retained",
+      "ok": true,
+      "detail": "all artifacts in all 30 runs"
+    },
+    {
+      "name": "env covariates captured",
+      "ok": true,
+      "detail": "20 snapshots (10 brackets x before/after)"
+    },
+    {
+      "name": "no position bias (A_before vs A_after)",
+      "ok": true,
+      "detail": "mean delta +2.20% rel, sign test p=0.172"
+    },
+    {
+      "name": "no warmup artifact (first bracket vs rest)",
+      "ok": true,
+      "detail": "first 5.416 vs rest 4.996 tok/s (+8.4% rel)"
+    },
+    {
+      "name": "no strong drift across brackets",
+      "ok": true,
+      "detail": "slope -0.0738 tok/s per bracket (-1.47% rel/bracket)"
+    }
+  ],
+  "speedup": {
+    "n": 10,
+    "median": 1.4792272676807408,
+    "q1_q3": [
+      1.3561456542589574,
+      1.4792272676807408,
+      1.5761121699347453
+    ],
+    "min": 1.193380321449851,
+    "max": 1.625974739329617,
+    "bootstrap95_ci_of_median": [
+      1.3108569762408802,
+      1.563807676697881
+    ],
+    "per_bracket": [
+      1.6130256496453377,
+      1.563807676697881,
+      1.5175960870345402,
+      1.625974739329617,
+      1.4933399046861893,
+      1.4038811044975288,
+      1.4651146306752922,
+      1.2129393035432439,
+      1.4087746489385164,
+      1.193380321449851
+    ],
+    "b_positions": [
+      "middle",
+      "last",
+      "last",
+      "last",
+      "middle",
+      "middle",
+      "last",
+      "last",
+      "first",
+      "first"
+    ],
+    "s_by_position": {
+      "first": {
+        "n": 2,
+        "median": 1.3010774851941838,
+        "values": [
+          1.4088,
+          1.1934
+        ]
+      },
+      "middle": {
+        "n": 3,
+        "median": 1.4933399046861893,
+        "values": [
+          1.613,
+          1.4933,
+          1.4039
+        ]
+      },
+      "last": {
+        "n": 5,
+        "median": 1.5175960870345402,
+        "values": [
+          1.5638,
+          1.5176,
+          1.626,
+          1.4651,
+          1.2129
+        ]
+      }
+    }
+  },
+  "a_spread_rel": [
+    0.08984734292171927,
+    0.03203985510721335,
+    0.013377738820881564,
+    0.031860969790534696,
+    0.0335606007412805,
+    0.06816563573304042,
+    0.08130677606639063,
+    0.00522625141416299,
+    0.05407020985238919,
+    0.08712871924012217
+  ],
+  "a_cv_pct": 6.748443258984596,
+  "position_bias": {
+    "a_before": [
+      5.1727537045885414,
+      5.272588577362056,
+      5.171603177382944,
+      4.770185173202731,
+      5.3733410351221504,
+      5.090255567774905,
+      4.9629678547771565,
+      5.0698166909649895,
+      4.471600683751018,
+      4.496089037066447
+    ],
+    "a_after": [
+      5.659372587350134,
+      5.444271905906122,
+      5.241253415321189,
+      4.620585640598552,
+      5.195984576641653,
+      5.4494794362794785,
+      4.575208663644643,
+      5.096382246752444,
+      4.720099256074292,
+      4.905670678371175
+    ],
+    "mean_delta_rel": 0.022008493913854878,
+    "sign_test_p": 0.171875,
+    "flag": false
+  },
+  "warmup_check": {
+    "first_bracket_A_mean": 5.416063145969337,
+    "rest_A_mean": 4.995965756499664,
+    "rel_diff": 0.08408732364170715,
+    "flag": false
+  },
+  "drift_check": {
+    "slope_tok_per_s_per_bracket": -0.07384874170118465,
+    "rel_per_bracket": -0.014658416216579423,
+    "flag": false
+  },
+  "covariates": [
+    {
+      "snapshot": "b1-before.json",
+      "memory_free_pct": 81.0,
+      "live_server_ok": true,
+      "loadavg": "{ 2.08 4.40 4.50 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b1-after.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 2.86 3.87 4.26 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b2-before.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 2.86 3.87 4.26 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b2-after.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 1.98 3.15 3.91 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b3-before.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 1.98 3.15 3.91 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b3-after.json",
+      "memory_free_pct": 79.0,
+      "live_server_ok": true,
+      "loadavg": "{ 1.87 2.68 3.59 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b4-before.json",
+      "memory_free_pct": 79.0,
+      "live_server_ok": true,
+      "loadavg": "{ 1.87 2.68 3.59 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b4-after.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 2.37 2.64 3.42 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b5-before.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 2.37 2.64 3.42 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b5-after.json",
+      "memory_free_pct": 79.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.06 2.61 3.26 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b6-before.json",
+      "memory_free_pct": 79.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.06 2.61 3.26 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b6-after.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.00 2.75 3.21 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b7-before.json",
+      "memory_free_pct": 78.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.00 2.75 3.21 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b7-after.json",
+      "memory_free_pct": 77.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.98 3.14 3.28 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b8-before.json",
+      "memory_free_pct": 77.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.98 3.14 3.28 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b8-after.json",
+      "memory_free_pct": 76.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.50 3.34 3.34 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b9-before.json",
+      "memory_free_pct": 76.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.50 3.34 3.34 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b9-after.json",
+      "memory_free_pct": 75.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.72 3.23 3.28 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b10-before.json",
+      "memory_free_pct": 75.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.72 3.23 3.28 }",
+      "thermal": ""
+    },
+    {
+      "snapshot": "b10-after.json",
+      "memory_free_pct": 77.0,
+      "live_server_ok": true,
+      "loadavg": "{ 3.63 3.52 3.40 }",
+      "thermal": ""
+    }
+  ],
+  "k1_metrics": {
+    "A": {
+      "tok_per_s": 5.080036129369947,
+      "ssd_mb_per_token": 286.4305853074597,
+      "decode_hit_rate": 0.6642369727047146,
+      "resident_decode_mb": 5583.700000000001,
+      "cpu_pct": 71.67259012016021
+    },
+    "B": {
+      "tok_per_s": 7.516422736169462,
+      "ssd_mb_per_token": 267.29693800403226,
+      "decode_hit_rate": 0.641633064516129,
+      "resident_decode_mb": 5998.125,
+      "cpu_pct": 66.83590476190476
+    },
+    "route_divergence_fraction": [
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474,
+      0.9184351554126474
+    ],
+    "a_model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+    "b_model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+  },
+  "brackets": [
+    {
+      "index": 1,
+      "dirs": {
+        "A_before": "b1-A-before",
+        "B": "b1-B",
+        "A_after": "b1-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 5.1727537045885414,
+        "ms_per_step": 193.32062903225807,
+        "pread_wall_ms": 58.077379032258065,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5569.0,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 73.45576923076923,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 8.736248774547361,
+        "ms_per_step": 114.46560483870968,
+        "pread_wall_ms": 52.77541129032258,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5997.2,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 63.50714285714286,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 5.659372587350134,
+        "ms_per_step": 176.69803225806453,
+        "pread_wall_ms": 58.380475806451614,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5547.9,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 70.482,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.6130256496453377,
+      "a_spread_rel": 0.08984734292171927,
+      "b_position": "middle"
+    },
+    {
+      "index": 2,
+      "dirs": {
+        "A_before": "b2-A-before",
+        "B": "b2-B",
+        "A_after": "b2-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 5.272588577362056,
+        "ms_per_step": 189.66016129032258,
+        "pread_wall_ms": 58.5023870967742,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5585.6,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 70.91142857142857,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 8.37955434691747,
+        "ms_per_step": 119.33808870967742,
+        "pread_wall_ms": 55.6156129032258,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5992.7,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 66.33714285714285,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 5.444271905906122,
+        "ms_per_step": 183.67929032258064,
+        "pread_wall_ms": 60.38951612903226,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5583.45,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.08446601941748,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.563807676697881,
+      "a_spread_rel": 0.03203985510721335,
+      "b_position": "last"
+    },
+    {
+      "index": 3,
+      "dirs": {
+        "A_before": "b3-A-before",
+        "B": "b3-B",
+        "A_after": "b3-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 5.171603177382944,
+        "ms_per_step": 193.36363709677417,
+        "pread_wall_ms": 58.2745564516129,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5673.8,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.24571428571429,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 7.901255209969804,
+        "ms_per_step": 126.56216935483872,
+        "pread_wall_ms": 57.095,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 6006.2,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 68.6986111111111,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 5.241253415321189,
+        "ms_per_step": 190.7940564516129,
+        "pread_wall_ms": 58.57232258064516,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5644.9,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.82666666666667,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.5175960870345402,
+      "a_spread_rel": 0.013377738820881564,
+      "b_position": "last"
+    },
+    {
+      "index": 4,
+      "dirs": {
+        "A_before": "b4-A-before",
+        "B": "b4-B",
+        "A_after": "b4-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 4.770185173202731,
+        "ms_per_step": 209.63546774193549,
+        "pread_wall_ms": 60.78521774193548,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5674.1,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.83271028037383,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 7.634578063037357,
+        "ms_per_step": 130.98300806451613,
+        "pread_wall_ms": 59.03992741935484,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5998.6,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 66.30958904109589,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 4.620585640598552,
+        "ms_per_step": 216.4227822580645,
+        "pread_wall_ms": 60.28358870967742,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5586.9,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 73.71504424778762,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.625974739329617,
+      "a_spread_rel": 0.031860969790534696,
+      "b_position": "last"
+    },
+    {
+      "index": 5,
+      "dirs": {
+        "A_before": "b5-A-before",
+        "B": "b5-B",
+        "A_after": "b5-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 5.3733410351221504,
+        "ms_per_step": 186.10395161290322,
+        "pread_wall_ms": 61.95785483870967,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5678.95,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 70.25098039215686,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 7.891797850834329,
+        "ms_per_step": 126.71383870967742,
+        "pread_wall_ms": 57.711540322580646,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5980.6,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 63.43835616438356,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 5.195984576641653,
+        "ms_per_step": 192.4563064516129,
+        "pread_wall_ms": 59.75607258064516,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5673.8,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.8757281553398,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.4933399046861893,
+      "a_spread_rel": 0.0335606007412805,
+      "b_position": "middle"
+    },
+    {
+      "index": 6,
+      "dirs": {
+        "A_before": "b6-A-before",
+        "B": "b6-B",
+        "A_after": "b6-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 5.090255567774905,
+        "ms_per_step": 196.45379032258063,
+        "pread_wall_ms": 63.45658064516129,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5580.3,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.51714285714286,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 7.3982674093015675,
+        "ms_per_step": 135.16678225806453,
+        "pread_wall_ms": 60.19212096774193,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5982.8,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 67.33466666666666,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 5.4494794362794785,
+        "ms_per_step": 183.50376612903227,
+        "pread_wall_ms": 61.4536129032258,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5580.55,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 69.50693069306931,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.4038811044975288,
+      "a_spread_rel": 0.06816563573304042,
+      "b_position": "middle"
+    },
+    {
+      "index": 7,
+      "dirs": {
+        "A_before": "b7-A-before",
+        "B": "b7-B",
+        "A_after": "b7-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 4.9629678547771565,
+        "ms_per_step": 201.49233870967743,
+        "pread_wall_ms": 65.73995161290323,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5584.6,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.82803738317757,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 6.98726098355165,
+        "ms_per_step": 143.11759677419354,
+        "pread_wall_ms": 62.73792741935484,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5997.75,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 68.77307692307693,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 4.575208663644643,
+        "ms_per_step": 218.5692661290323,
+        "pread_wall_ms": 68.77599193548386,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5580.35,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.52321428571429,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.4651146306752922,
+      "a_spread_rel": 0.08130677606639063,
+      "b_position": "last"
+    },
+    {
+      "index": 8,
+      "dirs": {
+        "A_before": "b8-A-before",
+        "B": "b8-B",
+        "A_after": "b8-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 5.0698166909649895,
+        "ms_per_step": 197.24579032258063,
+        "pread_wall_ms": 64.6653629032258,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5564.5,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 72.11698113207547,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 6.165491129598524,
+        "ms_per_step": 162.1930806451613,
+        "pread_wall_ms": 68.98460483870969,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 5998.5,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 67.82560975609756,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 5.096382246752444,
+        "ms_per_step": 196.21762096774194,
+        "pread_wall_ms": 60.350024193548386,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5576.5,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.91981132075472,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.2129393035432439,
+      "a_spread_rel": 0.00522625141416299,
+      "b_position": "last"
+    },
+    {
+      "index": 9,
+      "dirs": {
+        "A_before": "b9-A-before",
+        "B": "b9-B",
+        "A_after": "b9-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 4.471600683751018,
+        "ms_per_step": 223.63356451612904,
+        "pread_wall_ms": 73.34570161290323,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5565.4,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 73.49655172413793,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 6.474516927937791,
+        "ms_per_step": 154.45167741935484,
+        "pread_wall_ms": 66.24812096774194,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 6002.5,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 65.06385542168675,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 4.720099256074292,
+        "ms_per_step": 211.85995161290322,
+        "pread_wall_ms": 68.81150806451613,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5579.25,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 72.52972972972972,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.4087746489385164,
+      "a_spread_rel": 0.05407020985238919,
+      "b_position": "first"
+    },
+    {
+      "index": 10,
+      "dirs": {
+        "A_before": "b10-A-before",
+        "B": "b10-B",
+        "A_after": "b10-A-after"
+      },
+      "A_before": {
+        "error": null,
+        "tok_per_s": 4.496089037066447,
+        "ms_per_step": 222.4155241935484,
+        "pread_wall_ms": 71.48075806451614,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5582.8,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.47966101694915,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "B": {
+        "error": null,
+        "tok_per_s": 5.6099375157016045,
+        "ms_per_step": 178.25510483870966,
+        "pread_wall_ms": 73.50766935483871,
+        "ssd_mb_per_token": 267.29693800403226,
+        "decode_hit_rate": 0.641633064516129,
+        "resident_decode_mb": 6006.6,
+        "moe_md5": "04720a787a207e4772103c5fe91ec0f9",
+        "retr_md5": "eec7e93ea3e9695b233c0160b8eaf598",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+          "model_bytes": 27205376672,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 72.95681818181818,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "A_after": {
+        "error": null,
+        "tok_per_s": 4.905670678371175,
+        "ms_per_step": 203.8457258064516,
+        "pread_wall_ms": 67.19620967741935,
+        "ssd_mb_per_token": 286.4305853074597,
+        "decode_hit_rate": 0.6642369727047146,
+        "resident_decode_mb": 5566.6,
+        "moe_md5": "da45ab777b0fdd99be62f6c46a642e5c",
+        "retr_md5": "ba394ec6fcc1f01898ba6e7665bd8c5e",
+        "model": {
+          "model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_basename": "moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+          "model_bytes": 30061058720,
+          "cache_mb": 4096,
+          "workers": 1
+        },
+        "cpu_pct": 71.53214285714286,
+        "workers_ok": true,
+        "invariants_ok": true
+      },
+      "order_verified": "match",
+      "paired_speedup": 1.193380321449851,
+      "a_spread_rel": 0.08712871924012217,
+      "b_position": "first"
+    }
+  ]
+}

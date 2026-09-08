@@ -1,0 +1,44 @@
+=== Phase K1 analysis: uncached (A=Q4_K_M frozen, B=MXFP4, workers=1) ===
+    A model: moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf
+    B model: moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf
+    bracket order: ['last', 'last', 'middle', 'middle', 'last', 'last', 'middle', 'middle', 'middle', 'last'] (recorded seed 20260830)
+bracket | A_before |        B |  A_after |    S_i | A spread
+      1 |    2.593 |    4.690 |    2.591 |  1.810 |    0.08%
+      2 |    2.500 |    4.872 |    2.652 |  1.891 |    5.92%
+      3 |    2.418 |    2.322 |    1.737 |  1.117 |   32.76%
+      4 |    2.216 |    4.688 |    1.951 |  2.250 |   12.71%
+      5 |    2.285 |    2.416 |    2.208 |  1.075 |    3.44%
+      6 |    1.583 |    4.036 |    1.527 |  2.595 |    3.63%
+      7 |    1.769 |    3.729 |    2.334 |  1.818 |   27.57%
+      8 |    2.545 |    4.709 |    2.542 |  1.851 |    0.12%
+      9 |    2.502 |    4.869 |    2.613 |  1.904 |    4.35%
+     10 |    2.480 |    4.858 |    2.352 |  2.011 |    5.29%
+
+paired speedup: median 1.871  95% CI [1.468, 2.077]
+S by candidate position: middle=1.851 (n=5); last=1.891 (n=5)
+A-bracket spread: CV 15.9%  |  A mean 2.270 tok/s
+
+K1 model metrics (medians):
+  A: tok/s 2.449  SSD 850.1 MB/tok  hit n/a  resident 1540 MB
+  B: tok/s 4.689  SSD 745.9 MB/tok  hit n/a  resident 1957 MB
+  routing divergence (B vs A moe.csv): median 91.84% of rows
+
+--- checks ---
+  [PASS] bracket execution: 10 brackets x 3 runs complete
+  [PASS] manifest worker counts: workers=1; bad: none
+  [PASS] recorded bracket order matches execution order: all brackets match
+  [PASS] paired speedup computed: median S=1.871, per-bracket [1.81, 1.891, 1.117, 2.25, 1.075, 2.595, 1.818, 1.851, 1.904, 2.011]
+  [PASS] A moe md5 == frozen baseline: baseline=None; bad: none; length-skipped: none
+  [PASS] A retr byte-identity (A runs only): identical
+  [PASS] retr present everywhere: all present
+  [PASS] phase07 per-step invariants: 30/30 PASS; bad: none
+  [PASS] run.log clean: no error/assert/abort markers
+  [PASS] raw artifacts retained: all artifacts in all 30 runs
+  [PASS] env covariates captured: 20 snapshots (10 brackets x before/after)
+  [PASS] no position bias (A_before vs A_after): mean delta -0.99% rel, sign test p=0.945
+  [FAIL] no warmup artifact (first bracket vs rest): first 2.592 vs rest 2.234 tok/s (+16.0% rel)
+  [PASS] no strong drift across brackets: slope -0.0010 tok/s per bracket (-0.04% rel/bracket)
+
+overall: HARNESS FAIL  (statistical outcomes judged in the K1 report, per frozen 9G convention)
+wrote benchmarks/results/phase-k1/uncached/phase-k1-uncached-summary.json
+analyzer exit: 1

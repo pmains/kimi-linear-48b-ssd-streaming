@@ -1,0 +1,16 @@
+{
+  "harness": "phasek1_run_brackets.sh",
+  "mode": "model-ab",
+  "n_brackets": 10,
+  "n_tokens": 128,
+  "seed": 20260830,
+  "config": "uncached",
+  "prompt": "/Users/pmains/Code/openclaw/kimi/benchmarks/prompts/phase-03-coding-lru.md",
+  "cache_mb": 0,
+  "a_model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-Q4_K_M.gguf",
+  "b_model": "/Users/pmains/Code/openclaw/kimi/models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+  "workers": 1,
+  "ctx": "4096",
+  "bracket_orders": [["A-before", "A-after", "B"], ["A-before", "A-after", "B"], ["A-after", "B", "A-before"], ["A-before", "B", "A-after"], ["A-after", "A-before", "B"], ["A-before", "A-after", "B"], ["A-after", "B", "A-before"], ["A-after", "B", "A-before"], ["A-before", "B", "A-after"], ["A-before", "A-after", "B"]],
+  "started_at_utc": "2026-08-30T17:40:57Z"
+}
