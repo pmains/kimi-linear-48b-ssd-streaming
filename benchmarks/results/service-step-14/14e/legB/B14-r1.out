@@ -1,0 +1,782 @@
+{
+  "runId": "52cd1369-a650-4b94-9338-5c0717c5b9dd",
+  "status": "ok",
+  "summary": "completed",
+  "result": {
+    "payloads": [
+      {
+        "text": "B14-DONE",
+        "mediaUrl": null
+      }
+    ],
+    "meta": {
+      "durationMs": 288049,
+      "agentMeta": {
+        "sessionId": "f7dca886-0c44-4e2c-b6ae-0d3db9dc419c",
+        "sessionFile": "agent:poliscopic:step13g-kg-maintenance-r1",
+        "provider": "llama-server",
+        "model": "kimi-linear-48b",
+        "contextTokens": 262144,
+        "contextTokensSource": "resolved",
+        "agentHarnessId": "openclaw",
+        "credentialSource": {
+          "kind": "direct",
+          "evidence": "provider-config",
+          "authorization": "declared"
+        },
+        "usage": {
+          "input": 6501,
+          "output": 42,
+          "cacheRead": 87401,
+          "cacheWrite": 0,
+          "total": 93944,
+          "cost": {
+            "total": 0
+          }
+        },
+        "lastCallUsage": {
+          "input": 4600,
+          "output": 5,
+          "cacheRead": 44393,
+          "cacheWrite": 0,
+          "cost": {
+            "total": 0
+          },
+          "total": 48998
+        },
+        "promptTokens": 48993,
+        "contextBudgetStatus": {
+          "schemaVersion": 1,
+          "source": "pre-prompt-estimate",
+          "updatedAt": 1788934547676,
+          "provider": "llama-server",
+          "model": "kimi-linear-48b",
+          "route": "fits",
+          "shouldCompact": false,
+          "estimatedPromptTokens": 55179,
+          "contextTokenBudget": 262144,
+          "promptBudgetBeforeReserve": 242144,
+          "reserveTokens": 20000,
+          "effectiveReserveTokens": 20000,
+          "remainingPromptBudgetTokens": 186965,
+          "overflowTokens": 0,
+          "toolResultReducibleChars": 0,
+          "messageCount": 15,
+          "unwindowedMessageCount": 15,
+          "sessionId": "f7dca886-0c44-4e2c-b6ae-0d3db9dc419c"
+        },
+        "codeModeEngaged": false,
+        "assistantTurns": 2,
+        "costUsd": 0,
+        "terminalReceipt": {
+          "runId": "52cd1369-a650-4b94-9338-5c0717c5b9dd",
+          "sessionId": "f7dca886-0c44-4e2c-b6ae-0d3db9dc419c",
+          "turnId": "52cd1369-a650-4b94-9338-5c0717c5b9dd",
+          "requested": {
+            "provider": "llama-server",
+            "model": "kimi-linear-48b"
+          },
+          "effective": {
+            "provider": "llama-server",
+            "model": "kimi-linear-48b",
+            "responseModel": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf"
+          },
+          "successfulToolNames": [
+            "read"
+          ],
+          "rerouted": true
+        }
+      },
+      "aborted": false,
+      "systemPromptReport": {
+        "source": "run",
+        "generatedAt": 1788934547545,
+        "sessionId": "f7dca886-0c44-4e2c-b6ae-0d3db9dc419c",
+        "sessionKey": "agent:poliscopic:step13g-kg-maintenance-r1",
+        "provider": "llama-server",
+        "model": "kimi-linear-48b",
+        "workspaceDir": "/Users/pmains/Code/openclaw/poliscopic",
+        "bootstrapMaxChars": 20000,
+        "bootstrapTotalMaxChars": 60000,
+        "bootstrapTruncation": {
+          "warningMode": "always",
+          "warningShown": true,
+          "promptWarningSignature": "{\"bootstrapMaxChars\":20000,\"bootstrapTotalMaxChars\":60000,\"files\":[{\"path\":\"/Users/pmains/Code/openclaw/poliscopic/AGENTS.md\",\"rawChars\":32582,\"injectedChars\":19189,\"causes\":[\"per-file-limit\"]}]}",
+          "warningSignaturesSeen": [
+            "{\"bootstrapMaxChars\":20000,\"bootstrapTotalMaxChars\":60000,\"files\":[{\"path\":\"/Users/pmains/Code/openclaw/poliscopic/AGENTS.md\",\"rawChars\":32582,\"injectedChars\":19189,\"causes\":[\"per-file-limit\"]}]}"
+          ],
+          "truncatedFiles": 1,
+          "nearLimitFiles": 1,
+          "totalNearLimit": false
+        },
+        "sandbox": {
+          "mode": "off",
+          "sandboxed": false
+        },
+        "systemPrompt": {
+          "chars": 45517,
+          "hash": "c69f83ad6a0daef3d399d5bc9b07fc7db81332da682aaf05770cf081e9de51c6",
+          "projectContextChars": 25845,
+          "nonProjectContextChars": 19672
+        },
+        "injectedWorkspaceFiles": [
+          {
+            "name": "AGENTS.md",
+            "path": "/Users/pmains/Code/openclaw/poliscopic/AGENTS.md",
+            "missing": false,
+            "rawChars": 32582,
+            "injectedChars": 19189,
+            "truncated": true
+          },
+          {
+            "name": "SOUL.md",
+            "path": "/Users/pmains/Code/openclaw/poliscopic/SOUL.md",
+            "missing": false,
+            "rawChars": 4209,
+            "injectedChars": 4209,
+            "truncated": false
+          },
+          {
+            "name": "IDENTITY.md",
+            "path": "/Users/pmains/Code/openclaw/poliscopic/IDENTITY.md",
+            "missing": false,
+            "rawChars": 693,
+            "injectedChars": 693,
+            "truncated": false
+          },
+          {
+            "name": "USER.md",
+            "path": "/Users/pmains/Code/openclaw/poliscopic/USER.md",
+            "missing": false,
+            "rawChars": 685,
+            "injectedChars": 685,
+            "truncated": false
+          }
+        ],
+        "skills": {
+          "promptChars": 5402,
+          "hash": "7aa9c4b307004689b55802920838baf83c0c257fdea1b7da04bd55a19eef78a9",
+          "entries": [
+            {
+              "name": "browser-automation",
+              "blockChars": 324
+            },
+            {
+              "name": "canvas",
+              "blockChars": 243
+            },
+            {
+              "name": "control-ui",
+              "blockChars": 340
+            },
+            {
+              "name": "data-digest-triage",
+              "blockChars": 333
+            },
+            {
+              "name": "diagram-maker",
+              "blockChars": 266
+            },
+            {
+              "name": "healthcheck",
+              "blockChars": 278
+            },
+            {
+              "name": "meme-maker",
+              "blockChars": 251
+            },
+            {
+              "name": "newsletter-brief-implementation",
+              "blockChars": 374
+            },
+            {
+              "name": "node-connect",
+              "blockChars": 335
+            },
+            {
+              "name": "node-inspect-debugger",
+              "blockChars": 277
+            },
+            {
+              "name": "openai-whisper-api",
+              "blockChars": 275
+            },
+            {
+              "name": "python-debugpy",
+              "blockChars": 265
+            },
+            {
+              "name": "skill-creator",
+              "blockChars": 284
+            },
+            {
+              "name": "spike",
+              "blockChars": 251
+            },
+            {
+              "name": "taskflow",
+              "blockChars": 288
+            },
+            {
+              "name": "taskflow-inbox-triage",
+              "blockChars": 310
+            },
+            {
+              "name": "weather",
+              "blockChars": 289
+            }
+          ]
+        },
+        "tools": {
+          "listChars": 0,
+          "schemaChars": 47293,
+          "entries": [
+            {
+              "name": "ls",
+              "summaryChars": 192,
+              "summaryHash": "90bdd7a772f66ad236d45f18e28ee873b8c795fe219804f2c19074a867423e20",
+              "schemaChars": 254,
+              "schemaHash": "ebe8d6a85b7011ec7e0d43a759b3b53b1ce96e682f54a64312b10e89260e9af9",
+              "propertiesCount": 3
+            },
+            {
+              "name": "read",
+              "summaryChars": 164,
+              "summaryHash": "d136f5b09e28d671addad4ca800b75b8aa6a36002bc739ead964f618d3e34829",
+              "schemaChars": 481,
+              "schemaHash": "b1b9b637dfe1dfade40f50c37cf840a298f1992b534cb9425b7470233a6b0cbb",
+              "propertiesCount": 5
+            },
+            {
+              "name": "edit",
+              "summaryChars": 130,
+              "summaryHash": "4149500b1f6501ec6450e4c048bdb6844764dd4a888a10846726cbbc7256152e",
+              "schemaChars": 501,
+              "schemaHash": "adf3140833ca927b84c66c989d6833fdcbd9de011dd2ffc59f9a2c4d3c25f127",
+              "propertiesCount": 2
+            },
+            {
+              "name": "write",
+              "summaryChars": 49,
+              "summaryHash": "f9ce3d8ac929a51498c03331b97c59bfaa2bb4d25580a5ddf0102e6a8e173aec",
+              "schemaChars": 191,
+              "schemaHash": "b61d2da23febf5fbda55e391526f36d283e9e9fb7f1a1dbadcf5c618a0632287",
+              "propertiesCount": 2
+            },
+            {
+              "name": "apply_patch",
+              "summaryChars": 71,
+              "summaryHash": "5c1173efe93d080a386a23216bc3e58db2e0033eb3ddea697eb2439938b7cae4",
+              "schemaChars": 153,
+              "schemaHash": "05521268363ff4f191472c90d69ef08a503ba9acf1d2febc50b3ee68db32ab65",
+              "propertiesCount": 1
+            },
+            {
+              "name": "exec",
+              "summaryChars": 424,
+              "summaryHash": "17b521b0ff14237b532b0f1311b2a5bd83693017dbf6ce248b3772951ad148e1",
+              "schemaChars": 1242,
+              "schemaHash": "aeabc27dd35e066195bd6dc30a5fd0e3598974789e8784eb7303eee80fe82518",
+              "propertiesCount": 12
+            },
+            {
+              "name": "process",
+              "summaryChars": 258,
+              "summaryHash": "c9c81d9c38f731d0efcc810924c78c3161c38524baa561c6f9251638d9e164b2",
+              "schemaChars": 1164,
+              "schemaHash": "6cf3281369349e15ea532e644c8ec7f94c96fa6a4e3287272c8cfe90b0960516",
+              "propertiesCount": 12
+            },
+            {
+              "name": "automations",
+              "summaryChars": 4957,
+              "summaryHash": "f471e74a98bb4007f76f2056b17c57c263b35542cceca8e33fcab437b2122746",
+              "schemaChars": 8515,
+              "schemaHash": "58d16d88b862783e3863e9e9c5fd8fef1f6a593d4f3657207a8418889206c90e",
+              "propertiesCount": 17
+            },
+            {
+              "name": "sessions",
+              "summaryChars": 473,
+              "summaryHash": "4058858f3da7d33beed6639d6912b2f55dceb6b1aa0a7e009a40ad6c315adcae",
+              "schemaChars": 3524,
+              "schemaHash": "41a9f17175fe6a61259f18550c9f9594eb7b89739ed1a9e5fb3857d62b6040b3",
+              "propertiesCount": 21
+            },
+            {
+              "name": "get_goal",
+              "summaryChars": 37,
+              "summaryHash": "210e66713982f9fb94b37654a7aef01007f0e769395905ad57ebb7b206657b28",
+              "schemaChars": 33,
+              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+              "propertiesCount": 0
+            },
+            {
+              "name": "create_goal",
+              "summaryChars": 145,
+              "summaryHash": "7919e13323854315bcba96b318994fa383966500a2cf80b86bba6c015ddb30bb",
+              "schemaChars": 240,
+              "schemaHash": "347689d0f03cab77ded9e646bd95f495f29f5c93e5ad7a93f7c4d8670ffa428f",
+              "propertiesCount": 2
+            },
+            {
+              "name": "update_goal",
+              "summaryChars": 277,
+              "summaryHash": "e65e79cd292f3c7472d41fb894a89a6daf0a610015010f62cd934997f6f281df",
+              "schemaChars": 207,
+              "schemaHash": "063df78da73d06b7cf4a20d6d98b15e29e1c76f2128b7a4edb22e859ca5e2ca1",
+              "propertiesCount": 2
+            },
+            {
+              "name": "progress_card",
+              "summaryChars": 1249,
+              "summaryHash": "69ea4439b06a0e7b79b074dd8b68c74d0727362b326125642d9046c1ae4a800a",
+              "schemaChars": 401,
+              "schemaHash": "17936a8909b680a54f70957a8468dec2db700c94ee3fd327ddcad13e4e11c32f",
+              "propertiesCount": 2
+            },
+            {
+              "name": "secrets",
+              "summaryChars": 798,
+              "summaryHash": "f7f4d365c0632c02381d35f7bc8c984e3d637ac421376ac2b32aa6070e7e46c2",
+              "schemaChars": 1211,
+              "schemaHash": "49b033ce8c2a0755641cb69dda2f3c27e42284029e637ac1b3ff51046d7ccd1e",
+              "propertiesCount": 6
+            },
+            {
+              "name": "sessions_list",
+              "summaryChars": 244,
+              "summaryHash": "1e39ee0ccc7ce3c6f26fe067c389bcb0da4ba845e5030e5088ab8e4027df963c",
+              "schemaChars": 518,
+              "schemaHash": "e878e741a7122c61cfd46c97828e7281414afb487b2e9f0c718578bdf9bf30e5",
+              "propertiesCount": 10
+            },
+            {
+              "name": "sessions_history",
+              "summaryChars": 343,
+              "summaryHash": "cf78e38bd7308164a1b54994d87e3a0511a9108d8726f223da9862197e72b4d2",
+              "schemaChars": 337,
+              "schemaHash": "37ca1edd9f92288e5569f580721464b9efed5ccc64fdba8709d7f66db3a7a650",
+              "propertiesCount": 7
+            },
+            {
+              "name": "sessions_search",
+              "summaryChars": 177,
+              "summaryHash": "334f96a1cafd9325d695608fe065a4a00888f6b55279d396590575b39e62728a",
+              "schemaChars": 179,
+              "schemaHash": "6545acec45e540d9c7d7d76b79084ce439ba35f4cd626fa4f8ec406230f0913d",
+              "propertiesCount": 3
+            },
+            {
+              "name": "conversations_list",
+              "summaryChars": 159,
+              "summaryHash": "527335ff7cc669a406a88dbb1ea150631cea16155fa517fc76c8be38f8285190",
+              "schemaChars": 182,
+              "schemaHash": "49892a498ef1d6c253ce4a1bb1e97592906a526314ef999c31aa2319fd38e9b8",
+              "propertiesCount": 3
+            },
+            {
+              "name": "conversations_send",
+              "summaryChars": 152,
+              "summaryHash": "7031570c2ea879e8ebb39548c931374a864db8bfeb4d634de7d234a7f43fbbe3",
+              "schemaChars": 212,
+              "schemaHash": "28933715e5a7d6829a616ec68154d5da0a47072f6c1f333d0b4ba49f90692889",
+              "propertiesCount": 2
+            },
+            {
+              "name": "conversations_turn",
+              "summaryChars": 190,
+              "summaryHash": "67bb15e899769e37e6d2ff596dba9c33ac6c828e12ef2903fc40fbf5df56aeb3",
+              "schemaChars": 274,
+              "schemaHash": "3cc19168dc1491f82c30f2f38ad9a08c55314777fb7d99602e06d7a35ebbc58b",
+              "propertiesCount": 3
+            },
+            {
+              "name": "sessions_send",
+              "summaryChars": 799,
+              "summaryHash": "3756c42c8f9f5df09ff02fad64df2364084edf8d75b986d4ed51089083444427",
+              "schemaChars": 302,
+              "schemaHash": "204249b04e35552d80609d8e7c40c461cf550564dc4ee6e573d0e00f05af84e2",
+              "propertiesCount": 6
+            },
+            {
+              "name": "sessions_spawn",
+              "summaryChars": 2094,
+              "summaryHash": "b6fb449c755c5fdd53ec295f898c1c8b8b3629f3c867afb370e55f24cde8c38d",
+              "schemaChars": 3509,
+              "schemaHash": "34843cf914795e00317d1033420b7985edfa476829d2d75421858ee5bcbce3a0",
+              "propertiesCount": 26
+            },
+            {
+              "name": "agents_wait",
+              "summaryChars": 202,
+              "summaryHash": "eedf035982c7c4b9b386ed87e932630b03bc6f07fcdf94709b287665c77c168d",
+              "schemaChars": 190,
+              "schemaHash": "4fe95f5cd3a87b6a6fbc6905d57bc44949c99c72edea5125b3f113dabcc20164",
+              "propertiesCount": 2
+            },
+            {
+              "name": "sessions_yield",
+              "summaryChars": 181,
+              "summaryHash": "1a6f218bea29a4cb742605d09f114443b3b3a55f1644338a65f0a4cc6bbc1acb",
+              "schemaChars": 259,
+              "schemaHash": "affee0fae7ad36a16fa1e339d4fe9e1e80351178f1023af65e3d1240f700935d",
+              "propertiesCount": 2
+            },
+            {
+              "name": "subagents",
+              "summaryChars": 68,
+              "summaryHash": "7143cfe20a0f143f0559924a80735a7efa2e52e60997d835ee2bff7e8c5e050e",
+              "schemaChars": 182,
+              "schemaHash": "476c1f5821ec8d8bd2b001dbf64fa5c8242b8a2bb87d064ee00abbf66d4a4ea9",
+              "propertiesCount": 3
+            },
+            {
+              "name": "session_status",
+              "summaryChars": 192,
+              "summaryHash": "23343479c1bf552695627bd580795ca22cdc1020232f6984bf0cad5557f74dbd",
+              "schemaChars": 135,
+              "schemaHash": "528432b98ffdb5d86d4f09f43cb85eb3647387388109b84fc01183040a2406bd",
+              "propertiesCount": 3
+            },
+            {
+              "name": "web_search",
+              "summaryChars": 164,
+              "summaryHash": "4ec65764bf8e853aae0c06e334f54cd879efd9fb5d71c610e9c23bf7b285cb02",
+              "schemaChars": 991,
+              "schemaHash": "3879e368875d824b14e0e683f81408824e9a2a5850fa2f8514a68caebda54d18",
+              "propertiesCount": 12
+            },
+            {
+              "name": "web_fetch",
+              "summaryChars": 78,
+              "summaryHash": "616ac805dfdeaeadbb5e03504e84d52b01ecaa88c7e7100fa4c06eca8eb6195f",
+              "schemaChars": 317,
+              "schemaHash": "eca30c487911c9e897ba27b4650770cf23137fc6ed8d77756ea3952fa496ea61",
+              "propertiesCount": 3
+            },
+            {
+              "name": "memory_search",
+              "summaryChars": 729,
+              "summaryHash": "4f28bc5c030d2a510ba9fedcda9110814454726a24dc9e2185136935f1cb7702",
+              "schemaChars": 250,
+              "schemaHash": "088cd2a3d3a47b251429ff7c56844cdedd1c45c3af0fa8bfaf7aa795766976bf",
+              "propertiesCount": 4
+            },
+            {
+              "name": "memory_get",
+              "summaryChars": 503,
+              "summaryHash": "47415c135138bae947a258b31a684d8dce14cb5945e290057323ba5d044a357f",
+              "schemaChars": 241,
+              "schemaHash": "78f5d58460a82f9104deebad2f1873a8cde05d1ce7328b3ba4da6e994653e70a",
+              "propertiesCount": 4
+            },
+            {
+              "name": "intent",
+              "summaryChars": 266,
+              "summaryHash": "ff1256d0b5c53d9ec8dfd5e5ce9dc3cdc802359835a8e25a562cd3e952e2020a",
+              "schemaChars": 641,
+              "schemaHash": "0f0381dfd179cf5c563a3f84ab574b47e67377ceed2650fe02041a6c78a7fc69",
+              "propertiesCount": 10
+            },
+            {
+              "name": "berry__add_file_span",
+              "summaryChars": 73,
+              "summaryHash": "f92a952807f65fab7792eb7e169c83a31c7ae2b8e81183ea6c33b8cc4e9d50d7",
+              "schemaChars": 886,
+              "schemaHash": "99568364dbed0659cd1b8b7a0c993c7aaa25a9615593548d26d5a8069f0927ee",
+              "propertiesCount": 11
+            },
+            {
+              "name": "berry__add_span",
+              "summaryChars": 59,
+              "summaryHash": "1f93e01557ab79262ac3ca12cd97626508a30c7b58cf69626af86f21998e25a1",
+              "schemaChars": 783,
+              "schemaHash": "8fcb255745ef551f8ae4e29056cb41d553da6f00fee404848f9e3f6b31216764",
+              "propertiesCount": 9
+            },
+            {
+              "name": "berry__audit_claims",
+              "summaryChars": 54,
+              "summaryHash": "fc2489e96b9711ae64fb41063299904283d435a2f3f33aae40c2ad7050399d58",
+              "schemaChars": 1711,
+              "schemaHash": "c04af948de835f79b27d684c99fc003349010b0c62b7729e0aad6eb867bae337",
+              "propertiesCount": 20
+            },
+            {
+              "name": "berry__audit_trace_budget",
+              "summaryChars": 36,
+              "summaryHash": "b4b5b25ce62946bc75a6cf5080f574c69f04ab10166144131ce15a98750b1fcd",
+              "schemaChars": 1310,
+              "schemaHash": "64e295f7e2f1f37ce1ae2092ed95b28cf91f5e263cde38b2cd34c19f2c3227b6",
+              "propertiesCount": 15
+            },
+            {
+              "name": "berry__audit_trace_budget_run",
+              "summaryChars": 80,
+              "summaryHash": "7a82bb9e3963d0b2465af19be2888d6779305fc5977ac0bf9c5d599bb941b5d2",
+              "schemaChars": 1969,
+              "schemaHash": "c3be1a9586e9aef20d5aba47f163f78f9092f84e0cfc012ddf44928ceccb1eb7",
+              "propertiesCount": 23
+            },
+            {
+              "name": "berry__create_claim",
+              "summaryChars": 74,
+              "summaryHash": "df3d8bfd4cc45bc320ca02c60296629652a2e705b9ca900ea13a601fc373b082",
+              "schemaChars": 670,
+              "schemaHash": "a8812116849b8bcfc9d2258f4b701388adf0cad20c78de7c3d4404374d1067e7",
+              "propertiesCount": 8
+            },
+            {
+              "name": "berry__detect_hallucination",
+              "summaryChars": 40,
+              "summaryHash": "6e7a9f35ae0c20fe0d2bebd1639e5c7c943eaf593fefe41198b4e79a11b08dfa",
+              "schemaChars": 1404,
+              "schemaHash": "8ba875c24ccda82ba3b543117c11ca64cdff203125cb7cfe6854a748e0952b06",
+              "propertiesCount": 17
+            },
+            {
+              "name": "berry__detect_hallucination_run",
+              "summaryChars": 80,
+              "summaryHash": "0d95c78af7038ac6ff0bc6b5827c75dadc23bf27a42a4ff89cdfb42390130302",
+              "schemaChars": 1978,
+              "schemaHash": "8ef9b1c53461203735ee957b23d85b5e1ed3926ac9296891af9c47119e2fe40d",
+              "propertiesCount": 24
+            },
+            {
+              "name": "berry__distill_span",
+              "summaryChars": 78,
+              "summaryHash": "74f1af697be0d810fe230181a5578a714eee59b2bd89513d942f20cd04111223",
+              "schemaChars": 470,
+              "schemaHash": "1d0fe05e67f42cd7a8ff8a2cd5a6f654e02c3e4883a383f0eacf19dd0a07f9bb",
+              "propertiesCount": 6
+            },
+            {
+              "name": "berry__export_run_ledger",
+              "summaryChars": 81,
+              "summaryHash": "b08ed374473da3f711c3320569c3c8802cf30edae9254009716885445a3a22a4",
+              "schemaChars": 156,
+              "schemaHash": "dd5218b612e2f5130656755c324c0e99a6c5fdace02fe691fc696d72fd5004c5",
+              "propertiesCount": 1
+            },
+            {
+              "name": "berry__extract_span",
+              "summaryChars": 77,
+              "summaryHash": "9e8b2e558360ccff8af18b95e33e930298dece6eb246c7c4d35b4ed58a01746b",
+              "schemaChars": 610,
+              "schemaHash": "c916ea4ac3ef7f51a5a7310fc81bc74c1bca91782bf0c37da62488b6961e790e",
+              "propertiesCount": 7
+            },
+            {
+              "name": "berry__get_claim",
+              "summaryChars": 51,
+              "summaryHash": "772f976120108c7cefe39e23797f090455e35a9d9954e7ef9a0125267df94050",
+              "schemaChars": 361,
+              "schemaHash": "e1b400ae33e73a49bd474f43ee15f194320e6044dd98af81e21b9b82e76372de",
+              "propertiesCount": 4
+            },
+            {
+              "name": "berry__get_deliverable",
+              "summaryChars": 56,
+              "summaryHash": "d8a6e99e7319de12d08fcc2d9c243217d39a3d3c7681327a3adebcb7fa2c5916",
+              "schemaChars": 154,
+              "schemaHash": "86fd40bedb8ba9191a6e8909acecddf235c44047c8c13758d6dc93b7fb3c86c3",
+              "propertiesCount": 1
+            },
+            {
+              "name": "berry__get_evidence_pack",
+              "summaryChars": 66,
+              "summaryHash": "c27b78e25a8f459a3ef553c85ebf5ddaa62366686adfd6ac837a654671d8dc6e",
+              "schemaChars": 541,
+              "schemaHash": "758386f5e3bdbf5fbd95f0c455fa2985dcf006fcc1d1adede2f381c1789e1537",
+              "propertiesCount": 6
+            },
+            {
+              "name": "berry__get_span",
+              "summaryChars": 69,
+              "summaryHash": "290a9e01719d62cba2cadd8850c435141c3a0bdfd589d3089fada7362c4593b8",
+              "schemaChars": 297,
+              "schemaHash": "87ce8a8405668cdcd2ea057810c52ddfc0e17f0b168799d498d4e3b722b68b66",
+              "propertiesCount": 3
+            },
+            {
+              "name": "berry__link_claim_evidence",
+              "summaryChars": 63,
+              "summaryHash": "d2faff8aa6b99828355e5da9e2f6aca57c18af8ad9db48dcb1d25abaea214fe3",
+              "schemaChars": 553,
+              "schemaHash": "73744eaa9d15d5fd0481fb41232fdc6e0783354403d2ce595369956a3e2a8db5",
+              "propertiesCount": 7
+            },
+            {
+              "name": "berry__list_attempts",
+              "summaryChars": 42,
+              "summaryHash": "f55e78248568b09378dcd28f057d4dcb4f7b34ed50b7a30b1483d236e8dae939",
+              "schemaChars": 209,
+              "schemaHash": "37a1234155856179726f8e7a2532ee89f67f6521054b536ab9d5eaf33825e8d3",
+              "propertiesCount": 2
+            },
+            {
+              "name": "berry__list_audits",
+              "summaryChars": 58,
+              "summaryHash": "9f333ca37e9804ebb544628db3188e42fb93a4623794c274911fc635f5246617",
+              "schemaChars": 298,
+              "schemaHash": "caabe778c03d1ac2eadffd3381ad4f82f774861c8d5283469fc977fbea7e187b",
+              "propertiesCount": 3
+            },
+            {
+              "name": "berry__list_claim_evidence",
+              "summaryChars": 74,
+              "summaryHash": "c5f766609b51947f3b5adbd5b79e02f2c84144f93eef34c202def0732a06cd78",
+              "schemaChars": 436,
+              "schemaHash": "7ae3c935cc4e718434fc746a137b3700cde360724a1f727dc3769fccbaf8d872",
+              "propertiesCount": 4
+            },
+            {
+              "name": "berry__list_claims",
+              "summaryChars": 61,
+              "summaryHash": "044cbff73a9b7eb0fe0b6f9f82939c3057e06738eefcc564c39d098a8edc4822",
+              "schemaChars": 509,
+              "schemaHash": "4c2b6f2c83792ca362848deb2f64318e78cf3c43cfc42f37b5a6416c623ff126",
+              "propertiesCount": 5
+            },
+            {
+              "name": "berry__list_spans",
+              "summaryChars": 73,
+              "summaryHash": "60a65dc924a59715726e42027505f311d8837c9c9e53b2600a26d6b257316714",
+              "schemaChars": 662,
+              "schemaHash": "c6865f6cf128cf65ef0edb86accb2a96a50cb1dc45ce9c49cbd9b59c4d8b7721",
+              "propertiesCount": 6
+            },
+            {
+              "name": "berry__load_run",
+              "summaryChars": 72,
+              "summaryHash": "bbf4e8fa81754549b6f0a194fd8e6b92abd2ef726f3262474ab34cd922fa0ec7",
+              "schemaChars": 126,
+              "schemaHash": "eaf9e602e86fac85e59bc192feb6b141ae90a882778028ccd90edfb14cfd9a4a",
+              "propertiesCount": 1
+            },
+            {
+              "name": "berry__mark_claim",
+              "summaryChars": 71,
+              "summaryHash": "dbc8b164f050410bd2d6c87583388f0d110bb1684956ed5bbace44f3c285c3a0",
+              "schemaChars": 988,
+              "schemaHash": "c5ce687ebb9dfe67591bbe3017c42b4867d2263af2fd52af4d2340880832fde7",
+              "propertiesCount": 10
+            },
+            {
+              "name": "berry__mark_span",
+              "summaryChars": 73,
+              "summaryHash": "7aee1506e35603a93b61ea0b21bc426d5f50eff0cb3f91ed11f5598ce65258a0",
+              "schemaChars": 712,
+              "schemaHash": "237948dc1ef021f341ed1b01c5b9281fc61300bc118b120ec6355db8a4a8f291",
+              "propertiesCount": 7
+            },
+            {
+              "name": "berry__prompts_get",
+              "summaryChars": 84,
+              "summaryHash": "c4a056a1b22be5b04258da1767eebacab191040dbd0887339acd9575ee426391",
+              "schemaChars": 177,
+              "schemaHash": "6dab2e3539ad21ebb5401c191837d8bd6cd4d60e8380a59b364c1fbe3ca2e306",
+              "propertiesCount": 2
+            },
+            {
+              "name": "berry__prompts_list",
+              "summaryChars": 90,
+              "summaryHash": "7a681146167c3d544ff9af89f8b4b3c4852fad524c91c98b4eeb7c8b26a6e6ab",
+              "schemaChars": 33,
+              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+              "propertiesCount": 0
+            },
+            {
+              "name": "berry__query_evidence",
+              "summaryChars": 65,
+              "summaryHash": "e0491784bf152e11d61e770a294fc8b68a58be5b45d96109bfabd1b9ec6646d5",
+              "schemaChars": 882,
+              "schemaHash": "2cd97e20857d938a8a328ec8e237b111306da3197039cb83a703b27b7b4c2c21",
+              "propertiesCount": 9
+            },
+            {
+              "name": "berry__record_attempt",
+              "summaryChars": 52,
+              "summaryHash": "6a9708118a5115de280c9cd08b1f07744a94a1c237776d94e157dc8db2329192",
+              "schemaChars": 850,
+              "schemaHash": "d76cd079069ce1679dc65cb947b8538f88e0c4844cb3476133af9562ea163777",
+              "propertiesCount": 10
+            },
+            {
+              "name": "berry__resources_list",
+              "summaryChars": 95,
+              "summaryHash": "af96b351f6e369c937db0dd6d73d3a08d07384ddb3c9f75525c8d73cae8a1c9c",
+              "schemaChars": 33,
+              "schemaHash": "8243f0af367f188a376f2c17b5eabe872a2f7a979813e0d4e2be6d594c2aa259",
+              "propertiesCount": 0
+            },
+            {
+              "name": "berry__resources_read",
+              "summaryChars": 89,
+              "summaryHash": "00c708fccd0837b6b192c7445b12e6b7b76a1136e56b5cddf3bc28c8ab134d2e",
+              "schemaChars": 104,
+              "schemaHash": "af27eb045b8ea1e79801b467c4b872a299c3e659028bb7c78bc45e6bc65ef198",
+              "propertiesCount": 1
+            },
+            {
+              "name": "berry__search_spans",
+              "summaryChars": 65,
+              "summaryHash": "27f355707cc656621f0b0c4a54fc305005158db0a7cf8437910af4c1bf4e678a",
+              "schemaChars": 270,
+              "schemaHash": "28407d5732b0cd8c67c59169ea73a4c21609c934cc8a3eabf8c5ec4eccefd1f7",
+              "propertiesCount": 3
+            },
+            {
+              "name": "berry__start_run",
+              "summaryChars": 83,
+              "summaryHash": "c36600bb0940664be5384f77e176e179a5cdf2903c6b960659f729d35105f64a",
+              "schemaChars": 315,
+              "schemaHash": "43b10bdb30927fbfec74c0b28730fb81958258ca3c203ed987c6c31e22b449e0",
+              "propertiesCount": 3
+            }
+          ]
+        },
+        "currentTurn": {
+          "promptChars": 186,
+          "runtimeContextChars": 52,
+          "modelOnlyPromptChars": 0
+        }
+      },
+      "finalPromptText": "Use the read tool to read the file at exactly this path in full (no line limit):\n/Users/pmains/Code/openclaw/poliscopic/drafts/lessons-learned-paper.md\n\nThen reply with exactly: B14-DONE",
+      "finalAssistantVisibleText": "B14-DONE",
+      "finalAssistantRawText": "B14-DONE",
+      "replayInvalid": false,
+      "livenessState": "working",
+      "stopReason": "stop",
+      "executionTrace": {
+        "winnerProvider": "llama-server",
+        "winnerModel": "kimi-linear-48b",
+        "attempts": [
+          {
+            "provider": "llama-server",
+            "model": "kimi-linear-48b",
+            "result": "success",
+            "stage": "assistant"
+          }
+        ],
+        "fallbackUsed": false,
+        "runner": "embedded"
+      },
+      "requestShaping": {
+        "thinking": "off"
+      },
+      "completion": {
+        "stopReason": "stop",
+        "finishReason": "stop"
+      },
+      "toolSummary": {
+        "calls": 1,
+        "tools": [
+          "read"
+        ],
+        "failures": 0
+      }
+    }
+  }
+}

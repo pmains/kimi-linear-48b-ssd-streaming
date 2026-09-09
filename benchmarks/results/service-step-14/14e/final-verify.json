@@ -1,0 +1,12 @@
+{
+  "step": "14E-final",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "llama_pid": "7021",
+  "gateway_pid": "82948",
+  "step11b_sha": "b54b13f1d7",
+  "kimi_fk_violations": "0",
+  "poliscopic_fk_violations": "0",
+  "loadavg": "{ 1.95 2.42 2.90 }"
+}

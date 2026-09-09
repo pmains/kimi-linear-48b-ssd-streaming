@@ -1,0 +1,69 @@
+2026-09-08T21:33:30.659-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-08T21:33:30.933-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=274 dispatcher=reused contentType=text/event-stream
+2026-09-08T21:34:05.761-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:34:08.171-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2410 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-08T21:34:10.536-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:34:12.473-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1936 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-08T21:34:12.832-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-08T21:34:12.988-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=156 dispatcher=reused contentType=text/event-stream
+2026-09-08T21:34:29.824-07:00 [ws] ⇄ res ✓ agent.wait 120005ms conn=7146a464…05c8 id=44D0AD6A…9F9D
+2026-09-08T21:35:16.286-07:00 [ws] ⇄ res ✓ sessions.list 120ms conn=ef43ce07…a5e4 id=95FC62E8…A0C1
+2026-09-08T21:35:16.400-07:00 [ws] ⇄ res ✓ cron.list 113ms conn=ef43ce07…a5e4 id=25F14A02…27B3
+2026-09-08T21:35:16.407-07:00 [ws] ⇄ res ✗ usage.cost 4ms errorCode=INVALID_REQUEST errorMessage=Multiple agents are configured, but session key "main" has no explicit owner. Pass agentId or use an agent-prefixed session key. conn=ef43ce07…a5e4 id=BD27C154…E483
+2026-09-08T21:35:16.596-07:00 [ws] ⇄ res ✓ chat.history 91ms conn=ef43ce07…a5e4 id=C7B9B148…068B
+2026-09-08T21:35:17.440-07:00 [ws] ⇄ res ✓ sessions.branches.list 735ms conn=ef43ce07…a5e4 id=E742649C…7E27
+2026-09-08T21:35:17.580-07:00 [ws] ⇄ res ✓ chat.history 51ms conn=ef43ce07…a5e4 id=1A6BC90F…84E3
+2026-09-08T21:35:17.610-07:00 [ws] ⇄ res ✓ tasks.list 81ms conn=ef43ce07…a5e4 id=7CCEB2CC…9C33
+2026-09-08T21:35:18.484-07:00 [ws] ⇄ res ✓ sessions.list 51ms conn=ef43ce07…a5e4 id=598936D8…0475
+2026-09-08T21:35:18.902-07:00 [ws] ⇄ res ✓ sessions.list 50ms conn=ef43ce07…a5e4 id=77EC85C9…71CD
+2026-09-08T21:35:20.134-07:00 [ws] ⇄ res ✓ chat.history 73ms conn=ef43ce07…a5e4 id=84842840…F391
+2026-09-08T21:35:24.678-07:00 [ws] ⇄ res ✓ chat.history 90ms conn=ef43ce07…a5e4 id=4E2106D6…5DB8
+2026-09-08T21:35:34.493-07:00 [ws] ⇄ res ✓ chat.history 230ms conn=ef43ce07…a5e4 id=AC8E6997…0381
+2026-09-08T21:35:55.669-07:00 [ws] ⇄ res ✓ chat.history 76ms conn=ef43ce07…a5e4 id=47B18935…3313
+2026-09-08T21:36:15.792-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:36:26.017-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=10218 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-08T21:36:28.012-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:36:31.206-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=3190 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-08T21:36:57.138-07:00 [ws] ⇄ res ✓ sessions.catalog.list 51ms conn=375c0d05…a5d8 id=4221:883edd8…4e12
+2026-09-08T21:37:18.510-07:00 [ws] ⇄ res ✓ agent.wait 120004ms conn=ef43ce07…a5e4 id=BB3FFE54…20CF
+2026-09-08T21:38:07.886-07:00 [ws] ⇄ res ✓ cron.list 124ms conn=ce09385a…46a0 id=7D75CAEE…BA57
+2026-09-08T21:38:08.014-07:00 [ws] ⇄ res ✓ sessions.list 102ms conn=ce09385a…46a0 id=B4FD2F6A…33E3
+2026-09-08T21:38:08.017-07:00 [ws] ⇄ res ✗ usage.cost 36ms errorCode=INVALID_REQUEST errorMessage=Multiple agents are configured, but session key "main" has no explicit owner. Pass agentId or use an agent-prefixed session key. conn=ce09385a…46a0 id=60891CB4…1650
+2026-09-08T21:38:08.171-07:00 [ws] ⇄ res ✓ chat.history 88ms conn=ce09385a…46a0 id=5FCEA8FA…0EB9
+2026-09-08T21:38:08.640-07:00 [ws] ⇄ res ✓ sessions.branches.list 439ms conn=ce09385a…46a0 id=D532EB23…3EFD
+2026-09-08T21:38:10.265-07:00 [ws] ⇄ res ✓ sessions.list 52ms conn=ce09385a…46a0 id=02E86EFC…89B8
+2026-09-08T21:38:11.603-07:00 [ws] ⇄ res ✓ chat.history 124ms conn=ce09385a…46a0 id=EA1B6534…915A
+2026-09-08T21:38:16.027-07:00 [ws] ⇄ res ✓ chat.history 102ms conn=ce09385a…46a0 id=72EAE75A…7843
+2026-09-08T21:38:26.375-07:00 [ws] ⇄ res ✓ chat.history 129ms conn=ce09385a…46a0 id=D4EC4293…361B
+2026-09-08T21:38:33.397-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:38:35.236-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1836 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-08T21:38:36.723-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:38:38.962-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2238 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-08T21:38:46.906-07:00 [ws] ⇄ res ✓ chat.history 118ms conn=ce09385a…46a0 id=7C68F08B…04A6
+2026-09-08T21:38:48.722-07:00 [ws] ⇄ res ✓ health 52ms conn=ce09385a…46a0 id=D6CE972B…1352
+2026-09-08T21:38:57.480-07:00 [ws] ⇄ res ✗ usage.cost 10ms errorCode=INVALID_REQUEST errorMessage=Multiple agents are configured, but session key "main" has no explicit owner. Pass agentId or use an agent-prefixed session key. conn=acde62ef…65e8 id=45765396…FE3F
+2026-09-08T21:38:57.612-07:00 [ws] ⇄ res ✓ cron.list 130ms conn=acde62ef…65e8 id=93AA399A…D0E4
+2026-09-08T21:38:58.096-07:00 [ws] ⇄ res ✓ sessions.branches.list 340ms conn=acde62ef…65e8 id=D00D6845…C3D2
+2026-09-08T21:38:59.569-07:00 [ws] ⇄ res ✓ sessions.list 54ms conn=acde62ef…65e8 id=0A81E471…D73B
+2026-09-08T21:38:59.781-07:00 [ws] ⇄ res ✓ health 100ms conn=acde62ef…65e8 id=CB17D422…A12F
+2026-09-08T21:39:00.728-07:00 [ws] ⇄ res ✓ chat.history 100ms conn=acde62ef…65e8 id=0F0E8935…ED43
+2026-09-08T21:39:05.231-07:00 [ws] ⇄ res ✓ chat.history 96ms conn=acde62ef…65e8 id=5906F2D9…D68C
+2026-09-08T21:39:14.970-07:00 [ws] ⇄ res ✓ chat.history 99ms conn=acde62ef…65e8 id=61D9D87B…2B8B
+2026-09-08T21:39:17.535-07:00 [ws] ⇄ res ✓ health 65ms conn=acde62ef…65e8 id=5F83E90C…70F0
+2026-09-08T21:39:36.262-07:00 [ws] ⇄ res ✓ chat.history 94ms conn=acde62ef…65e8 id=DD3F720A…6BDB
+2026-09-08T21:40:10.012-07:00 [ws] ⇄ res ✓ agent.wait 120002ms conn=ce09385a…46a0 id=81AE2FA2…50B9
+2026-09-08T21:40:41.282-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:40:43.231-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1950 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-08T21:40:45.111-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T21:40:47.035-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=1916 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-08T21:40:59.117-07:00 [ws] ⇄ res ✓ agent.wait 120004ms conn=acde62ef…65e8 id=64AB912B…F5A3
+2026-09-08T21:41:46.023-07:00 [ws] ⇄ res ✗ usage.cost 6ms errorCode=INVALID_REQUEST errorMessage=Multiple agents are configured, but session key "main" has no explicit owner. Pass agentId or use an agent-prefixed session key. conn=b31c2dc5…ad57 id=70DAC655…2DF0
+2026-09-08T21:41:46.112-07:00 [ws] ⇄ res ✓ cron.list 87ms conn=b31c2dc5…ad57 id=29913EB6…9C5C
+2026-09-08T21:41:46.250-07:00 [ws] ⇄ res ✓ chat.history 50ms conn=b31c2dc5…ad57 id=DE22CAB2…D6C3
+2026-09-08T21:41:46.687-07:00 [ws] ⇄ res ✓ sessions.branches.list 417ms conn=b31c2dc5…ad57 id=3CFF15D1…DDE3
+2026-09-08T21:41:47.083-07:00 [ws] ⇄ res ✓ chat.history 54ms conn=b31c2dc5…ad57 id=B00B44F1…EC17
+2026-09-08T21:41:49.695-07:00 [ws] ⇄ res ✓ chat.history 99ms conn=b31c2dc5…ad57 id=C135491D…D2B1
+2026-09-08T21:41:54.431-07:00 [ws] ⇄ res ✓ chat.history 109ms conn=b31c2dc5…ad57 id=9A9CA4C7…ABE6
+2026-09-08T21:42:03.940-07:00 [ws] ⇄ res ✓ chat.history 107ms conn=b31c2dc5…ad57 id=820A1834…BD4C
+2026-09-08T21:42:20.065-07:00 B3-DONE
+2026-09-08T21:42:20.067-07:00 [agents/agent-command] [agent] run b9238aa2-c114-47bb-aa5f-5618d0d28990 ended with stopReason=stop

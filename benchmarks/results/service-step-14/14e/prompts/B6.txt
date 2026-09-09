@@ -1,0 +1,4 @@
+Use the read tool to read the file at exactly this path in full (no line limit):
+/Users/pmains/Code/openclaw/poliscopic/docs/INFO_LAYER.md
+
+Then reply with exactly: B6-DONE

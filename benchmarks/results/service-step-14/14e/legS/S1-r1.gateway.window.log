@@ -1,0 +1,7 @@
+2026-09-08T23:20:36.752-07:00 [provider-transport-fetch] [model-fetch] start provider=llama-server api=openai-completions model=kimi-linear-48b method=POST url=http://127.0.0.1:18080/v1/chat/completions timeoutMs=1800000 proxy=none policy=custom
+2026-09-08T23:20:36.873-07:00 [provider-transport-fetch] [model-fetch] response provider=llama-server api=openai-completions model=kimi-linear-48b status=200 elapsedMs=121 dispatcher=reused contentType=text/event-stream
+2026-09-08T23:20:37.340-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2162 dispatcher=new contentType=text/event-stream; charset=utf-8
+2026-09-08T23:20:39.968-07:00 [provider-transport-fetch] [model-fetch] start provider=deepseek api=openai-completions model=deepseek-v4-flash method=POST url=https://api.deepseek.com/chat/completions timeoutMs=undefined proxy=none policy=custom
+2026-09-08T23:20:42.236-07:00 [provider-transport-fetch] [model-fetch] response provider=deepseek api=openai-completions model=deepseek-v4-flash status=200 elapsedMs=2266 dispatcher=reused contentType=text/event-stream; charset=utf-8
+2026-09-08T23:21:13.947-07:00 14E-SUFFIX-OK
+2026-09-08T23:21:13.949-07:00 [agents/agent-command] [agent] run 44ac925a-6329-4b30-a172-968f69e8ae2c ended with stopReason=stop

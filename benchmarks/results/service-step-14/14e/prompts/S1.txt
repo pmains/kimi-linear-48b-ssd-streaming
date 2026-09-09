@@ -1,0 +1,5 @@
+Below is a short new reference note for the maintenance assessment. Do not run any tool.
+
+REFERENCE-NOTE-14E: The Poliscopic knowledge graph merges entity records from Maricopa planning documents, county assessor feeds, and Bluesky community tracking. Integrity indicators are the dangling-edge count, the duplicate-entity ratio, and the per-source citation coverage in the analytics database. The roadmap treats KG maintenance as a queue: STAGE-0 backfills missing parcels, PIPELINE repairs entity resolution conflicts, and ENTITY_RELATIONSHIPS audits edge directionality. Recent archive notes flag that entity-feedback-loop corrections are not yet replayed into the canonical store, and the lessons-learned draft recommends a weekly integrity sweep that compares maricopa.sqlite counts against analytics.sqlite aggregates. OPS runbooks require the sweep to be read-only: it must never mutate schemas or data, only report counts and anomalies for the next maintenance ticket.
+
+Using only the reference note above and your earlier KG assessment in this session, reply with exactly: 14E-SUFFIX-OK

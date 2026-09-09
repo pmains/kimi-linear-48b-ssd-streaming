@@ -1,0 +1,14 @@
+{
+ "before": {
+  "is_processing": false,
+  "n_prompt_tokens": 95478,
+  "n_prompt_tokens_cache": 0,
+  "id_task": 12253
+ },
+ "after": {
+  "is_processing": false,
+  "n_prompt_tokens": 100400,
+  "n_prompt_tokens_cache": 0,
+  "id_task": 12302
+ }
+}

@@ -2964,6 +2964,40 @@ The decisive benchmark for Step 14 should include a large accumulated context pl
 
 The goal is to determine whether the system evaluates roughly the suffix rather than recomputing the entire accumulated context.
 
+### 14E Status — PARTIAL (2026-09-08/09 23:21 MST)
+
+Measurement-only production qualification (no changes, no patches, no
+restart; llama pid 7021 + gw pid 82948 constant, 11B(i) sha
+b54b13f1d7, FK 0, idle gate PASS). Continued the retained 13G
+poliscopic session and grew it through real workspace-doc reads:
+B2-B12 built 67K -> 121.7K assembled (each leg evaluated only its newly
+read file content against a warm cached prefix; 0 compaction).
+- DECISIVE datapoint B12: 121,737 assembled, 589 new tokens (0.48%),
+  cacheRead 121,148 (99.5%), wall 52.1 s — suffix-only evaluation
+  confirmed at 121.7K (vs 13G cold 47.6K / 46,780 new / 1,410.7 s;
+  same class as 14A legC at 48K).
+- BLOCKING FINDING: at ~122K during B13, OpenClaw auto-compaction
+  fired (gateway 22:56:20: "auto-compaction succeeded for
+  llama-server/kimi-linear-48b; retrying prompt"), resetting the
+  session to ~49K (policy keepRecentTokens 50000). B14/S1 then ran on
+  the compacted session; S1 re-measured suffix-only at 49K (749 new /
+  48,486 cached / 98.5% / 38.3 s). The roadmap's ~150K decisive leg
+  is NOT reachable through the real agent path without an OpenClaw
+  compaction-policy change (agents/defaults/compaction — out of scope
+  for measurement-only 14E; separate authorization required).
+- Evidence: auto-compaction-evidence.md (gateway line + config),
+  analysis.json, per-leg windows.
+Report: service-progress/step-14e-production-qualification.md; driver
+tools/service_step14e.sh.
+
+Step 14 closes here (14A-14E all recorded): same-session warm
+suffix-only evaluation confirmed 13.5K -> 48K -> 121.7K assembled;
+cross-session shared-bootstrap reuse 97% + f_keep<0.5 RAM-cache
+boundary characterized in 14D; gateway restart preserves llama slot
+state, llama restart forces cold re-prefill (14B/14D). No expansion
+into 512K/1M, decode optimization, model/sampler changes, multi-agent
+concurrency, or Mistral/K3 work.
+
 ### Exit
 
 Step 14 must not expand into:

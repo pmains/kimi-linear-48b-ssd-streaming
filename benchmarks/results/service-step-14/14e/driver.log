@@ -1,0 +1,39 @@
+[2026-09-08 20:55:30 -0700] --- preflight (14E r1) ---
+[2026-09-08 20:55:30 -0700] --- preflight recorded ---
+[2026-09-08 20:55:30 -0700] --- workload idle gate ---
+[2026-09-08 20:55:30 -0700] slot_idle=IDLE
+[2026-09-08 20:55:30 -0700] other_agent_procs=
+[2026-09-08 20:55:30 -0700] idle gate PASS
+[2026-09-08 20:55:30 -0700] === B1-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 21:20:38 -0700] [B1-r1] rc=1 wall=1501.8012s
+[2026-09-08 21:20:38 -0700] === B2-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 21:33:29 -0700] [B2-r1] rc=0 wall=765.9103s
+[2026-09-08 21:33:29 -0700] === B3-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 21:42:20 -0700] [B3-r1] rc=0 wall=530.6621s
+[2026-09-08 21:42:20 -0700] === B4-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 21:50:44 -0700] [B4-r1] rc=0 wall=503.7454s
+[2026-09-08 21:50:44 -0700] === B5-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 21:59:30 -0700] [B5-r1] rc=0 wall=525.2544s
+[2026-09-08 21:59:30 -0700] === B6-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:07:14 -0700] [B6-r1] rc=0 wall=464.1322s
+[2026-09-08 22:07:14 -0700] === B7-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:14:36 -0700] [B7-r1] rc=0 wall=442.1018s
+[2026-09-08 22:14:36 -0700] === B8-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:22:46 -0700] [B8-r1] rc=0 wall=489.2144s
+[2026-09-08 22:22:46 -0700] === B9-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:30:00 -0700] [B9-r1] rc=0 wall=434.004s
+[2026-09-08 22:30:00 -0700] === B10-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:37:48 -0700] [B10-r1] rc=0 wall=467.38s
+[2026-09-08 22:37:48 -0700] === B11-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:48:38 -0700] [B11-r1] rc=0 wall=649.716s
+[2026-09-08 22:48:38 -0700] === B12-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 22:49:30 -0700] [B12-r1] rc=0 wall=52.0917s
+[2026-09-08 22:49:30 -0700] === B13-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 23:15:06 -0700] [B13-r1] rc=1 wall=1530.8513s
+[2026-09-08 23:15:06 -0700] === B14-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1500s) ===
+[2026-09-08 23:20:35 -0700] [B14-r1] rc=0 wall=323.6713s
+[2026-09-08 23:20:35 -0700] === S1-r1 start (agent=poliscopic key=agent:poliscopic:step13g-kg-maintenance-r1 timeout=1200s) ===
+[2026-09-08 23:21:14 -0700] [S1-r1] rc=0 wall=38.2812s
+[2026-09-08 23:21:14 -0700] --- analysis + gates ---
+[2026-09-08 23:21:16 -0700] --- final verify ---
+[2026-09-08 23:21:17 -0700] --- 14E driver done ---

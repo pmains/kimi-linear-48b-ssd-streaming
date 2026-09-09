@@ -1,0 +1,82 @@
+{
+  "step": "14E-preflight",
+  "llama_health": "200",
+  "resolved_n_ctx": "262144",
+  "gateway_healthz": "200",
+  "llama_pid": "7021",
+  "gateway_pid": "82948",
+  "step11b_sha": "b54b13f1d7",
+  "kimi_fk_violations": "0",
+  "poliscopic_fk_violations": "0",
+  "slot": "{'proc': False, 'n_prompt': 44967, 'cache': 0, 'task': 11928}",
+  "config_drift_vs_13D": [
+    {
+      "path": "/agents/entries/aristotle/tools/deny[2]",
+      "old": "image",
+      "new": "view_image"
+    },
+    {
+      "path": "/agents/entries/kimi/tools/deny[2]",
+      "old": "image",
+      "new": "view_image"
+    },
+    {
+      "path": "/agents/entries/poliscopic/tools/deny[1]",
+      "old": "image",
+      "new": "view_image"
+    },
+    {
+      "path": "/gateway/tailscale/mode",
+      "old": "off",
+      "new": "serve"
+    },
+    {
+      "path": "/meta/lastTouchedVersion",
+      "old": "2026.9.1-beta.1",
+      "new": "2026.9.3"
+    },
+    {
+      "path": "/models/providers/openai/models[0]/id",
+      "old": "gpt-4o-mini",
+      "new": "gpt-5.4-mini"
+    },
+    {
+      "path": "/ui/prefs/sidebarEntries[0]",
+      "old": null,
+      "new": "session:agent:poliscopic:dashboard:b18d4f43-9174-4f71-a811-06ec489099d9"
+    },
+    {
+      "path": "/ui/prefs/sidebarEntries[1]",
+      "old": null,
+      "new": "session:agent:poliscopic:dashboard:5cc2e33b-f6b6-4856-b4c5-15bc3f1f91d0"
+    },
+    {
+      "path": "/ui/prefs/sidebarEntries[2]",
+      "old": null,
+      "new": "session:agent:poliscopic:dashboard:602f1eda-bd7d-4c0a-9f92-a570493f7d42"
+    },
+    {
+      "path": "/ui/prefs/sidebarEntries[3]",
+      "old": null,
+      "new": "session:agent:poliscopic:slack:channel:c0b7549fze1"
+    },
+    {
+      "path": "/wizard/lastRunAt",
+      "old": "2026-08-16T17:43:02.427Z",
+      "new": "2026-09-08T14:43:44.320Z"
+    },
+    {
+      "path": "/wizard/lastRunCommand",
+      "old": "onboard",
+      "new": "doctor"
+    },
+    {
+      "path": "/wizard/lastRunVersion",
+      "old": "2026.7.1-2",
+      "new": "2026.9.3"
+    }
+  ],
+  "loadavg": "{ 3.74 2.82 2.38 }",
+  "other_agent_procs": "",
+  "session_transcript_events": "43"
+}

@@ -1,0 +1,74 @@
+{
+ "summary": {
+  "label": "B1-r1",
+  "agent": "poliscopic",
+  "session_key": "agent:poliscopic:step13g-kg-maintenance-r1",
+  "rc": 1,
+  "wall_s": 1501.8012,
+  "t0_utc": "2026-09-09T03:55:31Z",
+  "t1_utc": "2026-09-09T04:20:32Z",
+  "n_lines": 771,
+  "extraction": "json:key=text",
+  "reply_chars": 129,
+  "timed_out": true,
+  "slots_before": {
+   "is_processing": false,
+   "n_prompt_tokens": 44967,
+   "n_prompt_tokens_cache": 0,
+   "id_task": 11928
+  },
+  "slots_after": {
+   "error": "timed out"
+  },
+  "llama_window_chars": 5274,
+  "gateway_window_chars": 19741
+ },
+ "doc_status": "timeout",
+ "doc_summary": "aborted",
+ "duration_ms": 1500910,
+ "agentMeta": {
+  "contextTokens": 262144,
+  "contextTokensSource": "resolved",
+  "promptTokens": 49819,
+  "usage": {
+   "input": 49819,
+   "output": 35,
+   "cacheRead": 0,
+   "cacheWrite": 0,
+   "total": 49854,
+   "cost": {
+    "total": 0
+   }
+  },
+  "lastCallUsage": {
+   "input": 49819,
+   "output": 35,
+   "cacheRead": 0,
+   "cacheWrite": 0,
+   "cost": {
+    "total": 0
+   },
+   "total": 49854
+  }
+ },
+ "systemPromptReport": {
+  "systemPromptChars": 45517,
+  "projectContextChars": 25845,
+  "toolsSchemaChars": 47293,
+  "toolsListChars": 0,
+  "skillsPromptChars": 5402,
+  "bootstrapMaxChars": 20000,
+  "bootstrapTotalMaxChars": 60000
+ },
+ "error": {
+  "kind": "incomplete_turn",
+  "message": "Request timed out before a response was generated. Please try again, or increase `agents.defaults.timeoutSeconds` in your config.",
+  "fallbackSafe": false
+ },
+ "replayInvalid": true,
+ "livenessState": "paused",
+ "executionTrace": {
+  "fallbackUsed": false
+ },
+ "finalPromptText": "Use the read tool to read the file at exactly this path in full (no line limit):\n/Users/pmains/Code/openclaw/poliscopic/docs/KG-ROADMAP.md\n\nThen reply with exactly: B1-DONE"
+}
