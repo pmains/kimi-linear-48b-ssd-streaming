@@ -1,0 +1,9 @@
+[2026-09-10T10:48:10-07:00] === 14D(i) persistent slot save/restore characterization start ===
+[2026-09-10T10:48:10-07:00] external SSD mounted? /Volumes = 'Macintosh HD'
+[2026-09-10T10:48:10-07:00] corpus: 16427 tokens, 382 lines, 43.05 tok/line
+[2026-09-10T10:49:06-07:00] smoke: prefill 3011 tok (new 3011, cache 0, 55878.805 ms)
+[2026-09-10T10:49:06-07:00] smoke: saved 14di-smoke.bin 69221668 bytes in 0.043s
+[2026-09-10T10:49:07-07:00] smoke: restore http=200 0.038s n_restored=3011 slot_depth=3011
+[2026-09-10T10:50:04-07:00] smoke: suffix after restore -> assembled 3039, new 3039, reuse 0.0, content=' SUFFIX-OK-7412'
+[2026-09-10T10:50:59-07:00] smoke: correctness restore==cold? True; cold_prefill_ms=50554.147 restore_ms=38 ratio=0.00075
+[2026-09-10T10:51:00-07:00] === 14D(i) complete; results.json written ===

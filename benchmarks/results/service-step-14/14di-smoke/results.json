@@ -1,0 +1,206 @@
+{
+ "step": "14D(i)",
+ "started": "2026-09-10T10:48:10-07:00",
+ "stages": {
+  "smoke": {
+   "target": 3000,
+   "ts": "2026-09-10T10:48:10-07:00",
+   "prefill": {
+    "assembled": 3011,
+    "cache_n": 0,
+    "prompt_n": 3011,
+    "reuse": 0.0,
+    "prompt_ms": 55878.805,
+    "prompt_per_s": 53.884473728455724,
+    "predicted_n": 1,
+    "content": "000",
+    "http": 200,
+    "wall_s": 56.046
+   },
+   "slot_after_prefill": {
+    "n_prompt_tokens": 3011,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 15657
+   },
+   "depth": 3011,
+   "save": {
+    "http": 200,
+    "wall_s": 0.043,
+    "n_saved": 3011,
+    "resp": {
+     "id_slot": 0,
+     "filename": "14di-smoke.bin",
+     "n_saved": 3011,
+     "n_written": 69221668,
+     "timings": {
+      "save_ms": 39.346
+     }
+    },
+    "bytes_per_s": 1609806232.6,
+    "MiB_per_s": 1535.23
+   },
+   "snapshot": {
+    "exists": true,
+    "bytes": 69221668,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-smoke.bin",
+    "header_hex": "7173676702000000c70b0000ffffffff01000000c30b0000c4050000c4050000",
+    "sha256_16": "f59e2c54e1aaf3b0"
+   },
+   "after_erase": {
+    "n_prompt_tokens": 0,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 15657
+   },
+   "erase": {
+    "http": 200,
+    "wall_s": 0.001
+   },
+   "restore": {
+    "http": 200,
+    "wall_s": 0.038,
+    "n_restored": 3011
+   },
+   "after_restore": {
+    "n_prompt_tokens": 3011,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 15657
+   },
+   "suffix_after_restore": {
+    "assembled": 3039,
+    "cache_n": 0,
+    "prompt_n": 3039,
+    "reuse": 0.0,
+    "prompt_ms": 55013.491,
+    "prompt_per_s": 55.24099534057928,
+    "predicted_n": 8,
+    "content": " SUFFIX-OK-7412",
+    "http": 200,
+    "wall_s": 56.544
+   },
+   "cold_reprefill": {
+    "assembled": 3011,
+    "cache_n": 0,
+    "prompt_n": 3011,
+    "reuse": 0.0,
+    "prompt_ms": 50554.147,
+    "prompt_per_s": 59.55990118871949,
+    "predicted_n": 1,
+    "content": "000",
+    "http": 200,
+    "wall_s": 50.605
+   },
+   "suffix_after_cold": {
+    "assembled": 3039,
+    "cache_n": 3007,
+    "prompt_n": 32,
+    "reuse": 0.9895,
+    "prompt_ms": 3231.416,
+    "prompt_per_s": 9.902779462625672,
+    "predicted_n": 8,
+    "content": " SUFFIX-OK-7412",
+    "http": 200,
+    "wall_s": 3.91
+   },
+   "correctness_match_restore_vs_cold": true,
+   "cold_prefill_ms_this_depth": 50554.147,
+   "restore_vs_cold_ratio": 0.00075
+  },
+  "invalid": {
+   "ts": "2026-09-10T10:50:59-07:00",
+   "tests": {
+    "nonexistent": {
+     "http": 400,
+     "err": {
+      "code": 400,
+      "message": "Unable to restore slot: No available space in KV cache or invalid slot save file",
+      "type": "invalid_request_error"
+     }
+    },
+    "truncated": {
+     "http": null,
+     "err": {
+      "_error": "Remote end closed connection without response",
+      "_wall_s": 0.04,
+      "_http": null
+     },
+     "src_bytes": 69221668,
+     "trunc_bytes": 34610834
+    },
+    "corrupt_header": {
+     "http": null,
+     "err": {
+      "_error": "<urlopen error [Errno 61] Connection refused>",
+      "_wall_s": 0.0,
+      "_http": null
+     }
+    },
+    "zero_length": {
+     "http": null,
+     "err": {
+      "_error": "<urlopen error [Errno 61] Connection refused>",
+      "_wall_s": 0.0,
+      "_http": null
+     }
+    }
+   },
+   "prep_save": {
+    "http": 200,
+    "wall_s": 0.041
+   },
+   "valid_header": {
+    "exists": true,
+    "bytes": 69221668,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-48k.bin",
+    "header_hex": "7173676702000000c70b0000ffffffff01000000c30b0000c4050000c4050000",
+    "sha256_16": "f59e2c54e1aaf3b0"
+   },
+   "slot_after_invalid": {
+    "n_prompt_tokens": null,
+    "cache": null,
+    "processed": null,
+    "is_processing": null,
+    "id_task": null
+   }
+  }
+ },
+ "env": {
+  "preflight": {
+   "ts": "2026-09-10T10:48:10-07:00",
+   "llama_pid": "7021",
+   "health": "200",
+   "loadavg": "{ 3.84 2.70 2.16 }",
+   "disk_slot_cache": "/dev/disk3s5   1.8Ti   425Gi   1.4Ti    24%    2.6M   15G    0%   /System/Volumes/Data",
+   "slot": {
+    "n_prompt_tokens": 23,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 15651
+   },
+   "external_ssd": "Macintosh HD,"
+  },
+  "final": {
+   "ts": "2026-09-10T10:51:00-07:00",
+   "llama_pid": "7021",
+   "health": "000",
+   "loadavg": "{ 4.11 3.35 2.53 }",
+   "disk_slot_cache": "/dev/disk3s5   1.8Ti   426Gi   1.4Ti    24%    2.6M   15G    0%   /System/Volumes/Data",
+   "slot": {
+    "n_prompt_tokens": null,
+    "cache": null,
+    "processed": null,
+    "is_processing": null,
+    "id_task": null
+   },
+   "external_ssd": "Macintosh HD,"
+  }
+ },
+ "finished": "2026-09-10T10:51:00-07:00",
+ "llama_pid_stable": true
+}

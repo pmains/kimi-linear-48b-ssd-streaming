@@ -1,0 +1,41 @@
+=== lifecycle log (last 40) ===
+4094.27.000.414 I slot print_timing: id  0 | task 15688 | prompt processing, n_tokens =   2495, progress = 0.83, t =  40.40 s / 61.76 tokens per second
+4094.36.733.310 I slot print_timing: id  0 | task 15688 | prompt processing, n_tokens =   3007, progress = 1.00, t =  50.13 s / 59.99 tokens per second
+4094.37.155.406 I slot print_timing: id  0 | task 15688 | prompt eval time =   50554.15 ms /  3011 tokens (   16.79 ms per token,    59.56 tokens per second)
+4094.37.155.408 I slot print_timing: id  0 | task 15688 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+4094.37.155.409 I slot print_timing: id  0 | task 15688 |       total time =   50554.15 ms /  3012 tokens
+4094.37.155.409 I slot print_timing: id  0 | task 15688 |    graphs reused =          0
+4094.37.155.938 I slot      release: id  0 | task 15688 | stop processing: n_tokens = 3011, truncated = 0
+4094.37.168.635 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 0.990 (> 0.100 thold), f_keep = 1.000
+4094.37.168.656 I slot launch_slot_: id  0 | task 15695 | processing task, is_child = 0
+4094.40.245.380 I slot print_timing: id  0 | task 15695 | prompt processing, n_tokens =     28, progress = 1.00, t =   3.08 s / 9.10 tokens per second
+4094.41.065.289 I slot print_timing: id  0 | task 15695 | prompt eval time =    3231.42 ms /    32 tokens (  100.98 ms per token,     9.90 tokens per second)
+4094.41.065.293 I slot print_timing: id  0 | task 15695 |        eval time =     665.20 ms /     8 tokens (   95.03 ms per token,    10.52 tokens per second)
+4094.41.065.293 I slot print_timing: id  0 | task 15695 |       total time =    3896.62 ms /    40 tokens
+4094.41.065.294 I slot print_timing: id  0 | task 15695 |    graphs reused =          0
+4094.41.065.935 I slot      release: id  0 | task 15695 | stop processing: n_tokens = 3046, truncated = 0
+4094.41.087.890 I slot get_availabl: id  0 | task -1 | selected slot by LCP similarity, f_sim_best = 1.000 (> 0.100 thold), f_keep = 0.988
+4094.41.087.910 I slot launch_slot_: id  0 | task 15705 | processing task, is_child = 0
+4094.41.448.223 I slot print_timing: id  0 | task 15705 | prompt eval time =     360.30 ms /     4 tokens (   90.08 ms per token,    11.10 tokens per second)
+4094.41.448.225 I slot print_timing: id  0 | task 15705 |        eval time =       0.00 ms /     1 tokens (    0.00 ms per token,     0.00 tokens per second)
+4094.41.448.225 I slot print_timing: id  0 | task 15705 |       total time =     360.30 ms /     5 tokens
+4094.41.448.225 I slot print_timing: id  0 | task 15705 |    graphs reused =          0
+4094.41.448.268 I slot      release: id  0 | task 15705 | stop processing: n_tokens = 3011, truncated = 0
+4094.41.612.191 E llama_state_seq_load_file: error loading sequence state file: failed to open /Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-does-not-exist.bin: No such file or directory
+4094.41.614.755 E srv    send_error: task id = 15708, error: Unable to restore slot: No available space in KV cache or invalid slot save file
+4094.41.614.804 W srv          stop: cancel task, id_task = 15708
+/Users/pmains/Code/openclaw/kimi/llama.cpp/src/llama-context.cpp:3225: GGML_ASSERT(nread <= state_size) failed
+WARNING: Using native backtrace. Set GGML_BACKTRACE_LLDB for more info.
+WARNING: GGML_BACKTRACE_LLDB may cause native MacOS Terminal.app to crash.
+See: https://github.com/ggml-org/llama.cpp/pull/17869
+0   libggml-base.0.dylib                0x0000000102c793d0 ggml_print_backtrace + 276
+1   libggml-base.0.dylib                0x0000000102ce70b8 ggml_abort + 156
+2   libllama.0.dylib                    0x000000010318ad30 _ZN13llama_context19state_seq_load_fileEiPKcPimPm + 648
+3   libllama.0.dylib                    0x000000010318d7b0 llama_state_seq_load_file + 80
+4   libllama-server-impl.dylib          0x0000000103631234 _ZN19server_context_impl19process_single_taskEO11server_task + 4624
+5   libllama-server-impl.dylib          0x000000010360118c _ZN12server_queue10start_loopEx + 380
+6   libllama-server-impl.dylib          0x000000010354d0f4 _Z12llama_serverR13common_paramsiPPc + 21768
+7   libllama-server-impl.dylib          0x0000000103547b88 _Z12llama_serveriPPc + 164
+8   dyld                                0x000000018e9a44e4 start + 6992
+---------------------------------------
+[2026-09-10 10:51:00 -0700] START pid=90066 ctx=262144 cache=8192 host=127.0.0.1 port=18080
