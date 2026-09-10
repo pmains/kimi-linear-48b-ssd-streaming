@@ -2,16 +2,21 @@
 
 ## Status
 
-**14E PARTIAL — decisive suffix-only property confirmed at 121.7K
-assembled context; the roadmap's ~150K decisive leg is BLOCKED by
-OpenClaw auto-compaction at ~122K** (framework boundary, not a
-llama.cpp/SSD reuse failure). Measurement-only per SERVICE-ROADMAP.md
-§14E: no production changes, no llama.cpp/OpenClaw patches, no
-config/tool/prompt edits, no gateway/llama restart (llama pid 7021
-constant; gw pid 82948 constant). Live 262144 contract, 11B(i) sha
-b54b13f1d7, FK 0 both agent DBs, idle gate PASS, zero config drift.
-Driver: `tools/service_step14e.sh`; evidence:
-`benchmarks/results/service-step-14/14e/`.
+**14E PASS WITH HARNESS LIMITATION** (reclassified 2026-09-10 by owner
+from PARTIAL). The production qualification established the behavior
+Step 14 was intended to establish — suffix-only incremental evaluation
+at large production context (B12: 121,737 assembled / 121,148 reused
+99.5% / 589 new / 52.1 s). The planned ~150K datapoint was not reached
+because OpenClaw auto-compacted the conversation at ~122K to ~49K; that
+is recorded as an **OpenClaw harness/compaction boundary, not a
+llama-server prefix/state-reuse failure**. Per owner direction
+compaction was not disabled and 14E was not rerun to manufacture the
+150K point. Measurement-only per SERVICE-ROADMAP.md §14E: no production
+changes, no llama.cpp/OpenClaw patches, no config/tool/prompt edits, no
+gateway/llama restart (llama pid 7021 constant; gw pid 82948 constant).
+Live 262144 contract, 11B(i) sha b54b13f1d7, FK 0 both agent DBs, idle
+gate PASS, zero config drift. Driver: `tools/service_step14e.sh`;
+evidence: `benchmarks/results/service-step-14/14e/`.
 
 ## Objective
 
