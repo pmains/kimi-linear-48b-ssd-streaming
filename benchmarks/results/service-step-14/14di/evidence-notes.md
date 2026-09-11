@@ -11,17 +11,37 @@ server; sequential requests only.
 
 ---
 
-## Status: IN PROGRESS (full run launched 2026-09-10 10:56 MST)
+## Status: COMPLETE (2026-09-11). Full run + restart/invalid rerun both done.
 
-Two prior runs are complete and are themselves evidence:
+Run 1 (2026-09-10 10:56 → 13:43 MST): 48k full protocol, 100k/150k
+size-latency legs. Run 2 (2026-09-11 08:55 → 09:17 MST): fixed
+restart + invalid stages (run 1's restart stage raced its health check and
+its results key collided with `48k`; both defects fixed in the driver).
+Console logs: `run1-console.log`, `run2-console.log`.
 
-1. **Smoke run** (`14di-smoke/`, 3K-token state, no restart) — validated the
-   whole flow.
-2. **Targeted reuse probe** (`14di-smoke/probe-restore-reuse.py` /
-   `probe-restore-reuse.json`) — isolated the reuse behaviour.
+### Final run results
 
-The full run (48k full protocol + 100k/150k size-latency legs + controlled
-restart at 48k) is executing under `14di/`.
+**Snapshot size scales ≈ 45 MB + 8,080 B/token** ⇒ **~2.16 GB at 256K**:
+
+| tokens | bytes | save | restore | prefill rate |
+|---|---|---|---|---|
+| 3,011 | 69,221,668 | 0.04 s | 0.01-0.04 s | 53.9 tok/s |
+| 47,945 | 432,288,388 | 0.159 s | 0.112 s | 39.9 tok/s |
+| 99,892 | 852,020,148 | 0.361 s | 0.155 s | 19.4 tok/s |
+| 149,854 | 1,255,713,108 | 0.548 s | 0.250 s | 14.6 tok/s |
+
+Save/restore ≈ 2.3-2.7 GB/s (page cache).
+
+**Controlled restart (run 2): PASS** — `launchctl kickstart -k` →
+down=True/up=True in 15.4 s, pid 95558→39781, fresh slot; restore of the
+48K snapshot `n_restored=47,945` (0.163 s); continuation produced
+` SUFFIX-OK-7412` = expected ⇒ correctness across restart PASS (and, per
+F2, still a full 47,973-token re-prefill, 1,315.6 s).
+
+**Invalid state (run 2):** nonexistent → HTTP 400; invalid filename
+(`sub/escape.bin`) → HTTP 400 `Invalid filename`; server healthy after
+both. Crash class (truncated/corrupt/zero) remains gated off; evidence in
+`14di-smoke/`.
 
 ---
 

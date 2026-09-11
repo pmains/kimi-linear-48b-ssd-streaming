@@ -52,12 +52,33 @@ DO_RESTART = os.environ.get("DO_RESTART", "1") == "1"
 # llama_context::state_seq_load_file; observed 2026-09-10, see 14di-smoke).
 # Default OFF so the characterization run cannot crash production.
 DO_CRASH_TESTS = os.environ.get("DO_CRASH_TESTS", "0") == "1"
+# STAGES selector: "all" (default) or a comma list of depth|restart|invalid,
+# so the broken restart/invalid stages can be re-run without redoing the
+# ~2.8 h depth legs (their snapshots are retained on disk).
+STAGES = os.environ.get("STAGES", "all")
+
+
+def want(stage):
+    return STAGES == "all" or stage in [s.strip() for s in STAGES.split(",")]
 SUFFIX = "\n\n### Provenance check\nThe verification phrase for this session is SUFFIX-OK-7412. Reply with only that phrase.\n\nPhrase:"
 
 os.makedirs(EVID, exist_ok=True)
 RESULTS_PATH = os.path.join(EVID, "results.json")
 
 RESULTS = {"step": "14D(i)", "started": None, "stages": {}, "env": {}}
+
+# Merge-on-load: a stage-scoped rerun (STAGES=restart,invalid) must not wipe
+# records already written by a previous full run.
+if os.path.exists(RESULTS_PATH):
+    try:
+        with open(RESULTS_PATH) as _f:
+            _prev = json.load(_f)
+        if isinstance(_prev, dict):
+            _prev.setdefault("stages", {})
+            _prev.setdefault("env", {})
+            RESULTS = _prev
+    except Exception:
+        pass
 
 
 def now():
@@ -344,8 +365,33 @@ def stage_depth(label, target, text, meta, forward=True, cold_control=False):
     return st
 
 
-def stage_restart(label, text, meta, target, snapshot=None):
-    """Controlled llama-server restart: state must be lost, snapshot must restore."""
+def wait_down(max_s=90):
+    """Wait for the server to actually go down (kickstart -k is not instant)."""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        if not health_ok():
+            return True
+        time.sleep(1)
+    return False
+
+
+def wait_up(max_s=900):
+    """Wait for the server to come back up (model load)."""
+    t0 = time.time()
+    while time.time() - t0 < max_s:
+        if health_ok():
+            return True
+        time.sleep(3)
+    return False
+
+
+def stage_restart(label, text, meta, target, snapshot=None, expected_suffix=" SUFFIX-OK-7412"):
+    """Controlled llama-server restart: state must be lost, snapshot must restore.
+
+    Fixes the 2026-09-10 race: the old code checked health immediately after
+    `launchctl kickstart -k` and got 200 from the *dying* process, so it never
+    observed the restart. Now wait for DOWN, then for UP.
+    """
     st = {"ts": now()}
     prompt = prompt_for(text, meta, target)
     fn = snapshot or f"14di-{label}.bin"
@@ -353,56 +399,72 @@ def stage_restart(label, text, meta, target, snapshot=None):
     st["pid_before"] = sh("cat /tmp/kimi-llama-server.pid 2>/dev/null")
     st["health_before"] = sh("curl -s -m 5 -o /dev/null -w '%{http_code}' http://127.0.0.1:18080/health")
     st["snapshot_used"] = file_info(fn)
+    st["expected_suffix"] = expected_suffix
+
     uid = sh("id -u")
     t0 = time.monotonic()
     log(f"restart: kickstart -k gui/{uid}/{JOB} (pid_before={st['pid_before']})")
     sh(f"launchctl kickstart -k gui/{uid}/{JOB}")
-    # wait for health to return
-    healthy = False
-    while time.monotonic() - t0 < 600:
-        code = sh("curl -s -m 3 -o /dev/null -w '%{http_code}' http://127.0.0.1:18080/health")
-        if code == "200":
-            healthy = True
-            break
-        time.sleep(5)
+    st["went_down"] = wait_down(90)
+    st["came_up"] = wait_up(900)
     st["restart_wall_s"] = round(time.monotonic() - t0, 1)
-    st["health_after"] = healthy
     st["pid_after"] = sh("cat /tmp/kimi-llama-server.pid 2>/dev/null")
-    st["props_after"] = _req("GET", "/props", timeout=30)
+    st["pid_changed"] = bool(st["pid_after"]) and st["pid_after"] != st["pid_before"]
+    st["props_after"] = _req("GET", "/props", timeout=30) if st["came_up"] else {"_skipped": True}
     st["slot_after_restart"] = slot_summary()
-    log(f"restart: healthy={healthy} in {st['restart_wall_s']}s "
+    log(f"restart: down={st['went_down']} up={st['came_up']} in {st['restart_wall_s']}s "
         f"pid_after={st['pid_after']} slot={st['slot_after_restart']}")
 
-    if healthy:
+    if st["came_up"]:
         rs = restore_slot(fn)
         st["restore"] = {"http": rs.get("_http"), "wall_s": rs.get("_wall_s"),
                          "n_restored": rs.get("n_restored")}
+        time.sleep(1)
         st["slot_after_restore"] = slot_summary()
         st["depth_restored"] = st["slot_after_restore"].get("n_prompt_tokens")
         sfx = completion(prompt + SUFFIX, n_predict=16)
         st["suffix_after_restart_restore"] = timings_of(sfx)
+        st["correctness_matches_expected"] = (
+            st["suffix_after_restart_restore"].get("content") == expected_suffix)
         log(f"restart: restore n_restored={rs.get('n_restored')} "
-            f"slot_depth={st['slot_after_restore'].get('n_prompt_tokens')} "
-            f"suffix={st['suffix_after_restart_restore']['content']!r}")
+            f"slot_depth={st['depth_restored']} "
+            f"suffix={st['suffix_after_restart_restore']['content']!r} "
+            f"matches_expected={st['correctness_matches_expected']}")
 
-    RESULTS["stages"][label] = st
+    RESULTS["stages"][f"restart-{label}"] = st
     save_results()
     return st
 
 
 def stage_invalid(text, meta):
-    """Invalid / incompatible state must be rejected, not silently restored."""
-    st = {"ts": now(), "tests": {}}
-    prompt = prompt_for(text, meta, TARGETS[0][1])
-    completion(prompt, n_predict=1)
-    good = "14di-48k.bin"
-    if not os.path.exists(os.path.join(SLOT_DIR, good)):
-        sv = save_slot(good)
-        st["prep_save"] = {"http": sv.get("_http"), "wall_s": sv.get("_wall_s")}
+    """Invalid / incompatible state must be rejected, not silently restored.
 
-    # a) nonexistent file -> should be a clean rejection
+    Safe subset (DO_CRASH_TESTS=0): nonexistent file + invalid filename.
+    The truncated/corrupt/zero-length class HARD-ABORTS the server
+    (ggml_abort in state_seq_load_file) and is evidenced from the smoke run.
+    No forward pass here (avoids a full 48K re-prefill just for this stage).
+    """
+    st = {"ts": now(), "tests": {}}
+    good = "14di-48k.bin"
+    st["health_before"] = sh("curl -s -m 5 -o /dev/null -w '%{http_code}' http://127.0.0.1:18080/health")
+    st["snapshot_present"] = os.path.exists(os.path.join(SLOT_DIR, good))
+    st["valid_header"] = file_info(good)
+
+    if not ensure_health(300):
+        st["aborted"] = "server unhealthy before invalid-state tests"
+        RESULTS["stages"]["invalid"] = st
+        save_results()
+        return st
+
+    # a) nonexistent file -> clean rejection expected
     r = restore_slot("14di-does-not-exist.bin")
     st["tests"]["nonexistent"] = {"http": r.get("_http"), "err": r.get("error") or r.get("_raw") or r}
+    st["health_after_nonexistent"] = health_ok()
+
+    # b) invalid filename (path separator) -> fs_validate_filename must reject
+    r = restore_slot("sub/escape.bin")
+    st["tests"]["invalid_filename"] = {"http": r.get("_http"), "err": r.get("error") or r.get("_raw") or r}
+    st["health_after_invalid_filename"] = health_ok()
 
     if not DO_CRASH_TESTS:
         st["crash_tests_skipped"] = (
@@ -410,7 +472,6 @@ def stage_invalid(text, meta):
             "they hard-abort the server (ggml_abort in state_seq_load_file). "
             "Evidence from the 2026-09-10 smoke run is retained in "
             "14di-smoke/crash-truncated-restore.txt and 14di-smoke/results.json.")
-        st["valid_header"] = file_info(good)
         st["slot_after_invalid"] = slot_summary()
         RESULTS["stages"]["invalid"] = st
         save_results()
@@ -488,17 +549,23 @@ def main():
         ("100k", 100000, {"forward": False, "cold_control": False}),
         ("150k", 150000, {"forward": False, "cold_control": False}),
     ]
-    for label, target, opts in protocol:
-        if not ensure_health(300):
-            log(f"ABORT before {label}: server unhealthy")
-            break
-        stage_depth(label, target, text, meta, **opts)
+    if want("depth"):
+        for label, target, opts in protocol:
+            if not ensure_health(300):
+                log(f"ABORT before {label}: server unhealthy")
+                break
+            stage_depth(label, target, text, meta, **opts)
+    else:
+        log(f"STAGES={STAGES}: skipping depth legs")
 
-    if DO_RESTART:
+    if DO_RESTART and want("restart"):
         if ensure_health(300):
             stage_restart("48k", text, meta, 48000, snapshot="14di-48k.bin")
 
-    stage_invalid(text, meta)
+    if want("invalid"):
+        stage_invalid(text, meta)
+    else:
+        log(f"STAGES={STAGES}: skipping invalid-state stage")
 
     snapshot_env("final")
     RESULTS["finished"] = now()

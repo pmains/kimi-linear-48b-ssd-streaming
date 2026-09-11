@@ -1,0 +1,28 @@
+[2026-09-10T10:56:34-07:00] === 14D(i) persistent slot save/restore characterization start ===
+[2026-09-10T10:56:34-07:00] external SSD mounted? /Volumes = 'Macintosh HD'
+[2026-09-10T10:56:34-07:00] corpus: 189674 tokens, 4411 lines, 43.05 tok/line
+[2026-09-10T11:16:36-07:00] 48k: prefill 47945 tok (new 44936, cache 3009, 1201009.51 ms)
+[2026-09-10T11:16:36-07:00] 48k: saved 14di-48k.bin 432288388 bytes in 0.159s
+[2026-09-10T11:16:37-07:00] 48k: restore http=200 0.112s n_restored=47945 slot_depth=47945
+[2026-09-10T11:39:00-07:00] 48k: suffix after restore -> assembled 47973, new 47973, reuse 0.0, content=' SUFFIX-OK-7412'
+[2026-09-10T12:01:42-07:00] 48k: correctness restore==cold? True; cold_prefill_ms=1356385.59 restore_ms=112 ratio=8e-05
+[2026-09-10T12:46:19-07:00] 100k: prefill 99892 tok (new 51951, cache 47941, 2676898.306 ms)
+[2026-09-10T12:46:20-07:00] 100k: saved 14di-100k.bin 852020148 bytes in 0.361s
+[2026-09-10T12:46:21-07:00] 100k: restore http=200 0.155s n_restored=99892 slot_depth=99892
+[2026-09-10T12:46:21-07:00] 100k: forward pass skipped (size/latency-only leg); slot_depth=99892
+[2026-09-10T13:43:35-07:00] 150k: prefill 149854 tok (new 49962, cache 99892, 3433118.35 ms)
+[2026-09-10T13:43:36-07:00] 150k: saved 14di-150k.bin 1255713108 bytes in 0.548s
+[2026-09-10T13:43:37-07:00] 150k: restore http=200 0.25s n_restored=149854 slot_depth=149854
+[2026-09-10T13:43:37-07:00] 150k: forward pass skipped (size/latency-only leg); slot_depth=149854
+[2026-09-10T13:43:38-07:00] restart: kickstart -k gui/501/com.openclaw.kimi-llama-server (pid_before=90079)
+[2026-09-10T13:43:38-07:00] restart: healthy=True in 0.0s pid_after= slot={'n_prompt_tokens': None, 'cache': None, 'processed': None, 'is_processing': None, 'id_task': None}
+[2026-09-10T13:43:38-07:00] restart: restore n_restored=None slot_depth=None suffix=''
+[2026-09-10T13:43:38-07:00] === 14D(i) complete; results.json written ===
+[2026-09-11T08:55:34-07:00] === 14D(i) persistent slot save/restore characterization start ===
+[2026-09-11T08:55:34-07:00] external SSD mounted? /Volumes = 'Macintosh HD'
+[2026-09-11T08:55:34-07:00] corpus: 189674 tokens, 4411 lines, 43.05 tok/line
+[2026-09-11T08:55:34-07:00] STAGES=restart,invalid: skipping depth legs
+[2026-09-11T08:55:34-07:00] restart: kickstart -k gui/501/com.openclaw.kimi-llama-server (pid_before=95558)
+[2026-09-11T08:55:49-07:00] restart: down=True up=True in 15.4s pid_after=39781 slot={'n_prompt_tokens': None, 'cache': None, 'processed': None, 'is_processing': False, 'id_task': None}
+[2026-09-11T09:17:46-07:00] restart: restore n_restored=47945 slot_depth=None suffix=' SUFFIX-OK-7412' matches_expected=True
+[2026-09-11T09:17:47-07:00] === 14D(i) complete; results.json written ===

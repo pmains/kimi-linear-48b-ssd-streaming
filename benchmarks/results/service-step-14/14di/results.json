@@ -1,0 +1,416 @@
+{
+ "step": "14D(i)",
+ "started": "2026-09-11T08:55:34-07:00",
+ "stages": {
+  "100k": {
+   "target": 100000,
+   "ts": "2026-09-10T12:01:42-07:00",
+   "prefill": {
+    "assembled": 99892,
+    "cache_n": 47941,
+    "prompt_n": 51951,
+    "reuse": 0.4799,
+    "prompt_ms": 2676898.306,
+    "prompt_per_s": 19.40716234290897,
+    "predicted_n": 1,
+    "content": "002",
+    "http": 200,
+    "wall_s": 2676.975
+   },
+   "slot_after_prefill": {
+    "n_prompt_tokens": 99892,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 125
+   },
+   "depth": 99892,
+   "save": {
+    "http": 200,
+    "wall_s": 0.361,
+    "n_saved": 99892,
+    "resp": {
+     "id_slot": 0,
+     "filename": "14di-100k.bin",
+     "n_saved": 99892,
+     "n_written": 852020148,
+     "timings": {
+      "save_ms": 356.902
+     }
+    },
+    "bytes_per_s": 2360166615.0,
+    "MiB_per_s": 2250.83
+   },
+   "snapshot": {
+    "exists": true,
+    "bytes": 852020148,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-100k.bin",
+    "header_hex": "717367670200000038860100ffffffff0100000034860100c4050000c4050000",
+    "sha256_16": "5bf74ee72f891347"
+   },
+   "after_erase": {
+    "n_prompt_tokens": 0,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 125
+   },
+   "erase": {
+    "http": 200,
+    "wall_s": 0.073
+   },
+   "restore": {
+    "http": 200,
+    "wall_s": 0.155,
+    "n_restored": 99892
+   },
+   "after_restore": {
+    "n_prompt_tokens": 99892,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 125
+   }
+  },
+  "150k": {
+   "target": 150000,
+   "ts": "2026-09-10T12:46:21-07:00",
+   "prefill": {
+    "assembled": 149854,
+    "cache_n": 99892,
+    "prompt_n": 49962,
+    "reuse": 0.6666,
+    "prompt_ms": 3433118.35,
+    "prompt_per_s": 14.552950089821401,
+    "predicted_n": 1,
+    "content": "003",
+    "http": 200,
+    "wall_s": 3433.328
+   },
+   "slot_after_prefill": {
+    "n_prompt_tokens": 149854,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 160
+   },
+   "depth": 149854,
+   "save": {
+    "http": 200,
+    "wall_s": 0.548,
+    "n_saved": 149854,
+    "resp": {
+     "id_slot": 0,
+     "filename": "14di-150k.bin",
+     "n_saved": 149854,
+     "n_written": 1255713108,
+     "timings": {
+      "save_ms": 545.357
+     }
+    },
+    "bytes_per_s": 2291447277.4,
+    "MiB_per_s": 2185.29
+   },
+   "snapshot": {
+    "exists": true,
+    "bytes": 1255713108,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-150k.bin",
+    "header_hex": "717367670200000062490200ffffffff010000005e490200c4050000c4050000",
+    "sha256_16": "24d602f24b0a1deb"
+   },
+   "after_erase": {
+    "n_prompt_tokens": 0,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 160
+   },
+   "erase": {
+    "http": 200,
+    "wall_s": 0.058
+   },
+   "restore": {
+    "http": 200,
+    "wall_s": 0.25,
+    "n_restored": 149854
+   },
+   "after_restore": {
+    "n_prompt_tokens": 149854,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 160
+   }
+  },
+  "invalid": {
+   "ts": "2026-09-11T09:17:46-07:00",
+   "tests": {
+    "nonexistent": {
+     "http": 400,
+     "err": {
+      "code": 400,
+      "message": "Unable to restore slot: No available space in KV cache or invalid slot save file",
+      "type": "invalid_request_error"
+     }
+    },
+    "invalid_filename": {
+     "http": 400,
+     "err": {
+      "code": 400,
+      "message": "Invalid filename",
+      "type": "invalid_request_error"
+     }
+    }
+   },
+   "health_before": "200",
+   "snapshot_present": true,
+   "valid_header": {
+    "exists": true,
+    "bytes": 432288388,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-48k.bin",
+    "header_hex": "71736767020000004dbb0000ffffffff0100000049bb0000c4050000c4050000",
+    "sha256_16": "ea044dc36b2ff15e"
+   },
+   "health_after_nonexistent": true,
+   "health_after_invalid_filename": true,
+   "crash_tests_skipped": "truncated/corrupt/zero-length restore tests skipped (DO_CRASH_TESTS=0): they hard-abort the server (ggml_abort in state_seq_load_file). Evidence from the 2026-09-10 smoke run is retained in 14di-smoke/crash-truncated-restore.txt and 14di-smoke/results.json.",
+   "slot_after_invalid": {
+    "n_prompt_tokens": 0,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 3
+   }
+  },
+  "restart-48k-BROKEN-20260910": {
+   "ts": "2026-09-10T13:43:37-07:00",
+   "pid_before": "90079",
+   "health_before": "200",
+   "snapshot_used": {
+    "exists": true,
+    "bytes": 432288388,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-48k.bin",
+    "header_hex": "71736767020000004dbb0000ffffffff0100000049bb0000c4050000c4050000",
+    "sha256_16": "ea044dc36b2ff15e"
+   },
+   "restart_wall_s": 0.0,
+   "health_after": true,
+   "pid_after": "",
+   "props_after": {
+    "_error": "<urlopen error [Errno 61] Connection refused>",
+    "_wall_s": 0.001,
+    "_http": null
+   },
+   "slot_after_restart": {
+    "n_prompt_tokens": null,
+    "cache": null,
+    "processed": null,
+    "is_processing": null,
+    "id_task": null
+   },
+   "restore": {
+    "http": null,
+    "wall_s": 0.0,
+    "n_restored": null
+   },
+   "slot_after_restore": {
+    "n_prompt_tokens": null,
+    "cache": null,
+    "processed": null,
+    "is_processing": null,
+    "id_task": null
+   },
+   "depth_restored": null,
+   "suffix_after_restart_restore": {
+    "assembled": 0,
+    "cache_n": 0,
+    "prompt_n": 0,
+    "reuse": null,
+    "prompt_ms": null,
+    "prompt_per_s": null,
+    "predicted_n": null,
+    "content": "",
+    "http": null,
+    "wall_s": 0.0
+   },
+   "note": "restart stage overwrote the real 48k depth record (key collision, fixed 2026-09-11). Real 48k numbers are in run1-console.log: prefill 47945 (new 44936, cache 3009, 1201009 ms); save 432288388 B in 0.159 s; restore 0.112 s n_restored=47945; suffix-after-restore reuse 0.0; cold re-prefill 1356385.59 ms; correctness restore==cold True."
+  },
+  "restart-48k": {
+   "ts": "2026-09-11T08:55:34-07:00",
+   "pid_before": "95558",
+   "health_before": "200",
+   "snapshot_used": {
+    "exists": true,
+    "bytes": 432288388,
+    "path": "/Users/pmains/Code/openclaw/kimi/runtime/state/slot-cache/14di-48k.bin",
+    "header_hex": "71736767020000004dbb0000ffffffff0100000049bb0000c4050000c4050000",
+    "sha256_16": "ea044dc36b2ff15e"
+   },
+   "expected_suffix": " SUFFIX-OK-7412",
+   "went_down": true,
+   "came_up": true,
+   "restart_wall_s": 15.4,
+   "pid_after": "39781",
+   "pid_changed": true,
+   "props_after": {
+    "default_generation_settings": {
+     "params": {
+      "seed": 4294967295,
+      "temperature": 0.800000011920929,
+      "dynatemp_range": 0.0,
+      "dynatemp_exponent": 1.0,
+      "top_k": 40,
+      "top_p": 0.949999988079071,
+      "min_p": 0.05000000074505806,
+      "top_n_sigma": -1.0,
+      "xtc_probability": 0.0,
+      "xtc_threshold": 0.10000000149011612,
+      "typical_p": 1.0,
+      "repeat_last_n": 64,
+      "repeat_penalty": 1.0,
+      "presence_penalty": 0.0,
+      "frequency_penalty": 0.0,
+      "dry_multiplier": 0.0,
+      "dry_base": 1.75,
+      "dry_allowed_length": 2,
+      "dry_penalty_last_n": 64,
+      "mirostat": 0,
+      "mirostat_tau": 5.0,
+      "mirostat_eta": 0.10000000149011612,
+      "adaptive_target": -1.0,
+      "adaptive_decay": 0.8999999761581421,
+      "max_tokens": -1,
+      "n_predict": -1,
+      "n_keep": 0,
+      "n_discard": 0,
+      "ignore_eos": false,
+      "stream": false,
+      "n_probs": 0,
+      "min_keep": 0,
+      "chat_format": "Content-only",
+      "reasoning_format": "none",
+      "reasoning_in_content": false,
+      "generation_prompt": "",
+      "samplers": [
+       "penalties",
+       "dry",
+       "top_n_sigma",
+       "top_k",
+       "typ_p",
+       "top_p",
+       "min_p",
+       "xtc",
+       "temperature"
+      ],
+      "speculative.types": "none",
+      "timings_per_token": false,
+      "post_sampling_probs": false,
+      "backend_sampling": false,
+      "lora": []
+     },
+     "n_ctx": 262144
+    },
+    "total_slots": 1,
+    "model_alias": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+    "model_ftype": "MXFP4 MoE",
+    "model_path": "models/kimi-linear/moonshotai_Kimi-Linear-48B-A3B-Instruct-MXFP4_MOE.gguf",
+    "modalities": {
+     "vision": false,
+     "video": false,
+     "audio": false
+    },
+    "media_marker": "<__media_1y1QZ6IyZMcH0Dz25VI7ZepSf7o3yTVo__>",
+    "endpoint_slots": true,
+    "endpoint_props": false,
+    "endpoint_metrics": false,
+    "ui": true,
+    "ui_settings": {},
+    "chat_template": "{% macro render_content(msg) -%}\n    {%- set c = msg.get('content') -%}\n    {%- if c is string -%}\n      {{ c }}\n    {%- elif c is not none -%}\n      {% for content in c -%}\n        {% if content['type'] == 'image' or 'image' in content or 'image_url' in content -%}\n          <|media_start|>image<|media_content|><|media_pad|><|media_end|>\n        {% else -%}\n          {{ content['text'] }}\n        {%- endif -%}\n      {%- endfor -%}\n    {%- endif -%}\n{%- endmacro %}\n\n\n{%- if tools -%}\n  <|im_system|>tool_declare<|im_middle|>{{ tools | tojson(separators=(',', ':')) }}<|im_end|>\n{%- endif -%}\n{% for message in messages %}  \n  {%- set role_name =  message.get('name') or  message['role'] -%}\n  {%- if message['role'] == 'user' -%}\n    <|im_user|>{{role_name}}<|im_middle|>\n  {%- elif message['role'] == 'assistant' -%}\n    <|im_assistant|>{{role_name}}<|im_middle|>\n  {%- else -%}\n    <|im_system|>{{role_name}}<|im_middle|>\n  {%- endif -%}\n\n  {%- if message['role'] == 'assistant' and message.get('tool_calls') -%}\n    {{render_content(message)}}<|tool_calls_section_begin|>\n    {%- for tool_call in message['tool_calls'] -%}\n        {%- set formatted_id = tool_call['id'] -%}\n      <|tool_call_begin|>{{ formatted_id }}<|tool_call_argument_begin|>{% if tool_call['function']['arguments'] is string %}{{ tool_call['function']['arguments'] }}{% else %}{{ tool_call['function']['arguments'] | tojson }}{% endif %}<|tool_call_end|>\n    {%- endfor -%}\n    <|tool_calls_section_end|>\n  {%- elif message['role'] == 'tool' -%}\n    {%- set tool_call_id = message.tool_call_id -%}\n    ## Return of {{ tool_call_id }}\n{{render_content(message)}}\n  {%- elif message['content'] is not none -%}\n    {{render_content(message)}}\n  {%- endif -%}\n  <|im_end|>\n{%- endfor -%}\n{%- if add_generation_prompt -%}\n  <|im_assistant|>assistant<|im_middle|>\n{%- endif -%}",
+    "chat_template_caps": {
+     "supports_object_arguments": true,
+     "supports_parallel_tool_calls": true,
+     "supports_preserve_reasoning": false,
+     "supports_string_content": true,
+     "supports_system_role": true,
+     "supports_tool_calls": true,
+     "supports_tools": true,
+     "supports_typed_content": false
+    },
+    "bos_token": "[BOS]",
+    "eos_token": "[EOS]",
+    "build_info": "b10447-a895f6826",
+    "is_sleeping": false,
+    "cors_proxy_enabled": false,
+    "_wall_s": 0.017,
+    "_http": 200
+   },
+   "slot_after_restart": {
+    "n_prompt_tokens": null,
+    "cache": null,
+    "processed": null,
+    "is_processing": false,
+    "id_task": null
+   },
+   "restore": {
+    "http": 200,
+    "wall_s": 0.163,
+    "n_restored": 47945
+   },
+   "slot_after_restore": {
+    "n_prompt_tokens": null,
+    "cache": null,
+    "processed": null,
+    "is_processing": false,
+    "id_task": null
+   },
+   "depth_restored": null,
+   "suffix_after_restart_restore": {
+    "assembled": 47973,
+    "cache_n": 0,
+    "prompt_n": 47973,
+    "reuse": 0.0,
+    "prompt_ms": 1313826.538,
+    "prompt_per_s": 36.51395265087879,
+    "predicted_n": 8,
+    "content": " SUFFIX-OK-7412",
+    "http": 200,
+    "wall_s": 1315.63
+   },
+   "correctness_matches_expected": true
+  }
+ },
+ "env": {
+  "preflight": {
+   "ts": "2026-09-11T08:55:34-07:00",
+   "llama_pid": "95558",
+   "health": "200",
+   "loadavg": "{ 2.03 1.76 1.79 }",
+   "disk_slot_cache": "/dev/disk3s5   1.8Ti   416Gi   1.4Ti    23%    2.6M   15G    0%   /System/Volumes/Data",
+   "slot": {
+    "n_prompt_tokens": 48688,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 71800
+   },
+   "external_ssd": "Macintosh HD,"
+  },
+  "final": {
+   "ts": "2026-09-11T09:17:47-07:00",
+   "llama_pid": "39781",
+   "health": "200",
+   "loadavg": "{ 3.07 2.98 2.93 }",
+   "disk_slot_cache": "/dev/disk3s5   1.8Ti   412Gi   1.4Ti    23%    2.6M   15G    0%   /System/Volumes/Data",
+   "slot": {
+    "n_prompt_tokens": 0,
+    "cache": 0,
+    "processed": 0,
+    "is_processing": false,
+    "id_task": 3
+   },
+   "external_ssd": "Macintosh HD,"
+  }
+ },
+ "finished": "2026-09-11T09:17:47-07:00",
+ "llama_pid_stable": false
+}

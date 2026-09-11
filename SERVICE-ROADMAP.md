@@ -3068,6 +3068,42 @@ restore from file, verify depth and continuation.
 execute it, record evidence under the Step 14 evidence tree, update this
 roadmap, and **STOP at the 14D(i) gate for review.**
 
+### 14D(i) Status — PASS (characterization complete; 2026-09-11 09:17 MST)
+
+Measurement / characterization only; owner-authorized 2026-09-11. No
+model, sampler, context, or OpenClaw-compaction change; single slot; no
+second server. Driver `tools/service_step14di.py`; report
+`service-progress/step-14di-slot-save-restore.md`; evidence
+`benchmarks/results/service-step-14/14di/` (+ `14di-smoke/`).
+
+- Mechanics verified: save `n_saved=N`; erase; restore `n_restored=N` in
+  0.01-0.25 s; continuation after restore byte-identical to cold.
+- Snapshot size **≈ 45 MB + 8,080 B/token** (3,011→69.2 MB;
+  47,945→432 MB; 99,892→852 MB; 149,854→1.256 GB) ⇒ **~2.16 GB at
+  256K**. Save/restore **≈ 2.3-2.7 GB/s**.
+- Prefill rate collapses with depth: 53.9 tok/s @3K → 39.9 @48K →
+  19.4 @100K → 14.6 @150K (a 150K re-prefill ≈ 57 min).
+- **CENTRAL (negative) RESULT — restore does NOT warm-start.** The next
+  request re-evaluates the entire prompt (`cache_n=0`) at every depth;
+  restore+continue ≈ cold prefill. Cause (`llama.cpp` a895f6826,
+  `tools/server/server-context.cpp`): `SLOT_RESTORE` restores KV +
+  `prompt.tokens` but not `slot.prompt.checkpoints`; for
+  hybrid/recurrent KDA memory reuse needs a checkpoint → `do_reset` →
+  `n_past=0`. After one normal prefill reuse resumes (3,007/3,011).
+- **CONTROLLED RESTART: PASS** — down→up in 15.4 s, pid 95558→39781;
+  fresh slot; restore of the 48K snapshot `n_restored=47,945` (0.163 s);
+  continuation matched expected (` SUFFIX-OK-7412`) ⇒ correctness across
+  restart PASS (still with a full 47,973-token re-prefill).
+- Invalid state: nonexistent → clean 400; invalid filename → 400
+  "Invalid filename"; **truncated snapshot → hard abort** (`ggml_abort`
+  in `state_seq_load_file`) with launchd restart — a crash, not a silent
+  restore. Header carries no model/n_ctx identity.
+- External SSD: not available on this host (documented limitation).
+- Next: warm-start persistence requires persisting/rebuilding
+  `slot.prompt.checkpoints` (a llama.cpp-side change) — out of scope
+  here; prerequisite for any SSD/RAM session tiering. No tiering or
+  orchestration implementation started. **STOPPED at the 14D(i) gate.**
+
 ### Exit
 
 Step 14 must not expand into:
