@@ -3349,36 +3349,51 @@ Do not broaden into unrelated slot API cleanup.
 
 Implementation is not considered successful until 15C live acceptance passes.
 
-### 15B Status — STOPPED at the pre-implementation verification gate (2026-09-11)
+### 15B Status — STOPPED at the verification gate; 15A mechanism RUNTIME-CONFIRMED (2026-09-11)
 
-No llama.cpp change applied; no build for promotion; no production binary
-touched. Owner precondition was to verify the 15A inferred branch
-arithmetic first and, if it proved wrong, STOP and report the exact
-boundary rather than broadening the patch. It did not reconfirm.
+No llama.cpp change applied (the checkpoint-reconstruction patch is NOT
+implemented); no production patch. The owner authorised **Option B**: one
+short controlled restart under an otherwise-identical instrumented build
+from `a895f6826`, diagnostic only, then immediate restoration of the
+qualified production binary.
 
-- **Confirmed:** `n_swa = 0` (`llama_model_n_swa` → `hparams.n_swa`;
-default 0; GGUF key `*.attention.sliding_window` absent from all 48 keys;
-nothing assigns it). `pos_next(n) = n`. Restore still leaves
-`slot.prompt.checkpoints` empty. Branch code verbatim as in 15A.
-- **Contradiction:** with `n_swa = 0`, `has_new_tokens = true`,
-`pos_next = n_past = D` ⇒ `pos_min_thold = D`; the block (and hence
-`do_reset`) needs `pos_min >= D`. For a restored state `pos_min` should be
-`D-1` ⇒ block skipped ⇒ reuse — but 14D(i) measured full re-prefill
-(`cache_n = 0`), with slot-selection `f_sim_best = 0.999`. The empty-
-checkpoint invariant is certain; that it *is* the `do_reset` trigger is
-not established.
-- **Remaining unknown (needs runtime instrumentation):** the value of
-`llama_memory_seq_pos_min` after `SLOT_RESTORE`. Not safely derivable from
-source for this hybrid+MLA model (`llama_kv_cache::seq_pos_min` delegates
-to a wrapped specialized cache; dsv4/iswa/msa caches exist).
-- **Constraint:** instrumentation requires running a modified binary; 15B
-forbids promotion and a second 8 GiB expert-cache instance risks thrash.
-Options A–D (temporary second instance / brief controlled restart with an
-instrumented build / patch without the proof / other) are escalated in
-`benchmarks/results/service-step-15/15b/verification-boundary.md`.
-- **STOPPED.** Await owner direction; 15C not begun.
+**Diagnostic result (first continuation after restoring the ~48K snapshot):**
 
-Report: `service-progress/step-15b-checkpoint-reconstruction.md`.
+```
+hybrid seq_pos_min: seq=0 attn=0 recr=47944 -> 47944
+reuse-branch: slot=0 n_past=47944 pos_next=47944 n_swa=0
+              pos_min=47944 pos_min_thold=47944 has_new_tokens=1
+              ckpts=0 prompt_tokens=47945 task_tokens=47973
+              checkpoint_search_will_run=1
+checkpoint search executed: found=0 ckpts=0 do_reset=1
+do_reset FIRES: no usable checkpoint; forcing full reprocess, n_past -> 0
+reuse-result: n_past=0 task_tokens=47973 prompt_tokens=47945
+```
+
+- `pos_min (47944) >= pos_min_thold (47944)` is **TRUE** → checkpoint
+  search executes → **ckpts = 0** → `do_reset` → `n_past = 0` → full
+  re-prefill. **The 15A reconstruction mechanism is runtime-confirmed.**
+- Why the static reading looked wrong: the LCP was one token short
+  (`n_past = 47944`, not `D = 47945`), so `pos_min_thold = 47944`, and the
+  **recurrent side reports the last processed position**
+  (`recr = 47944`), making `pos_min == pos_min_thold` exactly.
+- Live traffic in the same window shows the same geometry but does NOT
+  `do_reset`, because a live prefill creates checkpoints; after
+  `SLOT_RESTORE` the list is empty.
+- **Next:** implement the bounded endpoint-checkpoint reconstruction in the
+  `SLOT_RESTORE` path (awaiting authorisation), then 15C.
+
+**Production state restored and verified:** qualified `llama-server` sha
+`880f1637…`, running dylib `64dc2c91…`, 0 instrumentation strings, 0
+`[15B-DIAG]` lines after the final restart, llama pid 52529, `n_ctx`
+262144, gateway 200, kimi/poliscopic FK violations 0, Step 11B(i) sha
+`b54b13f1d79cb98a`, plist unchanged, llama.cpp worktree clean.
+NOTE: `build-metal` holds the instrumented objects (dev tree only);
+rebuild to clean it.
+
+Report: `service-progress/step-15b-checkpoint-reconstruction.md`; evidence:
+`benchmarks/results/service-step-15/15b/` (diagnostic-log-window.txt,
+verification-boundary.md, 15b-diagnostic.py).
 
 ---
 

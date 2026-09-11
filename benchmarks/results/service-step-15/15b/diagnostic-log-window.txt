@@ -1,0 +1,11 @@
+3:0.19.622.864 W [15B-DIAG] hybrid seq_pos_min: seq=0 attn=0 recr=47944 -> 47944
+4:0.19.622.867 W srv    operator(): [15B-DIAG] reuse-branch: slot=0 n_past=47944 pos_next=47944 n_swa=0 pos_min=47944 pos_min_thold=47944 has_new_tokens=1 ckpts=0 prompt_tokens=47945 task_tokens=47973 checkpoint_search_will_run=1
+5:0.19.622.867 W srv    operator(): [15B-DIAG] checkpoint search executed: found=0 ckpts=0 do_reset=1
+6:0.19.622.868 W srv    operator(): [15B-DIAG] do_reset FIRES: no usable checkpoint; forcing full reprocess, n_past -> 0
+7:0.19.622.868 W srv    operator(): [15B-DIAG] reuse-result: n_past=0 task_tokens=47973 prompt_tokens=47945
+8:0.19.629.478 W [15B-DIAG] hybrid seq_pos_min: seq=0 attn=-1 recr=-1 -> -1
+9:0.19.629.481 W [15B-DIAG] hybrid seq_pos_max: seq=0 attn=-1 recr=-1 -> -1
+10:0.19.629.894 W [15B-DIAG] hybrid seq_pos_max: seq=0 attn=-1 recr=-1 -> -1
+12:0.48.862.989 W [15B-DIAG] hybrid seq_pos_min: seq=0 attn=0 recr=2047 -> 2047
+13:0.48.862.996 W [15B-DIAG] hybrid seq_pos_max: seq=0 attn=2047 recr=2047 -> 2047
+14:0.48.863.336 W [15B-DIAG] hybrid seq_pos_max: seq=0 attn=2047 recr=2047 -> 2047
