@@ -3119,34 +3119,446 @@ Any remediation requires a measured reuse failure and explicit authorization.
 
 After adding this Step 14 definition to SERVICE-ROADMAP.md, execute 14A only.
 
-## Post-Step-12 Decision
+## 15. Persistent Hybrid-State Warm Resume
 
-Steps 9–12 constitute production usability qualification of the Kimi OpenClaw agent:
+### Goal
 
+Make a saved Kimi Linear llama-server slot resume as a **true warm continuation** after restore, rather than loading state successfully and then re-prefilling the entire prompt.
+
+Step 14 established:
+
+* live same-slot continuation reuses 99%+ of an established prefix;
+* the in-RAM prompt cache can restore useful warm state under its current save policy;
+* slot snapshots are compact and fast to save/restore:
+
+  * ~432 MB at 48K
+  * ~852 MB at 100K
+  * ~1.256 GB at 150K
+  * projected ~2.16 GB at 256K
+  * save/restore throughput approximately 2.3–2.7 GB/s;
+* slot restore is semantically correct across a llama-server restart;
+* however, the first request after `SLOT_RESTORE` re-evaluates the entire prompt (`n_past=0`, `cache_n=0`);
+* source characterization localized the current boundary: `SLOT_RESTORE` restores prompt tokens and model state but does not restore `slot.prompt.checkpoints`; Kimi Linear's hybrid recurrent/KDA path therefore cannot establish a valid reusable checkpoint and falls through to `do_reset`.
+
+The primary question is:
+
+> What is the minimum additional state or reconstruction logic required for a restored Kimi Linear slot to resume from approximately the restored prompt depth rather than reprocessing the prompt from token 0?
+
+This stage is about one restored slot and one continuation.
+
+It is **not** yet about automatic SSD tiering, large session pools, scheduling, OpenClaw compaction policy, or concurrent inference.
+
+---
+
+### Baseline
+
+Freeze the production-qualified state from Steps 13–14:
+
+* Kimi Linear 48B MXFP4 runtime
+* llama.cpp commit / live binary corresponding to the current promoted server
+* context = 262144
+* single llama-server slot / current `--parallel 1`
+* 8 GiB expert cache
+* current OpenClaw production configuration
+* current Step 11B(i) redaction fix
+* current loop-detection configuration
+* existing `--slot-save-path`
+* no model, sampler, context, OpenClaw prompt, tool, or compaction changes
+
+Retain the Step 14D(i) snapshots and measurements as the unmodified baseline.
+
+The authoritative failure signature is:
+
+```text
+save warm slot
+→ erase / restart
+→ restore snapshot successfully
+→ restored prompt/model state present
+→ first continuation request
+→ no usable restored prompt checkpoint
+→ do_reset
+→ n_past = 0
+→ full re-prefill
 ```
-Step 9  — Is it good enough? (response quality; 9A–9D remediation; close-out 2026-09-04)
-    ↓
-Step 10 — Why does the real agent path degrade exact-format compliance? (localization; active 2026-09-04)
-    ↓
-Step 10A — Does it start responding quickly enough? (TTFT; deferred from former Step 10)
-    ↓
-Step 11 — Can it use enough context?
-    ↓
-Step 12 — Does it generate quickly enough?
+
+A Stage 15 fix must change the final behavior, not merely make restore report success.
+
+---
+
+## 15A. Characterize the Minimum Warm-Resume State
+
+### Purpose
+
+Determine exactly what `slot.prompt.checkpoints` contain, how they relate to Kimi Linear recurrent/KDA state, and which checkpoint information is actually required after `SLOT_RESTORE` for suffix-only continuation.
+
+Do not modify production behavior in 15A.
+
+### Questions
+
+Answer from the exact live llama.cpp source:
+
+1. Where are `slot.prompt.checkpoints` created?
+2. What does each checkpoint contain?
+3. At what token intervals are checkpoints retained?
+4. How are they bounded / evicted?
+5. How do checkpoints reference or contain:
+
+   * prompt token position;
+   * KV state;
+   * KDA recurrent state;
+   * rollback / sequence state;
+   * other hybrid-memory metadata?
+6. Which function consumes a checkpoint during common-prefix reuse?
+7. Under what exact conditions does the path choose:
+
+   * direct extension from current state;
+   * checkpoint restore;
+   * `do_reset`;
+   * full reprocessing?
+8. After `SLOT_RESTORE`, what invariant is missing that causes the restored state to be rejected for continuation?
+9. Is a checkpoint at the restored **endpoint** sufficient for an append-only continuation?
+10. If not, what minimum checkpoint ladder is required?
+11. Can the needed checkpoint be reconstructed from already-restored state without replaying the entire prompt?
+
+### Required determination
+
+Classify the minimum viable fix as one of:
+
+* `ENDPOINT_CHECKPOINT_SUFFICIENT`
+* `CHECKPOINT_LADDER_REQUIRED`
+* `CHECKPOINT_RECONSTRUCTION_SUFFICIENT`
+* `OTHER — <measured/source-grounded requirement>`
+
+Do not implement until this determination is written.
+
+### Evidence
+
+Write:
+
+```text
+service-progress/step-15a-hybrid-resume-state.md
 ```
 
-After Step 12, summarize the production state as:
+Store source notes and diagrams under:
 
-* response quality;
-* cold / prefilled / warm TTFT;
-* practical usable context;
-* decode throughput;
-* total-turn behavior;
-* known limitations.
+```text
+benchmarks/results/service-step-15/15a/
+```
 
-The service is production-qualified when those measurements demonstrate that the agent is useful for its intended work.
+### Gate
 
-Further engineering must be justified by a measured limitation rather than by the existence of another possible optimization.
+STOP after 15A and report the minimum required state.
+
+Do not patch llama.cpp until explicitly authorized.
+
+### 15A Status — COMPLETE (2026-09-11). Determination: `CHECKPOINT_RECONSTRUCTION_SUFFICIENT`
+
+Read-only source characterization (llama.cpp `a895f6826`); no production
+change, no patch. Report: `service-progress/step-15a-hybrid-resume-state.md`;
+notes: `benchmarks/results/service-step-15/15a/source-notes.md`.
+
+- Live model = hybrid `kimi-linear`: 27 blocks, per-layer
+  `attention.head_count_kv` = 0 (KDA/recurrent) / 1 (MLA attention);
+  **no sliding-window key → `n_swa = 0`**. Checkpoints are enabled
+  (`n_ctx_checkpoints = 32`, `checkpoint_min_step = 8192`) because the
+  recurrent memory permits full-sequence-only removal.
+- `common_prompt_checkpoint` (`common.h:1115`) = `n_tokens`, `pos_min`,
+  `pos_max`, `data_tgt`, `data_dft`, `data_spec`, where `data_tgt` is a
+  **PARTIAL_ONLY** capture of the memory state (for hybrid memory that is
+  the **KDA recurrent state only** — `llama-memory-hybrid.cpp:191-199`
+  skips the attention KV under PARTIAL_ONLY).
+- The reuse path (`server-context.cpp:3240-3277`) requires a usable
+  checkpoint; `find_if` fails ⇒ `do_reset` ⇒ `n_past = 0` ⇒ full
+  re-prefill.
+- **Root cause / missing invariant:** the `SLOT_RESTORE` handler
+  (`:2492-2560`) restores the memory and `slot->prompt.tokens` but leaves
+  `slot->prompt.checkpoints` **empty**.
+- **Determination: `CHECKPOINT_RECONSTRUCTION_SUFFICIENT`.** Minimum
+  requirement = a **single endpoint checkpoint** for the restored slot,
+  reconstructible **in memory at restore time** from the already-restored
+  context (the same PARTIAL_ONLY capture `create_checkpoint` performs) and
+  pushed onto `slot.prompt.checkpoints`. No ladder, no slot-file format
+  change, no prompt replay, no OpenClaw involvement.
+- Open item for 15B/15C: the exact `pos_min >= pos_min_thold` arithmetic
+  for this hybrid memory is inferred from source, not instrumented; the
+  empty-checkpoint invariant is certain and must be confirmed empirically
+  once the bounded change is in place.
+- **STOPPED at the 15A gate.** llama.cpp not patched; awaiting explicit
+  authorization for 15B.
+
+---
+
+## 15B. Implement the Minimum Persistent-Resume Mechanism
+
+Only after 15A identifies a bounded solution.
+
+### Goal
+
+Make the smallest llama.cpp-side change required so a saved/restored Kimi Linear slot can resume an append-only prompt without full replay.
+
+Prefer, in order:
+
+1. reconstructing sufficient checkpoint metadata from already-restored state;
+2. persisting only the minimum endpoint checkpoint/state required;
+3. persisting a bounded checkpoint ladder only if source evidence shows it is necessary.
+
+Do not persist redundant state merely because it is convenient.
+
+### Requirements
+
+The implementation must:
+
+* preserve existing behavior for non-hybrid architectures;
+* preserve ordinary live-slot reuse;
+* preserve in-RAM prompt-cache behavior;
+* preserve existing slot file semantics unless a versioned extension is necessary;
+* fail closed on incompatible or malformed persistent state;
+* never silently treat incompatible model/runtime state as valid;
+* maintain backward handling for pre-Stage-15 slot files where practical, or explicitly reject them with a clean error;
+* not rely on OpenClaw session identity;
+* not depend on an OpenClaw timeout or compaction policy.
+
+If the slot format changes, add an explicit format/version marker and enough identity metadata to prevent unsafe cross-runtime restore.
+
+At minimum consider identity for:
+
+```text
+model / model fingerprint
+architecture
+context contract
+state-format version
+relevant llama.cpp/runtime compatibility
+```
+
+Do not build general session orchestration in 15B.
+
+### Tests
+
+Add focused unit/integration coverage for:
+
+* save → erase → restore → append;
+* save → llama restart → restore → append;
+* incompatible model/state rejection;
+* malformed/truncated snapshot rejection without process abort if reasonably fixable within the same bounded code path;
+* pre-existing ordinary slot behavior;
+* hybrid Kimi path specifically.
+
+Do not broaden into unrelated slot API cleanup.
+
+### Gate
+
+Implementation is not considered successful until 15C live acceptance passes.
+
+---
+
+## 15C. Prove Warm Resume at 48K
+
+### Purpose
+
+Establish the decisive functional result at a moderate context depth before paying for larger-context tests.
+
+Protocol:
+
+1. start from a clean/well-characterized slot;
+2. prefill approximately 48K deterministic tokens;
+3. generate/record a deterministic continuation reference;
+4. save the slot;
+5. erase or restart llama-server;
+6. restore the snapshot;
+7. submit only a small append/suffix;
+8. measure the first post-restore model request.
+
+### PASS requires all of:
+
+* `n_restored` matches the saved state depth;
+* restored continuation is correct;
+* no full prompt replay occurs;
+* `n_past` / `cached_tokens` is approximately the restored prefix depth;
+* newly evaluated prompt tokens are approximately only the suffix;
+* prompt-eval wall time is consistent with suffix-only evaluation, not 48K re-prefill;
+* llama-server remains healthy;
+* no model fallback;
+* no unrelated configuration change.
+
+The key acceptance signature should resemble:
+
+```text
+~48K restored prefix
++ small suffix
+→ ~48K cached
+→ only suffix evaluated
+```
+
+rather than:
+
+```text
+~48K restored prefix
++ small suffix
+→ cache_n = 0
+→ ~48K re-evaluated
+```
+
+### Comparison
+
+Compare directly against the retained Step 14D(i) 48K baseline:
+
+* old restore time;
+* old first-continuation prefill cost;
+* new restore time;
+* new first-continuation prefill cost;
+* cacheRead/cached_tokens;
+* total user-visible recovery time.
+
+### Gate
+
+If 48K warm resume does not pass, STOP.
+
+Do not proceed to larger snapshots or orchestration.
+
+---
+
+## 15D. Validate Scaling at 100K and 150K
+
+Only after 15C passes.
+
+Repeat save → erase/restart → restore → small suffix at approximately:
+
+```text
+100K
+150K
+```
+
+Record:
+
+* snapshot bytes;
+* checkpoint metadata bytes added by Stage 15;
+* total snapshot growth versus Step 14D(i);
+* save time;
+* restore time;
+* cached/restored token count;
+* newly evaluated suffix tokens;
+* first-token latency;
+* correctness;
+* peak RSS;
+* server health.
+
+Determine whether persistent checkpoint support materially changes the Step 14D(i) storage law:
+
+```text
+~45 MB + ~8,080 B/token
+```
+
+If a checkpoint ladder adds context-dependent storage, characterize its actual slope.
+
+### PASS
+
+Both tested depths resume suffix-only without full re-prefill and remain operationally practical.
+
+Do not require a full 256K snapshot in this step unless the measured scaling creates a specific unresolved question.
+
+---
+
+## 15E. Persistence Safety and Lifecycle Qualification
+
+### Goal
+
+Establish that persistent warm resume is safe enough to become an infrastructure primitive.
+
+Verify:
+
+1. llama-server restart → restore → warm continuation;
+2. gateway restart does not affect stored llama inference state semantics;
+3. stale/incompatible snapshot is rejected cleanly;
+4. wrong-model restore is rejected;
+5. wrong state-format version is rejected;
+6. malformed/truncated snapshot cannot be silently accepted;
+7. restore failure leaves llama-server in a known healthy state;
+8. ordinary unsaved slot operation remains unchanged;
+9. RAM prompt-cache behavior remains unchanged;
+10. existing OpenClaw production behavior remains unchanged.
+
+Where the Step 14D(i) truncated-file test currently hard-aborts llama-server, determine whether the Stage 15 format/restore changes can cheaply convert that failure into a clean rejected restore. Fix it only if it lies naturally in the touched restore path; do not open a separate general robustness project.
+
+---
+
+## Stage 15 Acceptance
+
+Stage 15 passes when the evidence demonstrates:
+
+1. the minimum checkpoint requirement is source-grounded and documented;
+2. a saved Kimi Linear slot survives a llama-server restart;
+3. restore preserves enough hybrid/KDA continuation state to avoid `do_reset`;
+4. the first request after restore reuses approximately the restored prefix;
+5. only the new suffix is evaluated;
+6. continuation output remains correct;
+7. warm resume works at 48K, 100K, and 150K;
+8. snapshot-size and restore-time scaling remain practical;
+9. incompatible persistent state fails safely;
+10. existing live-slot/RAM-cache behavior is not regressed.
+
+Final classification:
+
+```text
+PASS — PERSISTENT KIMI WARM RESUME QUALIFIED
+```
+
+or:
+
+```text
+CONDITIONAL PASS — PERSISTENT WARM RESUME WITH DOCUMENTED LIMIT
+```
+
+or:
+
+```text
+FAIL — PERSISTENT WARM RESUME
+```
+
+Any failure must identify the measured boundary.
+
+---
+
+## Stage 15 Report
+
+Write:
+
+```text
+service-progress/step-15-persistent-hybrid-resume.md
+```
+
+Store machine-readable evidence under:
+
+```text
+benchmarks/results/service-step-15/
+```
+
+Update SERVICE-ROADMAP.md with each gate result.
+
+---
+
+## Stage 15 Exit
+
+If Stage 15 passes, persistent inference state becomes a qualified llama-server capability independent of OpenClaw's conversation lifecycle.
+
+Only then consider a subsequent stage for:
+
+* automatic resident-slot management;
+* RAM ↔ SSD state tiering;
+* LRU or other eviction policy;
+* external-NVMe persistent session stores;
+* large numbers of dormant sessions;
+* multiple resident slots;
+* multiple harnesses such as OpenClaw, Hermes, or Pi;
+* asynchronous harness-independent prefill/state jobs;
+* multi-user scheduling or concurrency.
+
+Those are explicitly **not part of Stage 15**.
+
+Stage 15 answers only:
+
+> Can one saved Kimi Linear inference state be restored later and continue warm, correctly, and cheaply?
+
+STOP after the Stage 15 qualification gate.
 
 #### Completed outside this plan (2026-08-17)
 
