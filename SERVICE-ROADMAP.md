@@ -3349,6 +3349,37 @@ Do not broaden into unrelated slot API cleanup.
 
 Implementation is not considered successful until 15C live acceptance passes.
 
+### 15B Status — STOPPED at the pre-implementation verification gate (2026-09-11)
+
+No llama.cpp change applied; no build for promotion; no production binary
+touched. Owner precondition was to verify the 15A inferred branch
+arithmetic first and, if it proved wrong, STOP and report the exact
+boundary rather than broadening the patch. It did not reconfirm.
+
+- **Confirmed:** `n_swa = 0` (`llama_model_n_swa` → `hparams.n_swa`;
+default 0; GGUF key `*.attention.sliding_window` absent from all 48 keys;
+nothing assigns it). `pos_next(n) = n`. Restore still leaves
+`slot.prompt.checkpoints` empty. Branch code verbatim as in 15A.
+- **Contradiction:** with `n_swa = 0`, `has_new_tokens = true`,
+`pos_next = n_past = D` ⇒ `pos_min_thold = D`; the block (and hence
+`do_reset`) needs `pos_min >= D`. For a restored state `pos_min` should be
+`D-1` ⇒ block skipped ⇒ reuse — but 14D(i) measured full re-prefill
+(`cache_n = 0`), with slot-selection `f_sim_best = 0.999`. The empty-
+checkpoint invariant is certain; that it *is* the `do_reset` trigger is
+not established.
+- **Remaining unknown (needs runtime instrumentation):** the value of
+`llama_memory_seq_pos_min` after `SLOT_RESTORE`. Not safely derivable from
+source for this hybrid+MLA model (`llama_kv_cache::seq_pos_min` delegates
+to a wrapped specialized cache; dsv4/iswa/msa caches exist).
+- **Constraint:** instrumentation requires running a modified binary; 15B
+forbids promotion and a second 8 GiB expert-cache instance risks thrash.
+Options A–D (temporary second instance / brief controlled restart with an
+instrumented build / patch without the proof / other) are escalated in
+`benchmarks/results/service-step-15/15b/verification-boundary.md`.
+- **STOPPED.** Await owner direction; 15C not begun.
+
+Report: `service-progress/step-15b-checkpoint-reconstruction.md`.
+
 ---
 
 ## 15C. Prove Warm Resume at 48K
